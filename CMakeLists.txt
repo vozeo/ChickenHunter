@@ -57,29 +57,23 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/RunActionTest.cpp
      Classes/Bonus/Bonus.cpp
      Classes/Character/Character.cpp
      Classes/Item/Item.cpp
      Classes/Scene/GameScene.cpp
      Classes/Scene/HelloWorldScene.cpp
-     Classes/Scene/SettingScene.cpp
      Classes/Scene/StartScene.cpp
-     Classes/Scene/StateScene.cpp
      Classes/Weapon/Weapon.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/Const.h
-     Classes/RunActionTest.h
      Classes/Bonus/Bonus.h
      Classes/Character/Character.h
      Classes/Item/Item.h
      Classes/Scene/GameScene.h
      Classes/Scene/HelloWorldScene.h
-     Classes/Scene/SettingScene.h
      Classes/Scene/StartScene.h
-     Classes/Scene/StateScene.h
      Classes/Weapon/Weapon.h
      )
 
