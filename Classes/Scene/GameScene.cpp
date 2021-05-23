@@ -21,22 +21,62 @@ bool Game::init()
     { 
         return false;
     }
+	this->scheduleUpdate();
+
 	hunter = Character::create();
+	addChild(hunter);
+
+	auto spr = hunter;
+	spr->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+	runAction(Follow::create(spr, Rect::ZERO));
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    map = TMXTiledMap::create("maps//map.tmx");
+    map = TMXTiledMap::create("map//Desert.tmx");
     addChild(map);
     //meta = map->getLayer("Obstacle");
     //meta->setVisible(false);
 
 	initState();
+	registerKeyboardEvent();
 
+	/*
     auto listener = EventListenerKeyboard::create();
     listener->onKeyPressed = CC_CALLBACK_2(Game::onKeyPressed, this);
     listener->onKeyReleased = CC_CALLBACK_2(Game::onKeyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	*/
 
     return true;
+}
+
+void Game::registerKeyboardEvent() {
+	auto listener = EventListenerKeyboard::create();
+	auto spr = Game::hunter;
+
+	listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
+		keyMap[keyCode] = true;
+		switch (keyCode) {
+		case EventKeyboard::KeyCode::KEY_D:
+			spr->runAction(spr->getCharacterAnimRight());
+			break;
+		case EventKeyboard::KeyCode::KEY_A:
+			spr->runAction(spr->getCharacterAnimLeft());
+			break;
+		case EventKeyboard::KeyCode::KEY_S:
+			spr->runAction(spr->getCharacterAnimDown());
+			break;
+		case EventKeyboard::KeyCode::KEY_W:
+			spr->runAction(spr->getCharacterAnimUp());
+			break;
+		}
+	};
+
+	listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event) {
+		spr->stopAllActions();
+		keyMap[keyCode] = false;
+	};
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
 void Game::initState()
@@ -108,6 +148,34 @@ void Game::initGun() {
 void Game::updateHunterInfo() {  //更新人物信息显示
 	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->m_MAX_BLEED);
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
+}
+
+void Game::updatePosition(float delta) {
+	auto left = EventKeyboard::KeyCode::KEY_A;
+	auto right = EventKeyboard::KeyCode::KEY_D;
+	auto up = EventKeyboard::KeyCode::KEY_W;
+	auto down = EventKeyboard::KeyCode::KEY_S;
+
+	int dx = 0, dy = 0;
+	if (keyMap[left])
+	{
+		dx = -4;
+	}
+	if (keyMap[right])
+	{
+		dx = 4;
+	}
+	if (keyMap[up])
+	{
+		dy = 4;
+	}
+	if (keyMap[down])
+	{
+		dy = -4;
+	}
+	auto spr = Game::hunter;
+	auto moveTo = MoveTo::create(0.2, Vec2(spr->getPositionX() + dx, spr->getPositionY() + dy));
+	spr->runAction(moveTo);
 }
 
 void Game::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)

@@ -5,8 +5,11 @@
 #include "Const.h"
 #include "ui/CocosGUI.h"
 #include "character/Character.h"
+#include <map>
 
 USING_NS_CC;
+
+#define winSize Director::getInstance()->getWinSize()
 
 class Game : public cocos2d::Scene
 {
@@ -30,9 +33,14 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     CREATE_FUNC(Game);
 
-    void updateHunterInfo();
+    virtual void updatePosition(float fDelta);
+    void registerKeyboardEvent();
 
 private:
+    std::map<EventKeyboard::KeyCode, bool> keyMap;
+
+    void updateHunterInfo();
+
     void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
     void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 };
