@@ -30,10 +30,10 @@ public:
     virtual bool init();
     virtual void initState();
     virtual void initGun();
+    virtual void update(float fDelta);
     void menuCloseCallback(cocos2d::Ref* pSender);
     CREATE_FUNC(Game);
 
-    virtual void updatePosition(float fDelta);
     void registerKeyboardEvent();
 
 private:

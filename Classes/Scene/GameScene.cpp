@@ -24,7 +24,7 @@ bool Game::init()
 	this->scheduleUpdate();
 
 	hunter = Character::create();
-	addChild(hunter);
+	addChild(hunter, 6);
 
 	auto spr = hunter;
 	spr->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
@@ -33,8 +33,8 @@ bool Game::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     map = TMXTiledMap::create("map//Desert.tmx");
     addChild(map);
-    //meta = map->getLayer("Obstacle");
-    //meta->setVisible(false);
+    meta = map->getLayer("trans");
+    meta->setVisible(false);
 
 	initState();
 	registerKeyboardEvent();
@@ -150,7 +150,7 @@ void Game::updateHunterInfo() {  //更新人物信息显示
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
 }
 
-void Game::updatePosition(float delta) {
+void Game::update(float delta) {
 	auto left = EventKeyboard::KeyCode::KEY_A;
 	auto right = EventKeyboard::KeyCode::KEY_D;
 	auto up = EventKeyboard::KeyCode::KEY_W;
