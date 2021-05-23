@@ -1,5 +1,6 @@
-#include "StartScene.h"
-#include "GameScene.h"
+#include "Scene/StartScene.h"
+#include "Scene/GameScene.h"
+
 USING_NS_CC;
 
 Scene* Start::createScene()
@@ -42,8 +43,8 @@ bool Start::init()
 	Vector<MenuItem*> menus{ singleGame, multiGame, exitGame };
 	auto menu = Menu::createWithArray(menus);
 	menu->setPosition(visibleSize.width / 2, visibleSize.height / 5);
-	this->addChild(menu, 1);
 	menu->alignItemsHorizontally();
+	this->addChild(menu, 1);
 
 	return true;
 }
