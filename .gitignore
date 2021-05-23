@@ -35,3 +35,4 @@
 win32-build/
 .git/
 .vs/
+out/
