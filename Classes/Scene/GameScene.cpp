@@ -24,133 +24,50 @@ bool Game::init()
 	this->scheduleUpdate();
 
 	hunter = Character::create();
-	addChild(hunter, 6);
 
-	auto spr = hunter;
-	spr->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-	runAction(Follow::create(spr, Rect::ZERO));
-
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    map = TMXTiledMap::create("map//Desert.tmx");
+    map = MapLayer::create(hunter);
     addChild(map);
-    meta = map->getLayer("trans");
-    meta->setVisible(false);
 
-	initState();
-	registerKeyboardEvent();
+    meta = map->getBarrier();
+    //meta->setVisible(false);
 
-	/*
-    auto listener = EventListenerKeyboard::create();
-    listener->onKeyPressed = CC_CALLBACK_2(Game::onKeyPressed, this);
-    listener->onKeyReleased = CC_CALLBACK_2(Game::onKeyReleased, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-	*/
+	stateUI = State::create(hunter);
+	addChild(stateUI, TOP);
 
     return true;
 }
 
+/*
 void Game::registerKeyboardEvent() {
 	auto listener = EventListenerKeyboard::create();
-	auto spr = Game::hunter;
 
 	listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
 		keyMap[keyCode] = true;
 		switch (keyCode) {
 		case EventKeyboard::KeyCode::KEY_D:
-			spr->runAction(spr->getCharacterAnimRight());
+			hunter->runAction(hunter->getCharacterAnimRight());
 			break;
 		case EventKeyboard::KeyCode::KEY_A:
-			spr->runAction(spr->getCharacterAnimLeft());
+			hunter->runAction(hunter->getCharacterAnimLeft());
 			break;
 		case EventKeyboard::KeyCode::KEY_S:
-			spr->runAction(spr->getCharacterAnimDown());
+			hunter->runAction(hunter->getCharacterAnimDown());
 			break;
 		case EventKeyboard::KeyCode::KEY_W:
-			spr->runAction(spr->getCharacterAnimUp());
+			hunter->runAction(hunter->getCharacterAnimUp());
 			break;
 		}
 	};
 
 	listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		spr->stopAllActions();
+		hunter->stopAllActions();
 		keyMap[keyCode] = false;
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void Game::initState()
-{
-	auto exit_img = MenuItemImage::create(
-		"exit_0.png",
-		"exit_1.png",
-		CC_CALLBACK_1(Game::menuCloseCallback, this));
-
-	auto exit_menu = Menu::create(exit_img, NULL);
-	exit_menu->setPosition(988, 738);
-	this->addChild(exit_menu, TOP);
-	//auto exit_sprite = Sprite::create("exit_0.png");
-	//exit_sprite->setPosition(924, 726);
-	//this->addChild(exit_sprite);
-	//exit_sprite->setGlobalZOrder(TOP);
-
-	/*创建状态信息进度条*/
-	auto blood_back = Sprite::create("images//blood_back.png");
-
-	blood_bar = ui::LoadingBar::create("images//blood.png");
-
-	blood_bar->setDirection(ui::LoadingBar::Direction::LEFT);
-
-	blood_back->setPosition(512, 30);
-	blood_bar->setPosition(Vec2(512, 30));
-
-	this->addChild(blood_back, TOP);
-	this->addChild(blood_bar, TOP);
-
-	blood_back->setGlobalZOrder(TOP);
-	blood_bar->setGlobalZOrder(TOP);
-
-	blood_label = Label::createWithTTF("0", "fonts//Marker Felt.ttf", 25);
-	survivor_label = Label::createWithTTF("SURVIVOR : 1", "fonts//Marker Felt.ttf", 30);
-
-	blood_label->setPosition(Vec2(300, 28));
-	survivor_label->setPosition(Vec2(80, 750));
-
-	this->addChild(blood_label, TOP);
-	this->addChild(survivor_label, TOP);
-
-	blood_label->setGlobalZOrder(TOP);
-	survivor_label->setGlobalZOrder(TOP);
-
-	initGun();
-
-	hunter->setPlayerBleed(80);
-	updateHunterInfo();
-}
-
-void Game::initGun() {
-	Vector<MenuItem*> guns;
-
-	for (int i = 0; i < 4; ++i) {
-		gun[i][0] = MenuItemImage::create(StringUtils::format("images/gun%d_0.png", i), StringUtils::format("images/gun%d_1.png", i));
-		gun[i][1] = MenuItemImage::create(StringUtils::format("images/gun%d_1.png", i), StringUtils::format("images/gun%d_0.png", i));
-		guns.pushBack(gun[i][0]);
-	}
-	guns.popBack();
-	guns.pushBack(gun[3][1]);
-
-	auto menu = Menu::createWithArray(guns);
-	menu->setPosition(512, 80);
-	menu->alignItemsHorizontally();
-	this->addChild(menu, TOP);
-}
-
-void Game::updateHunterInfo() {  //更新人物信息显示
-	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->m_MAX_BLEED);
-	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
-}
-
-void Game::update(float delta) {
+void Game::update(float fDelta) {
 	auto left = EventKeyboard::KeyCode::KEY_A;
 	auto right = EventKeyboard::KeyCode::KEY_D;
 	auto up = EventKeyboard::KeyCode::KEY_W;
@@ -159,23 +76,27 @@ void Game::update(float delta) {
 	int dx = 0, dy = 0;
 	if (keyMap[left])
 	{
-		dx = -4;
+		dx = -1;
 	}
 	if (keyMap[right])
 	{
-		dx = 4;
+		dx = 1;
 	}
 	if (keyMap[up])
 	{
-		dy = 4;
+		dy = 1;
 	}
 	if (keyMap[down])
 	{
-		dy = -4;
+		dy = -1;
 	}
-	auto spr = Game::hunter;
-	auto moveTo = MoveTo::create(0.2, Vec2(spr->getPositionX() + dx, spr->getPositionY() + dy));
-	spr->runAction(moveTo);
+	auto moveBy = MoveBy::create(0.1, Vec2(dx, dy));
+	auto moveByRev = MoveBy::create(0.1, Vec2(-dx, -dy));
+	//auto moveTo = MoveTo::create(0.1, Vec2(hunter->getPositionX() + dx, hunter->getPositionY() + dy));
+	
+	stateUI->runAction(moveBy);
+	hunter->runAction(moveBy);
+	
 }
 
 void Game::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
@@ -196,7 +117,4 @@ void Game::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
     log("Key with keycode %d released", keyCode);
 }
 
-void Game::menuCloseCallback(Ref* pSender)
-{
-    Director::getInstance()->end();
-}
+*/
