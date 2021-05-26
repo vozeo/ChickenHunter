@@ -28,9 +28,6 @@ bool Game::init()
     map = MapLayer::create(hunter);
     addChild(map);
 
-    meta = map->getBarrier();
-    //meta->setVisible(false);
-
 	stateUI = State::create(hunter);
 	addChild(stateUI, TOP);
 

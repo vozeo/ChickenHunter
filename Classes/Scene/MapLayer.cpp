@@ -19,6 +19,9 @@ bool MapLayer::init(Character* gameHunter)
 	addChild(map);
 	meta = map->getLayer("water");
 
+	mapHeight = map->getMapSize().height - 1;
+	mapWidth = map->getMapSize().width - 1;
+
 	hunter = gameHunter;
 	addChild(hunter, 1);
 	hunter->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
@@ -64,7 +67,7 @@ void MapLayer::update(float fDelta) {
 	auto up = EventKeyboard::KeyCode::KEY_W;
 	auto down = EventKeyboard::KeyCode::KEY_S;
 
-	int dx = 0, dy = 0;
+	float dx = 0, dy = 0;
 	if (keyMap[left])
 	{
 		dx = -4;
@@ -81,8 +84,16 @@ void MapLayer::update(float fDelta) {
 	{
 		dy = -4;
 	}
-	auto moveBy = MoveBy::create(0.1, Vec2(dx, dy));
-	hunter->runAction(moveBy);
-}
 
-TMXLayer* MapLayer::getBarrier() { return meta; }
+	float nextX = hunter->getPositionX() + dx;
+	float nextY = hunter->getPositionY() + dy;
+	
+	auto nextMapX = nextX / 32;
+	auto nextMapY = mapHeight - nextY / 32 + 1;
+
+	//CCLOG("%f %f, %f %f, %f, %f", nextX, nextY, mapHeight, nextMapY, X, Y);
+
+	if (nextMapX <= mapWidth && nextMapX >= 0 && nextMapY <= mapHeight && nextMapY >= 0
+		&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
+		hunter->runAction(MoveTo::create(1.0f / 80, Vec2(nextX, nextY)));
+}

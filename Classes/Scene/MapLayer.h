@@ -19,6 +19,8 @@ private:
     TMXTiledMap* map;
     TMXLayer* meta;
 
+	float mapHeight, mapWidth;
+
     Character* hunter;
 
     std::map<EventKeyboard::KeyCode, bool> keyMap;
@@ -44,8 +46,6 @@ public:
     
     virtual void update(float fDelta);    
     void registerKeyboardEvent();
-
-    TMXLayer* getBarrier();
 };
 
 #endif

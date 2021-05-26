@@ -17,7 +17,6 @@ class Game : public cocos2d::Scene
 {
 private:
     MapLayer* map;
-    TMXLayer* meta;
 
     State* stateUI;
 
