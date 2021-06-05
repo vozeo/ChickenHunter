@@ -1,0 +1,8 @@
+<dict>
+	<key>Single-playerGame</key>
+	<string>单人游戏</string>
+	<key>MultiplayerGame</key>
+	<string>多人游戏</string>
+	<key>Exit</key>
+	<string>退出游戏</string>
+</dict>
