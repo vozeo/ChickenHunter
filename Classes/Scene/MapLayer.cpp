@@ -95,5 +95,5 @@ void MapLayer::update(float fDelta) {
 
 	if (nextMapX <= mapWidth && nextMapX >= 0 && nextMapY <= mapHeight && nextMapY >= 0
 		&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
-		hunter->runAction(MoveTo::create(1.0f / 80, Vec2(nextX, nextY)));
+		hunter->runAction(MoveTo::create(1.0f / 120, Vec2(nextX, nextY)));
 }

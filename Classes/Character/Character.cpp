@@ -36,7 +36,7 @@ bool Character::init()
 int* Character::getPlayerBandage() { return m_bandage; }
 void Character::setPlayerBandage(int var, int pos) { m_bandage[pos] = var; }
 
-int* Character::getPlayerGun() { return m_gun; }
+int* Character::getPlayerGun() { return m_gun; } 
 void Character::setPlayerGun(int var, int pos) { m_gun[pos] = var; }
 
 void Character::initAnimate()

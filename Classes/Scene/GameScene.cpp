@@ -23,15 +23,45 @@ bool Game::init()
     }
 	this->scheduleUpdate();
 
+	Director::getInstance()->getOpenGLView()->setCursorVisible(false);
+	initMouse();
+	addChild(m_cursor, 3);
+
 	hunter = Character::create();
 
     map = MapLayer::create(hunter);
-    addChild(map);
+    addChild(map, 1);
 
 	stateUI = State::create(hunter);
-	addChild(stateUI, TOP);
+	addChild(stateUI, 2);
 
     return true;
+}
+
+void Game::initMouse() {
+	m_cursor = Sprite::create();
+	auto cursor = Sprite::create("images//cursorUp.png");
+	m_cursor->addChild(cursor);
+
+	mouseListener = EventListenerMouse::create();
+
+	mouseListener->onMouseMove = [&](EventMouse* event) {
+		auto cursorX = event->getCursorX();
+		auto cursorY = event->getCursorY();
+		m_cursor->setPosition(Vec2(cursorX, cursorY));
+	};
+	mouseListener->onMouseUp = [&](EventMouse* event) {
+		auto cursor = Sprite::create("images//cursorUp.png");
+		m_cursor->removeAllChildren();
+		m_cursor->addChild(cursor);
+	};
+	mouseListener->onMouseDown = [&](EventMouse* event) {
+		auto cursor = Sprite::create("images//cursorDown.png");
+		m_cursor->removeAllChildren();
+		m_cursor->addChild(cursor);
+	};
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 }
 
 /*
