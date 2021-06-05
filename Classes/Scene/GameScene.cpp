@@ -40,25 +40,20 @@ bool Game::init()
 
 void Game::initMouse() {
 	m_cursor = Sprite::create();
-	auto cursor = Sprite::create("images//cursorUp.png");
-	m_cursor->addChild(cursor);
+	m_cursor->addChild(Sprite::create("images//cursorUp.png"));
 
 	mouseListener = EventListenerMouse::create();
 
 	mouseListener->onMouseMove = [&](EventMouse* event) {
-		auto cursorX = event->getCursorX();
-		auto cursorY = event->getCursorY();
-		m_cursor->setPosition(Vec2(cursorX, cursorY));
+		m_cursor->setPosition(Vec2(event->getCursorX(), event->getCursorY()));
 	};
 	mouseListener->onMouseUp = [&](EventMouse* event) {
-		auto cursor = Sprite::create("images//cursorUp.png");
 		m_cursor->removeAllChildren();
-		m_cursor->addChild(cursor);
+		m_cursor->addChild(Sprite::create("images//cursorUp.png"));
 	};
 	mouseListener->onMouseDown = [&](EventMouse* event) {
-		auto cursor = Sprite::create("images//cursorDown.png");
 		m_cursor->removeAllChildren();
-		m_cursor->addChild(cursor);
+		m_cursor->addChild(Sprite::create("images//cursorDown.png"));
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
