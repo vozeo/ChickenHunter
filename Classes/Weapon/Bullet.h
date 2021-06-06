@@ -12,7 +12,7 @@ public:
         Bullet* sprite = new (std::nothrow) Bullet();
         if (sprite && sprite->initWithFile(filename)) {
             sprite->autorelease();
-            return static_cast<Bullet*>(sprite);
+            return sprite;
         }
         CC_SAFE_DELETE(sprite);
         return nullptr;

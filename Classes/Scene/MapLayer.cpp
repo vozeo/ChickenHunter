@@ -19,15 +19,16 @@ bool MapLayer::init(Character* gameHunter)
 	addChild(map, 0);
 	meta = map->getLayer("water");
 
-	mapHeight = map->getMapSize().height - 1;
-	mapWidth = map->getMapSize().width - 1;
+	mapHeight = map->getMapSize().height;
+	mapWidth = map->getMapSize().width;
 
 	hunter = gameHunter;
-	addChild(hunter, 2);
+	addChild(hunter, 3);
 	hunter->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 	runAction(Follow::create(hunter, Rect::ZERO));
 
 	initBullet();
+	initWeapon();
 
 	registerKeyboardEvent();
 	registerMouseEvent();
@@ -40,38 +41,70 @@ void MapLayer::initBullet() {
 		bullet = Bullet::create("images//bullet.png");
 		bullet->setOpacity(0);
 		bullet->setBulletActive(false);
-		addChild(bullet, 1);
+		addChild(bullet, 2);
 	}
 }
-
-void MapLayer::createBullet(Vec2 speed, Weapon* weapon) {
-	Bullet* bullet = Bullet::create("images//bullet.png");
+//StringUtils::format("%s_avatar.png", player_name[i].c_str())
+void MapLayer::initWeapon() {
+	for (auto& weapon : weapons) {
+		auto weaponType = random() % 4;
+		weapon = Weapon::create(StringUtils::format("images//weapon_%d.png", weaponType));
+		weapon->setWeaponType(weaponType);
+		weapon->setWeaponSpeed(0.5f + rand_0_1());
+		weapon->setWeaponAttack(0.5f + rand_0_1());
+		weapon->setWeaponState(true);
+		int posX, posY;
+		while (true) {
+			posX = random() % static_cast<int>(mapWidth * 32);
+			posY = random() % static_cast<int>(mapHeight * 32);
+			//if (!meta->getTileGIDAt(Vec2(posX / 32, mapHeight - posY / 32)))
+				break;
+		}
+		weapon->setPosition(Vec2(posX, posY));
+		addChild(weapon, 1);
+	}
 }
 
 void MapLayer::registerKeyboardEvent() {
 	auto listener = EventListenerKeyboard::create();
 
 	listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		keyMap[keyCode] = true;
 		switch (keyCode) {
 		case EventKeyboard::KeyCode::KEY_D:
 			hunter->runAction(hunter->getCharacterAnimRight());
+			hunter->m_speed[0] = true;
 			break;
 		case EventKeyboard::KeyCode::KEY_A:
 			hunter->runAction(hunter->getCharacterAnimLeft());
+			hunter->m_speed[1] = true;
 			break;
 		case EventKeyboard::KeyCode::KEY_S:
 			hunter->runAction(hunter->getCharacterAnimDown());
+			hunter->m_speed[2] = true;
 			break;
 		case EventKeyboard::KeyCode::KEY_W:
 			hunter->runAction(hunter->getCharacterAnimUp());
+			hunter->m_speed[3] = true;
 			break;
 		}
 	};
 
 	listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event) {
 		hunter->stopAllActions();
-		keyMap[keyCode] = false;
+		switch (keyCode) {
+		case EventKeyboard::KeyCode::KEY_D:
+			hunter->m_speed[0] = false;
+			break;
+		case EventKeyboard::KeyCode::KEY_A:
+			hunter->m_speed[1] = false;
+			break;
+		case EventKeyboard::KeyCode::KEY_S:
+			hunter->m_speed[2] = false;
+			break;
+		case EventKeyboard::KeyCode::KEY_W:
+			hunter->m_speed[3] = false;
+			break;
+		}
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
@@ -114,51 +147,54 @@ float MapLayer::calRotation(float bulletX, float bulletY) {
 }
 
 void MapLayer::update(float fDelta) {
-	auto left = EventKeyboard::KeyCode::KEY_A;
-	auto right = EventKeyboard::KeyCode::KEY_D;
-	auto up = EventKeyboard::KeyCode::KEY_W;
-	auto down = EventKeyboard::KeyCode::KEY_S;
-
 	float dx = 0, dy = 0;
-	if (keyMap[left])
-	{
-		dx = -4;
-	}
-	if (keyMap[right])
-	{
+	if (hunter->m_speed[0])
 		dx = 4;
-	}
-	if (keyMap[up])
-	{
-		dy = 4;
-	}
-	if (keyMap[down])
-	{
+	if (hunter->m_speed[1])
+		dx = -4;
+	if (hunter->m_speed[2])
 		dy = -4;
-	}
+	if (hunter->m_speed[3])
+		dy = 4;
 
-	float nextX = hunter->getPositionX() + dx;
-	float nextY = hunter->getPositionY() + dy;
+	auto hunterPos = hunter->getPosition();
+	float nextX = hunterPos.x + dx;
+	float nextY = hunterPos.y + dy;
 	
 	auto nextMapX = nextX / 32;
-	auto nextMapY = mapHeight - nextY / 32 + 1;
+	auto nextMapY = mapHeight - nextY / 32;
 
-	//CCLOG("%f %f, %f %f, %f, %f", nextX, nextY, mapHeight, nextMapY, X, Y);
+	CCLOG("%f %f, %f %f", nextX, nextY, nextMapX, nextMapY);
 
-	if (nextMapX <= mapWidth && nextMapX >= 0 && nextMapY <= mapHeight && nextMapY >= 0
+	if (nextMapX < mapWidth && nextMapX >= 0 && nextMapY < mapHeight && nextMapY >= 0
 		&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
-		hunter->runAction(MoveTo::create(1.0f / 120, Vec2(nextX, nextY)));
+		hunter->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX, nextY)));
+	else hunter->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
 	
 	for (auto bullet : bullets) {
 		if (bullet->getBulletActive()) {
 			auto bulletX = bullet->getPositionX();
 			auto bulletY = bullet->getPositionY();
-			//CCLOG("%f, %f", bulletX, bulletY);
 			if (bulletX < 0 || bulletX > mapWidth * 32 || bulletY < 0 || bulletY > mapHeight * 32
-				|| meta->getTileGIDAt(Vec2(bulletX / 32,  mapHeight - bulletY / 32 + 1))) {
+				|| meta->getTileGIDAt(Vec2(bulletX / 32,  mapHeight - bulletY / 32))) {
 				bullet->setOpacity(0);
 				bullet->stopAllActions();
 				bullet->setBulletActive(false);
+			}
+		}
+	}
+
+
+
+	for (auto weapon : weapons) {
+		if (weapon->getWeaponState()) {
+			if (weapon->getBoundingBox().containsPoint(hunterPos)) {
+				auto weaponType = weapon->getWeaponType();
+				if (hunter->m_gun[weaponType] == nullptr) {
+					weapon->setOpacity(0);
+					weapon->setWeaponState(false);
+					hunter->m_gun[weaponType] = weapon;
+				}
 			}
 		}
 	}

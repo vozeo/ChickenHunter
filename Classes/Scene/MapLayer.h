@@ -28,6 +28,7 @@ private:
     std::map<EventKeyboard::KeyCode, bool> keyMap;
 
 	std::array <Bullet*, 30> bullets;
+	std::array <Weapon*, 20> weapons;
 
 public:
 	static MapLayer* create(Character* gameHunter)
@@ -49,8 +50,9 @@ public:
     virtual bool init(Character* gameHunter);
 
 	void initBullet();
+	void initWeapon();
     
-    virtual void update(float fDelta);    
+    virtual void update(float fDelta);
     void registerKeyboardEvent();
 	void registerMouseEvent();
 

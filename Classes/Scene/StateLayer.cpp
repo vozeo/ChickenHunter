@@ -69,14 +69,10 @@ void State::initState()
 	survivor_label->setGlobalZOrder(TOP);
 
 
-
 	hunter->setPlayerBleed(80); //
-	updateHunterInfo(); //
 }
 
 void State::initGun() {
-	Vector<MenuItem*> guns;
-
 	for (int i = 0; i < 4; ++i) {
 		gun[i][0] = MenuItemImage::create(StringUtils::format("images/gun%d_0.png", i), StringUtils::format("images/gun%d_1.png", i));
 		gun[i][1] = MenuItemImage::create(StringUtils::format("images/gun%d_1.png", i), StringUtils::format("images/gun%d_0.png", i));
@@ -86,13 +82,26 @@ void State::initGun() {
 	guns.popBack(); //
 	guns.pushBack(gun[3][1]); //
 
-	auto menu = Menu::createWithArray(guns);
-	menu->setPosition(512, 80);
-	menu->alignItemsHorizontally();
-	this->addChild(menu, TOP);
+	gunMenu = Menu::createWithArray(guns);
+	gunMenu->setPosition(512, 80);
+	gunMenu->alignItemsHorizontally();
+	addChild(gunMenu, TOP);
 }
 
-void State::updateHunterInfo() {
+void State::update(float fDelta) {
+	/*
+	int nowWeapon = hunter->getPlayerWeapon();
+	guns.clear();
+	for (int i = 0; i < 4; ++i) {
+		if (hunter->m_gun[i] != nullptr) {
+			if (i == nowWeapon)
+				guns.pushBack(gun[i][1]);
+			else guns.pushBack(gun[i][0]);
+		}
+	}
+	*/
+	//gunMenu = Menu::createWithArray(guns);
+
 	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->m_MAX_BLEED);
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
 }

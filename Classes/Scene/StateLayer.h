@@ -21,7 +21,10 @@ private:
 
     Character* hunter;
 
+	Vector<MenuItem*> guns;
     MenuItem* gun[4][2];
+
+	Menu* gunMenu;
 
 public:
 	static State* create(Character* gameHunter)
@@ -44,6 +47,8 @@ public:
     virtual bool init(Character* gameHunter);
     virtual void initState();
     virtual void initGun();
+
+	virtual void update(float fDelta);
     void updateHunterInfo();
     void menuCloseCallback(cocos2d::Ref* pSender);
 };

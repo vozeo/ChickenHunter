@@ -7,12 +7,20 @@ USING_NS_CC;
 
 class Weapon : public Sprite {
 public:
-	CREATE_FUNC(Weapon);
-	virtual bool init();
+    static Weapon* Weapon::create(const std::string& filename)
+    {
+        Weapon* sprite = new (std::nothrow) Weapon();
+        if (sprite && sprite->initWithFile(filename)) {
+            sprite->autorelease();
+            return sprite;
+        }
+        CC_SAFE_DELETE(sprite);
+        return nullptr;
+    }
 
 	CC_SYNTHESIZE(float, m_speed, WeaponSpeed);
 	CC_SYNTHESIZE(int, m_attack, WeaponAttack);
-	CC_SYNTHESIZE(int, m_state, WeaponState);
+	CC_SYNTHESIZE(bool, m_state, WeaponState);
 	CC_SYNTHESIZE(int, m_type, WeaponType);
 
 	void weaponInit(float speed, int attack, int type, int state);
