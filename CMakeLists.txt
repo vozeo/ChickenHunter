@@ -62,8 +62,11 @@ list(APPEND GAME_SOURCE
      Classes/Item/Item.cpp
      Classes/Scene/GameScene.cpp
      Classes/Scene/HelloWorldScene.cpp
+     Classes/Scene/MapLayer.cpp
+     Classes/Scene/StateLayer.cpp
      Classes/Scene/StartScene.cpp
      Classes/Weapon/Weapon.cpp
+     Classes/Weapon/Bullet.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -73,8 +76,11 @@ list(APPEND GAME_HEADER
      Classes/Item/Item.h
      Classes/Scene/GameScene.h
      Classes/Scene/HelloWorldScene.h
+     Classes/Scene/MapLayer.h
+     Classes/Scene/StateLayer.h
      Classes/Scene/StartScene.h
      Classes/Weapon/Weapon.h
+     Classes/Weapon/Bullet.h
      )
 
 if(ANDROID)
