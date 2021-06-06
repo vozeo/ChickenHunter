@@ -194,6 +194,7 @@ void MapLayer::update(float fDelta) {
 					weapon->setOpacity(0);
 					weapon->setWeaponState(false);
 					hunter->m_gun[weaponType] = weapon;
+					hunter->setPlayerRefresh(true);
 				}
 			}
 		}

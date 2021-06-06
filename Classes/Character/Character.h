@@ -36,9 +36,9 @@ private:
 	CC_SYNTHESIZE(int, m_attack, PlayerAttack);
 	CC_SYNTHESIZE(int, m_defense, PlayerDefense);
 	CC_SYNTHESIZE(int, m_weapon, PlayerWeapon);
+	CC_SYNTHESIZE(bool, m_refresh, PlayerRefresh);
 
 public: 
-
 	std::array<int, 2> m_bandage = {};
 	std::array<Weapon*, 4> m_gun = {};
 	std::array<bool, 4> m_speed = {};

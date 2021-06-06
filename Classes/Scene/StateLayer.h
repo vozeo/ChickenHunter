@@ -25,7 +25,7 @@ private:
     MenuItem* gun[4][2];
 
 	Menu* gunMenu;
-
+	 
 public:
 	static State* create(Character* gameHunter)
 	{
