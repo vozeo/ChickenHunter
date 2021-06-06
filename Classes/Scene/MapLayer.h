@@ -4,7 +4,9 @@
 #include "cocos2d.h"
 #include "Const.h"
 #include "ui/CocosGUI.h"
-#include "character/Character.h"
+#include "Character/Character.h"
+#include "Weapon/Bullet.h"
+#include "Weapon/Weapon.h"
 #include "MapLayer.h"
 #include "StateLayer.h"
 #include <map>
@@ -25,6 +27,8 @@ private:
 
     std::map<EventKeyboard::KeyCode, bool> keyMap;
 
+	std::array <Bullet*, 30> bullets;
+
 public:
 	static MapLayer* create(Character* gameHunter)
 	{
@@ -43,9 +47,16 @@ public:
 	}
     static cocos2d::Layer* createScene(Character* gameHunter);
     virtual bool init(Character* gameHunter);
+
+	void initBullet();
     
     virtual void update(float fDelta);    
     void registerKeyboardEvent();
+	void registerMouseEvent();
+
+	void createBullet(Vec2 speed, Weapon* weapon);
+	float calRotation(float bulletX, float bulletY);
+
 };
 
 #endif
