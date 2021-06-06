@@ -76,31 +76,30 @@ void State::initGun() {
 	for (int i = 0; i < 4; ++i) {
 		gun[i][0] = MenuItemImage::create(StringUtils::format("images/gun%d_0.png", i), StringUtils::format("images/gun%d_1.png", i));
 		gun[i][1] = MenuItemImage::create(StringUtils::format("images/gun%d_1.png", i), StringUtils::format("images/gun%d_0.png", i));
-		guns.pushBack(gun[i][0]);
+		gun[i][0]->retain(); // !!!
+		gun[i][1]->retain(); // !!!
 	}
-
-	guns.popBack(); //
-	guns.pushBack(gun[3][1]); //
-
 	gunMenu = Menu::createWithArray(guns);
-	gunMenu->setPosition(512, 80);
-	gunMenu->alignItemsHorizontally();
+	gunMenu->setPosition(winSize.width / 2, 80);
 	addChild(gunMenu, TOP);
 }
 
 void State::update(float fDelta) {
-	/*
-	int nowWeapon = hunter->getPlayerWeapon();
-	guns.clear();
-	for (int i = 0; i < 4; ++i) {
-		if (hunter->m_gun[i] != nullptr) {
-			if (i == nowWeapon)
-				guns.pushBack(gun[i][1]);
-			else guns.pushBack(gun[i][0]);
+	if (hunter->getPlayerRefresh()) {
+		hunter->setPlayerRefresh(false);
+		gunMenu->removeAllChildren();
+		int nowWeapon = hunter->getPlayerWeapon();
+		for (int i = 0; i < 4; ++i) {
+			if (hunter->m_gun[i] != nullptr) {
+				assert(gunMenu != nullptr);
+				if (i == nowWeapon)
+					gunMenu->addChild(gun[i][1]);
+				else gunMenu->addChild(gun[i][0]);
+			}
 		}
+		gunMenu->alignItemsHorizontally();
 	}
-	*/
-	//gunMenu = Menu::createWithArray(guns);
+	
 
 	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->m_MAX_BLEED);
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());

@@ -10,7 +10,9 @@ Character::Character() :
 	m_character_frame_cache(nullptr),
 	m_bleed(m_MAX_BLEED),
 	m_attack(1),
-	m_defense(1){}
+	m_defense(1),
+    m_weapon(0),
+    m_refresh(false){}
 
 Character::~Character() {
 	m_character_anim_down->release();
