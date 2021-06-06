@@ -10,6 +10,7 @@ USING_NS_CC;
 class Character : public Sprite {
 public:
 	Character();
+	~Character();
 
 	const int m_MAX_BLEED = 100;
 

@@ -12,11 +12,13 @@ Character::Character() :
 	m_attack(1),
 	m_defense(1){}
 
-int* Character::getPlayerBandage() { return m_bandage; }
-void Character::setPlayerBandage(int var, int pos) { m_bandage[pos] = var; }
+Character::~Character() {
+	m_character_anim_down->release();
+	m_character_anim_left->release();
+	m_character_anim_right->release();
+	m_character_anim_up->release();
+}
 
-int* Character::getPlayerGun() { return m_gun; }
-void Character::setPlayerGun(int var, int pos) { m_gun[pos] = var; }
 
 bool Character::init()
 {
@@ -25,61 +27,77 @@ bool Character::init()
 		return false;
 	}
 
-	initAnimate();	//初始化动画对象
-	initSprite();	//设置人物初始形象
+	initAnimate();
+	initSprite();
 
 	return true;
 }
 
+int* Character::getPlayerBandage() { return m_bandage; }
+void Character::setPlayerBandage(int var, int pos) { m_bandage[pos] = var; }
+
+int* Character::getPlayerGun() { return m_gun; } 
+void Character::setPlayerGun(int var, int pos) { m_gun[pos] = var; }
+
 void Character::initAnimate()
 {
-	/*
-	character_frame_cache_ = SpriteFrameCache::getInstance();
-	character_frame_cache_->addSpriteFramesWithFile(StringUtils::format("%s.plist", name_.c_str()), StringUtils::format("%s.png", name_.c_str()));
+    double ani_walk_delay_time = 0.1f;
 
-	Vector<SpriteFrame*>character_anim_down_vec;
-	Vector<SpriteFrame*>character_anim_left_vec;
-	Vector<SpriteFrame*>character_anim_right_vec;
-	Vector<SpriteFrame*>character_anim_up_vec;
+    m_character_frame_cache = SpriteFrameCache::getInstance();
+    m_character_frame_cache->addSpriteFramesWithFile("character.plist", "character.png");
 
-	for (int i = 0; i < 4; ++i)
-	{
-		auto frame = character_frame_cache_->getSpriteFrameByName(StringUtils::format("%s-%d.png", name_.c_str(), i));
-		character_anim_down_vec.pushBack(frame);
-	}
-	for (int i = 4; i < 8; ++i)
-	{
-		auto frame = character_frame_cache_->getSpriteFrameByName(StringUtils::format("%s-%d.png", name_.c_str(), i));
-		character_anim_left_vec.pushBack(frame);
-	}
-	for (int i = 8; i < 12; ++i)
-	{
-		auto frame = character_frame_cache_->getSpriteFrameByName(StringUtils::format("%s-%d.png", name_.c_str(), i));
-		character_anim_right_vec.pushBack(frame);
-	}
-	for (int i = 12; i < 16; ++i)
-	{
-		auto frame = character_frame_cache_->getSpriteFrameByName(StringUtils::format("%s-%d.png", name_.c_str(), i));
-		character_anim_up_vec.pushBack(frame);
-	}
+    Vector<SpriteFrame*>ani_move_up_vec;
+    Vector<SpriteFrame*>ani_move_right_vec;
+    Vector<SpriteFrame*>ani_move_left_vec;
+    Vector<SpriteFrame*>ani_move_down_vec;
 
-	character_anim_down_ = Animate::create(Animation::createWithSpriteFrames(character_anim_down_vec, character_walk_delay_time));
-	character_anim_left_ = Animate::create(Animation::createWithSpriteFrames(character_anim_left_vec, character_walk_delay_time));
-	character_anim_right_ = Animate::create(Animation::createWithSpriteFrames(character_anim_right_vec, character_walk_delay_time));
-	character_anim_up_ = Animate::create(Animation::createWithSpriteFrames(character_anim_up_vec, character_walk_delay_time));
+    char s[20];
+    for (int i = 1; i <= 3; i++)
+    {
+        sprintf(s, "character_%d.png", i);
+        auto frame = m_character_frame_cache->getSpriteFrameByName(s);
+        ani_move_up_vec.pushBack(frame);
+    }
+    ani_move_up_vec.pushBack(m_character_frame_cache->getSpriteFrameByName("character_2.png"));
 
-	character_anim_down_->retain();
-	character_anim_left_->retain();
-	character_anim_right_->retain();
-	character_anim_up_->retain();
-	*/
+    for (int i = 4; i <= 6; i++)
+    {
+        sprintf(s, "character_%d.png", i);
+        auto frame = m_character_frame_cache->getSpriteFrameByName(s);
+        ani_move_right_vec.pushBack(frame);
+    }
+    ani_move_right_vec.pushBack(m_character_frame_cache->getSpriteFrameByName("character_5.png"));
+
+    for (int i = 7; i <= 9; i++)
+    {
+        sprintf(s, "character_%d.png", i);
+        auto frame = m_character_frame_cache->getSpriteFrameByName(s);
+        ani_move_left_vec.pushBack(frame);
+    }
+    ani_move_left_vec.pushBack(m_character_frame_cache->getSpriteFrameByName("character_8.png"));
+
+    for (int i = 10; i <= 12; i++)
+    {
+        sprintf(s, "character_%d.png", i);
+        auto frame = m_character_frame_cache->getSpriteFrameByName(s);
+        ani_move_down_vec.pushBack(frame);
+    }
+    ani_move_down_vec.pushBack(m_character_frame_cache->getSpriteFrameByName("character_11.png"));
+
+    m_character_anim_down = Animate::create(Animation::createWithSpriteFrames(ani_move_down_vec, ani_walk_delay_time, -1));
+    m_character_anim_left = Animate::create(Animation::createWithSpriteFrames(ani_move_left_vec, ani_walk_delay_time, -1));
+    m_character_anim_right = Animate::create(Animation::createWithSpriteFrames(ani_move_right_vec, ani_walk_delay_time, -1));
+    m_character_anim_up = Animate::create(Animation::createWithSpriteFrames(ani_move_up_vec, ani_walk_delay_time, -1));
+
+    m_character_anim_down->retain();
+    m_character_anim_left->retain();
+    m_character_anim_right->retain();
+    m_character_anim_up->retain();
 }
 
 void Character::initSprite()
 {
-	/*
-	auto spf = character_frame_cache_->getSpriteFrameByName(StringUtils::format("%s-4.png", name_.c_str()));
-	this->initWithSpriteFrame(spf);
-	this->setAnchorPoint(Vec2(0.5f, 0.15f));
-	*/
+    auto frame = m_character_frame_cache->getSpriteFrameByName("character_11.png");
+    this->initWithSpriteFrame(frame);
+    this->setAnchorPoint(Vec2(0.5f, 0.5f));
 }
