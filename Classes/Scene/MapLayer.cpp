@@ -168,7 +168,7 @@ void MapLayer::update(float fDelta) {
 	auto nextMapX = nextX / 32;
 	auto nextMapY = mapHeight - nextY / 32;
 
-	CCLOG("%f %f, %f %f", nextX, nextY, nextMapX, nextMapY);
+	//CCLOG("%f %f, %f %f", nextX, nextY, nextMapX, nextMapY);
 
 	if (nextMapX < mapWidth && nextMapX >= 0 && nextMapY < mapHeight && nextMapY >= 0
 		&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
@@ -198,6 +198,7 @@ void MapLayer::update(float fDelta) {
 					weapon->setOpacity(0);
 					weapon->setWeaponState(false);
 					hunter->m_gun[weaponType] = weapon;
+					hunter->setPlayerWeapon(weaponType);
 					hunter->setPlayerRefresh(true);
 				}
 			}

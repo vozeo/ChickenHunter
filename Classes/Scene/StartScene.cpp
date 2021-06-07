@@ -42,7 +42,7 @@ bool Start::init()
 
 	Vector<MenuItem*> menus{ singleGame, multiGame, exitGame };
 	auto menu = Menu::createWithArray(menus);
-	menu->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	menu->setPosition(visibleSize.width / 2, visibleSize.height / 5);
 	menu->alignItemsHorizontally();
 	this->addChild(menu, 1);
 

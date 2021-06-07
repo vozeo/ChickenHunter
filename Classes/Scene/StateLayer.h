@@ -27,6 +27,8 @@ private:
 	Menu* gunMenu;
 	 
 public:
+	const std::array<int, 4> num = { 0, 1, 2, 3 };
+
 	static State* create(Character* gameHunter)
 	{
 		State* pRet = new(std::nothrow) State();
