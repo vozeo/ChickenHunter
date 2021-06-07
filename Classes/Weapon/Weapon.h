@@ -23,6 +23,6 @@ public:
 	CC_SYNTHESIZE(bool, m_state, WeaponState);
 	CC_SYNTHESIZE(int, m_type, WeaponType);
 
-	void weaponInit(float speed, int attack, int type, int state);
+	void weaponInit(float speed, float attack, int type, int state);
 };
 #endif;

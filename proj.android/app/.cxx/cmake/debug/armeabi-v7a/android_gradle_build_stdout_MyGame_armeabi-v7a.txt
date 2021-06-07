@@ -1,5 +1,36 @@
 ninja: Entering directory `D:\Cocos\ChickenHunter\proj.android\app\.cxx\cmake\debug\armeabi-v7a'
-[1/2] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/StartScene.cpp.o
+[1/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Weapon/Weapon.cpp.o
+In file included from ../../../../../../Classes/Weapon/Weapon.cpp:1:
+../../../../../../Classes/Weapon/Weapon.h:28:7: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif;
+      ^
+      //
+1 warning generated.
+[2/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Character/Character.cpp.o
+In file included from ../../../../../../Classes/Character/Character.cpp:1:
+In file included from ../../../../../../Classes\Character/Character.h:6:
+../../../../../../Classes\Weapon/Weapon.h:28:7: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif;
+      ^
+      //
+1 warning generated.
+[3/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/StateLayer.cpp.o
+In file included from ../../../../../../Classes/Scene/StateLayer.cpp:1:
+In file included from ../../../../../../Classes/Scene/StateLayer.h:7:
+In file included from ../../../../../../Classes\Character/Character.h:6:
+../../../../../../Classes\Weapon/Weapon.h:28:7: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif;
+      ^
+      //
+In file included from ../../../../../../Classes/Scene/StateLayer.cpp:1:
+In file included from ../../../../../../Classes/Scene/StateLayer.h:8:
+In file included from ../../../../../../Classes/Scene/MapLayer.h:8:
+../../../../../../Classes\Weapon/Bullet.h:28:7: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif;
+      ^
+      //
+2 warnings generated.
+[4/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/StartScene.cpp.o
 In file included from ../../../../../../Classes/Scene/StartScene.cpp:2:
 In file included from ../../../../../../Classes\Scene/GameScene.h:7:
 In file included from ../../../../../../Classes\Character/Character.h:6:
@@ -15,4 +46,35 @@ In file included from ../../../../../../Classes/Scene/MapLayer.h:8:
       ^
       //
 2 warnings generated.
-[2/2] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\libMyGame.so
+[5/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o
+In file included from ../../../../../../Classes/Scene/MapLayer.cpp:1:
+In file included from ../../../../../../Classes/Scene/MapLayer.h:7:
+In file included from ../../../../../../Classes\Character/Character.h:6:
+../../../../../../Classes\Weapon/Weapon.h:28:7: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif;
+      ^
+      //
+In file included from ../../../../../../Classes/Scene/MapLayer.cpp:1:
+In file included from ../../../../../../Classes/Scene/MapLayer.h:8:
+../../../../../../Classes\Weapon/Bullet.h:28:7: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif;
+      ^
+      //
+2 warnings generated.
+[6/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o
+In file included from ../../../../../../Classes/Scene/GameScene.cpp:1:
+In file included from ../../../../../../Classes/Scene/GameScene.h:7:
+In file included from ../../../../../../Classes\Character/Character.h:6:
+../../../../../../Classes\Weapon/Weapon.h:28:7: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif;
+      ^
+      //
+In file included from ../../../../../../Classes/Scene/GameScene.cpp:1:
+In file included from ../../../../../../Classes/Scene/GameScene.h:8:
+In file included from ../../../../../../Classes/Scene/MapLayer.h:8:
+../../../../../../Classes\Weapon/Bullet.h:28:7: warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif;
+      ^
+      //
+2 warnings generated.
+[7/7] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\libMyGame.so
