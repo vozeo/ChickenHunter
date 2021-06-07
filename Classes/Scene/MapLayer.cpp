@@ -15,7 +15,7 @@ bool MapLayer::init(Character* gameHunter)
     }
 	this->scheduleUpdate();
 
-	map = TMXTiledMap::create("map//Desert.tmx");
+	map = TMXTiledMap::create("map/Desert.tmx");
 	addChild(map, 0);
 	meta = map->getLayer("water");
 
@@ -38,7 +38,7 @@ bool MapLayer::init(Character* gameHunter)
 
 void MapLayer::initBullet() {
 	for (auto& bullet : bullets) {
-		bullet = Bullet::create("images//bullet.png");
+		bullet = Bullet::create("images/bullet.png");
 		bullet->setOpacity(0);
 		bullet->setBulletActive(false);
 		addChild(bullet, 2);
@@ -47,16 +47,16 @@ void MapLayer::initBullet() {
 //StringUtils::format("%s_avatar.png", player_name[i].c_str())
 void MapLayer::initWeapon() {
 	for (auto& weapon : weapons) {
-		auto weaponType = random() % 4;
-		weapon = Weapon::create(StringUtils::format("images//weapon_%d.png", weaponType));
+		auto weaponType = rand() % 4;
+		weapon = Weapon::create(StringUtils::format("images/weapon_%d.png", weaponType));
 		weapon->setWeaponType(weaponType);
 		weapon->setWeaponSpeed(0.5f + rand_0_1());
 		weapon->setWeaponAttack(0.5f + rand_0_1());
 		weapon->setWeaponState(true);
 		int posX, posY;
 		while (true) {
-			posX = random() % static_cast<int>(mapWidth * 32);
-			posY = random() % static_cast<int>(mapHeight * 32);
+			posX = rand() % static_cast<int>(mapWidth * 32);
+			posY = rand() % static_cast<int>(mapHeight * 32);
 			//if (!meta->getTileGIDAt(Vec2(posX / 32, mapHeight - posY / 32)))
 				break;
 		}
@@ -86,6 +86,8 @@ void MapLayer::registerKeyboardEvent() {
 			hunter->runAction(hunter->getCharacterAnimUp());
 			hunter->m_speed[3] = true;
 			break;
+		default:
+			break;
 		}
 	};
 
@@ -103,6 +105,8 @@ void MapLayer::registerKeyboardEvent() {
 			break;
 		case EventKeyboard::KeyCode::KEY_W:
 			hunter->m_speed[3] = false;
+			break;
+		default:
 			break;
 		}
 	};

@@ -56,8 +56,7 @@ public:
     void registerKeyboardEvent();
 	void registerMouseEvent();
 
-	void createBullet(Vec2 speed, Weapon* weapon);
-	float calRotation(float bulletX, float bulletY);
+	static float calRotation(float bulletX, float bulletY);
 
 };
 

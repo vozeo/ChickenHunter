@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Const.h"
 #include "ui/CocosGUI.h"
-#include "character/Character.h"
+#include "Character/Character.h"
 #include "MapLayer.h"
 #include <map>
 
@@ -49,7 +49,6 @@ public:
     virtual void initGun();
 
 	virtual void update(float fDelta);
-    void updateHunterInfo();
     void menuCloseCallback(cocos2d::Ref* pSender);
 };
 

@@ -7,7 +7,7 @@ USING_NS_CC;
 
 class Weapon : public Sprite {
 public:
-    static Weapon* Weapon::create(const std::string& filename)
+    static Weapon* create(const std::string& filename)
     {
         Weapon* sprite = new (std::nothrow) Weapon();
         if (sprite && sprite->initWithFile(filename)) {
@@ -19,7 +19,7 @@ public:
     }
 
 	CC_SYNTHESIZE(float, m_speed, WeaponSpeed);
-	CC_SYNTHESIZE(int, m_attack, WeaponAttack);
+	CC_SYNTHESIZE(float, m_attack, WeaponAttack);
 	CC_SYNTHESIZE(bool, m_state, WeaponState);
 	CC_SYNTHESIZE(int, m_type, WeaponType);
 

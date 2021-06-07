@@ -7,7 +7,7 @@ USING_NS_CC;
 
 class Bullet : public Sprite {
 public:
-    static Bullet* Bullet::create(const std::string& filename)
+    static Bullet* create(const std::string& filename)
     {
         Bullet* sprite = new (std::nothrow) Bullet();
         if (sprite && sprite->initWithFile(filename)) {

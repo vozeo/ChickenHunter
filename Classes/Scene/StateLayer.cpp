@@ -33,7 +33,7 @@ bool State::init(Character* gameHunter)
 void State::initState()
 {
 	auto exit_img = MenuItemImage::create(
-		"exit_0.png",
+	    "exit_0.png",
 		"exit_1.png",
 		CC_CALLBACK_1(State::menuCloseCallback, this));
 
@@ -41,9 +41,9 @@ void State::initState()
 	exit_menu->setPosition(988, 738);
 	this->addChild(exit_menu, TOP);
 
-	auto blood_back = Sprite::create("images//blood_back.png");
+	auto blood_back = Sprite::create("images/blood_back.png");
 
-	blood_bar = ui::LoadingBar::create("images//blood.png");
+	blood_bar = ui::LoadingBar::create("images/blood.png");
 
 	blood_bar->setDirection(ui::LoadingBar::Direction::LEFT);
 
@@ -56,8 +56,8 @@ void State::initState()
 	blood_back->setGlobalZOrder(TOP);
 	blood_bar->setGlobalZOrder(TOP);
 
-	blood_label = Label::createWithTTF("0", "fonts//Marker Felt.ttf", 25);
-	survivor_label = Label::createWithTTF("SURVIVOR : 1", "fonts//Marker Felt.ttf", 30);
+	blood_label = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 25);
+	survivor_label = Label::createWithTTF("SURVIVOR : 1", "fonts/Marker Felt.ttf", 30);
 
 	blood_label->setPosition(Vec2(300, 28));
 	survivor_label->setPosition(Vec2(80, 750));

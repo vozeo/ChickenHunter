@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Const.h"
 #include "ui/CocosGUI.h"
-#include "character/Character.h"
+#include "Character/Character.h"
 #include "MapLayer.h"
 #include "StateLayer.h"
 #include <map>
