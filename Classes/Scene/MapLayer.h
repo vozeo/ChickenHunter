@@ -58,6 +58,7 @@ public:
 
 	static float calRotation(float bulletX, float bulletY);
 
+	void showEffect(Vec2 pos);
 };
 
 #endif

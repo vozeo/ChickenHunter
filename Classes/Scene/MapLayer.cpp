@@ -63,6 +63,11 @@ void MapLayer::initWeapon() {
 		weapon->setPosition(Vec2(posX, posY));
 		addChild(weapon, 1);
 	}
+	Weapon* weapon = Weapon::create("images/gun4_1.png");
+	weapon->retain();
+	weapon->weaponInit(1, 1, 4, 0);
+	hunter->m_gun[4] = weapon;
+	hunter->setPlayerRefresh(true);
 }
 
 void MapLayer::registerKeyboardEvent() {
@@ -117,7 +122,14 @@ void MapLayer::registerKeyboardEvent() {
 void MapLayer::registerMouseEvent() {
 	auto mouseListener = EventListenerMouse::create();
 
-	mouseListener->onMouseDown = [&](EventMouse* event) {
+	mouseListener->onMouseDown = [=](EventMouse* event) {
+		auto weaponType = hunter->getPlayerWeapon();
+		if (4 == weaponType) {
+			showEffect(hunter->getPosition());
+			return;
+		}
+			
+		Weapon* weapon = hunter->m_gun[weaponType];
 		auto bulletLocation = event->getLocation();
 		auto bulletX = bulletLocation.x - winSize.width / 2;
 		auto bulletY = winSize.height / 2 - bulletLocation.y;
@@ -130,7 +142,8 @@ void MapLayer::registerMouseEvent() {
 				bullet->setBulletActive(true);
 				bullet->setPosition(hunter->getPosition());
 				bullet->setRotation(calRotation(bulletX, bulletY));
-				bullet->runAction(RepeatForever::create(MoveBy::create(1, Vec2(bulletX / time, bulletY / time))));
+				bullet->runAction(RepeatForever::create(MoveBy::create(weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
+				bullet->setBulletAttack(weapon->getWeaponAttack());
 				bullet->setOpacity(255);
 				break;
 			}
@@ -148,6 +161,13 @@ float MapLayer::calRotation(float bulletX, float bulletY) {
 	else if (bulletX > 0)
 		return -180.0f * atan(bulletY / bulletX) / PI;
 	else return -180.0f * atan(bulletY / bulletX) / PI + 180.0f;
+}
+
+void MapLayer::showEffect(Vec2 pos) {
+	auto effectCircle = DrawNode::create();
+	addChild(effectCircle, 2);
+	effectCircle->drawSolidCircle(pos, 100.0f, CC_DEGREES_TO_RADIANS(360), 15, Color4F(0.28f, 0.46f, 1.0f, 0.6f));
+	effectCircle->runAction(Sequence::create(FadeOut::create(0.5f), RemoveSelf::create(), NULL));
 }
 
 void MapLayer::update(float fDelta) {

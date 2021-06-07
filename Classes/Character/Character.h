@@ -40,7 +40,7 @@ private:
 
 public: 
 	std::array<int, 2> m_bandage = {};
-	std::array<Weapon*, 4> m_gun = {};
+	std::array<Weapon*, 5> m_gun = {};
 	std::array<bool, 4> m_speed = {};
 
 	int* getPlayerBandage();

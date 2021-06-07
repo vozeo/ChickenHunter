@@ -73,7 +73,7 @@ void State::initState()
 }
 
 void State::initGun() {
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 5; ++i) {
 		gun[i][0] = MenuItemImage::create(
 			StringUtils::format("images/gun%d_0.png", i),
 			StringUtils::format("images/gun%d_1.png", i),
@@ -99,7 +99,7 @@ void State::update(float fDelta) {
 		hunter->setPlayerRefresh(false);
 		gunMenu->removeAllChildren();
 		int nowWeapon = hunter->getPlayerWeapon();
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 5; ++i) {
 			if (hunter->m_gun[i] != nullptr) {
 				assert(gunMenu != nullptr);
 				if (i == nowWeapon)

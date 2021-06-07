@@ -22,7 +22,7 @@ private:
     Character* hunter;
 
 	Vector<MenuItem*> guns;
-    MenuItem* gun[4][2];
+    MenuItem* gun[5][2];
 
 	Menu* gunMenu;
 	 
