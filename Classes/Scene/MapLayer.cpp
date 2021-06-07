@@ -47,7 +47,7 @@ void MapLayer::initBullet() {
 //StringUtils::format("%s_avatar.png", player_name[i].c_str())
 void MapLayer::initWeapon() {
 	for (auto& weapon : weapons) {
-		auto weaponType = rand() % 4;
+		auto weaponType = random() % 4;
 		weapon = Weapon::create(StringUtils::format("images/weapon_%d.png", weaponType));
 		weapon->setWeaponType(weaponType);
 		weapon->setWeaponSpeed(0.5f + rand_0_1());
@@ -55,8 +55,8 @@ void MapLayer::initWeapon() {
 		weapon->setWeaponState(true);
 		int posX, posY;
 		while (true) {
-			posX = rand() % static_cast<int>(mapWidth * 32);
-			posY = rand() % static_cast<int>(mapHeight * 32);
+			posX = random() % static_cast<int>(mapWidth * 32);
+			posY = random() % static_cast<int>(mapHeight * 32);
 			//if (!meta->getTileGIDAt(Vec2(posX / 32, mapHeight - posY / 32)))
 				break;
 		}
@@ -187,8 +187,6 @@ void MapLayer::update(float fDelta) {
 			}
 		}
 	}
-
-
 
 	for (auto weapon : weapons) {
 		if (weapon->getWeaponState()) {

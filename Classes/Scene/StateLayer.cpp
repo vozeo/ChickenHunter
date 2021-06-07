@@ -73,31 +73,15 @@ void State::initState()
 }
 
 void State::initGun() {
-	gun[0][0] = MenuItemImage::create("images/gun0_0.png", "images/gun0_1.png",
-		[&](Ref* render) {
-			hunter->setPlayerWeapon(0);
-			hunter->setPlayerRefresh(true);
-		}
-	);
-	gun[1][0] = MenuItemImage::create("images/gun1_0.png", "images/gun1_1.png",
-		[&](Ref* render) {
-			hunter->setPlayerWeapon(1);
-			hunter->setPlayerRefresh(true);
-		}
-	);
-	gun[2][0] = MenuItemImage::create("images/gun2_0.png", "images/gun2_1.png",
-		[&](Ref* render) {
-			hunter->setPlayerWeapon(2);
-			hunter->setPlayerRefresh(true);
-		}
-	);
-	gun[3][0] = MenuItemImage::create("images/gun3_0.png", "images/gun3_1.png",
-		[&](Ref* render) {
-			hunter->setPlayerWeapon(3);
-			hunter->setPlayerRefresh(true);
-		}
-	);
 	for (int i = 0; i < 4; ++i) {
+		gun[i][0] = MenuItemImage::create(
+			StringUtils::format("images/gun%d_0.png", i),
+			StringUtils::format("images/gun%d_1.png", i),
+			[=](Ref* render) {
+				hunter->setPlayerWeapon(i);
+				hunter->setPlayerRefresh(true);
+			}
+		);
 		gun[i][1] = MenuItemImage::create(
 			StringUtils::format("images/gun%d_1.png", i),
 			StringUtils::format("images/gun%d_0.png", i)
