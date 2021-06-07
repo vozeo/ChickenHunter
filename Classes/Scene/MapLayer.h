@@ -4,12 +4,11 @@
 #include "cocos2d.h"
 #include "Const.h"
 #include "ui/CocosGUI.h"
-#include "Character/Character.h"
-#include "Weapon/Bullet.h"
-#include "Weapon/Weapon.h"
-#include "MapLayer.h"
+#include "character/Character.h"
 #include "StateLayer.h"
+#include "Item/Item.h"
 #include <map>
+#include <ctime>
 
 USING_NS_CC;
 
@@ -22,13 +21,19 @@ private:
     TMXLayer* meta;
 
 	float mapHeight, mapWidth;
+	float tileHeight, tileWidth;
 
     Character* hunter;
 
-    std::map<EventKeyboard::KeyCode, bool> keyMap;
+	//add enemies
+	std::vector< Character*> m_enemy;      
+	static int m_enemy_number;
 
-	std::array <Bullet*, 30> bullets;
-	std::array <Weapon*, 20> weapons;
+	//add items
+	std::vector< Bandage*> m_bandage;
+	std::vector< Ammunition*> m_ammunition;
+
+    std::map<EventKeyboard::KeyCode, bool> keyMap;
 
 public:
 	static MapLayer* create(Character* gameHunter)
@@ -48,16 +53,16 @@ public:
 	}
     static cocos2d::Layer* createScene(Character* gameHunter);
     virtual bool init(Character* gameHunter);
-
-	void initBullet();
-	void initWeapon();
     
-    virtual void update(float fDelta);
+    virtual void update(float fDelta);    
     void registerKeyboardEvent();
-	void registerMouseEvent();
 
-	void createBullet(Vec2 speed, Weapon* weapon);
-	float calRotation(float bulletX, float bulletY);
+	void initSetEnemy();
+	template <class T> void setRandPos(T ele);
+
+	void initSetItem();
+
+
 
 };
 
