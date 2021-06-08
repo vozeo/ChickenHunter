@@ -692,3 +692,16 @@
 34	4068	644749837	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	c2e5f92874df4f1e
 28	4081	644749837	CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o	5fa6b31b2813541
 4081	8147	644749841	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	39a2bc3433dabf80
+57	3720	644873161	CMakeFiles/MyGame.dir/Classes/AppDelegate.cpp.o	b77025e059eaa3d0
+55	3844	644873161	CMakeFiles/MyGame.dir/Classes/Character/Character.cpp.o	70030d3427e2444a
+59	4169	644873161	CMakeFiles/MyGame.dir/Classes/Scene/StateLayer.cpp.o	4ebe8698b4ccb24
+61	4182	644873161	CMakeFiles/MyGame.dir/Classes/Scene/StartScene.cpp.o	28e9685c8373a569
+22	4222	644873161	CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o	5fa6b31b2813541
+63	4237	644873161	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	c2e5f92874df4f1e
+4237	8097	644873165	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	39a2bc3433dabf80
+25	3030	644873464	CMakeFiles/MyGame.dir/Classes/Scene/StateLayer.cpp.o	4ebe8698b4ccb24
+3030	6484	644873468	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	39a2bc3433dabf80
+23	3144	644873568	CMakeFiles/MyGame.dir/Classes/AppDelegate.cpp.o	b77025e059eaa3d0
+3145	7120	644873572	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	39a2bc3433dabf80
+20	3293	644873733	CMakeFiles/MyGame.dir/Classes/AppDelegate.cpp.o	b77025e059eaa3d0
+3293	6906	644873736	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	39a2bc3433dabf80

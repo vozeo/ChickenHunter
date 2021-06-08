@@ -18,7 +18,7 @@ bool Start::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto origin = Director::getInstance()->getVisibleOrigin();
 
-	auto background = Sprite::create("images/StartBackground1024.png");
+	auto background = Sprite::create("images/StartBackground1366.png");
 	background->setAnchorPoint(Vec2(0, 0));
 	background->setPosition(origin);
 	this->addChild(background, 0);

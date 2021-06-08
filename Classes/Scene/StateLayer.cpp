@@ -36,9 +36,10 @@ void State::initState()
 	    "exit_0.png",
 		"exit_1.png",
 		CC_CALLBACK_1(State::menuCloseCallback, this));
-
+	exit_img->setAnchorPoint(Vec2(1, 1));
 	auto exit_menu = Menu::create(exit_img, NULL);
-	exit_menu->setPosition(988, 738);
+	exit_menu->setAnchorPoint(Vec2(1, 1));
+	exit_menu->setPosition(winSize.width, winSize.height);
 	this->addChild(exit_menu, TOP);
 
 	auto blood_back = Sprite::create("images/blood_back.png");
@@ -47,8 +48,8 @@ void State::initState()
 
 	blood_bar->setDirection(ui::LoadingBar::Direction::LEFT);
 
-	blood_back->setPosition(512, 30);
-	blood_bar->setPosition(Vec2(512, 30));
+	blood_back->setPosition(winSize.width / 2, winSize.height / 25);
+	blood_bar->setPosition(Vec2(winSize.width / 2, winSize.height / 25));
 
 	this->addChild(blood_back, TOP);
 	this->addChild(blood_bar, TOP);
@@ -59,8 +60,9 @@ void State::initState()
 	blood_label = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 25);
 	survivor_label = Label::createWithTTF("SURVIVOR : 1", "fonts/Marker Felt.ttf", 30);
 
-	blood_label->setPosition(Vec2(300, 28));
-	survivor_label->setPosition(Vec2(80, 750));
+	blood_label->setPosition(Vec2(winSize.width / 2 - winSize.width / 6.2, winSize.height / 25));
+	survivor_label->setAnchorPoint(Vec2(0, 1));
+	survivor_label->setPosition(Vec2(0, winSize.height));
 
 	this->addChild(blood_label, TOP);
 	this->addChild(survivor_label, TOP);
@@ -90,7 +92,7 @@ void State::initGun() {
 		gun[i][1]->retain(); // !!!
 	}
 	gunMenu = Menu::createWithArray(guns);
-	gunMenu->setPosition(winSize.width / 2, 80);
+	gunMenu->setPosition(winSize.width / 2, winSize.height / 10);
 	addChild(gunMenu, TOP);
 }
 
