@@ -28,19 +28,24 @@ private:
     Character* hunter;
 
 	//add enemies
-	std::vector< Character*> m_enemy;      
-	static int m_enemy_number;
+	
+	const int m_enemy_number = 9;
+	const int m_weapon_number = 9;
+	const int m_bandage_number = 9;
+	const int m_ammunition_number = 9;
+	
 
 	//add items
-	std::vector< Bandage*> m_bandage;
-	std::vector< Ammunition*> m_ammunition;
+	std::vector<Character*> m_enemy;
+	std::vector<Weapon*> weapons;
+	std::vector<Bandage*> m_bandage;
+	std::vector<Ammunition*> m_ammunition;
+	
 
     std::map<EventKeyboard::KeyCode, bool> keyMap;
 
 	std::array <Bullet*, 30> bullets;
-	std::array <Weapon*, 20> weapons;
 
-	std::vector<Bullet*> m_active_bullet;
 
 public:
 	static MapLayer* create(Character* gameHunter)
@@ -73,7 +78,8 @@ public:
 	void initSetEnemy();
 	void initSetItem();
 
-	template <class T> void setRandPos(T ele);
+	template <class T> void setRandPos(T* elem);
+	template <class T> void initItem(std::vector<T*> &items, int number);
 
 	void judgePick();
 

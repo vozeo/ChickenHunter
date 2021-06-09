@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "Character/Character.h"
-#include "Weapon/Weapon.h"
+#include "Item/Item.h"
 #include <vector>
 
 USING_NS_CC;
@@ -39,6 +39,7 @@ private:
 	CC_SYNTHESIZE(bool, m_refresh, PlayerRefresh);
 
 public: 
+	std::vector<Weapon*> m_we;
 	std::array<int, 2> m_bandage = {};
 	std::array<Weapon*, 5> m_gun = {};
 	std::array<bool, 4> m_speed = {};

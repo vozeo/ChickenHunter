@@ -2,9 +2,6 @@
 
 USING_NS_CC;
 
-int Bandage::number = 5;
-int Ammunition::number = 5;
-
 bool Item::init()
 {
 	if (!Sprite::init())
@@ -17,6 +14,13 @@ bool Item::init()
 	return true;
 }
 
+void Weapon::weaponInit(float speed, float attack, int type, bool state) {
+	m_speed = speed;
+	m_attack = attack;
+	m_type = type;
+	m_state = state;
+}
+
 bool Bandage::init()
 {
 	if (!Item::init())
@@ -27,7 +31,7 @@ bool Bandage::init()
 	auto frame = m_item_frame_cache->getSpriteFrameByName("bandage.png");
 	this->initWithSpriteFrame(frame);
 	setItemName("bandage");
-	setRecoverHP(10 + rand() % 8 * 10);    //random recovery from 10 to 80
+	setRecoverHP(random(10, 80));    //random recovery from 10 to 80
 
 	return true;
 }
@@ -44,7 +48,7 @@ bool Ammunition::init()
 	this->initWithSpriteFrame(frame);
 
 	setItemName("ammunition");
-	setAddBullet(20 + rand() % 8 * 10);    //add random bullets from 20 to 90
+	setAddBullet(random(20, 90));    //add random bullets from 20 to 90
 
 	return true;
 }

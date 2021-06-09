@@ -36,11 +36,8 @@ bool MapLayer::init(Character* gameHunter)
 	AudioEngine::preload("music/bulletEffect.wav");
 	AudioEngine::preload("music/knifeEffect.wav");
 
-	initSetEnemy();
 	initSetItem();
-
 	initBullet();
-	initWeapon();
 
 	registerKeyboardEvent();
 	registerTouchEvent();
@@ -57,6 +54,7 @@ void MapLayer::initBullet() {
 	}
 }
 
+/*
 void MapLayer::initWeapon() {
 	for (auto& weapon : weapons) {
 		auto weaponType = random(0, 3);
@@ -81,7 +79,7 @@ void MapLayer::initWeapon() {
 	hunter->m_gun[4] = weapon;
 	hunter->setPlayerRefresh(true);
 }
-
+*/
 void MapLayer::registerKeyboardEvent() {
 	auto listener = EventListenerKeyboard::create();
 
@@ -137,6 +135,22 @@ void MapLayer::registerKeyboardEvent() {
 
 void MapLayer::judgePick() {
 	Rect rect_hunter = hunter->getBoundingBox();
+	for (auto weapon : weapons) {
+		if (weapon->getBoundingBox().intersectsRect(rect_hunter)) {
+			auto weaponType = weapon->getWeaponType();
+			if (hunter->m_gun[weaponType] == nullptr) {
+				weapon->retain();
+				weapon->removeFromParent();
+				weapons.erase(find(weapons.begin(), weapons.end(), weapon));
+				hunter->m_gun[weaponType] = weapon;
+				hunter->setPlayerWeapon(weaponType);
+				hunter->setPlayerRefresh(true);
+				break;
+			}
+		}
+
+	}
+
 	for (auto bn : m_bandage)
 	{
 		if (bn->getBoundingBox().intersectsRect(rect_hunter))
@@ -186,7 +200,6 @@ void MapLayer::registerTouchEvent() {
 				bullet->runAction(RepeatForever::create(MoveBy::create(weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
 				bullet->setBulletAttack(weapon->getWeaponAttack());
 				bullet->setVisible(true);
-				//m_active_bullet.push_back(bullet);
 				break;
 			}
 		}
@@ -240,33 +253,17 @@ void MapLayer::update(float fDelta) {
 		if (bullet->getBulletActive()) {
 			auto bulletX = bullet->getPositionX();
 			auto bulletY = bullet->getPositionY();
-			if (bulletX < 0 || bulletX > mapWidth * 32 || bulletY < 0 || bulletY > mapHeight * 32
-				|| meta->getTileGIDAt(Vec2(bulletX / 32, mapHeight - bulletY / 32))) {
+			if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 || bulletY >= mapHeight * tileHeight
+				|| meta->getTileGIDAt(Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
 				bullet->setVisible(false);
 				bullet->stopAllActions();
 				bullet->setBulletActive(false);
 			}
 		}
 	}
-	
-	for (auto weapon : weapons) {
-		if (weapon->getWeaponState()) {
-			if (weapon->getBoundingBox().containsPoint(hunter->getPosition())) {
-				auto weaponType = weapon->getWeaponType();
-				if (hunter->m_gun[weaponType] == nullptr) {
-					weapon->setVisible(false);
-					weapon->setWeaponState(false);
-					hunter->m_gun[weaponType] = weapon;
-					hunter->setPlayerWeapon(weaponType);
-					hunter->setPlayerRefresh(true);
-				}
-			}
-		}
-	}
 }
 
-
-int MapLayer::m_enemy_number = 5;
+/*
 void MapLayer::initSetEnemy()
 {
 	m_enemy.clear();
@@ -277,10 +274,10 @@ void MapLayer::initSetEnemy()
 		setRandPos(m_enemy[i]);
 	}
 }
-
+*/
 //set enemies/items randomly and at anywhere except water space.
 template <class T>
-void MapLayer::setRandPos(T elem)
+void MapLayer::setRandPos(T* elem)
 {
 	int rx, ry, mrx, mry;
 	while (true)
@@ -295,23 +292,31 @@ void MapLayer::setRandPos(T elem)
 	elem->setPosition(Vec2(rx, ry));
 }
 
+template <class T>
+void MapLayer::initItem(std::vector<T*> &items, int number) {
+	items.clear();
+	for (int i = 0; i < number; i++)
+	{
+		items.push_back(T::create());
+		addChild(items[i], 1);
+		setRandPos(items[i]);
+	}
+}
+
 void MapLayer::initSetItem()
 {
-	m_bandage.clear();
-	int number = Bandage::getNumber();
-	for (int i = 0; i < number; i++)
-	{
-		m_bandage.push_back(Bandage::create());
-		addChild(m_bandage[i], 1);
-		setRandPos(m_bandage[i]);
-	}
+	initItem(m_enemy, m_enemy_number);
 
-	m_ammunition.clear();
-	number = Ammunition::getNumber();
-	for (int i = 0; i < number; i++)
-	{
-		m_ammunition.push_back(Ammunition::create());
-		addChild(m_ammunition[i], 1);
-		setRandPos(m_ammunition[i]);
-	}
+	initItem(weapons, m_weapon_number);
+	initItem(m_bandage, m_bandage_number);
+	initItem(m_ammunition, m_ammunition_number);
+	
+	
+
+	Weapon* weapon = Weapon::create();
+	weapon->retain();
+	weapon->weaponInit(1, 1, 4, 0);
+	hunter->m_gun[4] = weapon;
+
+	hunter->setPlayerRefresh(true);
 }
