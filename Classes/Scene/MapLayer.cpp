@@ -27,12 +27,6 @@ bool MapLayer::init(Character* gameHunter)
 
 	hunter = gameHunter;
 	addChild(hunter, 1);
-	//add enemies
-	srand((int)time(0));
-	initSetEnemy();
-
-	//add items
-	initSetItem();
 
 	hunter->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 	runAction(Follow::create(hunter, Rect::ZERO));
@@ -41,9 +35,15 @@ bool MapLayer::init(Character* gameHunter)
 	AudioEngine::preload("music/bulletEffect.wav");
 	AudioEngine::preload("music/knifeEffect.wav");
 
+	//add enemies
+	srand((int)time(0));
+	initSetEnemy();
+
+	//add items
+	initSetItem();
+
 	initBullet();
 	initWeapon();
-	initSetItem()
 
 	registerKeyboardEvent();
 	registerTouchEvent();
@@ -82,7 +82,6 @@ void MapLayer::initWeapon() {
 	weapon->retain();
 	weapon->weaponInit(1, 1, 4, 0);
 	hunter->m_gun[4] = weapon;
-
 	hunter->setPlayerRefresh(true);
 }
 
@@ -135,7 +134,7 @@ void MapLayer::registerKeyboardEvent() {
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void judgePick() {
+void MapLayer::judgePick() {
 	Rect rect_hunter = hunter->getBoundingBox();
 
 		for (auto bn : m_bandage)
@@ -236,9 +235,22 @@ void MapLayer::update(float fDelta) {
 		&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
 		hunter->runAction(MoveTo::create(1.0f / 120, Vec2(nextX, nextY)));
 
+	for (auto bullet : bullets) {
+		if (bullet->getBulletActive()) {
+			auto bulletX = bullet->getPositionX();
+			auto bulletY = bullet->getPositionY();
+			if (bulletX < 0 || bulletX > mapWidth * 32 || bulletY < 0 || bulletY > mapHeight * 32
+				|| meta->getTileGIDAt(Vec2(bulletX / 32, mapHeight - bulletY / 32))) {
+				bullet->setOpacity(0);
+				bullet->stopAllActions();
+				bullet->setBulletActive(false);
+			}
+		}
+	}
+	
 	for (auto weapon : weapons) {
 		if (weapon->getWeaponState()) {
-			if (weapon->getBoundingBox().containsPoint(hunterPos)) {
+			if (weapon->getBoundingBox().containsPoint(hunter->getPosition())) {
 				auto weaponType = weapon->getWeaponType();
 				if (hunter->m_gun[weaponType] == nullptr) {
 					weapon->setOpacity(0);

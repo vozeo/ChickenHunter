@@ -8,6 +8,7 @@
 #include "character/Character.h"
 #include "StateLayer.h"
 #include "Item/Item.h"
+#include "Weapon/Bullet.h"
 #include <map>
 #include <ctime>
 
@@ -36,6 +37,9 @@ private:
 
     std::map<EventKeyboard::KeyCode, bool> keyMap;
 
+	std::array <Bullet*, 30> bullets;
+	std::array <Weapon*, 20> weapons;
+
 public:
 	static MapLayer* create(Character* gameHunter)
 	{
@@ -61,10 +65,15 @@ public:
 
 	static float calRotation(float bulletX, float bulletY);
 
+	void initBullet();
+	void initWeapon();
+
 	void initSetEnemy();
+	void initSetItem();
+
 	template <class T> void setRandPos(T ele);
 
-	void initSetItem();
+	void judgePick();
 
 	void showEffect(Vec2 pos);
 };
