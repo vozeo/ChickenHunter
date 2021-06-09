@@ -86,6 +86,13 @@ extern "C" {
 #define KEYCODE_ENTER 0x42
 #define KEYCODE_PLAY  0x7e
 #define KEYCODE_DPAD_CENTER  0x17
+#define KEYCODE_Q 0x2d
+#define KEYCODE_E 0x21
+#define KEYCODE_W 0x33
+#define KEYCODE_A 0x1d
+#define KEYCODE_S 0x2f
+#define KEYCODE_D 0x20
+#define KEYCODE_SPACE 0x3e
     
     
     static std::unordered_map<int, cocos2d::EventKeyboard::KeyCode> g_keyCodeMap = {
@@ -99,6 +106,13 @@ extern "C" {
         { KEYCODE_PLAY  , cocos2d::EventKeyboard::KeyCode::KEY_PLAY},
         { KEYCODE_DPAD_CENTER  , cocos2d::EventKeyboard::KeyCode::KEY_DPAD_CENTER},
         
+        { KEYCODE_Q  , cocos2d::EventKeyboard::KeyCode::KEY_Q},
+        { KEYCODE_E  , cocos2d::EventKeyboard::KeyCode::KEY_E},
+        { KEYCODE_W  , cocos2d::EventKeyboard::KeyCode::KEY_W},
+        { KEYCODE_A  , cocos2d::EventKeyboard::KeyCode::KEY_A},
+        { KEYCODE_S  , cocos2d::EventKeyboard::KeyCode::KEY_S},
+        { KEYCODE_D  , cocos2d::EventKeyboard::KeyCode::KEY_D},
+        { KEYCODE_SPACE  , cocos2d::EventKeyboard::KeyCode::KEY_SPACE},
     };
     
     JNIEXPORT jboolean JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeKeyEvent(JNIEnv * env, jobject thiz, jint keyCode, jboolean isPressed) {        

@@ -1,2 +1,4 @@
 ninja: Entering directory `D:\Cocos\ChickenHunter\proj.android\app\.cxx\cmake\debug\armeabi-v7a'
-ninja: no work to do.
+[1/3] Building CXX object engine/cocos/platform/CMakeFiles/cpp_android_spec.dir/jni/TouchesJni.cpp.o
+[2/3] Linking CXX static library engine\cocos\platform\libcpp_android_spec.a
+[3/3] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\libMyGame.so
