@@ -40,6 +40,8 @@ private:
 	std::array <Bullet*, 30> bullets;
 	std::array <Weapon*, 20> weapons;
 
+	std::vector<Bullet*> m_active_bullet;
+
 public:
 	static MapLayer* create(Character* gameHunter)
 	{

@@ -7,6 +7,7 @@ Layer* MapLayer::createScene(Character* gameHunter)
     return MapLayer::create(gameHunter);
 }
 
+// 0->map, 1->item/gun, 2->enemy, 3->bullet, 4->hunter
 bool MapLayer::init(Character* gameHunter)
 {
     if ( !Layer::init() )
@@ -20,13 +21,13 @@ bool MapLayer::init(Character* gameHunter)
 
 	meta = map->getLayer("water");
 
-	mapHeight = map->getMapSize().height - 1;
-	mapWidth = map->getMapSize().width - 1;
-	tileWidth = map->getTileSize().width - 1;
-	tileHeight = map->getTileSize().height - 1;
+	mapHeight = map->getMapSize().height;
+	mapWidth = map->getMapSize().width;
+	tileWidth = map->getTileSize().width;
+	tileHeight = map->getTileSize().height;
 
 	hunter = gameHunter;
-	addChild(hunter, 1);
+	addChild(hunter, 4);
 
 	hunter->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 	runAction(Follow::create(hunter, Rect::ZERO));
@@ -35,11 +36,7 @@ bool MapLayer::init(Character* gameHunter)
 	AudioEngine::preload("music/bulletEffect.wav");
 	AudioEngine::preload("music/knifeEffect.wav");
 
-	//add enemies
-	srand((int)time(0));
 	initSetEnemy();
-
-	//add items
 	initSetItem();
 
 	initBullet();
@@ -54,12 +51,12 @@ bool MapLayer::init(Character* gameHunter)
 void MapLayer::initBullet() {
 	for (auto& bullet : bullets) {
 		bullet = Bullet::create("images/bullet.png");
-		bullet->setOpacity(0);
+		bullet->setVisible(false);
 		bullet->setBulletActive(false);
-		addChild(bullet, 2);
+		addChild(bullet, 3);
 	}
 }
-//StringUtils::format("%s_avatar.png", player_name[i].c_str())
+
 void MapLayer::initWeapon() {
 	for (auto& weapon : weapons) {
 		auto weaponType = random(0, 3);
@@ -89,18 +86,22 @@ void MapLayer::registerKeyboardEvent() {
 	auto listener = EventListenerKeyboard::create();
 
 	listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
-		keyMap[keyCode] = true;
+		//keyMap[keyCode] = true;
 		switch (keyCode) {
 		case EventKeyboard::KeyCode::KEY_D:
+			hunter->m_speed[0] = true;
 			hunter->runAction(hunter->getCharacterAnimRight());
 			break;
 		case EventKeyboard::KeyCode::KEY_A:
+			hunter->m_speed[1] = true;
 			hunter->runAction(hunter->getCharacterAnimLeft());
 			break;
 		case EventKeyboard::KeyCode::KEY_S:
+			hunter->m_speed[2] = true;
 			hunter->runAction(hunter->getCharacterAnimDown());
 			break;
 		case EventKeyboard::KeyCode::KEY_W:
+			hunter->m_speed[3] = true;
 			hunter->runAction(hunter->getCharacterAnimUp());
 			break;
 		case EventKeyboard::KeyCode::KEY_E:
@@ -136,28 +137,25 @@ void MapLayer::registerKeyboardEvent() {
 
 void MapLayer::judgePick() {
 	Rect rect_hunter = hunter->getBoundingBox();
-
-		for (auto bn : m_bandage)
+	for (auto bn : m_bandage)
+	{
+		if (bn->getBoundingBox().intersectsRect(rect_hunter))
 		{
-			if (bn->getBoundingBox().intersectsRect(rect_hunter))
-			{
-				auto place = std::find(m_bandage.begin(), m_bandage.end(), bn);
-				bn->removeFromParent();
-				m_bandage.erase(place);
-				break;
-			}
+			bn->removeFromParent();
+			m_bandage.erase(find(m_bandage.begin(), m_bandage.end(), bn));
+			break;
 		}
+	}
 
-		for (auto am : m_ammunition)
+	for (auto am : m_ammunition)
+	{
+		if (am->getBoundingBox().intersectsRect(rect_hunter))
 		{
-			if (am->getBoundingBox().intersectsRect(rect_hunter))
-			{
-				auto place = std::find(m_ammunition.begin(), m_ammunition.end(), am);
-				am->removeFromParent();
-				m_ammunition.erase(place);
-				break;
-			}
+			am->removeFromParent();
+			m_ammunition.erase(find(m_ammunition.begin(), m_ammunition.end(), am));
+			break;
 		}
+	}
 }
 
 void MapLayer::registerTouchEvent() {
@@ -187,7 +185,8 @@ void MapLayer::registerTouchEvent() {
 				bullet->setRotation(calRotation(bulletX, bulletY));
 				bullet->runAction(RepeatForever::create(MoveBy::create(weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
 				bullet->setBulletAttack(weapon->getWeaponAttack());
-				bullet->setOpacity(255);
+				bullet->setVisible(true);
+				//m_active_bullet.push_back(bullet);
 				break;
 			}
 		}
@@ -225,15 +224,17 @@ void MapLayer::update(float fDelta) {
 	if (hunter->m_speed[3])
 		dy = 4;
 
-	float nextX = hunter->getPositionX() + dx;
-	float nextY = hunter->getPositionY() + dy;
+	auto hunterPos = hunter->getPosition();
+	float nextX = hunterPos.x + dx;
+	float nextY = hunterPos.y + dy;
 	
-	auto nextMapX = nextX / 32;
-	auto nextMapY = mapHeight - nextY / 32 + 1;
+	auto nextMapX = nextX / tileWidth;
+	auto nextMapY = mapHeight - nextY / tileHeight;
 
-	if (nextMapX <= mapWidth && nextMapX >= 0 && nextMapY <= mapHeight && nextMapY >= 0
+	if (nextMapX < mapWidth && nextMapX >= 0 && nextMapY < mapHeight && nextMapY >= 0
 		&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
-		hunter->runAction(MoveTo::create(1.0f / 120, Vec2(nextX, nextY)));
+		hunter->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX, nextY)));
+	else hunter->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
 
 	for (auto bullet : bullets) {
 		if (bullet->getBulletActive()) {
@@ -241,7 +242,7 @@ void MapLayer::update(float fDelta) {
 			auto bulletY = bullet->getPositionY();
 			if (bulletX < 0 || bulletX > mapWidth * 32 || bulletY < 0 || bulletY > mapHeight * 32
 				|| meta->getTileGIDAt(Vec2(bulletX / 32, mapHeight - bulletY / 32))) {
-				bullet->setOpacity(0);
+				bullet->setVisible(false);
 				bullet->stopAllActions();
 				bullet->setBulletActive(false);
 			}
@@ -253,7 +254,7 @@ void MapLayer::update(float fDelta) {
 			if (weapon->getBoundingBox().containsPoint(hunter->getPosition())) {
 				auto weaponType = weapon->getWeaponType();
 				if (hunter->m_gun[weaponType] == nullptr) {
-					weapon->setOpacity(0);
+					weapon->setVisible(false);
 					weapon->setWeaponState(false);
 					hunter->m_gun[weaponType] = weapon;
 					hunter->setPlayerWeapon(weaponType);
@@ -263,6 +264,7 @@ void MapLayer::update(float fDelta) {
 		}
 	}
 }
+
 
 int MapLayer::m_enemy_number = 5;
 void MapLayer::initSetEnemy()
@@ -276,23 +278,21 @@ void MapLayer::initSetEnemy()
 	}
 }
 
-
 //set enemies/items randomly and at anywhere except water space.
 template <class T>
-void MapLayer::setRandPos(T ele)
+void MapLayer::setRandPos(T elem)
 {
-	int rx, ry,mrx,mry;
-	while (1)
+	int rx, ry, mrx, mry;
+	while (true)
 	{
-        rx = static_cast<float>(rand() % static_cast<int>(mapWidth * tileWidth - 100));
-		mrx = (50.0 + rx) / 32;
-		ry = static_cast<float>(rand() % static_cast<int>(mapHeight * tileHeight - 100));
-		mry = mapHeight - (50.0 + ry) / 32 + 1;
-		if(mrx <= mapWidth && mrx >= 0 && mry <= mapHeight && mry >= 0
-			&& !meta->getTileGIDAt(Vec2(mrx, mry)))
+        rx = random(50, static_cast<int>(mapWidth * tileWidth - 50 - 1));
+		mrx = rx / tileWidth;
+		ry = random(50, static_cast<int>(mapHeight * tileHeight - 50 - 1));
+		mry = mapHeight - ry / tileWidth;
+		if (mrx < mapWidth && mrx >= 0 && mry < mapHeight && mry >= 0 && !meta->getTileGIDAt(Vec2(mrx, mry)))
 			break;
 	}
-	ele->setPosition(Vec2(50.0 + rx,50.0 + ry));
+	elem->setPosition(Vec2(rx, ry));
 }
 
 void MapLayer::initSetItem()
@@ -302,7 +302,7 @@ void MapLayer::initSetItem()
 	for (int i = 0; i < number; i++)
 	{
 		m_bandage.push_back(Bandage::create());
-		addChild(m_bandage[i], 0);
+		addChild(m_bandage[i], 1);
 		setRandPos(m_bandage[i]);
 	}
 
@@ -311,7 +311,7 @@ void MapLayer::initSetItem()
 	for (int i = 0; i < number; i++)
 	{
 		m_ammunition.push_back(Ammunition::create());
-		addChild(m_ammunition[i], 0);
+		addChild(m_ammunition[i], 1);
 		setRandPos(m_ammunition[i]);
 	}
 }
