@@ -31,7 +31,7 @@ bool MapLayer::init(Character* gameHunter)
 	initWeapon();
 
 	registerKeyboardEvent();
-	registerMouseEvent();
+	registerTouchEvent();
 
     return true;
 }
@@ -67,6 +67,7 @@ void MapLayer::initWeapon() {
 	weapon->retain();
 	weapon->weaponInit(1, 1, 4, 0);
 	hunter->m_gun[4] = weapon;
+
 	hunter->setPlayerRefresh(true);
 }
 
@@ -119,20 +120,20 @@ void MapLayer::registerKeyboardEvent() {
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void MapLayer::registerMouseEvent() {
-	auto mouseListener = EventListenerMouse::create();
+void MapLayer::registerTouchEvent() {
+	auto touchListener = EventListenerTouchOneByOne::create();
 
-	mouseListener->onMouseDown = [=](EventMouse* event) {
+	touchListener->onTouchBegan = [&](Touch* touch, Event* event) {
 		auto weaponType = hunter->getPlayerWeapon();
 		if (4 == weaponType) {
 			showEffect(hunter->getPosition());
-			return;
+			return true;
 		}
 			
 		Weapon* weapon = hunter->m_gun[weaponType];
-		auto bulletLocation = event->getLocation();
+		auto bulletLocation = touch->getLocation();
 		auto bulletX = bulletLocation.x - winSize.width / 2;
-		auto bulletY = winSize.height / 2 - bulletLocation.y;
+		auto bulletY = bulletLocation.y - winSize.height / 2;
 
 		//CCLOG("%f %f", bulletX, bulletY);
 
@@ -148,9 +149,10 @@ void MapLayer::registerMouseEvent() {
 				break;
 			}
 		}
+		return true;
 	};
 
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
 float MapLayer::calRotation(float bulletX, float bulletY) {

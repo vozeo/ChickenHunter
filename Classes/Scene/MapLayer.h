@@ -54,7 +54,7 @@ public:
     
     virtual void update(float fDelta);
     void registerKeyboardEvent();
-	void registerMouseEvent();
+	void registerTouchEvent();
 
 	static float calRotation(float bulletX, float bulletY);
 

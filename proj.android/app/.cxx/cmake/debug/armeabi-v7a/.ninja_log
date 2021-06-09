@@ -708,3 +708,8 @@
 24	1699	644900991	engine/cocos/platform/CMakeFiles/cpp_android_spec.dir/jni/TouchesJni.cpp.o	ccc95f6d2dc824d2
 1699	2501	644900992	engine/cocos/platform/libcpp_android_spec.a	6d3bb7b2b46cd511
 2501	5980	644900995	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	39a2bc3433dabf80
+24	3438	644902006	CMakeFiles/MyGame.dir/Classes/Scene/StateLayer.cpp.o	4ebe8698b4ccb24
+22	3457	644902006	CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o	5fa6b31b2813541
+27	3461	644902006	CMakeFiles/MyGame.dir/Classes/Scene/StartScene.cpp.o	28e9685c8373a569
+29	3493	644902006	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	c2e5f92874df4f1e
+3494	6924	644902010	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	39a2bc3433dabf80
