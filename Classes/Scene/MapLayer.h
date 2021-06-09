@@ -2,6 +2,7 @@
 #define __MAP_SCENE_H__
 
 #include "cocos2d.h"
+#include "AudioEngine.h"
 #include "Const.h"
 #include "ui/CocosGUI.h"
 #include "Character/Character.h"

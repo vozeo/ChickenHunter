@@ -25,15 +25,19 @@ bool Game::init()
 
 	Director::getInstance()->getOpenGLView()->setCursorVisible(false);
 	initMouse();
-	addChild(m_cursor, 3);
+	addChild(m_cursor, 4);
 
 	hunter = Character::create();
 
     map = MapLayer::create(hunter);
-    addChild(map, 1);
+    addChild(map, 2);
 
 	stateUI = State::create(hunter);
-	addChild(stateUI, 2);
+	addChild(stateUI, 3);
+
+	AudioEngine::lazyInit();
+	AudioEngine::preload("music/gameBgm.mp3");
+	backgroundAudioID = AudioEngine::play2d("music/gameBgm.mp3", true);
 
     return true;
 }

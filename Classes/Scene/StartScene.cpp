@@ -26,17 +26,24 @@ bool Start::init()
 	MenuItemFont::setFontName("fonts/Sthupo.ttf");
 	MenuItemFont::setFontSize(60);
 
+	AudioEngine::lazyInit();
+	AudioEngine::preload("music/startBgm.mp3");
+	startAudioID = AudioEngine::play2d("music/startBgm.mp3", true);
+
 	//auto* chnStrings = CCDictionary::createWithContentsOfFile("CHNStrings.xml");
 
 	auto singleGame = MenuItemFont::create("Singleplayer   ", [=](Ref* render) {
+		AudioEngine::pause(startAudioID);
 		auto scene = Game::createScene();
 		Director::getInstance()->replaceScene(TransitionFade::create(0.5f, scene, Color3B(0, 255, 255)));
 		});
 	auto multiGame = MenuItemFont::create("   Multiplayer   ", [=](Ref* render) {
+		AudioEngine::pause(startAudioID);
 		auto scene = Game::createScene();
 		Director::getInstance()->replaceScene(TransitionFade::create(0.5f, scene, Color3B(0, 255, 255)));
 		});
 	auto exitGame = MenuItemFont::create("   Exit", [=](Ref* render) {
+		AudioEngine::pause(startAudioID);
 		Director::getInstance()->end();
 		});
 

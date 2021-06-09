@@ -27,6 +27,10 @@ bool MapLayer::init(Character* gameHunter)
 	hunter->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 	runAction(Follow::create(hunter, Rect::ZERO));
 
+	AudioEngine::lazyInit();
+	AudioEngine::preload("music/bulletEffect.wav");
+	AudioEngine::preload("music/knifeEffect.wav");
+
 	initBullet();
 	initWeapon();
 
@@ -126,9 +130,11 @@ void MapLayer::registerTouchEvent() {
 	touchListener->onTouchBegan = [&](Touch* touch, Event* event) {
 		auto weaponType = hunter->getPlayerWeapon();
 		if (4 == weaponType) {
+			AudioEngine::play2d("music/knifeEffect.mp3", false);
 			showEffect(hunter->getPosition());
 			return true;
 		}
+		AudioEngine::play2d("music/bulletEffect.mp3", false);
 			
 		Weapon* weapon = hunter->m_gun[weaponType];
 		auto bulletLocation = touch->getLocation();
