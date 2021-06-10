@@ -2,11 +2,13 @@
 #define __MAP_SCENE_H__
 
 #include "cocos2d.h"
+#include "AudioEngine.h"
 #include "Const.h"
 #include "ui/CocosGUI.h"
 #include "character/Character.h"
 #include "StateLayer.h"
 #include "Item/Item.h"
+#include "Weapon/Bullet.h"
 #include <map>
 #include <ctime>
 
@@ -26,14 +28,23 @@ private:
     Character* hunter;
 
 	//add enemies
-	std::vector< Character*> m_enemy;      
-	static int m_enemy_number;
+	
+	const int m_enemy_number = 9;
+	const int m_weapon_number = 9;
+	const int m_bandage_number = 9;
+	const int m_ammunition_number = 9;
+	clock_t t1=clock(), t2;
+	
 
 	//add items
-	std::vector< Bandage*> m_bandage;
-	std::vector< Ammunition*> m_ammunition;
+	std::vector<Character*> m_enemy;
+	std::vector<Weapon*> weapons;
+	std::vector<Bandage*> m_bandage;
+	std::vector<Ammunition*> m_ammunition;
+	
 
-    std::map<EventKeyboard::KeyCode, bool> keyMap;
+	std::array <Bullet*, 60> bullets;
+
 
 public:
 	static MapLayer* create(Character* gameHunter)
@@ -56,13 +67,25 @@ public:
     
     virtual void update(float fDelta);    
     void registerKeyboardEvent();
+	void registerTouchEvent();
+
+	static float calRotation(float bulletX, float bulletY);
+
+	void initBullet();
+	void initWeapon();
 
 	void initSetEnemy();
-	template <class T> void setRandPos(T ele);
-
 	void initSetItem();
 
+	template <class T> void setRandPos(T* elem);
+	template <class T> void initItem(std::vector<T*> &items, int number);
 
+	void judgePick(Character* character);
+
+	void showEffect(Vec2 pos);
+
+	void enemyFire(Character* enemy);
+	void Fire(float dt);
 
 };
 
