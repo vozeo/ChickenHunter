@@ -43,6 +43,11 @@ if(NOT DEFINED BUILD_ENGINE_DONE) # to test ChickenHunter into root project
     add_subdirectory(${COCOS2DX_ROOT_PATH}/cocos ${ENGINE_BINARY_PATH}/cocos/core)
 endif()
 
+#add yasio
+add_subdirectory(yasio)
+include_directories(${CMAKE_SOURCE_DIR}/yasio)
+target_link_libraries(yasio)
+
 # record sources, headers, resources...
 set(GAME_SOURCE)
 set(GAME_HEADER)
