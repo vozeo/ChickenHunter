@@ -67,6 +67,8 @@ list(APPEND GAME_SOURCE
      Classes/Scene/StartScene.cpp
      Classes/Weapon/Weapon.cpp
      Classes/Weapon/Bullet.cpp
+     Classes/Netwrok/Client.cpp
+     Classes/Netwrok/Server.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -81,6 +83,8 @@ list(APPEND GAME_HEADER
      Classes/Scene/StartScene.h
      Classes/Weapon/Weapon.h
      Classes/Weapon/Bullet.h
+     Classes/Netwrok/Client.h
+     Classes/Netwrok/Server.h
      )
 
 if(ANDROID)
