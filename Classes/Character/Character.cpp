@@ -11,7 +11,7 @@ Character::Character() :
 	m_bleed(m_MAX_BLEED),
 	m_attack(1),
 	m_defense(1),
-    m_weapon(0),
+    m_weapon(4),
     m_refresh(false){}
 
 Character::~Character() {
@@ -31,7 +31,9 @@ bool Character::init()
 
 	initAnimate();
 	initSprite();
-
+    m_think_time = 2000;// rand() % 4 * 200 + 1500
+    m_thought = 0;
+    m_bullet_speed = 0.2;
 	return true;
 }
 
