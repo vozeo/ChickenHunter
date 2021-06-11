@@ -84,7 +84,7 @@ public:
 
 	void showEffect(Vec2 pos);
 
-	void enemyFire(Character* enemy);
+	void enemyFire(float delt);
 	void Fire(float dt);
 
 };
