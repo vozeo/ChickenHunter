@@ -32,15 +32,7 @@ bool State::init(Character* gameHunter)
 
 void State::initState()
 {
-	auto exit_img = MenuItemImage::create(
-	    "exit_0.png",
-		"exit_1.png",
-		CC_CALLBACK_1(State::menuCloseCallback, this));
-	exit_img->setAnchorPoint(Vec2(1, 1));
-	auto exit_menu = Menu::create(exit_img, NULL);
-	exit_menu->setAnchorPoint(Vec2(1, 1));
-	exit_menu->setPosition(winSize.width, winSize.height);
-	this->addChild(exit_menu, 1);
+	
 
 	auto blood_back = Sprite::create("images/blood_back.png");
 
@@ -117,7 +109,3 @@ void State::update(float fDelta) {
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
 }
 
-void State::menuCloseCallback(Ref* pSender)
-{
-	addChild(ExitLayer::create(), 2);
-}

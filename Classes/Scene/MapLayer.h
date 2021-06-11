@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __MAP_SCENE_H__
 #define __MAP_SCENE_H__
 
@@ -30,9 +31,9 @@ private:
 	//add enemies
 	
 	const int m_enemy_number = 9;
-	const int m_weapon_number = 9;
-	const int m_bandage_number = 9;
-	const int m_ammunition_number = 9;
+	const int m_weapon_number = 20;
+	const int m_bandage_number = 40;
+	const int m_ammunition_number = 40;
 	
 
 	//add items
@@ -41,11 +42,11 @@ private:
 	std::vector<Bandage*> m_bandage;
 	std::vector<Ammunition*> m_ammunition;
 	
-
     std::map<EventKeyboard::KeyCode, bool> keyMap;
 
 	std::array <Bullet*, 30> bullets;
 
+	CC_SYNTHESIZE(float*, m_volume, Volume);
 
 public:
 	static MapLayer* create(Character* gameHunter)
@@ -66,7 +67,7 @@ public:
     static cocos2d::Layer* createScene(Character* gameHunter);
     virtual bool init(Character* gameHunter);
     
-    virtual void update(float fDelta);    
+    virtual void update(float fDelta);
     void registerKeyboardEvent();
 	void registerTouchEvent();
 

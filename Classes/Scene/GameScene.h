@@ -8,7 +8,8 @@
 #include "Character/Character.h"
 #include "MapLayer.h"
 #include "StateLayer.h"
-#include <map>
+#include "ExitLayer.h"
+#include "SettingLayer.h"
 
 USING_NS_CC;
 
@@ -17,6 +18,8 @@ USING_NS_CC;
 class Game : public cocos2d::Scene
 {
 private:
+    int backgroundAudioID;
+
     EventListenerMouse* mouseListener;
     Sprite* m_cursor;
 
@@ -26,14 +29,18 @@ private:
 
     Character* hunter;
 
+    CC_SYNTHESIZE(float*, m_volume, Volume);
+
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     CREATE_FUNC(Game);
 
     void initMouse();
+    virtual void update(float dt);
 
-    int backgroundAudioID;
+    void menuCloseCallback(cocos2d::Ref* pSender);
+    void menuSettingCallback(cocos2d::Ref* pSender);
 };
 
 #endif

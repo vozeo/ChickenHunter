@@ -8,7 +8,6 @@ bool ExitLayer::init()
     { 
         return false;
     }
-
 	
     Sprite* back = Sprite::create("images/notice.png");
     addChild(back, 0);
@@ -24,7 +23,9 @@ bool ExitLayer::init()
 		});
 	choiceYes->setColor(Color3B(255, 0, 0));
 
-	auto choiceNo = MenuItemFont::create("    No", CC_CALLBACK_1(ExitLayer::closeCallback, this));
+	auto choiceNo = MenuItemFont::create("    No", [=](Ref* render) {
+		removeFromParent();
+		});
 	
 	Vector<MenuItem*> menus{ choiceYes, choiceNo };
 	auto menu = Menu::createWithArray(menus);

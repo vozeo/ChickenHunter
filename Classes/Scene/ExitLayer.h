@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __EXIT_SCENE_H__
 #define __EXIT_SCENE_H__
 

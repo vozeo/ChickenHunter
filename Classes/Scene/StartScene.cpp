@@ -26,16 +26,40 @@ bool Start::init()
 	MenuItemFont::setFontName("fonts/Sthupo.ttf");
 	MenuItemFont::setFontSize(60);
 
+	m_volume = 1;
+
 	AudioEngine::lazyInit();
 	AudioEngine::preload("music/startBgm.mp3");
 	startAudioID = AudioEngine::play2d("music/startBgm.mp3", true);
 
-	//auto* chnStrings = CCDictionary::createWithContentsOfFile("CHNStrings.xml");
+	auto exit_img = MenuItemImage::create(
+		"exit_0.png",
+		"exit_1.png",
+		[=](Ref* render) { addChild(ExitLayer::create(), 3); });
+	exit_img->setAnchorPoint(Vec2(1, 1));
+	auto setting_img = MenuItemImage::create(
+		"setting_0.png",
+		"setting_1.png",
+		[=](Ref* render) {
+			SettingLayer* setting = SettingLayer::create();
+			setting->settingInit(&m_volume);
+			addChild(setting, 3);
+		});
+	setting_img->setAnchorPoint(Vec2(1, 1));
+
+
+	Vector<MenuItem*> menus{ setting_img, exit_img };
+	auto menu = Menu::createWithArray(menus);
+	addChild(menu, 2);
+	menu->setAnchorPoint(Vec2(1, 1));
+	menu->setPosition(winSize.width - 30, winSize.height);
+	menu->alignItemsHorizontally();
 
 	auto singleGame = MenuItemFont::create("Singleplayer   ", [=](Ref* render) {
 		AudioEngine::pause(startAudioID);
-		auto scene = Game::createScene();
-		Director::getInstance()->pushScene(TransitionFade::create(0.3f, scene, Color3B(0, 255, 255)));
+		auto* scene = Game::create();
+		scene->setVolume(&m_volume);
+		Director::getInstance()->pushScene(TransitionFade::create(0.3f, static_cast<Scene*>(scene), Color3B(0, 255, 255)));
 		});
 	singleGame->setColor(Color3B(255, 215, 0));
 	auto multiGame = MenuItemFont::create("   Multiplayer   ", [=](Ref* render) {
@@ -49,11 +73,16 @@ bool Start::init()
 		});
 	exitGame->setColor(Color3B(127, 255, 0));
 
-	Vector<MenuItem*> menus{ singleGame, multiGame, exitGame };
-	auto menu = Menu::createWithArray(menus);
-	menu->setPosition(visibleSize.width / 2, visibleSize.height / 5);
-	menu->alignItemsHorizontally();
-	this->addChild(menu, 1);
+	Vector<MenuItem*> choiceMenus{ singleGame, multiGame };
+	auto choiceMenu = Menu::createWithArray(choiceMenus);
+	choiceMenu->setPosition(visibleSize.width / 2, visibleSize.height / 5);
+	choiceMenu->alignItemsHorizontally();
+	this->addChild(choiceMenu, 1);
 
 	return true;
+}
+
+void Start::update(float dt) {
+	CCLOG("%f", m_volume);
+	AudioEngine::setVolume(startAudioID, m_volume);
 }

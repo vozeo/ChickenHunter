@@ -30,10 +30,34 @@ bool Game::init()
 	hunter = Character::create();
 
     map = MapLayer::create(hunter);
-    addChild(map, 2);
+	map->setVolume(m_volume);
+    addChild(map, 1);
 
 	stateUI = State::create(hunter);
-	addChild(stateUI, 3);
+	addChild(stateUI, 2);
+
+	auto exit_img = MenuItemImage::create(
+		"exit_0.png",
+		"exit_1.png",
+		[=](Ref* render) { addChild(ExitLayer::create(), 3); });
+	exit_img->setAnchorPoint(Vec2(1, 1));
+	auto setting_img = MenuItemImage::create(
+		"setting_0.png",
+		"setting_1.png",
+		[=](Ref* render) {
+			SettingLayer* setting = SettingLayer::create();
+			setting->settingInit(m_volume);
+			addChild(setting, 3); 
+		});
+	setting_img->setAnchorPoint(Vec2(1, 1));
+
+
+	Vector<MenuItem*> menus{ setting_img, exit_img };
+	auto menu = Menu::createWithArray(menus);
+	addChild(menu, 2);
+	menu->setAnchorPoint(Vec2(1, 1));
+	menu->setPosition(winSize.width - 30, winSize.height);
+	menu->alignItemsHorizontally();
 
 	AudioEngine::lazyInit();
 	AudioEngine::preload("music/gameBgm.mp3");
@@ -61,6 +85,10 @@ void Game::initMouse() {
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+}
+
+void Game::update(float dt) {
+	AudioEngine::setVolume(backgroundAudioID, *m_volume);
 }
 
 /*

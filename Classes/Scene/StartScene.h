@@ -8,12 +8,14 @@ USING_NS_CC;
 
 class Start : public cocos2d::Scene
 {
+    int startAudioID;
+    CC_SYNTHESIZE(float, m_volume, Volume);
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     CREATE_FUNC(Start);
 
-    int startAudioID;
+    virtual void update(float dt);
 };
 
 #endif

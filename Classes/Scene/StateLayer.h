@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __STATE_SCENE_H__
 #define __STATE_SCENE_H__
 
@@ -6,7 +7,6 @@
 #include "ui/CocosGUI.h"
 #include "Character/Character.h"
 #include "MapLayer.h"
-#include "ExitLayer.h"
 #include <map>
 
 USING_NS_CC;
@@ -50,7 +50,7 @@ public:
     virtual void initGun();
 
 	virtual void update(float fDelta);
-    void menuCloseCallback(cocos2d::Ref* pSender);
+
 };
 
 #endif
