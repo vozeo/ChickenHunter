@@ -6,6 +6,7 @@
 #include "ui/CocosGUI.h"
 #include "Character/Character.h"
 #include "MapLayer.h"
+#include "ExitLayer.h"
 #include <map>
 
 USING_NS_CC;

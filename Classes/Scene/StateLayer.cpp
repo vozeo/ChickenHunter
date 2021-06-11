@@ -40,7 +40,7 @@ void State::initState()
 	auto exit_menu = Menu::create(exit_img, NULL);
 	exit_menu->setAnchorPoint(Vec2(1, 1));
 	exit_menu->setPosition(winSize.width, winSize.height);
-	this->addChild(exit_menu, TOP);
+	this->addChild(exit_menu, 1);
 
 	auto blood_back = Sprite::create("images/blood_back.png");
 
@@ -51,11 +51,11 @@ void State::initState()
 	blood_back->setPosition(winSize.width / 2, winSize.height / 25);
 	blood_bar->setPosition(Vec2(winSize.width / 2, winSize.height / 25));
 
-	this->addChild(blood_back, TOP);
-	this->addChild(blood_bar, TOP);
+	this->addChild(blood_back, 1);
+	this->addChild(blood_bar, 1);
 
-	blood_back->setGlobalZOrder(TOP);
-	blood_bar->setGlobalZOrder(TOP);
+	//blood_back->setGlobalZOrder(1);
+	//blood_bar->setGlobalZOrder(1);
 
 	blood_label = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 25);
 	survivor_label = Label::createWithTTF("SURVIVOR : 1", "fonts/Marker Felt.ttf", 30);
@@ -64,11 +64,11 @@ void State::initState()
 	survivor_label->setAnchorPoint(Vec2(0, 1));
 	survivor_label->setPosition(Vec2(0, winSize.height));
 
-	this->addChild(blood_label, TOP);
-	this->addChild(survivor_label, TOP);
+	this->addChild(blood_label, 1);
+	this->addChild(survivor_label, 1);
 
-	blood_label->setGlobalZOrder(TOP);
-	survivor_label->setGlobalZOrder(TOP);
+	//blood_label->setGlobalZOrder(TOP);
+	//survivor_label->setGlobalZOrder(TOP);
 
 
 	hunter->setPlayerBleed(80); //
@@ -119,5 +119,5 @@ void State::update(float fDelta) {
 
 void State::menuCloseCallback(Ref* pSender)
 {
-	Director::getInstance()->end();
+	addChild(ExitLayer::create(), 2);
 }

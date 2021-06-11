@@ -60,10 +60,12 @@ list(APPEND GAME_SOURCE
      Classes/Bonus/Bonus.cpp
      Classes/Character/Character.cpp
      Classes/Item/Item.cpp
+     Classes/Scene/ExitLayer.cpp
      Classes/Scene/GameScene.cpp
      Classes/Scene/HelloWorldScene.cpp
      Classes/Scene/MapLayer.cpp
      Classes/Scene/StateLayer.cpp
+     Classes/Scene/SettingLayer.cpp
      Classes/Scene/StartScene.cpp
      Classes/Weapon/Bullet.cpp
      )
@@ -73,10 +75,12 @@ list(APPEND GAME_HEADER
      Classes/Bonus/Bonus.h
      Classes/Character/Character.h
      Classes/Item/Item.h
+     Classes/Scene/ExitLayer.h
      Classes/Scene/GameScene.h
      Classes/Scene/HelloWorldScene.h
      Classes/Scene/MapLayer.h
      Classes/Scene/StateLayer.h
+     Classes/Scene/SettingLayer.h
      Classes/Scene/StartScene.h
      Classes/Weapon/Bullet.h
      )

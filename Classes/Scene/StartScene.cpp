@@ -1,5 +1,5 @@
 #include "Scene/StartScene.h"
-#include "Scene/GameScene.h"
+
 
 USING_NS_CC;
 
@@ -35,17 +35,19 @@ bool Start::init()
 	auto singleGame = MenuItemFont::create("Singleplayer   ", [=](Ref* render) {
 		AudioEngine::pause(startAudioID);
 		auto scene = Game::createScene();
-		Director::getInstance()->replaceScene(TransitionFade::create(0.5f, scene, Color3B(0, 255, 255)));
+		Director::getInstance()->pushScene(TransitionFade::create(0.3f, scene, Color3B(0, 255, 255)));
 		});
+	singleGame->setColor(Color3B(255, 215, 0));
 	auto multiGame = MenuItemFont::create("   Multiplayer   ", [=](Ref* render) {
 		AudioEngine::pause(startAudioID);
 		auto scene = Game::createScene();
-		Director::getInstance()->replaceScene(TransitionFade::create(0.5f, scene, Color3B(0, 255, 255)));
+		Director::getInstance()->pushScene(TransitionFade::create(0.3f, scene, Color3B(0, 255, 255)));
 		});
+	multiGame->setColor(Color3B(127, 255, 212));
 	auto exitGame = MenuItemFont::create("   Exit", [=](Ref* render) {
-		AudioEngine::pause(startAudioID);
 		Director::getInstance()->end();
 		});
+	exitGame->setColor(Color3B(127, 255, 0));
 
 	Vector<MenuItem*> menus{ singleGame, multiGame, exitGame };
 	auto menu = Menu::createWithArray(menus);
