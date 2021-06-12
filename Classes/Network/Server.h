@@ -39,7 +39,7 @@ public:
 	PlayerAction paction[MAX_CONNECTIONS];
 	RoomInformation room;
 	MapInformation map_trans;
-	SMap map;
+	SMap smap;
 public:
 	CHServer(const char* ip, unsigned short port = 25595);
 	~CHServer();

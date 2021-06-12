@@ -65,8 +65,8 @@ CHServer::CHServer(const char* ip, unsigned short port)
                 uid_to_handle[id] = thandle;
                 if (started)
                 {
-                    map.player[id].alive = true;
-                    map.player[id].position_x = 100, map.player[id].position_y = 100, map.player[id].hp = 100;
+                    smap.player[id].alive = true;
+                    smap.player[id].position_x = 100, smap.player[id].position_y = 100, smap.player[id].hp = 100;
                 }
             }
             break;
@@ -100,10 +100,10 @@ void CHServer::map_init(int seed)
     for(int i = 1; i < MAX_CONNECTIONS;i++)
         if (uid_usage[i] == true)
         {
-            map.player[i].alive = true;
-            map.player[i].position_x = CHRAND() * 200;
-            map.player[i].position_y = CHRAND() * 200;
-            map.player[i].hp = 100;
+            smap.player[i].alive = true;
+            smap.player[i].position_x = CHRAND() * 200;
+            smap.player[i].position_y = CHRAND() * 200;
+            smap.player[i].hp = 100;
         }
     
 }
@@ -116,10 +116,10 @@ void CHServer::map_update()
         {
             switch (paction[i].keyboard_action)
             {
-            case PA_LEFT: map.player[i].position_x += -4; break;
-            case PA_RIGHT: map.player[i].position_x += 4; break;
-            case PA_UP: map.player[i].position_y += 4; break;
-            case PA_DOWN: map.player[i].position_y += -4; break;
+            case PA_LEFT: smap.player[i].position_x += -4; break;
+            case PA_RIGHT: smap.player[i].position_x += 4; break;
+            case PA_UP: smap.player[i].position_y += 4; break;
+            case PA_DOWN: smap.player[i].position_y += -4; break;
             }
             if (paction[i].is_shoot)
             {
@@ -133,8 +133,8 @@ void CHServer::map_update()
     for (int i = 1; i < MAX_CONNECTIONS; i++)
         if (uid_usage[i])
         {
-            map_trans.player[i].position_x = map.player[i].position_x;
-            map_trans.player[i].position_y = map.player[i].position_y;
+            map_trans.player[i].position_x = smap.player[i].position_x;
+            map_trans.player[i].position_y = smap.player[i].position_y;
             map_trans.player[i].hp = map_trans.player[i].hp;
         }
     for (int i = 1; i < MAX_CONNECTIONS; i++)
