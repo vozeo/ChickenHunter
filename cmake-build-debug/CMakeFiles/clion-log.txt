@@ -1,0 +1,33 @@
+"C:\Program Files\JetBrains\CLion 2020.3.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" D:\Cocos\ChickenHunter
+-- The C compiler identification is GNU 8.1.0
+-- The CXX compiler identification is GNU 8.1.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/mingw64/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/mingw64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- PROJECT_NAME:ChickenHunter
+-- PROJECT_SOURCE_DIR:D:/Cocos/ChickenHunter
+-- COCOS2DX_ROOT_PATH:D:/Cocos/ChickenHunter/cocos2d
+-- CMAKE_MODULE_PATH:D:/Cocos/ChickenHunter/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/Cocos/ChickenHunter/cmake-build-debug
+-- ENGINE_BINARY_PATH:D:/Cocos/ChickenHunter/cmake-build-debug/engine
+-- PYTHON_PATH:C:/Python27/python.exe
+-- COCOS_COMMAND_PATH:C:/cocos2d-x-4.0/tools/cocos2d-console/bin/cocos
+-- HOST_SYSTEM:Windows
+-- CMAKE_GENERATOR: MinGW Makefiles
+CMake Error at cocos2d/cmake/Modules/CocosConfigDefine.cmake:79 (message):
+  please using Windows MSVC compile cocos2d-x project, support other compile
+  tools not yet
+Call Stack (most recent call first):
+  cocos2d/cmake/Modules/CocosBuildSet.cmake:40 (include)
+  CMakeLists.txt:42 (include)
+
+
+-- Configuring incomplete, errors occurred!
+See also "D:/Cocos/ChickenHunter/cmake-build-debug/CMakeFiles/CMakeOutput.log".

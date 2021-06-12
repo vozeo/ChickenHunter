@@ -1,0 +1,1 @@
+D:\Cocos\ChickenHunter\proj.android\app\build\intermediates\cmake\release\obj\armeabi-v7a

@@ -1,0 +1,237 @@
+{
+  "abi": "ARMEABI_V7A",
+  "info": {
+    "abi": "ARMEABI_V7A",
+    "bitness": 32,
+    "deprecated": false,
+    "default": true
+  },
+  "originalCxxBuildFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
+  "cxxBuildFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
+  "abiPlatformVersion": 16,
+  "cmake": {
+    "cmakeWrappingBaseFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a",
+    "cmakeArtifactsBaseFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
+    "effectiveConfiguration": {
+      "name": "traditional-android-studio-cmake-environment",
+      "description": "Composite reified CMakeSettings configuration",
+      "generator": "Ninja",
+      "inheritEnvironments": [
+        "ndk"
+      ],
+      "buildRoot": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
+      "cmakeToolchain": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\build\\cmake\\android.toolchain.cmake",
+      "cmakeExecutable": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
+      "variables": [
+        {
+          "name": "CMAKE_CXX_FLAGS",
+          "value": "-frtti -fexceptions -fsigned-char"
+        },
+        {
+          "name": "CMAKE_FIND_ROOT_PATH",
+          "value": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\prefab\\armeabi-v7a\\prefab"
+        },
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "Release"
+        },
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\build\\cmake\\android.toolchain.cmake"
+        },
+        {
+          "name": "ANDROID_ABI",
+          "value": "armeabi-v7a"
+        },
+        {
+          "name": "ANDROID_NDK",
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597"
+        },
+        {
+          "name": "ANDROID_PLATFORM",
+          "value": "android-16"
+        },
+        {
+          "name": "CMAKE_ANDROID_ARCH_ABI",
+          "value": "armeabi-v7a"
+        },
+        {
+          "name": "CMAKE_ANDROID_NDK",
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597"
+        },
+        {
+          "name": "CMAKE_EXPORT_COMPILE_COMMANDS",
+          "value": "ON"
+        },
+        {
+          "name": "CMAKE_LIBRARY_OUTPUT_DIRECTORY",
+          "value": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a"
+        },
+        {
+          "name": "CMAKE_RUNTIME_OUTPUT_DIRECTORY",
+          "value": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a"
+        },
+        {
+          "name": "CMAKE_MAKE_PROGRAM",
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
+        },
+        {
+          "name": "CMAKE_SYSTEM_NAME",
+          "value": "Android"
+        },
+        {
+          "name": "CMAKE_SYSTEM_VERSION",
+          "value": "16"
+        },
+        {
+          "name": "ANDROID_STL",
+          "value": "c++_static"
+        },
+        {
+          "name": "ANDROID_TOOLCHAIN",
+          "value": "clang"
+        },
+        {
+          "name": "ANDROID_ARM_NEON",
+          "value": "TRUE"
+        }
+      ]
+    },
+    "cmakeServerLogFile": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\cmake_server_log.txt"
+  },
+  "variant": {
+    "buildSystemArgumentList": [
+      "-DCMAKE_FIND_ROOT_PATH\u003d",
+      "-DANDROID_STL\u003dc++_static",
+      "-DANDROID_TOOLCHAIN\u003dclang",
+      "-DANDROID_ARM_NEON\u003dTRUE"
+    ],
+    "cFlagsList": [],
+    "cppFlagsList": [
+      "-frtti -fexceptions -fsigned-char"
+    ],
+    "variantName": "release",
+    "objFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build\\intermediates\\cmake\\release\\obj",
+    "soFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build\\intermediates\\cmake\\release\\lib",
+    "isDebuggableEnabled": false,
+    "validAbiList": [
+      "ARMEABI_V7A"
+    ],
+    "buildTargetSet": [
+      "MyGame"
+    ],
+    "implicitBuildTargetSet": [],
+    "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
+    "module": {
+      "cxxFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx",
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build\\intermediates",
+      "gradleModulePathName": ":ChickenHunter",
+      "moduleRootFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app",
+      "moduleBuildFile": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build.gradle",
+      "makeFile": "D:\\Cocos\\ChickenHunter\\CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "ndkFolder": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597",
+      "ndkVersion": "23.0.7272597",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultStl": "LIBCXX_STATIC",
+      "ndkMetaPlatforms": {
+        "min": 16,
+        "max": 31,
+        "aliases": {
+          "20": 19,
+          "25": 24,
+          "J": 16,
+          "J-MR1": 17,
+          "J-MR2": 18,
+          "K": 19,
+          "L": 21,
+          "L-MR1": 22,
+          "M": 23,
+          "N": 24,
+          "N-MR1": 24,
+          "O": 26,
+          "O-MR1": 27,
+          "P": 28,
+          "Q": 29,
+          "R": 30,
+          "S": 31
+        }
+      },
+      "ndkMetaAbiList": [
+        {
+          "abi": "ARMEABI_V7A",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "ARM64_V8A",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86_64",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        }
+      ],
+      "originalCmakeToolchainFile": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\build\\cmake\\android.toolchain.cmake",
+      "cmakeToolchainFile": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\build\\cmake\\android.toolchain.cmake",
+      "cmake": {
+        "isValidCmakeAvailable": true,
+        "cmakeExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
+        "minimumCmakeVersion": "3.10.2",
+        "ninjaExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+        "isPreferCmakeFileApiEnabled": true
+      },
+      "stlSharedObjectMap": {
+        "LIBCXX_SHARED": {
+          "ARMEABI_V7A": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
+          "ARM64_V8A": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+          "X86": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
+          "X86_64": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
+        },
+        "LIBCXX_STATIC": {},
+        "NONE": {},
+        "SYSTEM": {}
+      },
+      "project": {
+        "rootBuildGradleFolder": "D:\\Cocos\\ChickenHunter\\proj.android",
+        "cxxFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\.cxx",
+        "compilerSettingsCacheFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\.cxx",
+        "sdkFolder": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk",
+        "isNativeCompilerSettingsCacheEnabled": false,
+        "isBuildOnlyTargetAbiEnabled": true,
+        "isCmakeBuildCohabitationEnabled": false,
+        "isPrefabEnabled": false,
+        "isV2NativeModelEnabled": true
+      },
+      "nativeBuildOutputLevel": "QUIET"
+    },
+    "prefabDirectory": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\prefab"
+  },
+  "buildSettings": {
+    "environmentVariables": []
+  },
+  "prefabFolder": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\prefab\\armeabi-v7a"
+}

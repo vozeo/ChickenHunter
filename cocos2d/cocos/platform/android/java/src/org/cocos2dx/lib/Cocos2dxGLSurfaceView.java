@@ -374,6 +374,13 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_Q:
+            case KeyEvent.KEYCODE_E:
+            case KeyEvent.KEYCODE_W:
+            case KeyEvent.KEYCODE_A:
+            case KeyEvent.KEYCODE_S:
+            case KeyEvent.KEYCODE_D:
+            case KeyEvent.KEYCODE_SPACE:
                 this.queueEvent(new Runnable() {
                     @Override
                     public void run() {
@@ -398,6 +405,13 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_Q:
+            case KeyEvent.KEYCODE_E:
+            case KeyEvent.KEYCODE_W:
+            case KeyEvent.KEYCODE_A:
+            case KeyEvent.KEYCODE_S:
+            case KeyEvent.KEYCODE_D:
+            case KeyEvent.KEYCODE_SPACE:
                 this.queueEvent(new Runnable() {
                     @Override
                     public void run() {

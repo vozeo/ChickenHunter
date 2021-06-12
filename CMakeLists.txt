@@ -57,11 +57,38 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/HelloWorldScene.cpp
+     Classes/Bonus/Bonus.cpp
+     Classes/Character/Character.cpp
+     Classes/Item/Item.cpp
+     Classes/Scene/ExitLayer.cpp
+     Classes/Scene/GameScene.cpp
+     Classes/Scene/HelloWorldScene.cpp
+     Classes/Scene/MapLayer.cpp
+     Classes/Scene/StateLayer.cpp
+     Classes/Scene/SettingLayer.cpp
+     Classes/Scene/StartScene.cpp
+     Classes/Weapon/Bullet.cpp
+     Classes/Network/Client.cpp
+     Classes/Network/Server.cpp
+     Classes/Network/TransStructure.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
-     Classes/HelloWorldScene.h
+     Classes/Const.h
+     Classes/Bonus/Bonus.h
+     Classes/Character/Character.h
+     Classes/Item/Item.h
+     Classes/Scene/ExitLayer.h
+     Classes/Scene/GameScene.h
+     Classes/Scene/HelloWorldScene.h
+     Classes/Scene/MapLayer.h
+     Classes/Scene/StateLayer.h
+     Classes/Scene/SettingLayer.h
+     Classes/Scene/StartScene.h
+     Classes/Weapon/Bullet.h
+     Classes/Network/Client.h
+     Classes/Network/Server.h
+     Classes/Network/TransStructure.h
      )
 
 if(ANDROID)
@@ -157,3 +184,12 @@ if(LINUX OR WINDOWS)
     cocos_get_resource_path(APP_RES_DIR ${APP_NAME})
     cocos_copy_target_res(${APP_NAME} LINK_TO ${APP_RES_DIR} FOLDERS ${GAME_RES_FOLDER})
 endif()
+
+#add yasio
+add_subdirectory(yasio)
+if (WIN32)
+    set (YASIO_LIB yasio)
+else ()
+    set (YASIO_LIB yasio pthread)
+endif()
+target_link_libraries (${APP_NAME} ${YASIO_LIB})

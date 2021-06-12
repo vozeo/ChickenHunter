@@ -1,0 +1,84 @@
+#include "GameScene.h"
+
+USING_NS_CC;
+
+Scene* Game::createScene()
+{
+    return Game::create();
+}
+
+bool Game::init()
+{
+    if ( !Scene::init() )
+    { 
+        return false;
+    }
+	this->scheduleUpdate();
+
+	Director::getInstance()->getOpenGLView()->setCursorVisible(false);
+	initMouse();
+	addChild(m_cursor, 4);
+
+	hunter = Character::create();
+
+    map = MapLayer::create(hunter);
+	map->setVolume(&m_volume);
+    addChild(map, 1);
+
+	stateUI = State::create(hunter);
+	addChild(stateUI, 2);
+
+	auto exit_img = MenuItemImage::create(
+		"exit_0.png",
+		"exit_1.png",
+		[=](Ref* render) { addChild(ExitLayer::create(), 3); });
+	exit_img->setAnchorPoint(Vec2(1, 1));
+	auto setting_img = MenuItemImage::create(
+		"setting_0.png",
+		"setting_1.png",
+		[=](Ref* render) {
+			SettingLayer* setting = SettingLayer::create();
+			setting->settingInit(&m_volume);
+			addChild(setting, 3); 
+		});
+	setting_img->setAnchorPoint(Vec2(1, 1));
+
+
+	Vector<MenuItem*> menus{ setting_img, exit_img };
+	auto menu = Menu::createWithArray(menus);
+	addChild(menu, 2);
+	menu->setAnchorPoint(Vec2(1, 1));
+	menu->setPosition(winSize.width - 30, winSize.height);
+	menu->alignItemsHorizontally();
+
+	AudioEngine::lazyInit();
+	AudioEngine::preload("music/gameBgm.mp3");
+	backgroundAudioID = AudioEngine::play2d("music/gameBgm.mp3", true);
+
+    return true;
+}
+
+void Game::initMouse() {
+	m_cursor = Sprite::create();
+	m_cursor->addChild(Sprite::create("images/cursorUp.png"));
+
+	mouseListener = EventListenerMouse::create();
+
+	mouseListener->onMouseMove = [&](EventMouse* event) {
+		m_cursor->setPosition(Vec2(event->getCursorX(), event->getCursorY()));
+	};
+	mouseListener->onMouseUp = [&](EventMouse* event) {
+		m_cursor->removeAllChildren();
+		m_cursor->addChild(Sprite::create("images/cursorUp.png"));
+	};
+	mouseListener->onMouseDown = [&](EventMouse* event) {
+		m_cursor->removeAllChildren();
+		m_cursor->addChild(Sprite::create("images/cursorDown.png"));
+	};
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+}
+
+void Game::update(float dt) {
+	AudioEngine::setVolume(backgroundAudioID, m_volume);
+}

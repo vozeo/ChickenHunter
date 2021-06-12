@@ -1,0 +1,12 @@
+[submodule "c-ares"]
+	path = c-ares
+	url = https://github.com/c-ares/c-ares
+[submodule "kcp"]
+	path = kcp
+	url = https://github.com/skywind3000/kcp
+[submodule "mbedtls"]
+	path = mbedtls
+	url = https://github.com/ARMmbed/mbedtls
+[submodule "lua"]
+	path = lua
+	url = https://github.com/lua/lua
