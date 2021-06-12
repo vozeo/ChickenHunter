@@ -69,6 +69,7 @@ list(APPEND GAME_SOURCE
      Classes/Weapon/Bullet.cpp
      Classes/Network/Client.cpp
      Classes/Network/Server.cpp
+     Classes/Network/TransStructure.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -85,6 +86,7 @@ list(APPEND GAME_HEADER
      Classes/Weapon/Bullet.h
      Classes/Network/Client.h
      Classes/Network/Server.h
+     Classes/Network/TransStructure.h
      )
 
 if(ANDROID)
