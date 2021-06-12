@@ -38,6 +38,7 @@ bool MapLayer::init(Character* gameHunter)
 
 	initSetItem();
 	initBullet();
+	schedule(CC_SCHEDULE_SELECTOR(MapLayer::enemyFire), 0.5);
 
 	registerKeyboardEvent();
 	registerTouchEvent();
@@ -54,32 +55,7 @@ void MapLayer::initBullet() {
 	}
 }
 
-/*
-void MapLayer::initWeapon() {
-	for (auto& weapon : weapons) {
-		auto weaponType = random(0, 3);
-		weapon = Weapon::create(StringUtils::format("images/weapon_%d.png", weaponType));
-		weapon->setWeaponType(weaponType);
-		weapon->setWeaponSpeed(0.5f + rand_0_1());
-		weapon->setWeaponAttack(0.5f + rand_0_1());
-		weapon->setWeaponState(true);
-		int posX, posY;
-		while (true) {
-			posX = random(0, static_cast<int>(mapWidth * 32));
-			posY = random(0, static_cast<int>(mapHeight * 32));
-			//if (!meta->getTileGIDAt(Vec2(posX / 32, mapHeight - posY / 32)))
-				break;
-		}
-		weapon->setPosition(Vec2(posX, posY));
-		addChild(weapon, 1);
-	}
-	Weapon* weapon = Weapon::create("images/gun4_1.png");
-	weapon->retain();
-	weapon->weaponInit(1, 1, 4, 0);
-	hunter->m_gun[4] = weapon;
-	hunter->setPlayerRefresh(true);
-}
-*/
+//fix the animation problem
 void MapLayer::registerKeyboardEvent() {
 	auto listener = EventListenerKeyboard::create();
 
@@ -88,19 +64,28 @@ void MapLayer::registerKeyboardEvent() {
 		switch (keyCode) {
 		case EventKeyboard::KeyCode::KEY_D:
 			hunter->m_speed[0] = true;
-			hunter->runAction(hunter->getCharacterAnimRight());
+			if (hunter->m_speed[2] == false && hunter->m_speed[3] == false)
+			    hunter->runAction(hunter->getCharacterAnimRight());
 			break;
 		case EventKeyboard::KeyCode::KEY_A:
 			hunter->m_speed[1] = true;
-			hunter->runAction(hunter->getCharacterAnimLeft());
+			if (hunter->m_speed[2] == false && hunter->m_speed[3] == false)
+			    hunter->runAction(hunter->getCharacterAnimLeft());
 			break;
 		case EventKeyboard::KeyCode::KEY_S:
 			hunter->m_speed[2] = true;
-			hunter->runAction(hunter->getCharacterAnimDown());
+			if (hunter->m_speed[0] == false && hunter->m_speed[1] == false)
+			    hunter->runAction(hunter->getCharacterAnimDown());
 			break;
 		case EventKeyboard::KeyCode::KEY_W:
 			hunter->m_speed[3] = true;
-			hunter->runAction(hunter->getCharacterAnimUp());
+			if (hunter->m_speed[0] == false && hunter->m_speed[1] == false)
+			    hunter->runAction(hunter->getCharacterAnimUp());
+			break;
+		case EventKeyboard::KeyCode::KEY_E:
+			judgePick(hunter);
+			break;
+		default:
 			break;
 		case EventKeyboard::KeyCode::KEY_E:
 			judgePick();
@@ -128,32 +113,48 @@ void MapLayer::registerKeyboardEvent() {
 		default:
 			break;
 		}
+		for (int i = 0; i <= 3; i++)
+		{
+			if (hunter->m_speed[i] == true)
+			{
+				switch (i) {
+					case 0: hunter->runAction(hunter->getCharacterAnimRight());
+						break;
+					case 1: hunter->runAction(hunter->getCharacterAnimLeft());
+						break;
+					case 2: hunter->runAction(hunter->getCharacterAnimDown());
+						break;
+					case 3: hunter->runAction(hunter->getCharacterAnimUp());
+						break;
+				}
+				break;
+			}
+		}
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void MapLayer::judgePick() {
-	Rect rect_hunter = hunter->getBoundingBox();
+void MapLayer::judgePick(Character* character) {
+	Rect rect_character = character->getBoundingBox();
 	for (auto weapon : weapons) {
-		if (weapon->getBoundingBox().intersectsRect(rect_hunter)) {
+		if (weapon->getBoundingBox().intersectsRect(rect_character)) {
 			auto weaponType = weapon->getWeaponType();
-			if (hunter->m_gun[weaponType] == nullptr) {
+			if (character->m_gun[weaponType] == nullptr) {
 				weapon->retain();
 				weapon->removeFromParent();
 				weapons.erase(find(weapons.begin(), weapons.end(), weapon));
-				hunter->m_gun[weaponType] = weapon;
-				hunter->setPlayerWeapon(weaponType);
-				hunter->setPlayerRefresh(true);
+				character->m_gun[weaponType] = weapon;
+				character->setPlayerWeapon(weaponType);
+				character->setPlayerRefresh(true);
 				break;
 			}
 		}
-
 	}
 
 	for (auto bn : m_bandage)
 	{
-		if (bn->getBoundingBox().intersectsRect(rect_hunter))
+		if (bn->getBoundingBox().intersectsRect(rect_character))
 		{
 			bn->removeFromParent();
 			m_bandage.erase(find(m_bandage.begin(), m_bandage.end(), bn));
@@ -163,7 +164,7 @@ void MapLayer::judgePick() {
 
 	for (auto am : m_ammunition)
 	{
-		if (am->getBoundingBox().intersectsRect(rect_hunter))
+		if (am->getBoundingBox().intersectsRect(rect_character))
 		{
 			am->removeFromParent();
 			m_ammunition.erase(find(m_ammunition.begin(), m_ammunition.end(), am));
@@ -172,43 +173,59 @@ void MapLayer::judgePick() {
 	}
 }
 
+//add firing continuously
 void MapLayer::registerTouchEvent() {
 	auto touchListener = EventListenerTouchOneByOne::create();
 
 	touchListener->onTouchBegan = [&](Touch* touch, Event* event) {
 		auto weaponType = hunter->getPlayerWeapon();
 		if (4 == weaponType) {
-			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+			AudioEngine::play2d("music/knifeEffect.mp3", false);
 			AudioEngine::setVolume(knifeAudioID, *m_volume);
 			showEffect(hunter->getPosition());
+			
 			return true;
 		}
-		auto bulletAudioID = AudioEngine::play2d("music/bulletEffect.mp3", false);
+		AudioEngine::play2d("music/bulletEffect.mp3", false);
 		AudioEngine::setVolume(bulletAudioID, *m_volume);
-			
-		Weapon* weapon = hunter->m_gun[weaponType];
-		auto bulletLocation = touch->getLocation();
-		auto bulletX = bulletLocation.x - winSize.width / 2;
-		auto bulletY = bulletLocation.y - winSize.height / 2;
+		
+		hunter->bulletLocation = touch->getLocation();
 
-		//CCLOG("%f %f", bulletX, bulletY);
+		schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed());
+		return true;
+	};
 
-		float time = sqrt(bulletX * bulletX + bulletY * bulletY) / 1000;
-		for (auto bullet : bullets) {
-			if (!bullet->getBulletActive()) {
-				bullet->setBulletActive(true);
-				bullet->setPosition(hunter->getPosition());
-				bullet->setRotation(calRotation(bulletX, bulletY));
-				bullet->runAction(RepeatForever::create(MoveBy::create(weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
-				bullet->setBulletAttack(weapon->getWeaponAttack());
-				bullet->setVisible(true);
-				break;
-			}
-		}
+	touchListener->onTouchMoved = [&](Touch* touch, Event* event) {
+		hunter->bulletLocation = touch->getLocation();
+	};
+
+	touchListener->onTouchEnded = [&](Touch* touch, Event* event) {
+		unschedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire));
 		return true;
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+}
+
+void MapLayer::Fire(float dt)
+{
+	Vec2 bulletLocation = hunter->bulletLocation;
+	Weapon* weapon = hunter->m_gun[hunter->getPlayerWeapon()];
+	auto bulletX = bulletLocation.x - winSize.width / 2;
+	auto bulletY = bulletLocation.y - winSize.height / 2;
+
+	float time = sqrt(bulletX * bulletX + bulletY * bulletY) / 1000;
+	for (auto bullet : bullets) {
+		if (!bullet->getBulletActive()) {
+			bullet->setBulletActive(true);
+			bullet->setPosition(hunter->getPosition());
+			bullet->setRotation(calRotation(bulletX, bulletY));
+			bullet->runAction(RepeatForever::create(MoveBy::create(weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
+			bullet->setBulletAttack(weapon->getWeaponAttack());
+			bullet->setVisible(true);
+			break;
+		}
+	}
 }
 
 float MapLayer::calRotation(float bulletX, float bulletY) {
@@ -228,6 +245,7 @@ void MapLayer::showEffect(Vec2 pos) {
 	effectCircle->runAction(Sequence::create(FadeOut::create(0.5f), RemoveSelf::create(), NULL));
 }
 
+//add enemy move automatically
 void MapLayer::update(float fDelta) {
 	float dx = 0, dy = 0;
 	if (hunter->m_speed[0])
@@ -263,20 +281,53 @@ void MapLayer::update(float fDelta) {
 			}
 		}
 	}
-}
-
-/*
-void MapLayer::initSetEnemy()
-{
-	m_enemy.clear();
-	for (int i = 0; i < m_enemy_number; i++)
+	for (auto enemy : m_enemy)
 	{
-		m_enemy.push_back(Character::create());
-		addChild(m_enemy[i], 1);
-		setRandPos(m_enemy[i]);
+		judgePick(enemy);
+		int nextT = enemy->getThought() + int(fDelta * 1000);
+		enemy->setThought(nextT);
+		if (nextT>= enemy->getThinkTime())
+		{
+			enemy->setThought(0);
+			for (auto enemy : m_enemy)
+			{
+				enemy->m_speed[0] = rand() % 2;
+				enemy->m_speed[1] = rand() % 2;
+				enemy->m_speed[2] = rand() % 2;
+				enemy->m_speed[3] = rand() % 2;
+			}
+		}
+		dx = 0;
+		dy = 0;
+		if (enemy->m_speed[0])
+			dx = 4;
+		if (enemy->m_speed[1])
+			dx = -4;
+		if (enemy->m_speed[2])
+			dy = -4;
+		if (enemy->m_speed[3])
+			dy = 4;
+
+		auto enemyPos = enemy->getPosition();
+		nextX = enemyPos.x + dx;
+		nextY = enemyPos.y + dy;
+
+		nextMapX = nextX / tileWidth;
+		nextMapY = mapHeight - nextY / tileHeight;
+
+		if (nextMapX < mapWidth && nextMapX >= 0 && nextMapY < mapHeight && nextMapY >= 0
+			&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
+			enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX, nextY)));
+		else
+		{
+			enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
+			enemy->m_speed[0] = !enemy->m_speed[0];
+			enemy->m_speed[1] = !enemy->m_speed[1];
+			enemy->m_speed[2] = !enemy->m_speed[2];
+			enemy->m_speed[3] = !enemy->m_speed[3];
+		}
 	}
 }
-*/
 //set enemies/items randomly and at anywhere except water space.
 template <class T>
 void MapLayer::setRandPos(T* elem)
@@ -321,4 +372,39 @@ void MapLayer::initSetItem()
 	hunter->m_gun[4] = weapon;
 
 	hunter->setPlayerRefresh(true);
+}
+
+//aim at hunter automatically and fire
+void MapLayer::enemyFire(float delt)
+{
+	for (auto enemy : m_enemy)
+	{
+		Rect rect_hunter = hunter->getBoundingBox();
+		Rect rect_enemy(enemy->getPosition().x-300, enemy->getPosition().y-300,600,600);
+		if (rect_enemy.intersectsRect(rect_hunter))
+		{
+			auto weaponType = enemy->getPlayerWeapon();
+			if (4 == weaponType)
+			{
+				return;
+			}
+			Weapon* weapon = enemy->m_gun[weaponType];
+			auto bulletLocation = hunter->getPosition();    //enemy aims at hunter
+			auto bulletX = bulletLocation.x - enemy->getPosition().x;
+			auto bulletY = bulletLocation.y - enemy->getPosition().y;
+
+			float time = sqrt(bulletX * bulletX + bulletY * bulletY) / 1000;
+			for (auto bullet : bullets) {
+				if (!bullet->getBulletActive()) {
+					bullet->setBulletActive(true);
+					bullet->setPosition(enemy->getPosition());
+					bullet->setRotation(calRotation(bulletX, bulletY));
+					bullet->runAction(RepeatForever::create(MoveBy::create(weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
+					bullet->setBulletAttack(weapon->getWeaponAttack());
+					bullet->setVisible(true);
+					break;
+				}
+			}
+		}
+	}
 }

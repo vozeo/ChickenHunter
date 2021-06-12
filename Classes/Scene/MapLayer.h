@@ -34,7 +34,7 @@ private:
 	const int m_weapon_number = 20;
 	const int m_bandage_number = 40;
 	const int m_ammunition_number = 40;
-	
+	clock_t t1 = clock(), t2;
 
 	//add items
 	std::vector<Character*> m_enemy;
@@ -42,9 +42,7 @@ private:
 	std::vector<Bandage*> m_bandage;
 	std::vector<Ammunition*> m_ammunition;
 	
-    std::map<EventKeyboard::KeyCode, bool> keyMap;
-
-	std::array <Bullet*, 30> bullets;
+	std::array <Bullet*, 60> bullets;
 
 	CC_SYNTHESIZE(float*, m_volume, Volume);
 
@@ -82,7 +80,12 @@ public:
 	template <class T> void setRandPos(T* elem);
 	template <class T> void initItem(std::vector<T*> &items, int number);
 
-	void judgePick();
+	void judgePick(Character* character);
+
+	void showEffect(Vec2 pos);
+
+	void enemyFire(float delt);
+	void Fire(float dt);
 
 	void showEffect(Vec2 pos);
 };
