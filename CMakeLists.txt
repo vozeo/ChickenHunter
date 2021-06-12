@@ -68,6 +68,9 @@ list(APPEND GAME_SOURCE
      Classes/Scene/SettingLayer.cpp
      Classes/Scene/StartScene.cpp
      Classes/Weapon/Bullet.cpp
+     Classes/Network/Client.cpp
+     Classes/Network/Server.cpp
+     Classes/Network/TransStructure.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -83,6 +86,9 @@ list(APPEND GAME_HEADER
      Classes/Scene/SettingLayer.h
      Classes/Scene/StartScene.h
      Classes/Weapon/Bullet.h
+     Classes/Network/Client.h
+     Classes/Network/Server.h
+     Classes/Network/TransStructure.h
      )
 
 if(ANDROID)
@@ -178,3 +184,12 @@ if(LINUX OR WINDOWS)
     cocos_get_resource_path(APP_RES_DIR ${APP_NAME})
     cocos_copy_target_res(${APP_NAME} LINK_TO ${APP_RES_DIR} FOLDERS ${GAME_RES_FOLDER})
 endif()
+
+#add yasio
+add_subdirectory(yasio)
+if (WIN32)
+    set (YASIO_LIB yasio)
+else ()
+    set (YASIO_LIB yasio pthread)
+endif()
+target_link_libraries (${APP_NAME} ${YASIO_LIB})
