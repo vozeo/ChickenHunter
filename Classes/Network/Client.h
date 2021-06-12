@@ -1,9 +1,9 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include <string>
+//#include <string>
 #include "yasio/yasio.hpp"
-#include "Network/TransStructure.h"
+#include "TransStructure.h"
 
 using namespace yasio;
 using namespace yasio::inet;
@@ -19,7 +19,8 @@ public:
 	
 public:
 	CHClient(const char* ip, unsigned short port = 25595);
-	bool link();
+	~CHClient();
+	void link();
 	int getuid();
 	void setName(const char* name);
 	bool upload(PlayerAction action);

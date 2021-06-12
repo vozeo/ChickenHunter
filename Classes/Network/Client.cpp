@@ -1,5 +1,6 @@
 #include "Client.h"
 #include <cstring>
+#include <iostream>
 
 using namespace std;
 using namespace yasio;
@@ -18,15 +19,18 @@ CHClient::CHClient(const char* ip, unsigned short port)
             memcpy(header, packet.data(), HEAD_LENGTH);
             if (strstr(header, "SU"))
             {
+                //cout << "DEBUG#:SU" << endl;
                 memcpy(&uid, packet.data() + HEAD_LENGTH, 4);
                 
             }
             else if (strstr(header, "RO"))
             {
+                //cout << "DEBUG#:RO" << endl;
                 memcpy(&room, packet.data() + HEAD_LENGTH, sizeof(RoomInformation));
             }
             else if (strstr(header, "MP"))
             {
+                //cout << "DEBUG#:MP" << endl;
                 memcpy(&map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
             }
             fflush(stdout);
@@ -40,16 +44,20 @@ CHClient::CHClient(const char* ip, unsigned short port)
             }
             break;
         case YEK_CONNECTION_LOST://连接丢失事件
-            
             break;
         }
         });
 }
 
-bool CHClient::link()
+CHClient::~CHClient()
+{
+    if (client != nullptr)
+        delete client;
+}
+
+void CHClient::link()
 {
     client->open(0, YCK_TCP_CLIENT);
-    return client->is_open(thandle);
 }
 
 int CHClient::getuid()

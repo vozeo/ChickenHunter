@@ -1,7 +1,7 @@
 #ifndef TRANSSTRUCTURE_H
 #define TRANSSTRUCTURE_H
 
-const int MAX_CONNECTIONS = 10;
+const int MAX_CONNECTIONS = 11;
 
 //报头处理
 const int HEAD_LENGTH = 4;
@@ -31,11 +31,11 @@ const int HEAD_LENGTH = 4;
 
 struct PlayerAction
 {
-	const char head[HEAD_LENGTH] = "PA";
 	short keyboard_action = PA_NONE;
 	short hp_change = 0;
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
+	int shoot_damage;
 };
 
 struct PlayerInformation
@@ -52,14 +52,12 @@ struct PlayerInformation
 
 struct RoomInformation
 {
-	const char head[HEAD_LENGTH] = "RO";
 	int player_num;
 	char player_name[MAX_CONNECTIONS][10];
 };
 
 struct MapInformation
 {
-	const char head[HEAD_LENGTH] = "MP";
 	int player_num;
 	PlayerInformation player[MAX_CONNECTIONS];
 };
