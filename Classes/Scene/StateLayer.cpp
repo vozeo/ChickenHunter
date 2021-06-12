@@ -27,13 +27,13 @@ bool State::init(Character* gameHunter)
 	initState();
 	initGun();
 
+	startTime = system_clock::now();
+
     return true;
 }
 
 void State::initState()
 {
-	
-
 	auto blood_back = Sprite::create("images/blood_back.png");
 
 	blood_bar = ui::LoadingBar::create("images/blood.png");
@@ -49,14 +49,19 @@ void State::initState()
 	//blood_back->setGlobalZOrder(1);
 	//blood_bar->setGlobalZOrder(1);
 
-	blood_label = Label::createWithTTF("0", "fonts/Marker Felt.ttf", 25);
-	survivor_label = Label::createWithTTF("SURVIVOR : 1", "fonts/Marker Felt.ttf", 30);
+	blood_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 25);
+	survivor_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 30);
+	time_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 30);
 
-	blood_label->setPosition(Vec2(winSize.width / 2 - winSize.width / 6.2, winSize.height / 25));
+	blood_label->setPosition(Vec2(winSize.width / 2 - winSize.width / 6.2f, winSize.height / 25));
 	survivor_label->setAnchorPoint(Vec2(0, 1));
 	survivor_label->setPosition(Vec2(0, winSize.height));
 
+	time_label->setAnchorPoint(Vec2(0.5, 1));
+	time_label->setPosition(Vec2(winSize.width / 2, winSize.height));
+
 	this->addChild(blood_label, 1);
+	this->addChild(time_label, 1);
 	this->addChild(survivor_label, 1);
 
 	//blood_label->setGlobalZOrder(TOP);
@@ -107,5 +112,19 @@ void State::update(float fDelta) {
 
 	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->m_MAX_BLEED);
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
+
+	survivor_label->setString("Survivor : 1");
+	int nowTime = getTime();
+	int nowSec = nowTime % 60, nowMin = nowTime / 60;
+	std::string sec = Value(nowSec).asString();
+	if (nowSec < 10)
+		sec = "0" + sec;
+	std::string min = Value(nowMin).asString();
+	if (nowMin < 10)
+		min = "0" + min;
+	time_label->setString("Time : " + min + ":" + sec);
 }
 
+int State::getTime() {
+	return static_cast<int>(duration_cast<seconds>(system_clock::now() - startTime).count());
+}

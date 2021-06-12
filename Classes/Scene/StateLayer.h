@@ -7,7 +7,10 @@
 #include "ui/CocosGUI.h"
 #include "Character/Character.h"
 #include "MapLayer.h"
+
 #include <map>
+#include <chrono>
+using namespace std::chrono;
 
 USING_NS_CC;
 
@@ -19,6 +22,7 @@ private:
     ui::LoadingBar* blood_bar;
     Label* blood_label;
     Label* survivor_label;
+	Label* time_label;
 
     Character* hunter;
 
@@ -26,6 +30,8 @@ private:
     MenuItem* gun[5][2];
 
 	Menu* gunMenu;
+
+	system_clock::time_point startTime;
 	 
 public:
 	static State* create(Character* gameHunter)
@@ -50,6 +56,8 @@ public:
     virtual void initGun();
 
 	virtual void update(float fDelta);
+
+	int getTime();
 
 };
 

@@ -11,6 +11,9 @@
 #include "ExitLayer.h"
 #include "SettingLayer.h"
 
+#include <chrono>   
+using namespace std::chrono;
+
 USING_NS_CC;
 
 #define winSize Director::getInstance()->getWinSize()
@@ -29,7 +32,7 @@ private:
 
     Character* hunter;
 
-    CC_SYNTHESIZE(float*, m_volume, Volume);
+    CC_SYNTHESIZE(float, m_volume, Volume);
 
 public:
     static cocos2d::Scene* createScene();

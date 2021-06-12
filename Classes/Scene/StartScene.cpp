@@ -58,7 +58,7 @@ bool Start::init()
 	auto singleGame = MenuItemFont::create("Singleplayer   ", [=](Ref* render) {
 		AudioEngine::pause(startAudioID);
 		auto* scene = Game::create();
-		scene->setVolume(&m_volume);
+		scene->setVolume(m_volume);
 		Director::getInstance()->pushScene(TransitionFade::create(0.3f, static_cast<Scene*>(scene), Color3B(0, 255, 255)));
 		});
 	singleGame->setColor(Color3B(255, 215, 0));
@@ -83,6 +83,6 @@ bool Start::init()
 }
 
 void Start::update(float dt) {
-	CCLOG("%f", m_volume);
+	//CCLOG("%f", m_volume);
 	AudioEngine::setVolume(startAudioID, m_volume);
 }
