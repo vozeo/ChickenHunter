@@ -8,7 +8,7 @@
 
 struct SPlayer
 {
-	bool alive;
+	bool alive = false;
 	float position_x, position_y;
 	int hp;
 };
@@ -25,8 +25,11 @@ using namespace yasio::inet;
 class CHServer
 {
 	io_service* server;
+	int player_num = 0;
+	bool started = false;
 	bool uid_usage[MAX_CONNECTIONS] = { 0 };
 	map<transport_handle_t, int> uid;
+	map<int, transport_handle_t> uid_to_handle;
 	map<int, string> player_name;
 protected:
 	int get_unused_uid();//注意 调用会自动分配uid
@@ -41,7 +44,8 @@ public:
 	CHServer(const char* ip, unsigned short port = 25595);
 	~CHServer();
 	void listen();
-	void update();
+	void map_init(int seed = 19260817);
+	void map_update();
 };
 
 #endif 

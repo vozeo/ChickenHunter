@@ -1,4 +1,5 @@
 #include "Server.h"
+#include <cstdlib>
 
 int CHServer::get_unused_uid()
 {
@@ -6,6 +7,7 @@ int CHServer::get_unused_uid()
         if (uid_usage[i] == false)
         {
             uid_usage[i] = true;
+            player_num++;
             return i;
         }
     return -1;
@@ -58,13 +60,22 @@ CHServer::CHServer(const char* ip, unsigned short port)
             if (ev->status() == 0)//status为0正常 1非正常
             {
                 auto thandle = ev->transport();
-                uid[thandle] = get_unused_uid();
+                int id = get_unused_uid();
+                uid[thandle] = id;
+                uid_to_handle[id] = thandle;
+                if (started)
+                {
+                    map.player[id].alive = true;
+                    map.player[id].position_x = 100, map.player[id].position_y = 100, map.player[id].hp = 100;
+                }
             }
             break;
         case YEK_CONNECTION_LOST://连接丢失事件
             auto thandle = ev->transport();
+            int id = uid[thandle];
             delete_uid(uid[thandle]);
             uid.erase(thandle);
+            uid_to_handle.erase(id);
             break;
         }
         });
@@ -81,11 +92,57 @@ void CHServer::listen()
     if (server != nullptr)
         server->open(0, YCK_TCP_SERVER);
 }
+#define CHRAND() ((float)rand()/RAND_MAX)
+void CHServer::map_init(int seed)
+{
+    srand(seed);
+    started = true;
+    for(int i = 1; i < MAX_CONNECTIONS;i++)
+        if (uid_usage[i] == true)
+        {
+            map.player[i].alive = true;
+            map.player[i].position_x = CHRAND() * 200;
+            map.player[i].position_y = CHRAND() * 200;
+            map.player[i].hp = 100;
+        }
+    
+}
 
-void CHServer::update()
+void CHServer::map_update()
 {
     for (int i = 1; i < MAX_CONNECTIONS; i++)
     {
-        //if(paction[i])
+        if (uid_usage[i])
+        {
+            switch (paction[i].keyboard_action)
+            {
+            case PA_LEFT: map.player[i].position_x += -4; break;
+            case PA_RIGHT: map.player[i].position_x += 4; break;
+            case PA_UP: map.player[i].position_y += 4; break;
+            case PA_DOWN: map.player[i].position_y += -4; break;
+            }
+            if (paction[i].is_shoot)
+            {
+                ;
+            }
+            memset(&paction[i], 0, sizeof(PlayerAction));
+        }
     }
+    memset(&map_trans, 0, sizeof(MapInformation));
+    map_trans.player_num = player_num;
+    for (int i = 1; i < MAX_CONNECTIONS; i++)
+        if (uid_usage[i])
+        {
+            map_trans.player[i].position_x = map.player[i].position_x;
+            map_trans.player[i].position_y = map.player[i].position_y;
+            map_trans.player[i].hp = map_trans.player[i].hp;
+        }
+    for (int i = 1; i < MAX_CONNECTIONS; i++)
+        if (uid_usage[i])
+        {
+            char buf[sizeof(PlayerInformation) + HEAD_LENGTH + 1] = "MP\0";
+            memcpy(buf + HEAD_LENGTH, &map_trans, sizeof(MapInformation));
+            server->write(uid_to_handle[i], buf, sizeof(PlayerInformation) + HEAD_LENGTH);
+        }
+
 }

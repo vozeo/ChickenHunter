@@ -74,7 +74,7 @@ void CHClient::setName(const char* name)
 
 bool CHClient::upload(PlayerAction action)
 {
-    char str[128]="PA\0";
+    char str[sizeof(PlayerAction) + 5] = "PA\0";
     memcpy(str + HEAD_LENGTH, &action, sizeof(PlayerAction));
     client->write(thandle, str, HEAD_LENGTH + sizeof(PlayerAction));
     return true;
