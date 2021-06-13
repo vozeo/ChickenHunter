@@ -15,9 +15,10 @@ int CHServer::get_unused_uid()
 
 bool CHServer::delete_uid(int id)
 {
-    if(uid_usage[id] == false)
+    if (uid_usage[id] == false)
         return false;
     uid_usage[id] = false;
+    return true;
 }
 
 CHServer::CHServer(const char* ip, unsigned short port)

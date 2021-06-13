@@ -30,6 +30,8 @@ private:
 
     State* stateUI;
 
+    const int m_hunter_number = 10;
+    std::vector< Character*> m_hunter;
     Character* hunter;
 
     CC_SYNTHESIZE(float, m_volume, Volume);

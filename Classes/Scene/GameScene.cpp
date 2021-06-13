@@ -19,9 +19,14 @@ bool Game::init()
 	initMouse();
 	addChild(m_cursor, 4);
 
-	hunter = Character::create();
+	for (int i = 0; i < m_hunter_number; i++)
+	{
+		m_hunter.push_back(Character::create());
+		m_hunter[i]->retain();
+	}
+	hunter = m_hunter[0];
 
-    map = MapLayer::create(hunter);
+    map = MapLayer::create(m_hunter);
 	map->setVolume(&m_volume);
     addChild(map, 1);
 

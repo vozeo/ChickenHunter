@@ -46,9 +46,6 @@ void State::initState()
 	this->addChild(blood_back, 1);
 	this->addChild(blood_bar, 1);
 
-	//blood_back->setGlobalZOrder(1);
-	//blood_bar->setGlobalZOrder(1);
-
 	blood_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 25);
 	survivor_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 30);
 	time_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 30);
@@ -63,12 +60,6 @@ void State::initState()
 	this->addChild(blood_label, 1);
 	this->addChild(time_label, 1);
 	this->addChild(survivor_label, 1);
-
-	//blood_label->setGlobalZOrder(TOP);
-	//survivor_label->setGlobalZOrder(TOP);
-
-
-	hunter->setPlayerBleed(80); //
 }
 
 void State::initGun() {

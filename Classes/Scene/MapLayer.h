@@ -30,7 +30,7 @@ private:
 
 	//add enemies
 	
-	const int m_enemy_number = 9;
+	const int m_enemy_number = 10;
 	const int m_weapon_number = 20;
 	const int m_bandage_number = 40;
 	const int m_ammunition_number = 40;
@@ -47,7 +47,7 @@ private:
 	CC_SYNTHESIZE(float*, m_volume, Volume);
 
 public:
-	static MapLayer* create(Character* gameHunter)
+	static MapLayer* create(std::vector<Character*> gameHunter)
 	{
 		MapLayer* pRet = new(std::nothrow) MapLayer();
 		if (pRet && pRet->init(gameHunter))
@@ -62,8 +62,8 @@ public:
 			return nullptr;
 		}
 	}
-    static cocos2d::Layer* createScene(Character* gameHunter);
-    virtual bool init(Character* gameHunter);
+    static cocos2d::Layer* createScene(std::vector<Character*> gameHunter);
+    virtual bool init(std::vector<Character*> gameHunter);
     
     virtual void update(float fDelta);
     void registerKeyboardEvent();
