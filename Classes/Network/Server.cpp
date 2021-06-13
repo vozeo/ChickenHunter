@@ -1,5 +1,7 @@
 #include "Server.h"
 #include <cstdlib>
+#include <iostream>
+using namespace std;
 
 int CHServer::get_unused_uid()
 {
@@ -7,7 +9,7 @@ int CHServer::get_unused_uid()
         if (uid_usage[i] == false)
         {
             uid_usage[i] = true;
-            player_num++;
+            connection_num++;
             return i;
         }
     return -1;
@@ -18,6 +20,7 @@ bool CHServer::delete_uid(int id)
     if (uid_usage[id] == false)
         return false;
     uid_usage[id] = false;
+    connection_num--;
     return true;
 }
 
@@ -35,7 +38,7 @@ CHServer::CHServer(const char* ip, unsigned short port)
             auto thandle = ev->transport();
             if (strstr(header, "GU"))
             {
-                //cout << "DEBUG#:GU" << endl;
+                if(debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:GU" << endl;
                 int id = uid[thandle];
                 char buf[HEAD_LENGTH + 8] = "SU\0";
                 memcpy(buf + HEAD_LENGTH, &id, 4);
@@ -43,7 +46,7 @@ CHServer::CHServer(const char* ip, unsigned short port)
             }
             else if (strstr(header, "SN"))
             {
-                //cout << "DEBUG#:SN" << endl;
+                if (debug_mode) cout << "uid:" <<uid[thandle] << " DEBUG#:SN" << endl;
                 char buf[20] = { 0 };
                 memcpy(buf, packet.data() + HEAD_LENGTH, packet.size() - HEAD_LENGTH);
                 string s = buf;
@@ -51,7 +54,7 @@ CHServer::CHServer(const char* ip, unsigned short port)
             }
             else if (strstr(header, "PA"))
             {
-                //cout << "DEBUG#:PA" << endl;
+                if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
                 memcpy(&paction[uid[thandle]], packet.data() + HEAD_LENGTH, sizeof(MapInformation));
             }
             fflush(stdout);
@@ -64,6 +67,7 @@ CHServer::CHServer(const char* ip, unsigned short port)
                 int id = get_unused_uid();
                 uid[thandle] = id;
                 uid_to_handle[id] = thandle;
+                if (debug_mode) cout << "Client#" << thandle << "#comes in uid:" << id << endl;
                 if (started)
                 {
                     smap.player[id].alive = true;
@@ -74,6 +78,7 @@ CHServer::CHServer(const char* ip, unsigned short port)
         case YEK_CONNECTION_LOST://连接丢失事件
             auto thandle = ev->transport();
             int id = uid[thandle];
+            if (debug_mode) cout << "Client#" << thandle << "#lost connection! uid:" << id << endl;
             delete_uid(uid[thandle]);
             uid.erase(thandle);
             uid_to_handle.erase(id);
@@ -93,6 +98,7 @@ void CHServer::listen()
     if (server != nullptr)
         server->open(0, YCK_TCP_SERVER);
 }
+
 #define CHRAND() ((float)rand()/RAND_MAX)
 void CHServer::map_init(int seed)
 {
@@ -111,9 +117,13 @@ void CHServer::map_init(int seed)
 
 void CHServer::map_update()
 {
+    //客户端上传的数据读取
+    if (connection_num == 0)
+        return;
+    //if (debug_mode)cout << "DEBUG#MAP_UPDATE #START#" << endl;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
     {
-        if (uid_usage[i])
+        if (uid_usage[i] && smap.player[i].alive)
         {
             switch (paction[i].keyboard_action)
             {
@@ -129,10 +139,11 @@ void CHServer::map_update()
             memset(&paction[i], 0, sizeof(PlayerAction));
         }
     }
+    //更新地图
     memset(&map_trans, 0, sizeof(MapInformation));
-    map_trans.player_num = player_num;
+    map_trans.player_num = connection_num;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (uid_usage[i])
+        if (uid_usage[i] && smap.player[i].alive)
         {
             map_trans.player[i].position_x = smap.player[i].position_x;
             map_trans.player[i].position_y = smap.player[i].position_y;
@@ -141,9 +152,21 @@ void CHServer::map_update()
     for (int i = 1; i < MAX_CONNECTIONS; i++)
         if (uid_usage[i])
         {
-            char buf[sizeof(PlayerInformation) + HEAD_LENGTH + 1] = "MP\0";
+            char buf[sizeof(MapInformation) + HEAD_LENGTH + 2] = "MP\0";
             memcpy(buf + HEAD_LENGTH, &map_trans, sizeof(MapInformation));
+            if (debug_mode)cout << "Send Map to #" << uid_to_handle[i] << "#" << endl;
             server->write(uid_to_handle[i], buf, sizeof(PlayerInformation) + HEAD_LENGTH);
         }
+    //if (debug_mode)cout << "DEBUG#MAP_UPDATE #OVER#" << endl;
+}
 
+int CHServer::getConnectionNum()
+{
+    return connection_num;
+}
+
+void CHServer::open_debug_mode()
+{
+    debug_mode = !debug_mode;
+    cout << "DEBUG MODE IS " << (debug_mode ? "OPEN" : "CLOSED") << endl;
 }
