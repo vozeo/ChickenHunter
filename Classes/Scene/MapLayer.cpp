@@ -319,17 +319,31 @@ void MapLayer::update(float fDelta) {
 				enemy->m_speed[1] = rand() % 2;
 				enemy->m_speed[2] = rand() % 2;
 				enemy->m_speed[3] = rand() % 2;
+				enemy->stopAllActions();
 			}
 		}
 		float dx = 0, dy = 0;
 		if (enemy->m_speed[0])
+		{
+			if (enemy != hunter && enemy->getThought() == 0)
+				enemy->runAction(enemy->getCharacterAnimRight());
 			dx = 4;
-		if (enemy->m_speed[1])
+		}
+		if (enemy->m_speed[1]) {
+			if (enemy != hunter && enemy->getThought() == 0)
+				enemy->runAction(enemy->getCharacterAnimLeft());
 			dx = -4;
-		if (enemy->m_speed[2])
+		}
+		if (enemy->m_speed[2]) {
+			if (enemy != hunter && enemy->getThought() == 0 )
+				enemy->runAction(enemy->getCharacterAnimDown());
 			dy = -4;
-		if (enemy->m_speed[3])
+		}
+		if (enemy->m_speed[3]) {
+			if (enemy != hunter && enemy->getThought() == 0 )
+				enemy->runAction(enemy->getCharacterAnimUp());
 			dy = 4;
+		}
 
 		auto enemyPos = enemy->getPosition();
 		auto nextX = enemyPos.x + dx;
