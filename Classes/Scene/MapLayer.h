@@ -8,6 +8,7 @@
 #include "ui/CocosGUI.h"
 #include "character/Character.h"
 #include "StateLayer.h"
+#include "RankLayer.h"
 #include "Item/Item.h"
 #include "Weapon/Bullet.h"
 #include <map>
@@ -76,6 +77,8 @@ public:
 
 	void initSetEnemy();
 	void initSetItem();
+
+	int deathTurn = 0;
 
 	template <class T> void setRandPos(T* elem);
 	template <class T> void initItem(std::vector<T*> &items, int number);
