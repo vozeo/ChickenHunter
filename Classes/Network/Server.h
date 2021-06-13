@@ -24,8 +24,9 @@ using namespace yasio::inet;
 
 class CHServer
 {
+	bool debug_mode = false;
 	io_service* server;
-	int player_num = 0;
+	int connection_num = 0;
 	bool started = false;
 	bool uid_usage[MAX_CONNECTIONS] = { 0 };
 	map<transport_handle_t, int> uid;
@@ -46,6 +47,8 @@ public:
 	void listen();
 	void map_init(int seed = 19260817);
 	void map_update();
+	int getConnectionNum();
+	void open_debug_mode();
 };
 
 #endif 
