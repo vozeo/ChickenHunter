@@ -6,7 +6,7 @@ using namespace std;
 using namespace yasio;
 using namespace yasio::inet;
 
-CHClient* hunter_client = nullptr;
+CHClient* chclient = nullptr;
 
 CHClient::CHClient(const char* ip, unsigned short port)
 {
@@ -94,4 +94,11 @@ bool CHClient::upload(PlayerAction action)
 bool CHClient::isStarted()
 {
     return started;
+}
+
+bool is_multiple_game()
+{
+    if (chclient != nullptr)
+        return true;
+    return false;
 }

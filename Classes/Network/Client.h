@@ -26,6 +26,7 @@ public:
 	bool upload(PlayerAction action);
 	bool isStarted();
 };
-extern CHClient* hunter_client;
+extern CHClient* chclient;
+bool is_multiple_game();
 
 #endif 

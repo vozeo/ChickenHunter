@@ -46,18 +46,18 @@ bool Server::init()
 	auto createRoom = MenuItemFont::create("Create Room   ", [=](Ref* render) {
 		chserver = new CHServer("0.0.0.0", 25595);
 		chserver->listen();
-		hunter_client = new CHClient("127.0.0.1", 25595);
-		hunter_client->link();
-		hunter_client->setName(nameText->getString().c_str());
+		chclient = new CHClient("127.0.0.1", 25595);
+		chclient->link();
+		chclient->setName(nameText->getString().c_str());
 		auto* scene = Room::create(true);
 		Director::getInstance()->pushScene(TransitionFade::create(0.3f, static_cast<Scene*>(scene), Color3B(0, 255, 255)));
 		});
 	createRoom->setColor(Color3B(255, 215, 0));
 	auto addRoom = MenuItemFont::create("   Add Room", [=](Ref* render) {
 		CCLOG("Name:%s IP:%s", nameText->getString().c_str(), addressText->getString().c_str());
-		hunter_client = new CHClient(addressText->getString().c_str(), 25595);
-		hunter_client->link();
-		hunter_client->setName(nameText->getString().c_str());
+		chclient = new CHClient(addressText->getString().c_str(), 25595);
+		chclient->link();
+		chclient->setName(nameText->getString().c_str());
 		
 		auto scene = Room::create(false);
 		Director::getInstance()->pushScene(TransitionFade::create(0.3f, scene, Color3B(0, 255, 255)));

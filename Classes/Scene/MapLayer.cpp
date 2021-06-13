@@ -27,11 +27,15 @@ bool MapLayer::init(std::vector<Character*> gameHunter)
 	tileHeight = map->getTileSize().height;
 
 	m_enemy = gameHunter;
-	hunter = m_enemy[hunter_client->getuid()-1];
+	if (chclient != nullptr)
+		hunter = m_enemy[chclient->getuid() - 1];
+	else
+		hunter = m_enemy[0];
 
 	initSetItem();
 	initBullet();
-	//schedule(CC_SCHEDULE_SELECTOR(MapLayer::enemyFire), 0.5);
+	if(chclient == nullptr)
+		schedule(CC_SCHEDULE_SELECTOR(MapLayer::enemyFire), 0.5);
 
 	AudioEngine::lazyInit();
 	AudioEngine::preload("music/bulletEffect.wav");
@@ -347,63 +351,141 @@ void MapLayer::update(float fDelta) {
 }
 */
 
+long long chduration = 0;
+long long lastduration = 0;
 void MapLayer::update(float fDelta) {
-	for (auto enemy : m_enemy) {
-		if (enemy->getPlayerBleed() <= 0)
-			enemy->setVisible(false);
-	}
-	for (auto bullet : bullets) {
-		if (bullet->getBulletActive()) {
-			auto bulletX = bullet->getPositionX();
-			auto bulletY = bullet->getPositionY();
-			if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 || bulletY >= mapHeight * tileHeight
-				|| meta->getTileGIDAt(Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
-				bullet->setVisible(false);
-				bullet->stopAllActions();
-				bullet->setBulletActive(false);
-				continue;
-			}
-			Rect rect_bullet = bullet->getBoundingBox();
-			for (auto enemy : m_enemy) {
-				if (enemy->getPlayerBleed() <= 0)
+	chduration++;
+	if (chclient != nullptr)
+	{
+		for (auto enemy : m_enemy) {
+			if (enemy->getPlayerBleed() <= 0)
+				enemy->setVisible(false);
+		}
+		for (auto bullet : bullets) {
+			if (bullet->getBulletActive()) {
+				auto bulletX = bullet->getPositionX();
+				auto bulletY = bullet->getPositionY();
+				if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 || bulletY >= mapHeight * tileHeight
+					|| meta->getTileGIDAt(Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
+					bullet->setVisible(false);
+					bullet->stopAllActions();
+					bullet->setBulletActive(false);
 					continue;
-				Rect rect_enemy = enemy->getBoundingBox();
-				if (rect_enemy.intersectsRect(rect_bullet)) {
-					showAttacked(enemy->getPosition());
-					enemy->setPlayerBleed(enemy->getPlayerBleed() - bullet->getBulletAttack());
+				}
+				Rect rect_bullet = bullet->getBoundingBox();
+				for (auto enemy : m_enemy) {
+					if (enemy->getPlayerBleed() <= 0)
+						continue;
+					Rect rect_enemy = enemy->getBoundingBox();
+					if (rect_enemy.intersectsRect(rect_bullet)) {
+						showAttacked(enemy->getPosition());
+						enemy->setPlayerBleed(enemy->getPlayerBleed() - bullet->getBulletAttack());
+					}
 				}
 			}
 		}
-	}
-	if (chserver != nullptr)
-	{
-		chserver->map_update();
-	}
+		if (chserver != nullptr)
+		{
+			chserver->map_update();
+		}
 
-	//本地的动作上传
-	PlayerAction paction;
-	paction.speed[0] = hunter->m_speed[0];
-	paction.speed[1] = hunter->m_speed[1];
-	paction.speed[2] = hunter->m_speed[2];
-	paction.speed[3] = hunter->m_speed[3];
-	hunter_client->upload(paction);
-	
-	//下载服务器端的数据并显示
-	MapInformation& current_map = hunter_client->map;
-	if (current_map.is_updated)
-	{
-		for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
-			if (current_map.player[i + 1].alive)
-			{
-				if (current_map.player[i + 1].position_x != save_map.player[i + 1].position_x || current_map.player[i + 1].position_y != save_map.player[i + 1].position_y)
+		//本地的动作上传
+		PlayerAction paction;
+		paction.speed[0] = hunter->m_speed[0];
+		paction.speed[1] = hunter->m_speed[1];
+		paction.speed[2] = hunter->m_speed[2];
+		paction.speed[3] = hunter->m_speed[3];
+		chclient->upload(paction);
+
+		//下载服务器端的数据并显示
+		MapInformation& current_map = chclient->map;
+		if (current_map.is_updated)
+		{
+			for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
+				if (current_map.player[i + 1].alive)
 				{
-					m_enemy[i]->runAction(MoveTo::create(1.0f / 150.0f, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
-					CCLOG("MOVING: %f %f", current_map.player[i + 1].position_x, current_map.player[i + 1].position_y);
+					if (current_map.player[i + 1].position_x != save_map.player[i + 1].position_x || current_map.player[i + 1].position_y != save_map.player[i + 1].position_y)
+					{
+						m_enemy[i]->runAction(MoveTo::create(1.0f / 150.0f, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
+						CCLOG("MOVING: %f %f PING:%lld", current_map.player[i + 1].position_x, current_map.player[i + 1].position_y, chduration - lastduration);
+						lastduration = chduration;
+					}
+				}
+		}
+
+		save_map = current_map;
+	}
+	else
+	{
+		for (auto enemy : m_enemy) {
+			if (enemy->getPlayerBleed() <= 0)
+				enemy->setVisible(false);
+		}
+		for (auto bullet : bullets) {
+			if (bullet->getBulletActive()) {
+				auto bulletX = bullet->getPositionX();
+				auto bulletY = bullet->getPositionY();
+				if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 || bulletY >= mapHeight * tileHeight
+					|| meta->getTileGIDAt(Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
+					bullet->setVisible(false);
+					bullet->stopAllActions();
+					bullet->setBulletActive(false);
+					continue;
+				}
+				Rect rect_bullet = bullet->getBoundingBox();
+				for (auto enemy : m_enemy) {
+					if (enemy->getPlayerBleed() <= 0)
+						continue;
+					Rect rect_enemy = enemy->getBoundingBox();
+					if (rect_enemy.intersectsRect(rect_bullet)) {
+						showAttacked(enemy->getPosition());
+						enemy->setPlayerBleed(enemy->getPlayerBleed() - bullet->getBulletAttack());
+					}
 				}
 			}
-	}
+		}
+		for (auto enemy : m_enemy)
+		{
+			if (enemy->getPlayerBleed() <= 0)
+				continue;
+			if (enemy != hunter) {
+				judgePick(enemy);
+				int nextT = enemy->getThought() + int(fDelta * 1000);
+				enemy->setThought(nextT);
+				if (nextT >= enemy->getThinkTime())
+				{
+					enemy->setThought(0);
+					enemy->m_speed[0] = rand() % 2;
+					enemy->m_speed[1] = rand() % 2;
+					enemy->m_speed[2] = rand() % 2;
+					enemy->m_speed[3] = rand() % 2;
+				}
+			}
+			float dx = 0, dy = 0;
+			if (enemy->m_speed[0])
+				dx = 4;
+			if (enemy->m_speed[1])
+				dx = -4;
+			if (enemy->m_speed[2])
+				dy = -4;
+			if (enemy->m_speed[3])
+				dy = 4;
 
-	save_map = current_map;
+			auto enemyPos = enemy->getPosition();
+			auto nextX = enemyPos.x + dx;
+			auto nextY = enemyPos.y + dy;
+
+			auto nextMapX = nextX / tileWidth;
+			auto nextMapY = mapHeight - nextY / tileHeight;
+
+			if (nextMapX < mapWidth && nextMapX >= 0 && nextMapY < mapHeight && nextMapY >= 0
+				&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
+				enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX, nextY)));
+			else
+				enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
+		}
+		hunter->setPosition(hunter->getPosition());
+	}
 	//hunter->setPosition(hunter->getPosition());
 }
 

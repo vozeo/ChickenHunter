@@ -46,7 +46,9 @@ bool Start::init()
 			addChild(setting, 3);
 		});
 	setting_img->setAnchorPoint(Vec2(1, 1));
-
+	//Network init
+	if (chclient != nullptr)delete chclient;
+	if (chserver != nullptr)delete chserver;
 
 	Vector<MenuItem*> menus{ setting_img, exit_img };
 	auto menu = Menu::createWithArray(menus);

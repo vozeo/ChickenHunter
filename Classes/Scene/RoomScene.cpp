@@ -56,17 +56,17 @@ void Room::update(float fDelta)
 		chserver->room_update();
 	}
 
-	if (hunter_client->room.player_num < 1) return;
+	if (chclient->room.player_num < 1) return;
 	for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
 	{
-		//string s = hunter_client->room.player_name[i + 1];
+		//string s = chclient->room.player_name[i + 1];
 		//if (s.length() > 2)
 			//playerLabel[i]->setString(s);
-		if(hunter_client->room.player_alive[i + 1])
-			playerLabel[i]->setString(hunter_client->room.player_name[i + 1]);
+		if(chclient->room.player_alive[i + 1])
+			playerLabel[i]->setString(chclient->room.player_name[i + 1]);
 		else
 			playerLabel[i]->setString("Unoccupied");
-		if (hunter_client->isStarted() && (!started))
+		if (chclient->isStarted() && (!started))
 		{
 			started = true;
 			CCLOG("GAME STARTED!");
