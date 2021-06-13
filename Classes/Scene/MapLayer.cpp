@@ -355,7 +355,6 @@ void MapLayer::update(float fDelta) {
 */
 
 void MapLayer::update(float fDelta) {
-	chduration++;
 	if (chclient != nullptr)
 	{
 		for (auto enemy : m_enemy) {
@@ -487,7 +486,6 @@ void MapLayer::update(float fDelta) {
 		}
 		hunter->setPosition(hunter->getPosition());
 	}
-	//hunter->setPosition(hunter->getPosition());
 }
 
 
