@@ -30,6 +30,10 @@ bool State::init(std::vector<Character*> gameHunter)
 	initState();
 	initGun();
 
+	for (auto enemy : m_enemy)
+		if (enemy != hunter)
+			enemy->setPlayerBleed(1);
+
 	startTime = system_clock::now();
 
     return true;
@@ -98,20 +102,25 @@ void State::update(float fDelta) {
 			enemy->setPlayerDeath(true);
 			enemy->setPlayerPoint(getTime());
 			if (enemy == hunter) {
-				bool Win = true;
 				for (auto aliveEnemy : m_enemy) {
 					if (!aliveEnemy->getPlayerDeath()) {
-						Win = false;
 						aliveEnemy->setPlayerPoint(getTime() * 4 / 3 + aliveEnemy->getPlayerBullet() / 10 + aliveEnemy->getPlayerBleed() / 10);
 					}
 				}
 				RankLayer* rank = RankLayer::create();
-				rank->rankInit(Win, m_enemy);
+				rank->rankInit(false, m_enemy);
 				addChild(rank, 6);
 			}
 			enemy->removeFromParent();
+			if (aliveNumber == 1 && !hunter->getPlayerDeath()) {
+				hunter->setPlayerPoint(getTime() + 10);
+				RankLayer* rank = RankLayer::create();
+				rank->rankInit(true, m_enemy);
+				addChild(rank, 6);
+			}
 		}
 	}
+
 
 	if (hunter->getPlayerRefresh()) {
 		hunter->setPlayerRefresh(false);
