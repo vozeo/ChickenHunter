@@ -2,7 +2,7 @@
 #define __START_SCENE_H__
 
 #include "cocos2d.h"
-#include "Scene/GameScene.h"
+#include "Scene/ServerScene.h"
 
 USING_NS_CC;
 

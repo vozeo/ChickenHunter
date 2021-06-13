@@ -341,6 +341,7 @@ void MapLayer::update(float fDelta) {
 		else
 			enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
 	}
+	hunter->setPosition(hunter->getPosition());
 }
 //set enemies/items randomly and at anywhere except water space.
 template <class T>
