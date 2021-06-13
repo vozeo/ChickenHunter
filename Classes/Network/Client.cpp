@@ -1,6 +1,7 @@
 #include "Client.h"
 #include <cstring>
 #include <iostream>
+#include <Windows.h>
 
 using namespace std;
 using namespace yasio;
@@ -30,7 +31,6 @@ CHClient::CHClient(const char* ip, unsigned short port)
             }
             else if (strstr(header, "MP"))
             {
-                //cout << "DEBUG#:MP" << endl;
                 memcpy(&map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
             }
             fflush(stdout);

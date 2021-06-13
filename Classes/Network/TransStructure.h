@@ -1,7 +1,7 @@
 #ifndef TRANSSTRUCTURE_H
 #define TRANSSTRUCTURE_H
 
-const int MAX_CONNECTIONS = 11;
+const int MAX_CONNECTIONS = 9;
 
 //报头处理
 const int HEAD_LENGTH = 4;
@@ -40,14 +40,12 @@ struct PlayerAction
 
 struct PlayerInformation
 {
-	bool is_dead = 0;
+	bool alive = 0;
 	int uid = 0;
-	char num[10];
 	int hp = 100;
 	float position_x = 0, position_y = 0;
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
-	void clear();
 };
 
 struct RoomInformation
