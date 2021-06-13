@@ -331,7 +331,7 @@ void MapLayer::update(float fDelta) {
 				{
 					if (current_map.player[i + 1].position_x != save_map.player[i + 1].position_x || current_map.player[i + 1].position_y != save_map.player[i + 1].position_y)
 					{
-						m_enemy[i]->runAction(MoveTo::create(1.0f / 150.0f, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
+						m_enemy[i]->runAction(MoveTo::create(0, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
 						CCLOG("MOVING: %f %f", current_map.player[i + 1].position_x, current_map.player[i + 1].position_y);
 						
 					}

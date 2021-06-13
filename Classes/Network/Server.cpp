@@ -143,9 +143,9 @@ void CHServer::map_update()
         if (uid_usage[i] && smap.player[i].alive)
         {
         if (paction[i].speed[0]) smap.player[i].position_x += 4;
-        else if (paction[i].speed[1]) smap.player[i].position_x += -4;
-        else if (paction[i].speed[2]) smap.player[i].position_y += -4;
-        else if (paction[i].speed[3]) smap.player[i].position_y += 4;
+        if (paction[i].speed[1]) smap.player[i].position_x += -4;
+        if (paction[i].speed[2]) smap.player[i].position_y += -4;
+        if (paction[i].speed[3]) smap.player[i].position_y += 4;
         if (paction[i].is_shoot)
         {
             ;
