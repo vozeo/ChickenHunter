@@ -64,7 +64,9 @@ list(APPEND GAME_SOURCE
      Classes/Scene/GameScene.cpp
      Classes/Scene/HelloWorldScene.cpp
      Classes/Scene/MapLayer.cpp
+     Classes/Scene/RoomScene.cpp
      Classes/Scene/StateLayer.cpp
+     Classes/Scene/ServerScene.cpp
      Classes/Scene/SettingLayer.cpp
      Classes/Scene/StartScene.cpp
      Classes/Weapon/Bullet.cpp
@@ -82,7 +84,9 @@ list(APPEND GAME_HEADER
      Classes/Scene/GameScene.h
      Classes/Scene/HelloWorldScene.h
      Classes/Scene/MapLayer.h
+     Classes/Scene/RoomScene.h
      Classes/Scene/StateLayer.h
+     Classes/Scene/ServerScene.h
      Classes/Scene/SettingLayer.h
      Classes/Scene/StartScene.h
      Classes/Weapon/Bullet.h
