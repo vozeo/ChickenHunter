@@ -10,8 +10,7 @@
     </facet>
     <facet type="native-android-gradle" name="Native-Android-Gradle">
       <configuration>
-        <option name="SELECTED_ABI" />
-        <option name="SELECTED_VARIANT" />
+        <option name="SELECTED_BUILD_VARIANT" value="" />
       </configuration>
     </facet>
     <facet type="android" name="Android">
