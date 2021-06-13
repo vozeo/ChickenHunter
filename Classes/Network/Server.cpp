@@ -57,6 +57,10 @@ CHServer::CHServer(const char* ip, unsigned short port)
                 //if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
                 memcpy(&paction[uid[thandle]], packet.data() + HEAD_LENGTH, sizeof(MapInformation));
             }
+            else if (strstr(header, "ST"))//ÓÎÏ·¿ªÊ¼
+            {
+
+            }
             fflush(stdout);
             break;
         }

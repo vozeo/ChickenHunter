@@ -33,6 +33,14 @@ CHClient::CHClient(const char* ip, unsigned short port)
             {
                 memcpy(&map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
             }
+            else if (strstr(header, "GO"))//游戏结束
+            {
+                
+            }
+            else if (strstr(header, "ST"))//游戏开始
+            {
+
+            }
             fflush(stdout);
             break;
         }
