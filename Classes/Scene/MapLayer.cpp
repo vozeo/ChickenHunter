@@ -274,7 +274,10 @@ void MapLayer::showAttacked(Vec2 pos) {
 
 //add enemy move automatically
 void MapLayer::update(float fDelta) {
-
+	for (auto enemy : m_enemy) {
+		if (enemy->getPlayerBleed() <= 0)
+			enemy->setVisible(false);
+	}
 	for (auto bullet : bullets) {
 		if (bullet->getBulletActive()) {
 			auto bulletX = bullet->getPositionX();
@@ -288,6 +291,8 @@ void MapLayer::update(float fDelta) {
 			}
 			Rect rect_bullet = bullet->getBoundingBox();
 			for (auto enemy : m_enemy) {
+				if (enemy->getPlayerBleed() <= 0)
+					continue;
 				Rect rect_enemy = enemy->getBoundingBox();
 				if (rect_enemy.intersectsRect(rect_bullet)) {
 					showAttacked(enemy->getPosition());
@@ -298,6 +303,8 @@ void MapLayer::update(float fDelta) {
 	}
 	for (auto enemy : m_enemy)
 	{
+		if (enemy->getPlayerBleed() <= 0)
+			continue;
 		if (enemy != hunter) {
 			judgePick(enemy);
 			int nextT = enemy->getThought() + int(fDelta * 1000);
