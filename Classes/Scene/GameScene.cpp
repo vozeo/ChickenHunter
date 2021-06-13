@@ -15,6 +15,11 @@ bool Game::init()
     }
 	this->scheduleUpdate();
 
+	auto background = Sprite::create("images/backocean.png");
+	background->setPosition(winSize.width / 2, winSize.height / 2);
+	background->setScale(winSize.width / background->getTextureRect().getMaxX(), winSize.height / background->getTextureRect().getMaxY());
+	this->addChild(background, 0);
+
 	Director::getInstance()->getOpenGLView()->setCursorVisible(false);
 	initMouse();
 	addChild(m_cursor, 4);

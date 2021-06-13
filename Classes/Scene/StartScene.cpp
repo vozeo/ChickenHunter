@@ -19,8 +19,8 @@ bool Start::init()
 	auto origin = Director::getInstance()->getVisibleOrigin();
 
 	auto background = Sprite::create("images/StartBackground1366.png");
-	background->setAnchorPoint(Vec2(0, 0));
-	background->setPosition(origin);
+	background->setPosition(winSize.width / 2, winSize.height / 2);
+	background->setScale(winSize.width / background->getTextureRect().getMaxX(), winSize.height / background->getTextureRect().getMaxY());
 	this->addChild(background, 0);
 
 	MenuItemFont::setFontName("fonts/Sthupo.ttf");
