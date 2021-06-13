@@ -28,7 +28,7 @@ public:
 		auto weaponType = random(0, 3);
 		if (weapon && weapon->initWithFile(StringUtils::format("images/weapon_%d.png", weaponType))) {
 			weapon->autorelease();
-			weapon->weaponInit(0.5f + rand_0_1(), 0.5f + rand_0_1(), weaponType, true);
+			weapon->weaponInit(0.5f + rand_0_1(), random(0, 5), weaponType, true);
 			return weapon;
 		}
 		CC_SAFE_DELETE(weapon);

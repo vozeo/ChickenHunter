@@ -134,11 +134,11 @@ void MapLayer::judgePick(Character* character) {
 			auto weaponType = weapon->getWeaponType();
 			if (character->m_gun[weaponType] == nullptr) {
 				weapon->retain();
-				weapon->removeFromParent();
-				weapons.erase(find(weapons.begin(), weapons.end(), weapon));
 				character->m_gun[weaponType] = weapon;
 				character->setPlayerWeapon(weaponType);
 				character->setPlayerRefresh(true);
+				weapon->removeFromParent();
+				weapons.erase(find(weapons.begin(), weapons.end(), weapon));
 				break;
 			}
 		}
@@ -179,12 +179,10 @@ void MapLayer::registerTouchEvent() {
 		if (4 == weaponType) {
 			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
 			AudioEngine::setVolume(knifeAudioID, *m_volume);
-			showEffect(hunter->getPosition());
+			makeKnifeAttack(hunter);
 
 			return true;
 		}
-		auto bulletAudioID = AudioEngine::play2d("music/bulletEffect.mp3", false);
-		AudioEngine::setVolume(bulletAudioID, *m_volume);
 
 		hunter->bulletLocation = touch->getLocation();
 
@@ -204,25 +202,50 @@ void MapLayer::registerTouchEvent() {
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
-void MapLayer::Fire(float dt)
-{
-	Vec2 bulletLocation = hunter->bulletLocation;
-	Weapon* weapon = hunter->m_gun[hunter->getPlayerWeapon()];
-	auto bulletX = bulletLocation.x - winSize.width / 2;
-	auto bulletY = bulletLocation.y - winSize.height / 2;
+void MapLayer::makeKnifeAttack(Character* character) {
+	Vec2 pos = character->getPosition();
+	showEffect(pos);
+	for (auto enemy : m_enemy) {
+		if (enemy == character)
+			continue;
+		Vec2 enemyPos = enemy->getPosition();
+		if (enemyPos.getDistance(pos) < 100) {
+			enemy->setPlayerBleed(enemy->getPlayerBleed() - 5 - character->getPlayerAttack());
+			showAttacked(enemy->getPosition());
+		}
+	}
+}
 
+void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bulletX, float bulletY) {
 	float time = sqrt(bulletX * bulletX + bulletY * bulletY) / 1000;
+	float delta = 1;
+	if (character == hunter)
+		delta = 0.6;
 	for (auto bullet : bullets) {
 		if (!bullet->getBulletActive()) {
 			bullet->setBulletActive(true);
-			bullet->setPosition(hunter->getPositionX() + bulletX / time / 20, hunter->getPositionY() + bulletY / time / 20);
+			bullet->setPosition(character->getPositionX() + bulletX / time / 20, character->getPositionY() + bulletY / time / 20);
 			bullet->setRotation(calRotation(bulletX, bulletY));
-			bullet->runAction(RepeatForever::create(MoveBy::create(0.6 * weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
+			bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
 			bullet->setBulletAttack(weapon->getWeaponAttack());
 			bullet->setVisible(true);
 			break;
 		}
 	}
+}
+
+void MapLayer::Fire(float dt)
+{
+	if (hunter->getPlayerBullet() > 0)
+		hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
+	else return;
+	auto bulletAudioID = AudioEngine::play2d("music/bulletEffect.mp3", false);
+	AudioEngine::setVolume(bulletAudioID, *m_volume);
+	Vec2 bulletLocation = hunter->bulletLocation;
+	Weapon* weapon = hunter->m_gun[hunter->getPlayerWeapon()];
+	auto bulletX = bulletLocation.x - winSize.width / 2;
+	auto bulletY = bulletLocation.y - winSize.height / 2;
+	makeBulletAttack(hunter, weapon, bulletX, bulletY);
 }
 
 float MapLayer::calRotation(float bulletX, float bulletY) {
@@ -240,6 +263,13 @@ void MapLayer::showEffect(Vec2 pos) {
 	addChild(effectCircle, 2);
 	effectCircle->drawSolidCircle(pos, 100.0f, CC_DEGREES_TO_RADIANS(360), 15, Color4F(0.28f, 0.46f, 1.0f, 0.6f));
 	effectCircle->runAction(Sequence::create(FadeOut::create(0.5f), RemoveSelf::create(), NULL));
+}
+
+void MapLayer::showAttacked(Vec2 pos) {
+	auto effectCircle = DrawNode::create();
+	addChild(effectCircle, 5);
+	effectCircle->drawSolidCircle(pos, 20.0f, CC_DEGREES_TO_RADIANS(360), 15, Color4F(1.0f, 0, 0, 0.6f));
+	effectCircle->runAction(Sequence::create(FadeOut::create(0.3f), RemoveSelf::create(), NULL));
 }
 
 //add enemy move automatically
@@ -260,10 +290,7 @@ void MapLayer::update(float fDelta) {
 			for (auto enemy : m_enemy) {
 				Rect rect_enemy = enemy->getBoundingBox();
 				if (rect_enemy.intersectsRect(rect_bullet)) {
-					auto effectCircle = DrawNode::create();
-					addChild(effectCircle, 5);
-					effectCircle->drawSolidCircle(enemy->getPosition(), 20.0f, CC_DEGREES_TO_RADIANS(360), 15, Color4F(1.0f, 0, 0, 0.6f));
-					effectCircle->runAction(Sequence::create(FadeOut::create(0.3f), RemoveSelf::create(), NULL));
+					showAttacked(enemy->getPosition());
 					enemy->setPlayerBleed(enemy->getPlayerBleed() - bullet->getBulletAttack());
 				}
 			}
@@ -362,36 +389,28 @@ void MapLayer::initSetItem()
 //aim at hunter automatically and fire
 void MapLayer::enemyFire(float delt)
 {
+	Rect rect_hunter = hunter->getBoundingBox();
 	for (auto enemy : m_enemy)
 	{
 		if (enemy == hunter)
 			continue;
-		Rect rect_hunter = hunter->getBoundingBox();
 		Rect rect_enemy(enemy->getPosition().x - 300, enemy->getPosition().y - 300, 600, 600);
 		if (rect_enemy.intersectsRect(rect_hunter))
 		{
 			auto weaponType = enemy->getPlayerWeapon();
 			if (4 == weaponType)
 			{
-				return;
+				makeKnifeAttack(enemy);
+				continue;
 			}
+			if (enemy->getPlayerBullet() > 0)
+				enemy->setPlayerBullet(enemy->getPlayerBullet() - 1);
+			else continue;
 			Weapon* weapon = enemy->m_gun[weaponType];
 			auto bulletLocation = hunter->getPosition();    //enemy aims at hunter
 			auto bulletX = bulletLocation.x - enemy->getPosition().x;
 			auto bulletY = bulletLocation.y - enemy->getPosition().y;
-
-			float time = sqrt(bulletX * bulletX + bulletY * bulletY) / 1000;
-			for (auto bullet : bullets) {
-				if (!bullet->getBulletActive()) {
-					bullet->setBulletActive(true);
-					bullet->setPosition(enemy->getPositionX() + bulletX / time / 20, enemy->getPositionY() + bulletY / time / 20);
-					bullet->setRotation(calRotation(bulletX, bulletY));
-					bullet->runAction(RepeatForever::create(MoveBy::create(weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
-					bullet->setBulletAttack(weapon->getWeaponAttack());
-					bullet->setVisible(true);
-					break;
-				}
-			}
+			makeBulletAttack(enemy, weapon, bulletX, bulletY);
 		}
 	}
 }

@@ -32,7 +32,7 @@ bool Character::init()
 
 	initAnimate();
 	initSprite();
-    m_think_time = 2000;// rand() % 4 * 200 + 1500
+    m_think_time = random(1500, 2000);// rand() % 4 * 200 + 1500
     m_thought = 0;
     m_bullet_speed = 0.2;
 	return true;
