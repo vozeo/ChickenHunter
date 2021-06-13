@@ -19,8 +19,8 @@ bool Start::init()
 	auto origin = Director::getInstance()->getVisibleOrigin();
 
 	auto background = Sprite::create("images/StartBackground1366.png");
-	background->setAnchorPoint(Vec2(0, 0));
-	background->setPosition(origin);
+	background->setPosition(winSize.width / 2, winSize.height / 2);
+	background->setScale(winSize.width / background->getTextureRect().getMaxX(), winSize.height / background->getTextureRect().getMaxY());
 	this->addChild(background, 0);
 
 	MenuItemFont::setFontName("fonts/Sthupo.ttf");
@@ -64,7 +64,7 @@ bool Start::init()
 	singleGame->setColor(Color3B(255, 215, 0));
 	auto multiGame = MenuItemFont::create("   Multiplayer   ", [=](Ref* render) {
 		AudioEngine::pause(startAudioID);
-		auto scene = Game::createScene();
+		auto scene = Server::createScene();
 		Director::getInstance()->pushScene(TransitionFade::create(0.3f, scene, Color3B(0, 255, 255)));
 		});
 	multiGame->setColor(Color3B(127, 255, 212));

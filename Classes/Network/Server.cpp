@@ -3,6 +3,9 @@
 #include <iostream>
 using namespace std;
 
+//创建一个服务端
+CHServer* chserver = nullptr;
+
 int CHServer::get_unused_uid()
 {
     for (int i = 1; i < MAX_CONNECTIONS; i++)
@@ -50,7 +53,10 @@ CHServer::CHServer(const char* ip, unsigned short port)
                 char buf[20] = { 0 };
                 memcpy(buf, packet.data() + HEAD_LENGTH, packet.size() - HEAD_LENGTH);
                 string s = buf;
-                player_name[uid[thandle]] = s;
+                int id = uid[thandle];
+                player_name[id] = s;
+                strcpy(room.player_name[id], buf);
+                cout << "uid:" << id << " set name:" << buf << " len:" << s.length() << endl;
             }
             else if (strstr(header, "PA"))
             {
@@ -86,6 +92,8 @@ CHServer::CHServer(const char* ip, unsigned short port)
             delete_uid(uid[thandle]);
             uid.erase(thandle);
             uid_to_handle.erase(id);
+            player_name.erase(id);
+            memset(room.player_name[id], 0, MAX_NAME_LENGTH + 1);
             break;
         }
         });
@@ -159,10 +167,31 @@ void CHServer::map_update()
         {
             char buf[sizeof(MapInformation) + HEAD_LENGTH + 2] = "MP\0";
             memcpy(buf + HEAD_LENGTH, &map_trans, sizeof(MapInformation));
-            if (debug_mode)cout << "Send Map to #" << uid_to_handle[i] << "# size:" << HEAD_LENGTH + sizeof(MapInformation) << endl;
+            //if (debug_mode)cout << "Send Map to #" << uid_to_handle[i] << "# size:" << HEAD_LENGTH + sizeof(MapInformation) << endl;
             server->write(uid_to_handle[i], buf,HEAD_LENGTH + sizeof(MapInformation));
         }
     //if (debug_mode)cout << "DEBUG#MAP_UPDATE #OVER#" << endl;
+}
+
+bool CHServer::startGame()
+{
+    if (debug_mode)cout << "#DEBUG#START: " << (started ? "YES" : "NO") << endl;
+    if(started == true)
+        return false;
+    started = true;
+    for (int i = 1; i < MAX_CONNECTIONS; i++)
+        if (uid_usage[i])
+        {
+            if (debug_mode)cout << "TELL START: " << i << endl;
+            server->write(uid_to_handle[i], "ST\0", HEAD_LENGTH);
+        }
+    this->map_init();
+    return true;
+}
+
+bool CHServer::GameIsStarted()
+{
+    return started;
 }
 
 int CHServer::getConnectionNum()
@@ -174,4 +203,20 @@ void CHServer::open_debug_mode()
 {
     debug_mode = !debug_mode;
     cout << "DEBUG MODE IS " << (debug_mode ? "OPEN" : "CLOSED") << endl;
+}
+
+void CHServer::room_update()
+{
+    room.player_num = connection_num;
+    if (room.player_num == 0)
+        return;
+    for (int i = 0; i < MAX_CONNECTIONS; i++)
+        room.player_alive[i] = uid_usage[i];
+    char buff[HEAD_LENGTH + sizeof(RoomInformation) + 20] = "RO\0";
+    memcpy(buff + HEAD_LENGTH, &room, HEAD_LENGTH + sizeof(RoomInformation));
+    for(int i = 0; i < MAX_CONNECTIONS;i++)
+        if (uid_usage[i])
+        {
+            server->write(uid_to_handle[i], buff, HEAD_LENGTH + sizeof(RoomInformation)); 
+        }
 }

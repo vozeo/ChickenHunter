@@ -2,7 +2,7 @@
 #define TRANSSTRUCTURE_H
 
 const int MAX_CONNECTIONS = 11;
-
+const int MAX_NAME_LENGTH = 9;
 //报头处理
 const int HEAD_LENGTH = 4;
 /*
@@ -52,6 +52,7 @@ struct PlayerInformation
 struct RoomInformation
 {
 	int player_num;
+	bool player_alive[MAX_CONNECTIONS];
 	char player_name[MAX_CONNECTIONS][10];
 };
 

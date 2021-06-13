@@ -47,8 +47,14 @@ public:
 	void listen();
 	void map_init(int seed = 19260817);
 	void map_update();
+	bool startGame();
+	bool GameIsStarted();
 	int getConnectionNum();
 	void open_debug_mode();
+	void room_update();
 };
+
+extern CHServer* chserver;
+
 
 #endif 
