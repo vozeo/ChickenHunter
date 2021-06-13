@@ -28,7 +28,7 @@ public:
 		auto weaponType = random(0, 3);
 		if (weapon && weapon->initWithFile(StringUtils::format("images/weapon_%d.png", weaponType))) {
 			weapon->autorelease();
-			weapon->weaponInit(0.5f + rand_0_1(), random(0, 5), weaponType, true);
+			weapon->weaponInit(weaponType, true);
 			return weapon;
 		}
 		CC_SAFE_DELETE(weapon);
@@ -36,11 +36,12 @@ public:
 	}
 
 	CC_SYNTHESIZE(float, m_speed, WeaponSpeed);
+	CC_SYNTHESIZE(float, m_fire_speed, FireWeaponSpeed);
 	CC_SYNTHESIZE(float, m_attack, WeaponAttack);
 	CC_SYNTHESIZE(int, m_type, WeaponType);
 	CC_SYNTHESIZE(bool, m_state, WeaponState);
 
-	void weaponInit(float speed, float attack, int type, bool state);
+	void weaponInit(int type, bool state);
 };
 
 class Bandage : public Item {

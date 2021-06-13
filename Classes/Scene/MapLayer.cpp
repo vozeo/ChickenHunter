@@ -190,7 +190,7 @@ void MapLayer::registerTouchEvent() {
 
 		hunter->bulletLocation = touch->getLocation();
 
-		schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed());
+		schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed()- hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
 		return true;
 	};
 
@@ -473,7 +473,7 @@ void MapLayer::initSetItem()
 
 	Weapon* weapon = Weapon::create();
 	weapon->retain();
-	weapon->weaponInit(1, 1, 4, 0);
+	weapon->weaponInit(4, 0);
 	hunter->m_gun[4] = weapon;
 
 	hunter->setPlayerRefresh(true);
