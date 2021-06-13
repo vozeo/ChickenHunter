@@ -13,6 +13,7 @@ class CHClient
 	io_service* client;
 	transport_handle_t thandle;
 	int uid = 0;
+	bool started = false;
 public:
 	RoomInformation room;
 	MapInformation map;
@@ -23,6 +24,8 @@ public:
 	int getuid();
 	void setName(const char* name);
 	bool upload(PlayerAction action);
+	bool isStarted();
 };
+extern CHClient* hunter_client;
 
 #endif 

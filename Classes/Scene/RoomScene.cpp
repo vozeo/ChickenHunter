@@ -1,5 +1,5 @@
 #include "Scene/RoomScene.h"
-
+#include <cstring>
 USING_NS_CC;
 
 Scene* Room::createScene(bool isServer)
@@ -34,9 +34,8 @@ bool Room::init(bool isServer)
 	*/
 
 	if (isServer) {
-		auto startGame = MenuItemFont::create("Start", [=](Ref* render) {
-			auto* scene = Game::create();
-			Director::getInstance()->pushScene(TransitionFade::create(0.3f, static_cast<Scene*>(scene), Color3B(0, 255, 255)));
+		startGame = MenuItemFont::create("Start", [=](Ref* render) {
+				chserver->startGame();
 			});
 		startGame->setColor(Color3B(255, 215, 0));
 
@@ -46,6 +45,33 @@ bool Room::init(bool isServer)
 		choiceMenu->alignItemsHorizontally();
 		this->addChild(choiceMenu, 1);
 	}
-
+	this->scheduleUpdate();
 	return true;
+}
+
+void Room::update(float fDelta)
+{
+	if (chserver != nullptr)
+	{
+		chserver->room_update();
+	}
+
+	if (hunter_client->room.player_num < 1) return;
+	for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
+	{
+		//string s = hunter_client->room.player_name[i + 1];
+		//if (s.length() > 2)
+			//playerLabel[i]->setString(s);
+		if(hunter_client->room.player_alive[i + 1])
+			playerLabel[i]->setString(hunter_client->room.player_name[i + 1]);
+		else
+			playerLabel[i]->setString("Unoccupied");
+		if (hunter_client->isStarted() && (!started))
+		{
+			started = true;
+			CCLOG("GAME STARTED!");
+			auto* scene = Game::create();
+			Director::getInstance()->pushScene(TransitionFade::create(0.3f, static_cast<Scene*>(scene), Color3B(0, 255, 255)));
+		}
+	}
 }

@@ -1,11 +1,12 @@
 #include "Client.h"
 #include <cstring>
 #include <iostream>
-#include <Windows.h>
 
 using namespace std;
 using namespace yasio;
 using namespace yasio::inet;
+
+CHClient* hunter_client = nullptr;
 
 CHClient::CHClient(const char* ip, unsigned short port)
 {
@@ -35,11 +36,11 @@ CHClient::CHClient(const char* ip, unsigned short port)
             }
             else if (strstr(header, "GO"))//游戏结束
             {
-                
+                started = false;
             }
             else if (strstr(header, "ST"))//游戏开始
             {
-
+                started = true;
             }
             fflush(stdout);
             break;
@@ -75,8 +76,10 @@ int CHClient::getuid()
 
 void CHClient::setName(const char* name)
 {
-    char buf[30] = "SN\0";
+    char buf[128] = "SN\0";
     strcpy(buf + HEAD_LENGTH, name);
+    while (uid == 0)
+        ;
     client->write(thandle, buf, HEAD_LENGTH + 10);
 }
 
@@ -88,3 +91,7 @@ bool CHClient::upload(PlayerAction action)
     return true;
 }
 
+bool CHClient::isStarted()
+{
+    return started;
+}
