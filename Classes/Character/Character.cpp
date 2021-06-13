@@ -3,17 +3,19 @@
 USING_NS_CC;
 
 Character::Character() :
-	m_character_anim_down(nullptr),
-	m_character_anim_left(nullptr),
-	m_character_anim_right(nullptr),
-	m_character_anim_up(nullptr),
-	m_character_frame_cache(nullptr),
-	m_bleed(m_MAX_BLEED),
-	m_attack(1),
-	m_defense(1),
+    m_character_anim_down(nullptr),
+    m_character_anim_left(nullptr),
+    m_character_anim_right(nullptr),
+    m_character_anim_up(nullptr),
+    m_character_frame_cache(nullptr),
+    m_bleed(m_MAX_BLEED),
+    m_attack(1),
+    m_defense(1),
     m_weapon(4),
     m_bullet(0),
-    m_refresh(false){}
+    m_point(0),
+    m_refresh(false),
+    m_hasDeath(false){}
 
 Character::~Character() {
 	m_character_anim_down->release();

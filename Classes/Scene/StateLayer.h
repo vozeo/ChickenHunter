@@ -25,7 +25,9 @@ private:
 	Label* time_label;
 	Label* bullet_label;
 
+	std::vector<Character*> m_enemy;
     Character* hunter;
+	int aliveNumber = 0;
 
 	Vector<MenuItem*> guns;
     MenuItem* gun[5][2];
@@ -35,7 +37,7 @@ private:
 	system_clock::time_point startTime;
 	 
 public:
-	static State* create(Character* gameHunter)
+	static State* create(std::vector<Character*> gameHunter)
 	{
 		State* pRet = new(std::nothrow) State();
 		if (pRet && pRet->init(gameHunter))
@@ -51,8 +53,8 @@ public:
 		}
 	}
 
-    static cocos2d::Layer* createScene(Character* gameHunter);
-    virtual bool init(Character* gameHunter);
+    static cocos2d::Layer* createScene(std::vector<Character*> gameHunter);
+    virtual bool init(std::vector<Character*> gameHunter);
     virtual void initState();
     virtual void initGun();
 

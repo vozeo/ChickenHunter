@@ -40,7 +40,9 @@ private:
 	CC_SYNTHESIZE(int, m_defense, PlayerDefense);
 	CC_SYNTHESIZE(int, m_weapon, PlayerWeapon);
 	CC_SYNTHESIZE(int, m_bullet, PlayerBullet);
+	CC_SYNTHESIZE(int, m_point, PlayerPoint);
 	CC_SYNTHESIZE(bool, m_refresh, PlayerRefresh);
+	CC_SYNTHESIZE(bool, m_hasDeath, PlayerDeath);
 
 public: 
 	std::vector<Weapon*> m_we;

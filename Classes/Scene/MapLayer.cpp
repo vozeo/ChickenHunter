@@ -210,11 +210,14 @@ void MapLayer::makeKnifeAttack(Character* character) {
 	Vec2 pos = character->getPosition();
 	showEffect(pos);
 	for (auto enemy : m_enemy) {
-		if (enemy == character)
+		if (enemy == character || enemy->getPlayerDeath())
 			continue;
 		Vec2 enemyPos = enemy->getPosition();
 		if (enemyPos.getDistance(pos) < 100) {
-			enemy->setPlayerBleed(enemy->getPlayerBleed() - 5 - character->getPlayerAttack());
+			int bleed = enemy->getPlayerBleed() - 5 - character->getPlayerAttack();
+			if (bleed < 0)
+				bleed = 0;
+			enemy->setPlayerBleed(bleed);
 			showAttacked(enemy->getPosition());
 		}
 	}
@@ -280,10 +283,7 @@ void MapLayer::showAttacked(Vec2 pos) {
 
 /*
 void MapLayer::update(float fDelta) {
-	for (auto enemy : m_enemy) {
-		if (enemy->getPlayerBleed() <= 0)
-			enemy->setVisible(false);
-	}
+
 	for (auto bullet : bullets) {
 		if (bullet->getBulletActive()) {
 			auto bulletX = bullet->getPositionX();
@@ -297,19 +297,22 @@ void MapLayer::update(float fDelta) {
 			}
 			Rect rect_bullet = bullet->getBoundingBox();
 			for (auto enemy : m_enemy) {
-				if (enemy->getPlayerBleed() <= 0)
+				if (enemy->getPlayerDeath())
 					continue;
 				Rect rect_enemy = enemy->getBoundingBox();
 				if (rect_enemy.intersectsRect(rect_bullet)) {
 					showAttacked(enemy->getPosition());
-					enemy->setPlayerBleed(enemy->getPlayerBleed() - bullet->getBulletAttack());
+					int bleed = enemy->getPlayerBleed() - bullet->getBulletAttack();
+					if (bleed < 0)
+						bleed = 0;
+					enemy->setPlayerBleed(bleed);
 				}
 			}
 		}
 	}
 	for (auto enemy : m_enemy)
 	{
-		if (enemy->getPlayerBleed() <= 0)
+		if (enemy->getPlayerDeath())
 			continue;
 		if (enemy != hunter) {
 			judgePick(enemy);
@@ -545,7 +548,7 @@ void MapLayer::enemyFire(float delt)
 	Rect rect_hunter = hunter->getBoundingBox();
 	for (auto enemy : m_enemy)
 	{
-		if (enemy == hunter)
+		if (enemy->getPlayerDeath() || enemy == hunter)
 			continue;
 		Rect rect_enemy(enemy->getPosition().x - 300, enemy->getPosition().y - 300, 600, 600);
 		if (rect_enemy.intersectsRect(rect_hunter))

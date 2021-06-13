@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-Layer* State::createScene(Character* gameHunter)
+Layer* State::createScene(std::vector<Character*> gameHunter)
 {
     return State::create(gameHunter);
 }
@@ -15,17 +15,24 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
-bool State::init(Character* gameHunter)
+bool State::init(std::vector<Character*> gameHunter)
 {
     if ( !Layer::init() )
 	{
         return false;
     }
 	scheduleUpdate();
+	
+	m_enemy = gameHunter;
+	hunter = m_enemy[0];
+	aliveNumber = m_enemy.size();
 
-	hunter = gameHunter;
 	initState();
 	initGun();
+
+	for (auto enemy : m_enemy)
+		if (enemy != hunter)
+			enemy->setPlayerBleed(1);
 
 	startTime = system_clock::now();
 
@@ -89,6 +96,32 @@ void State::initGun() {
 }
 
 void State::update(float fDelta) {
+	for (auto enemy : m_enemy) {
+		if (!enemy->getPlayerDeath() && enemy->getPlayerBleed() <= 0) {
+			--aliveNumber;
+			enemy->setPlayerDeath(true);
+			enemy->setPlayerPoint(getTime());
+			if (enemy == hunter) {
+				for (auto aliveEnemy : m_enemy) {
+					if (!aliveEnemy->getPlayerDeath()) {
+						aliveEnemy->setPlayerPoint(getTime() * 4 / 3 + aliveEnemy->getPlayerBullet() / 10 + aliveEnemy->getPlayerBleed() / 10);
+					}
+				}
+				RankLayer* rank = RankLayer::create();
+				rank->rankInit(false, m_enemy);
+				addChild(rank, 6);
+			}
+			enemy->removeFromParent();
+			if (aliveNumber == 1 && !hunter->getPlayerDeath()) {
+				hunter->setPlayerPoint(getTime() + 10);
+				RankLayer* rank = RankLayer::create();
+				rank->rankInit(true, m_enemy);
+				addChild(rank, 6);
+			}
+		}
+	}
+
+
 	if (hunter->getPlayerRefresh()) {
 		hunter->setPlayerRefresh(false);
 		gunMenu->removeAllChildren();
@@ -108,7 +141,7 @@ void State::update(float fDelta) {
 	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->m_MAX_BLEED);
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
 
-	survivor_label->setString("Survivor : 1");
+	survivor_label->setString("Survivor : " + Value(aliveNumber).asString());
 	int nowTime = getTime();
 	int nowSec = nowTime % 60, nowMin = nowTime / 60;
 	std::string sec = Value(nowSec).asString();

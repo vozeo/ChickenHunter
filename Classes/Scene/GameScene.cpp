@@ -28,6 +28,7 @@ bool Game::init()
 	{
 		m_hunter.push_back(Character::create());
 		m_hunter[i]->retain();
+		m_hunter[i]->setName("Player" + Value(i).asString());
 	}
 	hunter = m_hunter[0];
 
@@ -35,7 +36,7 @@ bool Game::init()
 	map->setVolume(&m_volume);
     addChild(map, 1);
 
-	stateUI = State::create(hunter);
+	stateUI = State::create(m_hunter);
 	addChild(stateUI, 2);
 
 	auto exit_img = MenuItemImage::create(
