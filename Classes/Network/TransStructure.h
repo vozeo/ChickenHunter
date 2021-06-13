@@ -32,7 +32,7 @@ const int HEAD_LENGTH = 4;
 
 struct PlayerAction
 {
-	short keyboard_action = PA_NONE;
+	short speed[4] = { 0 };
 	short hp_change = 0;
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
@@ -58,6 +58,7 @@ struct RoomInformation
 
 struct MapInformation
 {
+	bool is_updated = false;
 	int player_num;
 	PlayerInformation player[MAX_CONNECTIONS];
 };

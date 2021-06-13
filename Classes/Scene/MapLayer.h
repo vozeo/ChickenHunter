@@ -12,6 +12,9 @@
 #include "Weapon/Bullet.h"
 #include <map>
 #include <ctime>
+#include "Network/Client.h"
+#include "Network/Server.h"
+#include "Network/TransStructure.h"
 
 USING_NS_CC;
 
@@ -28,6 +31,8 @@ private:
 
     Character* hunter;
 
+	//add map information
+	MapInformation save_map;
 	//add enemies
 	
 	const int m_enemy_number = 10;

@@ -48,6 +48,7 @@ public:
 	void map_init(int seed = 19260817);
 	void map_update();
 	bool startGame();
+	void closeGame();
 	bool GameIsStarted();
 	int getConnectionNum();
 	void open_debug_mode();

@@ -61,7 +61,7 @@ CHServer::CHServer(const char* ip, unsigned short port)
             else if (strstr(header, "PA"))
             {
                 //if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
-                memcpy(&paction[uid[thandle]], packet.data() + HEAD_LENGTH, sizeof(MapInformation));
+                memcpy(&paction[uid[thandle]], packet.data() + HEAD_LENGTH, sizeof(PlayerAction));
             }
             else if (strstr(header, "ST"))//游戏开始
             {
@@ -131,28 +131,31 @@ void CHServer::map_update()
 {
     //客户端上传的数据读取
     if (connection_num == 0)
-        return;
+    {
+        started = false;
+        memset(&smap, 0, sizeof(MapInformation));
+        memset(&room, 0, sizeof(RoomInformation));
+        closeGame();
+    }
     //if (debug_mode)cout << "DEBUG#MAP_UPDATE #START#" << endl;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
     {
         if (uid_usage[i] && smap.player[i].alive)
         {
-            switch (paction[i].keyboard_action)
-            {
-            case PA_LEFT: smap.player[i].position_x += -4; break;
-            case PA_RIGHT: smap.player[i].position_x += 4; break;
-            case PA_UP: smap.player[i].position_y += 4; break;
-            case PA_DOWN: smap.player[i].position_y += -4; break;
-            }
-            if (paction[i].is_shoot)
-            {
-                ;
-            }
-            memset(&paction[i], 0, sizeof(PlayerAction));
+        if (paction[i].speed[0]) smap.player[i].position_x += 4;
+        else if (paction[i].speed[1]) smap.player[i].position_x += -4;
+        else if (paction[i].speed[2]) smap.player[i].position_y += -4;
+        else if (paction[i].speed[3]) smap.player[i].position_y += 4;
+        if (paction[i].is_shoot)
+        {
+            ;
+        }
+        memset(&paction[i], 0, sizeof(PlayerAction));
         }
     }
     //更新地图
     memset(&map_trans, 0, sizeof(MapInformation));
+    map_trans.is_updated = true;
     map_trans.player_num = connection_num;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
         if (uid_usage[i] && smap.player[i].alive)
@@ -175,7 +178,7 @@ void CHServer::map_update()
 
 bool CHServer::startGame()
 {
-    if (debug_mode)cout << "#DEBUG#START: " << (started ? "YES" : "NO") << endl;
+    if (debug_mode)cout << "#DEBUG#GAME START " << endl;
     if(started == true)
         return false;
     started = true;
@@ -187,6 +190,20 @@ bool CHServer::startGame()
         }
     this->map_init();
     return true;
+}
+
+void CHServer::closeGame()
+{
+    if (debug_mode)cout << "#DEBUG#GAME CLOSE" << endl;
+    if (started == true)
+        return;
+    started = false;
+    for (int i = 1; i < MAX_CONNECTIONS; i++)
+        if (uid_usage[i])
+        {
+            if (debug_mode)cout << "TELL CLOSED: " << i << endl;
+            server->write(uid_to_handle[i], "GO\0", HEAD_LENGTH);
+        }
 }
 
 bool CHServer::GameIsStarted()

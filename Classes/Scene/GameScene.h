@@ -27,7 +27,7 @@ private:
     Sprite* m_cursor;
 
     MapLayer* map;
-
+    MapInformation map_save;
     State* stateUI;
 
     const int m_hunter_number = 10;
