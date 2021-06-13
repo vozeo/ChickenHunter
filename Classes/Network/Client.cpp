@@ -1,6 +1,7 @@
 #include "Client.h"
 #include <cstring>
 #include <iostream>
+#include <Windows.h>
 
 using namespace std;
 using namespace yasio;
@@ -30,8 +31,15 @@ CHClient::CHClient(const char* ip, unsigned short port)
             }
             else if (strstr(header, "MP"))
             {
-                //cout << "DEBUG#:MP" << endl;
                 memcpy(&map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
+            }
+            else if (strstr(header, "GO"))//游戏结束
+            {
+                
+            }
+            else if (strstr(header, "ST"))//游戏开始
+            {
+
             }
             fflush(stdout);
             break;

@@ -10,13 +10,14 @@ const int HEAD_LENGTH = 4;
 * GU = 查询uid
 * SN = 设置名字
 * PA = 玩家操作信息
+* ST = 开始游戏
 * 
 * 服务端动作
 * SU = 发送uid
 * RO = 房间信息
 * MP = 地图信息
-* 
-* 
+* GO = 游戏结束
+* ST = 通知所有玩家开始游戏
 */
 
 
@@ -40,14 +41,12 @@ struct PlayerAction
 
 struct PlayerInformation
 {
-	bool is_dead = 0;
+	bool alive = 0;
 	int uid = 0;
-	char num[10];
 	int hp = 100;
 	float position_x = 0, position_y = 0;
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
-	void clear();
 };
 
 struct RoomInformation

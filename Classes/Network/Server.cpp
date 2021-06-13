@@ -54,8 +54,12 @@ CHServer::CHServer(const char* ip, unsigned short port)
             }
             else if (strstr(header, "PA"))
             {
-                if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
+                //if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
                 memcpy(&paction[uid[thandle]], packet.data() + HEAD_LENGTH, sizeof(MapInformation));
+            }
+            else if (strstr(header, "ST"))//ÓÎÏ·¿ªÊ¼
+            {
+
             }
             fflush(stdout);
             break;
@@ -145,6 +149,7 @@ void CHServer::map_update()
     for (int i = 1; i < MAX_CONNECTIONS; i++)
         if (uid_usage[i] && smap.player[i].alive)
         {
+            map_trans.player[i].alive = true;
             map_trans.player[i].position_x = smap.player[i].position_x;
             map_trans.player[i].position_y = smap.player[i].position_y;
             map_trans.player[i].hp = map_trans.player[i].hp;
@@ -154,8 +159,8 @@ void CHServer::map_update()
         {
             char buf[sizeof(MapInformation) + HEAD_LENGTH + 2] = "MP\0";
             memcpy(buf + HEAD_LENGTH, &map_trans, sizeof(MapInformation));
-            if (debug_mode)cout << "Send Map to #" << uid_to_handle[i] << "#" << endl;
-            server->write(uid_to_handle[i], buf, sizeof(PlayerInformation) + HEAD_LENGTH);
+            if (debug_mode)cout << "Send Map to #" << uid_to_handle[i] << "# size:" << HEAD_LENGTH + sizeof(MapInformation) << endl;
+            server->write(uid_to_handle[i], buf,HEAD_LENGTH + sizeof(MapInformation));
         }
     //if (debug_mode)cout << "DEBUG#MAP_UPDATE #OVER#" << endl;
 }

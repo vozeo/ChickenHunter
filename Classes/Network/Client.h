@@ -16,7 +16,6 @@ class CHClient
 public:
 	RoomInformation room;
 	MapInformation map;
-	
 public:
 	CHClient(const char* ip, unsigned short port = 25595);
 	~CHClient();
