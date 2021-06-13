@@ -148,12 +148,12 @@ void MapLayer::judgePick(Character* character) {
 	{
 		if (bn->getBoundingBox().intersectsRect(rect_character))
 		{
-			bn->removeFromParent();
-			m_bandage.erase(find(m_bandage.begin(), m_bandage.end(), bn));
 			int bleed = character->getPlayerBleed() + bn->getRecoverHP();
 			if (bleed > character->m_MAX_BLEED)
 				bleed = character->m_MAX_BLEED;
 			character->setPlayerBleed(bleed);
+			bn->removeFromParent();
+			m_bandage.erase(find(m_bandage.begin(), m_bandage.end(), bn));
 			break;
 		}
 	}
@@ -162,6 +162,7 @@ void MapLayer::judgePick(Character* character) {
 	{
 		if (am->getBoundingBox().intersectsRect(rect_character))
 		{
+			character->setPlayerBullet(character->getPlayerBullet() + am->getAddBullet());
 			am->removeFromParent();
 			m_ammunition.erase(find(m_ammunition.begin(), m_ammunition.end(), am));
 			break;

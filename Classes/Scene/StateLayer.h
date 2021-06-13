@@ -23,6 +23,7 @@ private:
     Label* blood_label;
     Label* survivor_label;
 	Label* time_label;
+	Label* bullet_label;
 
     Character* hunter;
 

@@ -39,7 +39,7 @@ private:
 	CC_SYNTHESIZE(int, m_attack, PlayerAttack);
 	CC_SYNTHESIZE(int, m_defense, PlayerDefense);
 	CC_SYNTHESIZE(int, m_weapon, PlayerWeapon);
-	CC_SYNTHESIZE(int, m_bullet, PlayerWeapon);
+	CC_SYNTHESIZE(int, m_bullet, PlayerBullet);
 	CC_SYNTHESIZE(bool, m_refresh, PlayerRefresh);
 
 public: 

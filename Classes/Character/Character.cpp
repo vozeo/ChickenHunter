@@ -12,6 +12,7 @@ Character::Character() :
 	m_attack(1),
 	m_defense(1),
     m_weapon(4),
+    m_bullet(0),
     m_refresh(false){}
 
 Character::~Character() {

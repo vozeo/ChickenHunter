@@ -49,6 +49,7 @@ void State::initState()
 	blood_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 25);
 	survivor_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 30);
 	time_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 30);
+	bullet_label = Label::createWithTTF("", "fonts/Marker Felt.ttf", 30);
 
 	blood_label->setPosition(Vec2(winSize.width / 2 - winSize.width / 6.2f, winSize.height / 25));
 	survivor_label->setAnchorPoint(Vec2(0, 1));
@@ -57,9 +58,12 @@ void State::initState()
 	time_label->setAnchorPoint(Vec2(0.5, 1));
 	time_label->setPosition(Vec2(winSize.width / 2, winSize.height));
 
+	bullet_label->setPosition(winSize.width / 4, winSize.height / 25);
+
 	this->addChild(blood_label, 1);
 	this->addChild(time_label, 1);
 	this->addChild(survivor_label, 1);
+	addChild(bullet_label, 1);
 }
 
 void State::initGun() {
@@ -114,6 +118,7 @@ void State::update(float fDelta) {
 	if (nowMin < 10)
 		min = "0" + min;
 	time_label->setString("Time : " + min + ":" + sec);
+	bullet_label->setString("Bullet : " + Value(hunter->getPlayerBullet()).asString());
 }
 
 int State::getTime() {
