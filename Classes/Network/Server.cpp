@@ -108,7 +108,7 @@ void CHServer::listen()
 {
     if (server != nullptr)
         server->open(0, YCK_TCP_SERVER);
-}
+} 
 
 #define CHRAND() ((float)rand()/RAND_MAX)
 void CHServer::map_init(int seed)

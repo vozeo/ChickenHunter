@@ -344,6 +344,8 @@ void MapLayer::update(float fDelta) {
 			chserver->map_trans.player_left_num = 0;
 			for (int i = 1; i < MAX_CONNECTIONS; i++)
 			{
+				for (int j = 0; j < 4; j++)
+					chserver->map_trans.player[i].speed[j] = chserver->paction[i].speed[j];
 				if (m_enemy[i - 1]->getPlayerBleed() > 0)
 				{
 					//CCLOG("UPDATEING PLAYER#%d", i);
