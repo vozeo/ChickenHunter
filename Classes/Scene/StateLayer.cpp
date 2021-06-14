@@ -146,12 +146,14 @@ void State::update(float fDelta) {
 						aliveEnemy->setPlayerPoint(getTime() * 4 / 3 + aliveEnemy->getPlayerBullet() / 10 + aliveEnemy->getPlayerBleed() / 10);
 					}
 				}
+				gameIsEnd = true;
 				RankLayer* rank = RankLayer::create();
 				rank->rankInit(false, m_enemy);
 				addChild(rank, 3);
 			}
 			enemy->removeFromParent();
 			if (aliveNumber == 1 && !hunter->getPlayerDeath()) {
+				gameIsEnd = true;
 				hunter->setPlayerPoint(getTime() + 10);
 				RankLayer* rank = RankLayer::create();
 				rank->rankInit(true, m_enemy);
@@ -160,7 +162,8 @@ void State::update(float fDelta) {
 		}
 	}
 
-
+	if (gameIsEnd)
+		return;
 	if (hunter->getPlayerRefresh()) {
 		hunter->setPlayerRefresh(false);
 		gunMenu->removeAllChildren();

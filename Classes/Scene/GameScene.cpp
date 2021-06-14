@@ -31,7 +31,7 @@ bool Game::init()
 		m_hunter[i]->setName("Player" + Value(i).asString());
 	}
 	hunter = m_hunter[0];
-	hunter->setPlayerName("hunter");
+	hunter->setName("hunter");
 
     map = MapLayer::create(m_hunter);
 	map->setVolume(&m_volume);

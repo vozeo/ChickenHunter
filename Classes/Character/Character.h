@@ -33,7 +33,6 @@ public:
 	void initAnimate();
 
 private:
-	CC_SYNTHESIZE(std::string, m_name, PlayerName);
 	CC_SYNTHESIZE(int, m_MAX_BLEED, MAXBLEED);
 	CC_SYNTHESIZE(int, m_bleed, PlayerBleed);
 	CC_SYNTHESIZE(float, m_attack, PlayerAttack);

@@ -28,6 +28,7 @@ private:
 	std::vector<Character*> m_enemy;
     Character* hunter;
 	int aliveNumber = 0;
+	bool gameIsEnd = false;
 
 	Vector<MenuItem*> guns;
     MenuItem* gun[5][2];
