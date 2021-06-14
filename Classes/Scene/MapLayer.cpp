@@ -276,7 +276,7 @@ void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bull
 					break;
 			}
 			
-			bullet->setBulletAttack(weapon->getWeaponAttack() * weapon->getWeaponAttack());
+			bullet->setBulletAttack(weapon->getWeaponAttack() * character->getPlayerAttack());
 			bullet->setVisible(true);
 			f++;
 			if (f >= fmax)
@@ -520,10 +520,10 @@ void MapLayer::update(float fDelta) {
 				if (nextT >= enemy->getThinkTime())
 				{
 					enemy->setThought(0);
-					enemy->m_speed[0] = rand() % 2;
-					enemy->m_speed[1] = rand() % 2;
-					enemy->m_speed[2] = rand() % 2;
-					enemy->m_speed[3] = rand() % 2;
+					enemy->m_speed[0] = random(0, 1);
+					enemy->m_speed[1] = random(0, 1);
+					enemy->m_speed[2] = random(0, 1);
+					enemy->m_speed[3] = random(0, 1);
 					enemy->stopAllActions();
 				}
 			}

@@ -35,7 +35,7 @@ bool State::init(std::vector<Character*> gameHunter)
 			player->setPlayerBleed(120);
 			break;
 		case 1:
-			player->setPlayerAttack(1.25);
+			player->setPlayerAttack(1.25f);
 			break;
 		case 2:
 			player->setPlayerDefense(0.8f);
