@@ -19,6 +19,24 @@ public:
 	virtual bool init();
 };
 
+class Bullet : public Item {
+public:
+	static Bullet* create(const std::string& filename)
+	{
+		Bullet* sprite = new (std::nothrow) Bullet();
+		if (sprite && sprite->initWithFile(filename)) {
+			sprite->autorelease();
+			return sprite;
+		}
+		CC_SAFE_DELETE(sprite);
+		return nullptr;
+	}
+
+	CC_SYNTHESIZE(bool, m_active, BulletActive);
+	CC_SYNTHESIZE(int, m_speed, BulletSpeed);
+	CC_SYNTHESIZE(int, m_attack, BulletAttack);
+};
+
 class Weapon : public Item {
 public:
 

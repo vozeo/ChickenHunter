@@ -10,7 +10,6 @@
 #include "StateLayer.h"
 #include "RankLayer.h"
 #include "Item/Item.h"
-#include "Weapon/Bullet.h"
 #include <map>
 #include <ctime>
 #include "Network/Client.h"
