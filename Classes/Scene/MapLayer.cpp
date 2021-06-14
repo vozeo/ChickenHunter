@@ -321,7 +321,7 @@ void MapLayer::update(float fDelta) {
 					Rect rect_enemy = enemy->getBoundingBox();
 					if (rect_enemy.intersectsRect(rect_bullet)) {
 						showAttacked(enemy->getPosition());
-						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack() * enemy->getPlayerDefense();
+						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack();
 						if (bleed < 0)
 							bleed = 0;
 						enemy->setPlayerBleed(bleed);
@@ -384,7 +384,7 @@ void MapLayer::update(float fDelta) {
 					Rect rect_enemy = enemy->getBoundingBox();
 					if (rect_enemy.intersectsRect(rect_bullet)) {
 						showAttacked(enemy->getPosition());
-						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack();
+						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack() * enemy->getPlayerDefense();
 						if (bleed < 0)
 							bleed = 0;
 						enemy->setPlayerBleed(bleed);
