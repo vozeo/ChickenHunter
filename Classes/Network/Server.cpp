@@ -137,43 +137,25 @@ void CHServer::map_update()
         memset(&room, 0, sizeof(RoomInformation));
         closeGame();
     }
-    //if (debug_mode)cout << "DEBUG#MAP_UPDATE #START#" << endl;
-    for (int i = 1; i < MAX_CONNECTIONS; i++)
-    {
-        if (uid_usage[i] && smap.player[i].alive)
-        {
-        if (paction[i].speed[0]) smap.player[i].position_x += 4;
-        if (paction[i].speed[1]) smap.player[i].position_x += -4;
-        if (paction[i].speed[2]) smap.player[i].position_y += -4;
-        if (paction[i].speed[3]) smap.player[i].position_y += 4;
-        if (paction[i].is_shoot)
-        {
-            ;
-        }
-        memset(&paction[i], 0, sizeof(PlayerAction));
-        }
-    }
-    //¸üÐÂµØÍ¼
     memset(&map_trans, 0, sizeof(MapInformation));
     map_trans.is_updated = true;
-    map_trans.player_num = connection_num;
-    for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (uid_usage[i] && smap.player[i].alive)
-        {
-            map_trans.player[i].alive = true;
-            map_trans.player[i].position_x = smap.player[i].position_x;
-            map_trans.player[i].position_y = smap.player[i].position_y;
-            map_trans.player[i].hp = map_trans.player[i].hp;
-        }
+    
+}
+
+void CHServer::map_upload()
+{
     for (int i = 1; i < MAX_CONNECTIONS; i++)
         if (uid_usage[i])
         {
             char buf[sizeof(MapInformation) + HEAD_LENGTH + 2] = "MP\0";
             memcpy(buf + HEAD_LENGTH, &map_trans, sizeof(MapInformation));
-            //if (debug_mode)cout << "Send Map to #" << uid_to_handle[i] << "# size:" << HEAD_LENGTH + sizeof(MapInformation) << endl;
-            server->write(uid_to_handle[i], buf,HEAD_LENGTH + sizeof(MapInformation));
+            server->write(uid_to_handle[i], buf, HEAD_LENGTH + sizeof(MapInformation));
         }
-    //if (debug_mode)cout << "DEBUG#MAP_UPDATE #OVER#" << endl;
+}
+
+bool CHServer::uid_is_used(int uid)
+{
+    return uid_usage[uid];
 }
 
 bool CHServer::startGame()

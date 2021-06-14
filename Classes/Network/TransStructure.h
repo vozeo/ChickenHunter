@@ -59,7 +59,7 @@ struct RoomInformation
 struct MapInformation
 {
 	bool is_updated = false;
-	int player_num;
+	int player_left_num;
 	PlayerInformation player[MAX_CONNECTIONS];
 };
 
