@@ -174,8 +174,8 @@ void MapLayer::judgePick(Character* character) {
 		if (bn->getBoundingBox().intersectsRect(rect_character))
 		{
 			int bleed = character->getPlayerBleed() + bn->getRecoverHP();
-			if (bleed > character->m_MAX_BLEED)
-				bleed = character->m_MAX_BLEED;
+			if (bleed > character->getMAXBLEED())
+				bleed = character->getMAXBLEED();
 			character->setPlayerBleed(bleed);
 			bn->removeFromParent();
 			m_bandage.erase(find(m_bandage.begin(), m_bandage.end(), bn));
@@ -235,7 +235,7 @@ void MapLayer::makeKnifeAttack(Character* character) {
 			continue;
 		Vec2 enemyPos = enemy->getPosition();
 		if (enemyPos.getDistance(pos) < 100) {
-			auto bleed = enemy->getPlayerBleed() - 5 - character->getPlayerAttack();
+			auto bleed = enemy->getPlayerBleed() - 5 * character->getPlayerAttack() * enemy->getPlayerDefense();
 			if (bleed < 0)
 				bleed = 0;
 			enemy->setPlayerBleed(bleed);
@@ -255,7 +255,7 @@ void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bull
 			bullet->setPosition(character->getPositionX() + bulletX / time / 20, character->getPositionY() + bulletY / time / 20);
 			bullet->setRotation(calRotation(bulletX, bulletY));
 			bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
-			bullet->setBulletAttack(weapon->getWeaponAttack());
+			bullet->setBulletAttack(character->getPlayerAttack() * weapon->getWeaponAttack());
 			bullet->setVisible(true);
 			break;
 		}
@@ -321,7 +321,7 @@ void MapLayer::update(float fDelta) {
 					Rect rect_enemy = enemy->getBoundingBox();
 					if (rect_enemy.intersectsRect(rect_bullet)) {
 						showAttacked(enemy->getPosition());
-						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack();
+						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack() * enemy->getPlayerDefense();
 						if (bleed < 0)
 							bleed = 0;
 						enemy->setPlayerBleed(bleed);

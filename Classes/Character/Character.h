@@ -13,11 +13,10 @@ public:
 	Character();
 	~Character();
 
-	const int m_MAX_BLEED = 100;
-
 	static cocos2d::Sprite* createSprite();
 	virtual bool init();
 	CREATE_FUNC(Character);
+
 
 	CC_SYNTHESIZE(Animate*, m_character_anim_down, CharacterAnimDown);
 	CC_SYNTHESIZE(Animate*, m_character_anim_left, CharacterAnimLeft);
@@ -35,9 +34,10 @@ public:
 
 private:
 	CC_SYNTHESIZE(std::string, m_name, PlayerName);
+	CC_SYNTHESIZE(int, m_MAX_BLEED, MAXBLEED);
 	CC_SYNTHESIZE(int, m_bleed, PlayerBleed);
-	CC_SYNTHESIZE(int, m_attack, PlayerAttack);
-	CC_SYNTHESIZE(int, m_defense, PlayerDefense);
+	CC_SYNTHESIZE(float, m_attack, PlayerAttack);
+	CC_SYNTHESIZE(float, m_defense, PlayerDefense);
 	CC_SYNTHESIZE(int, m_weapon, PlayerWeapon);
 	CC_SYNTHESIZE(int, m_bullet, PlayerBullet);
 	CC_SYNTHESIZE(int, m_point, PlayerPoint);
