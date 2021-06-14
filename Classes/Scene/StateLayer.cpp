@@ -24,7 +24,10 @@ bool State::init(std::vector<Character*> gameHunter)
 	scheduleUpdate();
 	
 	m_enemy = gameHunter;
-	hunter = m_enemy[0];
+	if (chclient != nullptr)
+		hunter = m_enemy[chclient->getuid() - 1];
+	else
+		hunter = m_enemy[0];
 	aliveNumber = m_enemy.size();
 
 	for (auto player : m_enemy) {

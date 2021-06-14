@@ -7,6 +7,7 @@
 #include "ui/CocosGUI.h"
 #include "Character/Character.h"
 #include "MapLayer.h"
+#include "Network/Client.h"
 
 #include <map>
 #include <chrono>

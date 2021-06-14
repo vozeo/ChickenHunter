@@ -32,6 +32,7 @@ bool MapLayer::init(std::vector<Character*> gameHunter)
 	else
 		hunter = m_enemy[0];
 
+
 	initSetItem();
 	initBullet();
 	if(chclient == nullptr)
