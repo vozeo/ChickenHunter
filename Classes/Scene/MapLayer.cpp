@@ -174,8 +174,8 @@ void MapLayer::judgePick(Character* character) {
 		if (bn->getBoundingBox().intersectsRect(rect_character))
 		{
 			int bleed = character->getPlayerBleed() + bn->getRecoverHP();
-			if (bleed > character->m_MAX_BLEED)
-				bleed = character->m_MAX_BLEED;
+			if (bleed > character->getMAXBLEED())
+				bleed = character->getMAXBLEED();
 			character->setPlayerBleed(bleed);
 			bn->removeFromParent();
 			m_bandage.erase(find(m_bandage.begin(), m_bandage.end(), bn));
@@ -235,7 +235,7 @@ void MapLayer::makeKnifeAttack(Character* character) {
 			continue;
 		Vec2 enemyPos = enemy->getPosition();
 		if (enemyPos.getDistance(pos) < 100) {
-			auto bleed = enemy->getPlayerBleed() - 5 - character->getPlayerAttack();
+			auto bleed = enemy->getPlayerBleed() - 5 * character->getPlayerAttack() * enemy->getPlayerDefense();
 			if (bleed < 0)
 				bleed = 0;
 			enemy->setPlayerBleed(bleed);
@@ -276,7 +276,7 @@ void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bull
 					break;
 			}
 			
-			bullet->setBulletAttack(weapon->getWeaponAttack());
+			bullet->setBulletAttack(weapon->getWeaponAttack() * character->getPlayerAttack());
 			bullet->setVisible(true);
 			f++;
 			if (f >= fmax)
@@ -333,13 +333,13 @@ void MapLayer::update(float fDelta) {
 	{
 		if (chserver != nullptr)
 		{
-			//本地动作直接传给服务器
+			//
 			chserver->paction[1].speed[0] = hunter->m_speed[0];
 			chserver->paction[1].speed[1] = hunter->m_speed[1];
 			chserver->paction[1].speed[2] = hunter->m_speed[2];
 			chserver->paction[1].speed[3] = hunter->m_speed[3];
 
-			//远程动作下载并处理
+			//
 			chserver->map_update();
 			chserver->map_trans.player_left_num = 0;
 			for (int i = 1; i < MAX_CONNECTIONS; i++)
@@ -355,7 +355,7 @@ void MapLayer::update(float fDelta) {
 						action_activated[i - 1] = 0;
 						m_enemy[i - 1]->stopAllActions();
 					}
-					if (chserver->paction[i].speed[0])//人物移动处理
+					if (chserver->paction[i].speed[0])//锟斤拷锟斤拷锟狡讹拷锟斤拷锟斤拷
 					{
 						if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 1)
 						{
@@ -414,12 +414,12 @@ void MapLayer::update(float fDelta) {
 						CCLOG("PALYER#%d MOVED FAILED", i);
 					}
 
-					//子弹啥的后面加在这下面
+					//
 					//CCLOG("UPDATE COMPLETE");
 				}
 				memset(&chserver->paction[i], 0, sizeof(PlayerAction));
 			}
-			//更新地图
+			//
 			for (int i = 1; i < MAX_CONNECTIONS; i++)
 			{
 				auto pos = m_enemy[i - 1]->getPosition();
@@ -428,16 +428,16 @@ void MapLayer::update(float fDelta) {
 			}
 			chserver->map_upload();
 		}
-		else//客户端逻辑
+		else//
 		{
-			//本地的动作上传
+			//
 			PlayerAction paction;
 			paction.speed[0] = hunter->m_speed[0];
 			paction.speed[1] = hunter->m_speed[1];
 			paction.speed[2] = hunter->m_speed[2];
 			paction.speed[3] = hunter->m_speed[3];
 			chclient->upload(paction);
-			MapInformation& current_map = chclient->map;//下载服务器端的数据并显示
+			MapInformation& current_map = chclient->map;//
 			if (current_map.is_updated)
 			{
 				for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
@@ -491,7 +491,7 @@ void MapLayer::update(float fDelta) {
 			memset(&chclient->map, 0, sizeof(MapInformation));
 		}
 	}
-	else//单机版游戏逻辑
+	else//
 	{
 		for (auto bullet : bullets) {
 			if (bullet->getBulletActive()) {
@@ -511,7 +511,7 @@ void MapLayer::update(float fDelta) {
 					Rect rect_enemy = enemy->getBoundingBox();
 					if (rect_enemy.intersectsRect(rect_bullet)) {
 						showAttacked(enemy->getPosition());
-						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack();
+						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack() * enemy->getPlayerDefense();
 						if (bleed < 0)
 							bleed = 0;
 						enemy->setPlayerBleed(bleed);
@@ -533,10 +533,10 @@ void MapLayer::update(float fDelta) {
 				if (nextT >= enemy->getThinkTime())
 				{
 					enemy->setThought(0);
-					enemy->m_speed[0] = rand() % 2;
-					enemy->m_speed[1] = rand() % 2;
-					enemy->m_speed[2] = rand() % 2;
-					enemy->m_speed[3] = rand() % 2;
+					enemy->m_speed[0] = random(0, 1);
+					enemy->m_speed[1] = random(0, 1);
+					enemy->m_speed[2] = random(0, 1);
+					enemy->m_speed[3] = random(0, 1);
 					enemy->stopAllActions();
 				}
 			}

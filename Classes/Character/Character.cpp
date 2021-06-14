@@ -8,6 +8,7 @@ Character::Character() :
     m_character_anim_right(nullptr),
     m_character_anim_up(nullptr),
     m_character_frame_cache(nullptr),
+    m_MAX_BLEED(100),
     m_bleed(m_MAX_BLEED),
     m_attack(1),
     m_defense(1),
