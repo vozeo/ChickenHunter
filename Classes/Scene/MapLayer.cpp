@@ -85,6 +85,9 @@ void MapLayer::registerKeyboardEvent() {
 		case EventKeyboard::KeyCode::KEY_E:
 			judgePick(hunter);
 			break;
+		case EventKeyboard::KeyCode::KEY_SPACE:
+			roll(hunter);
+			break;
 		default:
 			break;
 		}
@@ -128,6 +131,25 @@ void MapLayer::registerKeyboardEvent() {
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
+void MapLayer::roll(Character* character) {
+	float dx = 0, dy = 0;
+	if (character->m_speed[0])
+	{
+		dx += 40;
+	}
+	if (character->m_speed[1]) {
+		dx += -40;
+	}
+	if (character->m_speed[2]) {
+		dy += -40;
+	}
+	if (character->m_speed[3]) {
+		dy += 40;
+	}
+	CCLOG("roll");
+	character->runAction(MoveBy::create(0.1f, Vec2(dx, dy)));
 }
 
 void MapLayer::judgePick(Character* character) {
@@ -329,6 +351,10 @@ void MapLayer::update(float fDelta) {
 						if (bleed < 0)
 							bleed = 0;
 						enemy->setPlayerBleed(bleed);
+						bullet->setVisible(false);
+						bullet->stopAllActions();
+						bullet->setBulletActive(false);
+						break;
 					}
 				}
 			}
@@ -388,6 +414,9 @@ void MapLayer::update(float fDelta) {
 						if (bleed < 0)
 							bleed = 0;
 						enemy->setPlayerBleed(bleed);
+						bullet->setVisible(false);
+						bullet->stopAllActions();
+						bullet->setBulletActive(false);
 					}
 				}
 			}
@@ -449,7 +478,6 @@ void MapLayer::update(float fDelta) {
 		hunter->setPosition(hunter->getPosition());
 	}
 }
-
 
 //set enemies/items randomly and at anywhere except water space.
 template <class T>
