@@ -47,6 +47,8 @@ public:
 	void listen();
 	void map_init(int seed = 19260817);
 	void map_update();
+	void map_upload();
+	bool uid_is_used(int uid);
 	bool startGame();
 	void closeGame();
 	bool GameIsStarted();

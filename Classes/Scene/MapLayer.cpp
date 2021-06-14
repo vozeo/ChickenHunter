@@ -279,10 +279,13 @@ void MapLayer::showAttacked(Vec2 pos) {
 	effectCircle->runAction(Sequence::create(FadeOut::create(0.3f), RemoveSelf::create(), NULL));
 }
 
+int action_activated[MAX_CONNECTIONS] = { 0 };
+
 void MapLayer::update(float fDelta) {
 	if (chclient != nullptr)
 	{
-		for (auto enemy : m_enemy) {
+		/*
+				for (auto enemy : m_enemy) {
 			if (enemy->getPlayerBleed() <= 0)
 				enemy->setVisible(false);
 		}
@@ -309,38 +312,138 @@ void MapLayer::update(float fDelta) {
 				}
 			}
 		}
+		*/
+
 		if (chserver != nullptr)
 		{
+			//本地动作直接传给服务器
+			chserver->paction[1].speed[0] = hunter->m_speed[0];
+			chserver->paction[1].speed[1] = hunter->m_speed[1];
+			chserver->paction[1].speed[2] = hunter->m_speed[2];
+			chserver->paction[1].speed[3] = hunter->m_speed[3];
+
+			//远程动作下载并处理
 			chserver->map_update();
-		}
-
-		//本地的动作上传
-		PlayerAction paction;
-		paction.speed[0] = hunter->m_speed[0];
-		paction.speed[1] = hunter->m_speed[1];
-		paction.speed[2] = hunter->m_speed[2];
-		paction.speed[3] = hunter->m_speed[3];
-		chclient->upload(paction);
-
-		//下载服务器端的数据并显示
-		MapInformation& current_map = chclient->map;
-		if (current_map.is_updated)
-		{
-			for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
-				if (current_map.player[i + 1].alive)
+			chserver->map_trans.player_left_num = 0;
+			for (int i = 1; i < MAX_CONNECTIONS; i++)
+			{
+				if (m_enemy[i - 1]->getPlayerBleed() > 0)
 				{
-					if (current_map.player[i + 1].position_x != save_map.player[i + 1].position_x || current_map.player[i + 1].position_y != save_map.player[i + 1].position_y)
+					//CCLOG("UPDATEING PLAYER#%d", i);
+					chserver->map_trans.player[i].alive = true;
+					float dx = 0, dy = 0;
+					chserver->map_trans.player_left_num++;
+					int is_moved = 0;
+					if(i != 1) m_enemy[i - 1]->stopAllActions();
+					if (chserver->paction[i].speed[0])//人物移动处理
 					{
-						m_enemy[i]->runAction(MoveTo::create(0, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
-						CCLOG("MOVING: %f %f", current_map.player[i + 1].position_x, current_map.player[i + 1].position_y);
-						
+						if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 1)
+						{
+							action_activated[i - 1] = 1;
+							m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimRight());
+						}
+						dx = 4;
+						is_moved++;
 					}
-				}
-		}
+					if (chserver->paction[i].speed[1])
+					{
+						if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 2)
+						{
+							action_activated[i - 1] = 2;
+							m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimLeft());
+						}
+						dx = -4;
+						is_moved++;
+					}
+					if (chserver->paction[i].speed[2])
+					{
+						if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 3)
+						{
+							action_activated[i - 1] = 3;
+							m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimDown());
+						}
+						dy = -4;
+						is_moved++;
+					}
+					if (chserver->paction[i].speed[3])
+					{
+						if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 4)
+						{
+							action_activated[i - 1] = 4;
+							m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimUp());
+						}
+						dy = 4;
+						is_moved++;
+					}
+					if (is_moved == 0)
+					{
+						action_activated[i - 1] = 0;
+						m_enemy[i - 1]->stopAllActions();
+					}
+					if (dx == 0 && dy == 0)
+						continue;
+					auto enemyPos = m_enemy[i - 1]->getPosition();
+					auto nextX = enemyPos.x + dx;
+					auto nextY = enemyPos.y + dy;
+					auto nextMapX = nextX / tileWidth;
+					auto nextMapY = mapHeight - nextY / tileHeight;
+					if (nextMapX < mapWidth && nextMapX >= 0 && nextMapY < mapHeight && nextMapY >= 0
+						&& !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
+					{
+						m_enemy[i - 1]->runAction(MoveTo::create(0, Vec2(nextX, nextY)));
+						CCLOG("PALYER#%d SUCCESS MOVED TO:%f %f",i, nextX, nextY);
+					}
+					else
+					{
+						m_enemy[i - 1]->runAction(MoveTo::create(0, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
+						CCLOG("PALYER#%d MOVED FAILED", i);
+					}
 
-		save_map = current_map;
+					//子弹啥的后面加在这下面
+					//CCLOG("UPDATE COMPLETE");
+				}
+				memset(&chserver->paction[i], 0, sizeof(PlayerAction));
+			}
+			//更新地图
+			for (int i = 1; i < MAX_CONNECTIONS; i++)
+			{
+				auto pos = m_enemy[i - 1]->getPosition();
+				chserver->map_trans.player[i].position_x = pos.x, chserver->map_trans.player[i].position_y = pos.y;
+				chserver->map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
+			}
+			chserver->map_upload();
+		}
+		else//客户端逻辑
+		{
+			//本地的动作上传
+			PlayerAction paction;
+			paction.speed[0] = hunter->m_speed[0];
+			paction.speed[1] = hunter->m_speed[1];
+			paction.speed[2] = hunter->m_speed[2];
+			paction.speed[3] = hunter->m_speed[3];
+			chclient->upload(paction);
+			MapInformation& current_map = chclient->map;//下载服务器端的数据并显示
+			if (current_map.is_updated)
+			{
+				CCLOG("MAP IS UPDATED!");
+				for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
+					if (current_map.player[i + 1].alive)
+					{
+						if (current_map.player[i + 1].position_x != save_map.player[i + 1].position_x || current_map.player[i + 1].position_y != save_map.player[i + 1].position_y)
+						{		
+							
+							m_enemy[i]->runAction(MoveTo::create(0, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
+							m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
+
+							CCLOG("MOVING: %f %f", current_map.player[i + 1].position_x, current_map.player[i + 1].position_y);
+						}
+					}
+			}
+			save_map = current_map;
+			memset(&chclient->map, 0, sizeof(MapInformation));
+		}
 	}
-	else
+	else//单机版游戏逻辑
 	{
 		for (auto enemy : m_enemy) {
 			if (enemy->getPlayerBleed() <= 0)
