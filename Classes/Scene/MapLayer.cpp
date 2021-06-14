@@ -325,7 +325,6 @@ void MapLayer::update(float fDelta) {
 						if (bleed < 0)
 							bleed = 0;
 						enemy->setPlayerBleed(bleed);
-						CCLOG("Hui Shou:)");
 						bullet->setVisible(false);
 						bullet->stopAllActions();
 						bullet->setBulletActive(false);
@@ -389,7 +388,6 @@ void MapLayer::update(float fDelta) {
 						if (bleed < 0)
 							bleed = 0;
 						enemy->setPlayerBleed(bleed);
-						CCLOG("Hui Shou:)");
 						bullet->setVisible(false);
 						bullet->stopAllActions();
 						bullet->setBulletActive(false);
@@ -454,7 +452,6 @@ void MapLayer::update(float fDelta) {
 		hunter->setPosition(hunter->getPosition());
 	}
 }
-
 
 //set enemies/items randomly and at anywhere except water space.
 template <class T>
