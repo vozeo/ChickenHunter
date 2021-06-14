@@ -290,7 +290,7 @@ void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bull
 void MapLayer::Fire(float dt)
 {
 	Weapon* weapon = hunter->m_gun[hunter->getPlayerWeapon()];
-	if (hunter->getPlayerBullet() > 0 && weapon->getWeaponType()!=2)
+	if (hunter->getPlayerBullet() > 0 && weapon->getWeaponType() != 2)
 		hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
 	else if(hunter->getPlayerBullet() > 2 && weapon->getWeaponType() == 2)
 		hunter->setPlayerBullet(hunter->getPlayerBullet() - 3);
@@ -399,6 +399,11 @@ void MapLayer::update(float fDelta) {
 					if (dx == 0 && dy == 0)
 						continue;
 					auto enemyPos = m_enemy[i - 1]->getPosition();
+
+					if (enemyPos.x < -10 || enemyPos.x > mapWidth * tileWidth + 9
+						|| enemyPos.y < -10 || enemyPos.y > mapHeight * tileHeight + 9)
+						m_enemy[i - 1]->setPlayerBleed(0);
+
 					auto nextX = enemyPos.x + dx;
 					auto nextY = enemyPos.y + dy;
 					auto nextMapX = nextX / tileWidth;
@@ -560,6 +565,11 @@ void MapLayer::update(float fDelta) {
 			}
 
 			auto enemyPos = enemy->getPosition();
+
+			if (enemyPos.x < -10 || enemyPos.x > mapWidth * tileWidth + 9
+				|| enemyPos.y < -10 || enemyPos.y > mapHeight * tileHeight + 9)
+				enemy->setPlayerBleed(0);
+
 			auto nextX = enemyPos.x + dx;
 			auto nextY = enemyPos.y + dy;
 
@@ -607,7 +617,7 @@ void MapLayer::initItem(std::vector<T*>& items, int number) {
 void MapLayer::initSetItem()
 {
 	for (auto enemy : m_enemy) {
-		addChild(enemy, 1);
+		addChild(enemy, 2);
 		setRandPos(enemy);
 	}
 
@@ -652,8 +662,8 @@ void MapLayer::enemyFire(float delt)
 			}
 			Weapon* weapon = enemy->m_gun[weaponType];
 			auto bulletLocation = hunter->getPosition();    //enemy aims at hunter
-			auto bulletX = bulletLocation.x - enemy->getPosition().x;
-			auto bulletY = bulletLocation.y - enemy->getPosition().y;
+			auto bulletX = bulletLocation.x - enemy->getPositionX();
+			auto bulletY = bulletLocation.y - enemy->getPositionY();
 			makeBulletAttack(enemy, weapon, bulletX, bulletY);
 		}
 	}
