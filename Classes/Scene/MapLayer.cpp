@@ -355,7 +355,7 @@ void MapLayer::update(float fDelta) {
 						action_activated[i - 1] = 0;
 						m_enemy[i - 1]->stopAllActions();
 					}
-					if (chserver->paction[i].speed[0])//�����ƶ�����
+					if (chserver->paction[i].speed[0])
 					{
 						if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 1)
 						{
@@ -443,48 +443,43 @@ void MapLayer::update(float fDelta) {
 				for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
 					if (current_map.player[i + 1].alive)
 					{
-						if (current_map.player[i + 1].position_x != save_map.player[i + 1].position_x || current_map.player[i + 1].position_y != save_map.player[i + 1].position_y)
-						{		
-							if (current_map.player[i + 1].position_x > save_map.player[i + 1].position_x && m_enemy[i] != hunter && chclient->getuid() != i + 1 && current_map.is_updated && save_map.is_updated && action_activated[i + 1] != 1)
-							{
-								action_activated[i + 1] = 1;
-								CCLOG("ENEMY#%d RIGHT", i);
-								m_enemy[i]->stopAllActions();
-								m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimRight());
-							}
-							if (current_map.player[i + 1].position_x < save_map.player[i + 1].position_x && m_enemy[i] != hunter && chclient->getuid() != i + 1 && current_map.is_updated && save_map.is_updated && action_activated[i + 1] != 2)
-							{
-								action_activated[i + 1] = 2;
-								//CCLOG("ENEMY#%d LEFT", i);
-								m_enemy[i]->stopAllActions();
-								m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimLeft());
-							}
-							if (current_map.player[i + 1].position_y > save_map.player[i + 1].position_y && m_enemy[i] != hunter && chclient->getuid() != i + 1 && current_map.is_updated && save_map.is_updated && action_activated[i + 1] != 3)
-							{
-								action_activated[i + 1] = 3;
-								//CCLOG("ENEMY#%d UP", i);
-								m_enemy[i]->stopAllActions();
-								m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimUp());
-							}
-							if (current_map.player[i + 1].position_y < save_map.player[i + 1].position_y && m_enemy[i] != hunter && chclient->getuid() != i + 1 && current_map.is_updated && save_map.is_updated && action_activated[i + 1] != 4)
-							{
-								action_activated[i + 1] = 4;
-								//CCLOG("ENEMY#%d DOWN", i);
-								m_enemy[i]->stopAllActions();
-								m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimDown());
-							}
-							
-							m_enemy[i]->runAction(MoveTo::create(0, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
-							m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
-							memcpy(&save_map, &current_map, sizeof(MapInformation));
-							//CCLOG("MOVING: %f %f", current_map.player[i + 1].position_x, current_map.player[i + 1].position_y);
-						}
-						else if(m_enemy[i] != hunter)
+						if (!(current_map.player[i + 1].position_x != save_map.player[i + 1].position_x || current_map.player[i + 1].position_y != save_map.player[i + 1].position_y) && m_enemy[i] != hunter)
 						{
 							action_activated[i + 1] = 0;
 							m_enemy[i]->stopAllActions();
-							//CCLOG("ENEMY#%d STOPPED", i);
 						}
+						if (current_map.player[i + 1].position_x > save_map.player[i + 1].position_x && m_enemy[i] != hunter && chclient->getuid() != i + 1 && current_map.is_updated && save_map.is_updated && action_activated[i + 1] != 1)
+						{
+							action_activated[i + 1] = 1;
+							CCLOG("ENEMY#%d RIGHT", i);
+							m_enemy[i]->stopAllActions();
+							m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimRight());
+						}
+						if (current_map.player[i + 1].position_x < save_map.player[i + 1].position_x && m_enemy[i] != hunter && chclient->getuid() != i + 1 && current_map.is_updated && save_map.is_updated && action_activated[i + 1] != 2)
+						{
+							action_activated[i + 1] = 2;
+							//CCLOG("ENEMY#%d LEFT", i);
+							m_enemy[i]->stopAllActions();
+							m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimLeft());
+						}
+						if (current_map.player[i + 1].position_y > save_map.player[i + 1].position_y && m_enemy[i] != hunter && chclient->getuid() != i + 1 && current_map.is_updated && save_map.is_updated && action_activated[i + 1] != 3)
+						{
+							action_activated[i + 1] = 3;
+							//CCLOG("ENEMY#%d UP", i);
+							m_enemy[i]->stopAllActions();
+							m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimUp());
+						}
+						if (current_map.player[i + 1].position_y < save_map.player[i + 1].position_y && m_enemy[i] != hunter && chclient->getuid() != i + 1 && current_map.is_updated && save_map.is_updated && action_activated[i + 1] != 4)
+						{
+							action_activated[i + 1] = 4;
+							//CCLOG("ENEMY#%d DOWN", i);
+							m_enemy[i]->stopAllActions();
+							m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimDown());
+						}
+						m_enemy[i]->runAction(MoveTo::create(0, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
+						m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
+						save_map = current_map;
+						//CCLOG("MOVING: %f %f", current_map.player[i + 1].position_x, current_map.player[i + 1].position_y);
 					}
 			}
 	
