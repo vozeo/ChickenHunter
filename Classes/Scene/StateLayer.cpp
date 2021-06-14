@@ -24,8 +24,54 @@ bool State::init(std::vector<Character*> gameHunter)
 	scheduleUpdate();
 	
 	m_enemy = gameHunter;
-	hunter = m_enemy[0];
+	if (chclient != nullptr)
+		hunter = m_enemy[chclient->getuid() - 1];
+	else
+		hunter = m_enemy[0];
 	aliveNumber = m_enemy.size();
+
+	for (auto player : m_enemy) {
+		int bonus = random(0, 3);
+		switch (bonus) {
+		case 0:
+			player->setMAXBLEED(120);
+			player->setPlayerBleed(120);
+			break;
+		case 1:
+			player->setPlayerAttack(1.25f);
+			break;
+		case 2:
+			player->setPlayerDefense(0.8f);
+			break;
+		case 3:
+			player->setBulletSpeed(0.26f);
+			break;
+		default:
+			break;
+		}
+		if (player == hunter) {
+			auto text = Label::createWithTTF("", "fonts/Marker Felt.ttf", 50);
+			switch (bonus) {
+			case 0:
+				text->setString("Your bonus: 120% Max Bleed");
+				break;
+			case 1:
+				text->setString("Your bonus: 125% Attack");
+				break;
+			case 2:
+				text->setString("Your bonus: 125% Defense");
+				break;
+			case 3:
+				text->setString("Your bonus: Faster Attack Speed");
+				break;
+			default:
+				break;
+			}
+			text->setPosition(winSize.width / 2, winSize.height / 1.5f);
+			addChild(text, 3);
+			text->runAction(Sequence::create(DelayTime::create(5), FadeOut::create(0.3f), RemoveSelf::create(), NULL));
+		}
+	}
 
 	initState();
 	initGun();
@@ -103,21 +149,24 @@ void State::update(float fDelta) {
 						aliveEnemy->setPlayerPoint(getTime() * 4 / 3 + aliveEnemy->getPlayerBullet() / 10 + aliveEnemy->getPlayerBleed() / 10);
 					}
 				}
+				gameIsEnd = true;
 				RankLayer* rank = RankLayer::create();
 				rank->rankInit(false, m_enemy);
-				addChild(rank, 6);
+				addChild(rank, 3);
 			}
 			enemy->removeFromParent();
 			if (aliveNumber == 1 && !hunter->getPlayerDeath()) {
+				gameIsEnd = true;
 				hunter->setPlayerPoint(getTime() + 10);
 				RankLayer* rank = RankLayer::create();
 				rank->rankInit(true, m_enemy);
-				addChild(rank, 6);
+				addChild(rank, 3);
 			}
 		}
 	}
 
-
+	if (gameIsEnd)
+		return;
 	if (hunter->getPlayerRefresh()) {
 		hunter->setPlayerRefresh(false);
 		gunMenu->removeAllChildren();
@@ -134,7 +183,7 @@ void State::update(float fDelta) {
 	}
 	
 
-	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->m_MAX_BLEED);
+	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->getMAXBLEED());
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
 
 	survivor_label->setString("Survivor : " + Value(aliveNumber).asString());

@@ -47,7 +47,6 @@ struct PlayerInformation
 	int uid = 0;
 	int hp = 100;
 	float position_x = 0, position_y = 0;
-	bool speed[4] = { 0 };
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
 	short bullet;

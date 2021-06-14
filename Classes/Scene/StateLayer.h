@@ -7,6 +7,7 @@
 #include "ui/CocosGUI.h"
 #include "Character/Character.h"
 #include "MapLayer.h"
+#include "Network/Client.h"
 
 #include <map>
 #include <chrono>
@@ -28,6 +29,7 @@ private:
 	std::vector<Character*> m_enemy;
     Character* hunter;
 	int aliveNumber = 0;
+	bool gameIsEnd = false;
 
 	Vector<MenuItem*> guns;
     MenuItem* gun[5][2];

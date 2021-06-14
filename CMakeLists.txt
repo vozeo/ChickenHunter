@@ -57,7 +57,6 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/Bonus/Bonus.cpp
      Classes/Character/Character.cpp
      Classes/Item/Item.cpp
      Classes/Scene/ExitLayer.cpp
@@ -70,7 +69,6 @@ list(APPEND GAME_SOURCE
      Classes/Scene/ServerScene.cpp
      Classes/Scene/SettingLayer.cpp
      Classes/Scene/StartScene.cpp
-     Classes/Weapon/Bullet.cpp
      Classes/Network/Client.cpp
      Classes/Network/Server.cpp
      Classes/Network/TransStructure.cpp
@@ -78,7 +76,6 @@ list(APPEND GAME_SOURCE
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/Const.h
-     Classes/Bonus/Bonus.h
      Classes/Character/Character.h
      Classes/Item/Item.h
      Classes/Scene/ExitLayer.h
@@ -91,7 +88,6 @@ list(APPEND GAME_HEADER
      Classes/Scene/ServerScene.h
      Classes/Scene/SettingLayer.h
      Classes/Scene/StartScene.h
-     Classes/Weapon/Bullet.h
      Classes/Network/Client.h
      Classes/Network/Server.h
      Classes/Network/TransStructure.h
