@@ -448,7 +448,23 @@ void MapLayer::update(float fDelta) {
 					{
 						if (current_map.player[i + 1].position_x != save_map.player[i + 1].position_x || current_map.player[i + 1].position_y != save_map.player[i + 1].position_y)
 						{		
-							
+							m_enemy[i]->stopAllActions();
+							if (m_enemy[i]->m_speed[0])
+							{
+								m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimRight());
+							}
+							if (m_enemy[i]->m_speed[1])
+							{
+								m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimLeft());
+							}
+							if (m_enemy[i]->m_speed[2])
+							{
+								m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimDown());
+							}
+							if (m_enemy[i]->m_speed[3])
+							{
+								m_enemy[i]->runAction(m_enemy[i]->getCharacterAnimUp());
+							}
 							m_enemy[i]->runAction(MoveTo::create(0, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
 							m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
 							
