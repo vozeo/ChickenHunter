@@ -493,7 +493,7 @@ void MapLayer::update(float fDelta) {
 				}
 				Rect rect_bullet = bullet->getBoundingBox();
 				for (auto enemy : m_enemy) {
-					if (enemy->getPlayerBleed() <= 0)
+					if (enemy->getPlayerDeath())
 						continue;
 					Rect rect_enemy = enemy->getBoundingBox();
 					if (rect_enemy.intersectsRect(rect_bullet)) {
@@ -637,7 +637,10 @@ void MapLayer::enemyFire(float delt)
 			}
 			if (enemy->getPlayerBullet() > 0)
 				enemy->setPlayerBullet(enemy->getPlayerBullet() - 1);
-			else continue;
+			else {
+				enemy->setPlayerWeapon(4);
+				continue;
+			}
 			Weapon* weapon = enemy->m_gun[weaponType];
 			auto bulletLocation = hunter->getPosition();    //enemy aims at hunter
 			auto bulletX = bulletLocation.x - enemy->getPosition().x;
