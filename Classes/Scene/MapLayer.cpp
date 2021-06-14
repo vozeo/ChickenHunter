@@ -225,30 +225,56 @@ void MapLayer::makeKnifeAttack(Character* character) {
 void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bulletX, float bulletY) {
 	float time = sqrt(bulletX * bulletX + bulletY * bulletY) / 1000;
 	float delta = 1;
+	int f = 0,fmax = 1;
+	auto angle = atan(0.15)*180 / PI;
+	auto rot1 = calRotation(bulletX, bulletY) + angle;
+	auto rot2 = calRotation(bulletX, bulletY) - angle;
 	if (character == hunter)
 		delta = 0.6;
+	if (weapon->getWeaponType() == 2)
+	{
+		fmax = 3;
+	}
 	for (auto bullet : bullets) {
 		if (!bullet->getBulletActive()) {
 			bullet->setBulletActive(true);
 			bullet->setPosition(character->getPositionX() + bulletX / time / 20, character->getPositionY() + bulletY / time / 20);
-			bullet->setRotation(calRotation(bulletX, bulletY));
-			bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time))));
+			switch (f)
+			{
+				case 0: bullet->setRotation(calRotation(bulletX, bulletY));
+					bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(bulletX / time, bulletY / time)))); 
+					break;
+				case 1: 
+					bullet->setRotation(rot1);
+					bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(cos(rot1 * PI / 180) * 1000, -sin(rot1 * PI / 180) * 1000))));
+					break;
+				case 2: 
+					bullet->setRotation(rot2);
+					bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(cos(rot2 * PI / 180) * 1000, -sin(rot2 * PI / 180) * 1000))));
+					break;
+			}
+			
 			bullet->setBulletAttack(weapon->getWeaponAttack());
 			bullet->setVisible(true);
-			break;
+			f++;
+			if (f >= fmax)
+				break;
 		}
 	}
+
 }
 
 void MapLayer::Fire(float dt)
 {
-	if (hunter->getPlayerBullet() > 0)
+	Weapon* weapon = hunter->m_gun[hunter->getPlayerWeapon()];
+	if (hunter->getPlayerBullet() > 0 && weapon->getWeaponType()!=2)
 		hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
+	else if(hunter->getPlayerBullet() > 2 && weapon->getWeaponType() == 2)
+		hunter->setPlayerBullet(hunter->getPlayerBullet() - 3);
 	else return;
 	auto bulletAudioID = AudioEngine::play2d("music/bulletEffect.mp3", false);
 	AudioEngine::setVolume(bulletAudioID, *m_volume);
 	Vec2 bulletLocation = hunter->bulletLocation;
-	Weapon* weapon = hunter->m_gun[hunter->getPlayerWeapon()];
 	auto bulletX = bulletLocation.x - winSize.width / 2;
 	auto bulletY = bulletLocation.y - winSize.height / 2;
 	makeBulletAttack(hunter, weapon, bulletX, bulletY);
