@@ -38,6 +38,7 @@ struct PlayerAction
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
 	int shoot_damage;
+	bool get_things = false;
 };
 
 struct PlayerInformation
@@ -49,6 +50,7 @@ struct PlayerInformation
 	bool speed[4] = { 0 };
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
+	short bullet;
 };
 
 struct RoomInformation
