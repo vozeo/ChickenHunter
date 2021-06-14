@@ -143,6 +143,7 @@ void CHServer::map_update()
 
 void CHServer::map_upload()
 {
+    map_trans.is_updated = true;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
         if (uid_usage[i])
         {
