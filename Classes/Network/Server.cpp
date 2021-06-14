@@ -63,11 +63,10 @@ CHServer::CHServer(const char* ip, unsigned short port)
                 //if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
                 memcpy(&paction[uid[thandle]], packet.data() + HEAD_LENGTH, sizeof(PlayerAction));
             }
-            else if (strstr(header, "ST"))//游戏开始
+            else if (strstr(header, "GS"))//游戏开始
             {
-
+                client_get_started[uid[thandle]] = true;
             }
-            fflush(stdout);
             break;
         }
         case YEK_CONNECT_RESPONSE://连接响应事件
@@ -170,6 +169,19 @@ bool CHServer::startGame()
             if (debug_mode)cout << "TELL START: " << i << endl;
             server->write(uid_to_handle[i], "ST\0", HEAD_LENGTH);
         }
+    while (1)
+    {
+        bool all_started = true;
+        for (int i = 1; i < MAX_CONNECTIONS; i++)
+            if (uid_usage[i])
+                if (client_get_started[i] == false)
+                {
+                    server->write(uid_to_handle[i], "ST\0", HEAD_LENGTH);
+                    all_started = false;
+                }
+        if (all_started)
+            break;
+    }
     this->map_init();
     return true;
 }

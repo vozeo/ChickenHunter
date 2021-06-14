@@ -41,6 +41,7 @@ CHClient::CHClient(const char* ip, unsigned short port)
             else if (strstr(header, "ST"))//ÓÎÏ·¿ªÊ¼
             {
                 started = true;
+                client->write(thandle, "GS\0", 4);
             }
             fflush(stdout);
             break;

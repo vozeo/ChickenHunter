@@ -28,6 +28,7 @@ class CHServer
 	io_service* server;
 	int connection_num = 0;
 	bool started = false;
+	bool client_get_started[MAX_CONNECTIONS] = { 0 };
 	bool uid_usage[MAX_CONNECTIONS] = { 0 };
 	map<transport_handle_t, int> uid;
 	map<int, transport_handle_t> uid_to_handle;

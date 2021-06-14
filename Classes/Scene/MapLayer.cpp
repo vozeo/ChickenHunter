@@ -451,7 +451,7 @@ void MapLayer::update(float fDelta) {
 							
 							m_enemy[i]->runAction(MoveTo::create(0, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
 							m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
-
+							
 							CCLOG("MOVING: %f %f", current_map.player[i + 1].position_x, current_map.player[i + 1].position_y);
 						}
 					}

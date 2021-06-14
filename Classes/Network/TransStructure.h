@@ -11,6 +11,7 @@ const int HEAD_LENGTH = 4;
 * SN = 设置名字
 * PA = 玩家操作信息
 * ST = 开始游戏
+* GS = 收到开始信息
 * 
 * 服务端动作
 * SU = 发送uid
