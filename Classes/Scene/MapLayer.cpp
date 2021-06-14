@@ -333,13 +333,13 @@ void MapLayer::update(float fDelta) {
 	{
 		if (chserver != nullptr)
 		{
-			//���ض���ֱ�Ӵ���������
+			//
 			chserver->paction[1].speed[0] = hunter->m_speed[0];
 			chserver->paction[1].speed[1] = hunter->m_speed[1];
 			chserver->paction[1].speed[2] = hunter->m_speed[2];
 			chserver->paction[1].speed[3] = hunter->m_speed[3];
 
-			//Զ�̶������ز�����
+			//
 			chserver->map_update();
 			chserver->map_trans.player_left_num = 0;
 			for (int i = 1; i < MAX_CONNECTIONS; i++)
@@ -354,7 +354,7 @@ void MapLayer::update(float fDelta) {
 					chserver->map_trans.player_left_num++;
 					int is_moved = 0;
 					if(i != 1) m_enemy[i - 1]->stopAllActions();
-					if (chserver->paction[i].speed[0])//�����ƶ�����
+					if (chserver->paction[i].speed[0])//
 					{
 						if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 1)
 						{
@@ -418,12 +418,12 @@ void MapLayer::update(float fDelta) {
 						CCLOG("PALYER#%d MOVED FAILED", i);
 					}
 
-					//�ӵ�ɶ�ĺ������������
+					//
 					//CCLOG("UPDATE COMPLETE");
 				}
 				memset(&chserver->paction[i], 0, sizeof(PlayerAction));
 			}
-			//���µ�ͼ
+			//
 			for (int i = 1; i < MAX_CONNECTIONS; i++)
 			{
 				auto pos = m_enemy[i - 1]->getPosition();
@@ -432,16 +432,16 @@ void MapLayer::update(float fDelta) {
 			}
 			chserver->map_upload();
 		}
-		else//�ͻ����߼�
+		else//
 		{
-			//���صĶ����ϴ�
+			//
 			PlayerAction paction;
 			paction.speed[0] = hunter->m_speed[0];
 			paction.speed[1] = hunter->m_speed[1];
 			paction.speed[2] = hunter->m_speed[2];
 			paction.speed[3] = hunter->m_speed[3];
 			chclient->upload(paction);
-			MapInformation& current_map = chclient->map;//���ط������˵����ݲ���ʾ
+			MapInformation& current_map = chclient->map;//
 			if (current_map.is_updated)
 			{
 				CCLOG("MAP IS UPDATED!");
@@ -478,7 +478,7 @@ void MapLayer::update(float fDelta) {
 			memset(&chclient->map, 0, sizeof(MapInformation));
 		}
 	}
-	else//��������Ϸ�߼�
+	else//
 	{
 		for (auto bullet : bullets) {
 			if (bullet->getBulletActive()) {
