@@ -88,6 +88,7 @@ public:
 	template <class T> void setRandPos(T* elem);
 	template <class T> void initItem(std::vector<T*> &items, int number);
 
+	void roll(Character* character);
 	void judgePick(Character* character);
 
 	void makeKnifeAttack(Character* character);

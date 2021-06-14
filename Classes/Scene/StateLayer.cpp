@@ -30,10 +30,6 @@ bool State::init(std::vector<Character*> gameHunter)
 	initState();
 	initGun();
 
-	for (auto enemy : m_enemy)
-		if (enemy != hunter)
-			enemy->setPlayerBleed(1);
-
 	startTime = system_clock::now();
 
     return true;
