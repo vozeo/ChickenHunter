@@ -681,7 +681,7 @@ void MapLayer::initSetItem()
 	}
 
 	hunter->setLocalZOrder(4);
-	hunter->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+	//hunter->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 	runAction(Follow::create(hunter, Rect::ZERO));
 
 	initItem(weapons, m_weapon_number);
