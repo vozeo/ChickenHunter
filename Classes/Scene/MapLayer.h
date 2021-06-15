@@ -77,10 +77,10 @@ public:
 	static float calRotation(float bulletX, float bulletY);
 
 	void initBullet();
-	void initWeapon();
 
 	void initSetEnemy();
 	void initSetItem();
+	void initSetItemForClient();
 
 	int deathTurn = 0;
 

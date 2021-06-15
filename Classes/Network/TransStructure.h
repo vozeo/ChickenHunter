@@ -47,7 +47,7 @@ struct PlayerInformation
 	bool alive = 0;
 	bool is_pick = false;
 	bool is_shoot = false;
-	short bullet;
+	short bullet = 0;
 	int uid = 0;
 	int hp = 100;
 	float position_x = 0, position_y = 0;

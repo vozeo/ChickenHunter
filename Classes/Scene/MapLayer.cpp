@@ -31,10 +31,12 @@ bool MapLayer::init(std::vector<Character*> gameHunter)
 		hunter = m_enemy[chclient->getuid() - 1];
 	else
 		hunter = m_enemy[0];
-
-
-	initSetItem();
+	if (chclient != nullptr && chserver == nullptr)
+		initSetItemForClient();
+	else
+		initSetItem();
 	initBullet();
+
 	if(chclient == nullptr)
 		schedule(CC_SCHEDULE_SELECTOR(MapLayer::enemyFire), 0.5);
 	if (chserver != nullptr)
@@ -442,15 +444,7 @@ void MapLayer::update(float fDelta) {
 					{
 						m_enemy[i - 1]->runAction(MoveTo::create(0, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
 					}
-					//人物移动处理结束
-
-					/*
-					if (chserver->paction[i].pick == true)
-					{
-						CCLOG("PLAYER#%d PICKED", i);
-						judgePick(m_enemy[i - 1]);
-					}
-					*/
+					
 					
 					//CCLOG("UPDATE COMPLETE");
 				}
@@ -463,32 +457,20 @@ void MapLayer::update(float fDelta) {
 				chserver->map_trans.player[i].position_x = pos.x, chserver->map_trans.player[i].position_y = pos.y;
 				chserver->map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
 				chserver->map_trans.player[i].is_pick = chserver->paction[i].pick;
+				chserver->map_trans.player[i].bullet = m_enemy[i - 1]->getPlayerBullet();
 				if (chserver->paction[i].pick == true && !m_enemy[i - 1]->getPlayerDeath())
 				{
 					CCLOG("#MAP_UPDATE# PLAYER#%d PICK", i);
 					judgePick(m_enemy[i - 1]);
 				}
+				
 				memset(&chserver->paction[i], 0, sizeof(PlayerAction));//人物动作删除
 			}
 			chserver->map_upload();
 		}
 		else
 		{
-			//地图item更新
-			if(chclient->getMapInitState() == false && chclient->m_map_information_init.is_updated == true)
-			{
-				chclient->setMapInited();
-				for (int i = 0; i < m_ammunition_number; i++)
-					m_ammunition[i]->setPosition(chclient->m_map_information_init.m_ammunition_position[i][0], chclient->m_map_information_init.m_ammunition_position[i][1]);
-				for (int i = 0; i < m_weapon_number; i++)
-				{
-					weapons[i]->setPosition(chclient->m_map_information_init.m_weapon_position[i][0], chclient->m_map_information_init.m_weapon_position[i][1]);
-					weapons[i]->setWeaponType(chclient->m_map_information_init.m_weapon_type[i]);
-					weapons[i]->weaponInit(weapons[i]->getWeaponType(), i);
-				}
-				for (int i = 0; i < m_bandage_number; i++)
-					m_bandage[i]->setPosition(chclient->m_map_information_init.m_bandage_position[i][0], chclient->m_map_information_init.m_bandage_position[i][1]);
-			}
+			
 			//本地操作上传
 			chclient->localaction.speed[0] = hunter->m_speed[0];
 			chclient->localaction.speed[1] = hunter->m_speed[1];
@@ -538,7 +520,7 @@ void MapLayer::update(float fDelta) {
 						//if(m_enemy[i])
 						m_enemy[i]->runAction(MoveTo::create(0, Vec2(current_map.player[i + 1].position_x, current_map.player[i + 1].position_y)));
 						m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
-						
+						m_enemy[i]->setPlayerBullet(current_map.player[i + 1].bullet);
 						//拾取东西的同步
 						if (current_map.player[i + 1].is_pick == true)
 						{
@@ -673,6 +655,57 @@ void MapLayer::initItem(std::vector<T*>& items, int number) {
 	}
 }
 
+/*while(!(chclient->getMapInitState() == false && chclient->m_map_information_init.is_updated == true))
+	{
+		chclient->setMapInited();
+		for (int i = 0; i < m_ammunition_number; i++)
+			m_ammunition[i]->setPosition(chclient->m_map_information_init.m_ammunition_position[i][0], chclient->m_map_information_init.m_ammunition_position[i][1]);
+		for (int i = 0; i < m_weapon_number; i++)
+		{
+			weapons[i]->setPosition(chclient->m_map_information_init.m_weapon_position[i][0], chclient->m_map_information_init.m_weapon_position[i][1]);
+			weapons[i]->setWeaponType(chclient->m_map_information_init.m_weapon_type[i]);
+			weapons[i]->weaponInit(weapons[i]->getWeaponType(), i);
+		}
+		for (int i = 0; i < m_bandage_number; i++)
+			m_bandage[i]->setPosition(chclient->m_map_information_init.m_bandage_position[i][0], chclient->m_map_information_init.m_bandage_position[i][1]);
+	}*/
+
+void MapLayer::initSetItemForClient()
+{
+	for (auto enemy : m_enemy) {
+		addChild(enemy, 2);
+		setRandPos(enemy);
+	}
+
+	hunter->setLocalZOrder(4);
+
+	runAction(Follow::create(hunter, Rect::ZERO));
+	initItem(m_bandage, m_bandage_number);
+	initItem(m_ammunition, m_ammunition_number);
+	while (chclient->m_map_information_init.is_updated == false)
+		;
+	for (int i = 0; i < m_ammunition_number; i++)
+		m_ammunition[i]->setPosition(chclient->m_map_information_init.m_ammunition_position[i][0], chclient->m_map_information_init.m_ammunition_position[i][1]);
+	for (int i = 0; i < m_bandage_number; i++)
+		m_bandage[i]->setPosition(chclient->m_map_information_init.m_bandage_position[i][0], chclient->m_map_information_init.m_bandage_position[i][1]);
+
+	weapons.clear();
+	for (int i = 0; i < m_weapon_number; i++)
+	{
+		weapons.push_back(Weapon::create(chclient->m_map_information_init.m_weapon_type[i]));
+		addChild(weapons[i], 1);
+		weapons[i]->setPosition(chclient->m_map_information_init.m_weapon_position[i][0], chclient->m_map_information_init.m_weapon_position[i][1]);
+	}
+	chclient->setMapInited();
+
+	Weapon* weapon = Weapon::create();
+	weapon->retain();
+	weapon->weaponInit(4, 0);
+	hunter->m_gun[4] = weapon;
+
+	hunter->setPlayerRefresh(true);
+}
+
 void MapLayer::initSetItem()
 {
 	for (auto enemy : m_enemy) {
@@ -681,7 +714,7 @@ void MapLayer::initSetItem()
 	}
 
 	hunter->setLocalZOrder(4);
-	//hunter->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+	
 	runAction(Follow::create(hunter, Rect::ZERO));
 
 	initItem(weapons, m_weapon_number);
