@@ -14,17 +14,22 @@ class CHClient
 	transport_handle_t thandle;
 	int uid = 0;
 	bool started = false;
+	bool m_map_init_state = false;
 public:
 	RoomInformation room;
 	MapInformation map;
+	PlayerAction localaction;
+	MapInformationInit m_map_information_init;
 public:
 	CHClient(const char* ip, unsigned short port = 25595);
 	~CHClient();
 	void link();
 	int getuid();
 	void setName(const char* name);
-	bool upload(PlayerAction action);
+	bool upload();
 	bool isStarted();
+	bool getMapInitState();
+	void setMapInited();
 };
 extern CHClient* chclient;
 bool is_multiple_game();

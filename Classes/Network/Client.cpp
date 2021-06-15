@@ -43,6 +43,11 @@ CHClient::CHClient(const char* ip, unsigned short port)
                 started = true;
                 client->write(thandle, "GS\0", 4);
             }
+            else if (strstr(header, "MI"))//µØÍ¼³õÊ¼»¯
+            {
+                memcpy(&m_map_information_init, packet.data() + HEAD_LENGTH, sizeof(MapInformationInit));
+                m_map_information_init.is_updated = true;
+            }
             fflush(stdout);
             break;
         }
@@ -84,10 +89,11 @@ void CHClient::setName(const char* name)
     client->write(thandle, buf, HEAD_LENGTH + 10);
 }
 
-bool CHClient::upload(PlayerAction action)
+bool CHClient::upload()
 {
     char str[sizeof(PlayerAction) + 5] = "PA\0";
-    memcpy(str + HEAD_LENGTH, &action, sizeof(PlayerAction));
+    memcpy(str + HEAD_LENGTH, &localaction, sizeof(PlayerAction));
+    memset(&localaction, 0, sizeof(localaction));
     client->write(thandle, str, HEAD_LENGTH + sizeof(PlayerAction));
     return true;
 }
@@ -95,6 +101,16 @@ bool CHClient::upload(PlayerAction action)
 bool CHClient::isStarted()
 {
     return started;
+}
+
+bool CHClient::getMapInitState()
+{
+    return m_map_init_state;
+}
+
+void CHClient::setMapInited()
+{
+    m_map_init_state = true;
 }
 
 bool is_multiple_game()

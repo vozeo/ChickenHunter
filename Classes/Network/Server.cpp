@@ -224,11 +224,22 @@ void CHServer::room_update()
         return;
     for (int i = 0; i < MAX_CONNECTIONS; i++)
         room.player_alive[i] = uid_usage[i];
-    char buff[HEAD_LENGTH + sizeof(RoomInformation) + 20] = "RO\0";
-    memcpy(buff + HEAD_LENGTH, &room, HEAD_LENGTH + sizeof(RoomInformation));
+    char buff[HEAD_LENGTH + sizeof(RoomInformation) + 2] = "RO\0";
+    memcpy(buff + HEAD_LENGTH, &room, sizeof(RoomInformation));
     for(int i = 0; i < MAX_CONNECTIONS;i++)
         if (uid_usage[i])
         {
             server->write(uid_to_handle[i], buff, HEAD_LENGTH + sizeof(RoomInformation)); 
+        }
+}
+
+void CHServer::mapInformationInit(MapInformationInit mii)
+{
+    char buff[HEAD_LENGTH + sizeof(MapInformationInit) + 20] = "MI\0";
+    memcpy(buff + HEAD_LENGTH, &mii, sizeof(MapInformationInit));
+    for (int i = 1; i < MAX_CONNECTIONS; i++)
+        if (uid_usage[i])
+        {
+            server->write(uid_to_handle[i], buff, HEAD_LENGTH + sizeof(MapInformationInit));
         }
 }

@@ -19,6 +19,7 @@ const int HEAD_LENGTH = 4;
 * MP = 地图信息
 * GO = 游戏结束
 * ST = 通知所有玩家开始游戏
+* MI = 初始化地图变量
 */
 
 
@@ -38,18 +39,19 @@ struct PlayerAction
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
 	int shoot_damage;
-	bool get_things = false;
+	bool pick = false;
 };
 
 struct PlayerInformation
 {
 	bool alive = 0;
+	bool is_pick = false;
+	bool is_shoot = false;
+	short bullet;
 	int uid = 0;
 	int hp = 100;
 	float position_x = 0, position_y = 0;
-	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
-	short bullet;
 };
 
 struct RoomInformation
@@ -66,4 +68,12 @@ struct MapInformation
 	PlayerInformation player[MAX_CONNECTIONS];
 };
 
-#endif 
+struct MapInformationInit
+{
+	bool is_updated = false;
+	float m_bandage_position[30][2] = { 0 };
+	float m_ammunition_position[30][2] = { 0 };
+	float m_weapon_position[20][2] = { 0 };
+};
+
+#endif

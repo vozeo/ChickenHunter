@@ -56,6 +56,7 @@ public:
 	int getConnectionNum();
 	void open_debug_mode();
 	void room_update();
+	void mapInformationInit(MapInformationInit mii);
 };
 
 extern CHServer* chserver;
