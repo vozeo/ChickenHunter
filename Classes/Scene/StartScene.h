@@ -3,13 +3,13 @@
 
 #include "cocos2d.h"
 #include "Scene/ServerScene.h"
+#include "Const.h"
 
 USING_NS_CC;
 
 class Start : public cocos2d::Scene
 {
     int startAudioID;
-    CC_SYNTHESIZE(float, m_volume, Volume);
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();

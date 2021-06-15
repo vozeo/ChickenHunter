@@ -34,8 +34,6 @@ private:
     std::vector< Character*> m_hunter;
     Character* hunter;
 
-    CC_SYNTHESIZE(float, m_volume, Volume);
-
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();

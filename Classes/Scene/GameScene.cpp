@@ -34,7 +34,6 @@ bool Game::init()
 	hunter->setName("hunter");
 
     map = MapLayer::create(m_hunter);
-	map->setVolume(&m_volume);
     addChild(map, 1);
 
 	stateUI = State::create(m_hunter);
@@ -50,7 +49,6 @@ bool Game::init()
 		"setting_1.png",
 		[=](Ref* render) {
 			SettingLayer* setting = SettingLayer::create();
-			setting->settingInit(&m_volume);
 			addChild(setting, 3); 
 		});
 	setting_img->setAnchorPoint(Vec2(1, 1));
@@ -92,5 +90,5 @@ void Game::initMouse() {
 }
 
 void Game::update(float dt) {
-	AudioEngine::setVolume(backgroundAudioID, m_volume);
+	AudioEngine::setVolume(backgroundAudioID, M_Volume);
 }

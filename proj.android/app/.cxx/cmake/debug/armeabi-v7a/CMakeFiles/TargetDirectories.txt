@@ -73,3 +73,6 @@ D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine/exte
 D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine/cocos/platform/CMakeFiles/cpp_android_spec.dir
 D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine/cocos/platform/CMakeFiles/edit_cache.dir
 D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine/cocos/platform/CMakeFiles/rebuild_cache.dir
+D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a/yasio/CMakeFiles/edit_cache.dir
+D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a/yasio/CMakeFiles/yasio.dir
+D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a/yasio/CMakeFiles/rebuild_cache.dir
