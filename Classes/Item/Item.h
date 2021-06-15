@@ -53,6 +53,18 @@ public:
 		return nullptr;
 	}
 
+	static Weapon* create(int weaponType)
+	{
+		Weapon* weapon = new (std::nothrow) Weapon();
+		if (weapon && weapon->initWithFile(StringUtils::format("images/weapon_%d.png", weaponType))) {
+			weapon->autorelease();
+			weapon->weaponInit(weaponType, true);
+			return weapon;
+		}
+		CC_SAFE_DELETE(weapon);
+		return nullptr;
+	}
+
 	CC_SYNTHESIZE(float, m_speed, WeaponSpeed);
 	CC_SYNTHESIZE(float, m_fire_speed, FireWeaponSpeed);
 	CC_SYNTHESIZE(float, m_attack, WeaponAttack);
