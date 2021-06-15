@@ -228,7 +228,7 @@ void MapLayer::registerTouchEvent() {
 		auto weaponType = hunter->getPlayerWeapon();
 		if (4 == weaponType) {
 			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
-			AudioEngine::setVolume(knifeAudioID, *m_volume);
+			AudioEngine::setVolume(knifeAudioID, M_Volume);
 			makeKnifeAttack(hunter);
 
 			return true;
@@ -320,7 +320,7 @@ void MapLayer::Fire(float dt)
 		hunter->setPlayerBullet(hunter->getPlayerBullet() - 3);
 	else return;
 	auto bulletAudioID = AudioEngine::play2d("music/bulletEffect.mp3", false);
-	AudioEngine::setVolume(bulletAudioID, *m_volume);
+	AudioEngine::setVolume(bulletAudioID, M_Volume);
 	Vec2 bulletLocation = hunter->bulletLocation;
 	auto bulletX = bulletLocation.x - winSize.width / 2;
 	auto bulletY = bulletLocation.y - winSize.height / 2;

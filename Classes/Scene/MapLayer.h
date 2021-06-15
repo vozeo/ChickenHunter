@@ -49,8 +49,6 @@ private:
 	
 	std::array <Bullet*, 60> bullets;
 
-	CC_SYNTHESIZE(float*, m_volume, Volume);
-
 public:
 	static MapLayer* create(std::vector<Character*> gameHunter)
 	{

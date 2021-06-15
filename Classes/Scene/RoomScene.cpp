@@ -25,6 +25,26 @@ bool Room::init(bool isServer)
 		addChild(playerLabel[i], 1);
 	}
 
+	auto exit_img = MenuItemImage::create(
+		"exit_0.png",
+		"exit_1.png",
+		[=](Ref* render) { addChild(ExitLayer::create(), 3); });
+	exit_img->setAnchorPoint(Vec2(1, 1));
+	auto setting_img = MenuItemImage::create(
+		"setting_0.png",
+		"setting_1.png",
+		[=](Ref* render) {
+			SettingLayer* setting = SettingLayer::create();
+			addChild(setting, 3);
+		});
+	setting_img->setAnchorPoint(Vec2(1, 1));
+	Vector<MenuItem*> menus{ setting_img, exit_img };
+	auto menu = Menu::createWithArray(menus);
+	addChild(menu, 2);
+	menu->setAnchorPoint(Vec2(1, 1));
+	menu->setPosition(winSize.width - 30, winSize.height);
+	menu->alignItemsHorizontally();
+
 	MenuItemFont::setFontName("fonts/Sthupo.ttf");
 	MenuItemFont::setFontSize(60);
 	/*
@@ -70,8 +90,8 @@ void Room::update(float fDelta)
 		{
 			started = true;
 			CCLOG("GAME STARTED!");
-			auto* scene = Game::create();
-			Director::getInstance()->pushScene(TransitionFade::create(0.3f, static_cast<Scene*>(scene), Color3B(0, 255, 255)));
+			
+			Director::getInstance()->replaceScene(TransitionFade::create(0.3f, Game::create(), Color3B(0, 255, 255)));
 		}
 	}
 }

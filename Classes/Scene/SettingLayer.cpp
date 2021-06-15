@@ -22,13 +22,14 @@ bool SettingLayer::init()
 		switch (type)
 		{
 		case ui::Widget::TouchEventType::ENDED:
-			*m_volume = static_cast<float>(volumeSlider->getPercent()) / 100.0f;
+			M_Volume = static_cast<float>(volumeSlider->getPercent()) / 100.0f;
 			break;
 		default:
 			break;
 		}
 		});
 	volumeSlider->setPosition(Vec2(winSize.width / 2, winSize.height / 1.7f));
+	volumeSlider->setPercent(M_Volume * 100.0f);
 	this->addChild(volumeSlider, 1);
 	
 	auto choiceBack = MenuItemFont::create("Back", [=](Ref* render) {
@@ -44,9 +45,4 @@ bool SettingLayer::init()
 
 void SettingLayer::closeCallback(cocos2d::Ref* pSender) {
 	removeFromParent();
-}
-
-void SettingLayer::settingInit(float* volume) {
-	m_volume = volume;
-	volumeSlider->setPercent(static_cast<int>(*m_volume * 100.0f));
 }
