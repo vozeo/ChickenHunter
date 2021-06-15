@@ -180,6 +180,7 @@ void State::update(float fDelta) {
 			}
 		}
 	}
+	survivor_label->setString("Survivor : " + Value(aliveNumber).asString());
 
 	if (gameIsEnd)
 		return;
@@ -202,7 +203,6 @@ void State::update(float fDelta) {
 	blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->getMAXBLEED());
 	blood_label->setString(Value(hunter->getPlayerBleed()).asString());
 
-	survivor_label->setString("Survivor : " + Value(aliveNumber).asString());
 	int nowTime = getTime();
 	int nowSec = nowTime % 60, nowMin = nowTime / 60;
 	std::string sec = Value(nowSec).asString();
