@@ -21,7 +21,7 @@
       ],
       "buildRoot": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\debug\\armeabi-v7a",
       "cmakeToolchain": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
-      "cmakeExecutable": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
+      "cmakeExecutable": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\cmake.exe",
       "variables": [
         {
           "name": "CMAKE_CXX_FLAGS",
@@ -73,7 +73,7 @@
         },
         {
           "name": "CMAKE_MAKE_PROGRAM",
-          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\ninja.exe"
         },
         {
           "name": "CMAKE_SYSTEM_NAME",
@@ -198,9 +198,9 @@
       "cmakeToolchainFile": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
       "cmake": {
         "isValidCmakeAvailable": true,
-        "cmakeExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
-        "minimumCmakeVersion": "3.10.2",
-        "ninjaExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+        "cmakeExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\cmake.exe",
+        "minimumCmakeVersion": "3.18.1",
+        "ninjaExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\ninja.exe",
         "isPreferCmakeFileApiEnabled": true
       },
       "stlSharedObjectMap": {

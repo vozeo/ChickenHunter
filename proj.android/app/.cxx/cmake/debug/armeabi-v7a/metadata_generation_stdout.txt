@@ -1,0 +1,16 @@
+-- using toolchain file:C:\Users\Vozeo\AppData\Local\Android\Sdk\ndk\21.4.7075529\build\cmake\android.toolchain.cmake
+-- PROJECT_NAME:ChickenHunter
+-- PROJECT_SOURCE_DIR:D:/Cocos/ChickenHunter
+-- COCOS2DX_ROOT_PATH:D:/Cocos/ChickenHunter/cocos2d
+-- CMAKE_MODULE_PATH:D:/Cocos/ChickenHunter/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a
+-- ENGINE_BINARY_PATH:D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine
+-- PYTHON_PATH:C:/Python27/python.exe
+-- COCOS_COMMAND_PATH:C:/cocos2d-x-4.0/tools/cocos2d-console/bin/cocos
+-- HOST_SYSTEM:Windows
+-- CMAKE_GENERATOR: Ninja
+-- COCOS2DX_LUAJIT_ROOT:C:/cocos2d-x-4.0/tools/cocos2d-console/bin/../plugins/plugin_luacompile/bin
+-- Building yasio with C++11 support
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/debug/armeabi-v7a

@@ -189,9 +189,9 @@ endif()
 
 #add yasio
 add_subdirectory(yasio)
-if (WIN32)
+#if (WIN32)
     set (YASIO_LIB yasio)
-else ()
-    set (YASIO_LIB yasio pthread)
-endif()
+#else ()
+#    set (YASIO_LIB yasio pthread)
+#endif()
 target_link_libraries (${APP_NAME} ${YASIO_LIB})

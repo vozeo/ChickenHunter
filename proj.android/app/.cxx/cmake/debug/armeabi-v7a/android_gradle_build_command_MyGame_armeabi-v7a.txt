@@ -1,4 +1,4 @@
-Executable : C:\Users\Vozeo\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
+Executable : C:\Users\Vozeo\AppData\Local\Android\Sdk\cmake\3.18.1\bin\ninja.exe
 arguments : 
 -C
 D:\Cocos\ChickenHunter\proj.android\app\.cxx\cmake\debug\armeabi-v7a
