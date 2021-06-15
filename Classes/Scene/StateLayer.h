@@ -8,6 +8,7 @@
 #include "Character/Character.h"
 #include "MapLayer.h"
 #include "Network/Client.h"
+#include "Joystick/Joystick.h"
 
 #include <map>
 #include <chrono>

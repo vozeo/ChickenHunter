@@ -568,8 +568,13 @@ void MapLayer::update(float fDelta) {
 		{
 			if (enemy->getPlayerDeath())
 				continue;
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
+			judgePick(enemy);
+			if (enemy != hunter) {
+#else
 			if (enemy != hunter) {
 				judgePick(enemy);
+#endif
 				int nextT = enemy->getThought() + int(fDelta * 1000);
 				enemy->setThought(nextT);
 				if (nextT >= enemy->getThinkTime())

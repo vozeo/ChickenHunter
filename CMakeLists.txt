@@ -58,6 +58,7 @@ endif()
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/Character/Character.cpp
+     Classes/Joystick/Joystick.cpp
      Classes/Item/Item.cpp
      Classes/Scene/ExitLayer.cpp
      Classes/Scene/GameScene.cpp
@@ -77,6 +78,7 @@ list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/Const.h
      Classes/Character/Character.h
+     Classes/Joystick/Joystick.h
      Classes/Item/Item.h
      Classes/Scene/ExitLayer.h
      Classes/Scene/GameScene.h

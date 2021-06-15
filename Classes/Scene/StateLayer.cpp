@@ -68,7 +68,7 @@ bool State::init(std::vector<Character*> gameHunter)
 				break;
 			}
 			text->setPosition(winSize.width / 2, winSize.height / 1.5f);
-			addChild(text, 3);
+			addChild(text, 2);
 			text->runAction(Sequence::create(DelayTime::create(5), FadeOut::create(0.3f), RemoveSelf::create(), NULL));
 		}
 	}
@@ -109,10 +109,16 @@ void State::initState()
 
 	bullet_label->setPosition(winSize.width / 4, winSize.height / 25);
 
-	this->addChild(blood_label, 1);
-	this->addChild(time_label, 1);
-	this->addChild(survivor_label, 1);
+	addChild(blood_label, 1);
+	addChild(time_label, 1);
+	addChild(survivor_label, 1);
 	addChild(bullet_label, 1);
+
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
+	Joystick* joystick = Joystick::create();
+	joystick->bind(hunter);
+	addChild(joystick, 2);
+#endif
 }
 
 void State::initGun() {
