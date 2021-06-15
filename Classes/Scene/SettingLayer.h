@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "Const.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -13,12 +14,11 @@ using namespace cocos2d::ui;
 class SettingLayer : public cocos2d::Layer
 {
     Slider* volumeSlider;
-    float* m_volume;
+
 public:
     virtual bool init();
     CREATE_FUNC(SettingLayer);
 
-    void settingInit(float* volume);
     void closeCallback(cocos2d::Ref* pSender);
 };
 
