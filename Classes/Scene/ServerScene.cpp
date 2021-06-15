@@ -53,7 +53,7 @@ bool Server::init()
 		Director::getInstance()->pushScene(TransitionFade::create(0.3f, static_cast<Scene*>(scene), Color3B(0, 255, 255)));
 		});
 	createRoom->setColor(Color3B(255, 215, 0));
-	auto addRoom = MenuItemFont::create("   Add Room", [=](Ref* render) {
+	auto addRoom = MenuItemFont::create("   Enter Room", [=](Ref* render) {
 		CCLOG("Name:%s IP:%s", nameText->getString().c_str(), addressText->getString().c_str());
 		chclient = new CHClient(addressText->getString().c_str(), 25595);
 		chclient->link();
