@@ -237,7 +237,7 @@ void MapLayer::registerTouchEvent() {
 		}
 
 		hunter->bulletLocation = touch->getLocation();
-
+		Fire(0);
 		schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed()- hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
 		return true;
 	};
