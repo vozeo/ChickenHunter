@@ -35,9 +35,15 @@ bool Game::init()
 
     map = MapLayer::create(m_hunter);
     addChild(map, 1);
+	map->bindTouchMap(touchBegan, touchEnded);
 
 	stateUI = State::create(m_hunter);
 	addChild(stateUI, 2);
+	stateUI->mapLayer = map;
+	stateUI->bindTouch(touchBegan, touchEnded);
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
+	stateUI->touchInit();
+#endif
 
 	auto exit_img = MenuItemImage::create(
 		"exit_0.png",

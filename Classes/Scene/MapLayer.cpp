@@ -67,7 +67,10 @@ bool MapLayer::init(std::vector<Character*> gameHunter)
 	AudioEngine::preload("music/knifeEffect.wav");
 
 	registerKeyboardEvent();
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 	registerTouchEvent();
+#endif
+	
 
 	return true;
 }
@@ -222,6 +225,28 @@ void MapLayer::judgePick(Character* character) {
 	}
 }
 
+void MapLayer::touchBegan(Touch* touch) {
+	auto weaponType = hunter->getPlayerWeapon();
+	if (4 == weaponType) {
+		auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+		AudioEngine::setVolume(knifeAudioID, M_Volume);
+		makeKnifeAttack(hunter);
+		return;
+	}
+	Fire(0);
+	schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed() - hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
+}
+
+void MapLayer::touchEnded() {
+	unschedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire));
+}
+
+void MapLayer::bindTouchMap(std::function<void(MapLayer*, Touch* touch)>& began, std::function<void(MapLayer*)>& ended) {
+	began = &MapLayer::touchBegan;
+	ended = &MapLayer::touchEnded;
+}
+
+
 //add firing continuously
 void MapLayer::registerTouchEvent() {
 	auto touchListener = EventListenerTouchOneByOne::create();
@@ -232,17 +257,17 @@ void MapLayer::registerTouchEvent() {
 			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
 			AudioEngine::setVolume(knifeAudioID, M_Volume);
 			makeKnifeAttack(hunter);
-
 			return true;
 		}
 
 		hunter->bulletLocation = touch->getLocation();
 		Fire(0);
-		schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed()- hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
+		schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed() - hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
 		return true;
 	};
 
 	touchListener->onTouchMoved = [&](Touch* touch, Event* event) {
+		//CCLOG("%f %f", touch->getLocation().x, touch->getLocation().y);
 		hunter->bulletLocation = touch->getLocation();
 	};
 

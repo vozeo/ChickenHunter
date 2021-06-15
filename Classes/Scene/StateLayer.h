@@ -32,6 +32,9 @@ private:
 	int aliveNumber = 0;
 	bool gameIsEnd = false;
 
+	std::function<void(MapLayer*, cocos2d::Touch* touch)> touchBegan;
+	std::function<void(MapLayer*)> touchEnded;
+
 	Vector<MenuItem*> guns;
     MenuItem* gun[5][2];
 
@@ -40,6 +43,8 @@ private:
 	system_clock::time_point startTime;
 	 
 public:
+	MapLayer* mapLayer;
+
 	static State* create(std::vector<Character*> gameHunter)
 	{
 		State* pRet = new(std::nothrow) State();
@@ -60,6 +65,9 @@ public:
     virtual bool init(std::vector<Character*> gameHunter);
     virtual void initState();
     virtual void initGun();
+
+	void touchInit();
+	void bindTouch(std::function<void(MapLayer*, cocos2d::Touch* touch)> began, std::function<void(MapLayer*)> ended);
 
 	virtual void update(float fDelta);
 

@@ -114,11 +114,7 @@ void State::initState()
 	addChild(survivor_label, 1);
 	addChild(bullet_label, 1);
 
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
-	Joystick* joystick = Joystick::create();
-	joystick->bind(hunter);
-	addChild(joystick, 2);
-#endif
+
 }
 
 void State::initGun() {
@@ -141,6 +137,20 @@ void State::initGun() {
 	gunMenu = Menu::createWithArray(guns);
 	gunMenu->setPosition(winSize.width / 2, winSize.height / 10);
 	addChild(gunMenu, TOP);
+}
+
+void State::touchInit()
+{
+	Joystick* joystick = Joystick::create();
+	joystick->bindTouch(hunter, touchBegan, touchEnded);
+	joystick->mapLayer = mapLayer;
+	addChild(joystick, 2);
+}
+
+void State::bindTouch(std::function<void(MapLayer*, Touch* touch)> began, std::function<void(MapLayer*)> ended)
+{
+	touchBegan = began;
+	touchEnded = ended;
 }
 
 void State::update(float fDelta) {

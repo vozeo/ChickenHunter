@@ -34,6 +34,9 @@ private:
     std::vector< Character*> m_hunter;
     Character* hunter;
 
+    std::function<void(MapLayer*, Touch* touch)> touchBegan;
+    std::function<void(MapLayer*)> touchEnded;
+
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();

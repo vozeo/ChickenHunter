@@ -4,23 +4,34 @@ bool Joystick::init()
 {
 	visibleSize = Director::getInstance()->getVisibleSize();
 
-	m_back = Sprite::create("images/joyback.png");
-	m_back->setPosition(Vec2(visibleSize.width / 6, visibleSize.height / 4));
-	addChild(m_back, 0);
+	m_back1 = Sprite::create("images/joyback.png");
+	m_back1->setPosition(Vec2(visibleSize.width / 6, visibleSize.height / 4));
+	addChild(m_back1, 0);
 
-	m_button = Sprite::create("images/joybutton.png");
-	m_button->setPosition(m_back->getPosition());
-	addChild(m_button, 1);
+	m_button1 = Sprite::create("images/joybutton.png");
+	m_button1->setPosition(m_back1->getPosition());
+	addChild(m_button1, 1);
 
-	m_centerPoint = m_back->getPosition();
-	m_currentPoint = m_centerPoint;
+	m_centerPoint1 = m_back1->getPosition();
+	m_currentPoint1 = m_centerPoint1;
+
+	m_back2 = Sprite::create("images/joyback.png");
+	m_back2->setPosition(Vec2(5 * visibleSize.width / 6, visibleSize.height / 4));
+	addChild(m_back2, 0);
+
+	m_button2 = Sprite::create("images/joybutton.png");
+	m_button2->setPosition(m_back2->getPosition());
+	addChild(m_button2, 1);
+
+	m_centerPoint2 = m_back2->getPosition();
+	m_currentPoint2 = m_centerPoint2;
 
 	this->scheduleUpdate();
 
-	auto m_listener = EventListenerTouchOneByOne::create();
-	m_listener->onTouchBegan = CC_CALLBACK_2(Joystick::onTouchBegan, this);
-	m_listener->onTouchMoved = CC_CALLBACK_2(Joystick::onTouchMoved, this);
-	m_listener->onTouchEnded = CC_CALLBACK_2(Joystick::onTouchEnded, this);
+	auto m_listener = EventListenerTouchAllAtOnce::create();
+	m_listener->onTouchesBegan = CC_CALLBACK_2(Joystick::onTouchBegan, this);
+	m_listener->onTouchesMoved = CC_CALLBACK_2(Joystick::onTouchMoved, this);
+	m_listener->onTouchesEnded = CC_CALLBACK_2(Joystick::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_listener, this);
 
 	return true;
@@ -28,49 +39,82 @@ bool Joystick::init()
 
 void Joystick::update(float dt)
 {
-	m_button->setPosition(m_currentPoint);
+	m_button1->setPosition(m_currentPoint1);
+	m_button2->setPosition(m_currentPoint2);
 
-	if (m_currentPoint.x - m_centerPoint.x > moveDistance)
+	if (m_currentPoint1.x - m_centerPoint1.x > moveDistance)
 		hunter->m_speed[0] = true;
 	else hunter->m_speed[0] = false;
-	if (m_centerPoint.x - m_currentPoint.x > moveDistance)
+	if (m_centerPoint1.x - m_currentPoint1.x > moveDistance)
 		hunter->m_speed[1] = true;
 	else hunter->m_speed[1] = false;
-	if (m_centerPoint.y - m_currentPoint.y > moveDistance)
+	if (m_centerPoint1.y - m_currentPoint1.y > moveDistance)
 		hunter->m_speed[2] = true;
 	else hunter->m_speed[2] = false;
-	if (m_currentPoint.y - m_centerPoint.y > moveDistance)
+	if (m_currentPoint1.y - m_centerPoint1.y > moveDistance)
 		hunter->m_speed[3] = true;
 	else hunter->m_speed[3] = false;
 }
 
-void Joystick::bind(Character* player)
+void Joystick::bindTouch(Character* player, std::function<void(MapLayer*, cocos2d::Touch* touch)> began, std::function<void(MapLayer*)> ended)
 {
 	hunter = player;
+	touchBegan = began;
+	touchEnded = ended;
 }
 
-bool Joystick::onTouchBegan(Touch* touch, Event* event)
+bool Joystick::onTouchBegan(const std::vector<Touch*>& touches, Event* event)
 {
-	Rect rect = m_back->getBoundingBox();
-	Vec2 touchPos = touch->getLocation();
-	if (rect.containsPoint(touchPos))
-		m_currentPoint = touchPos;
+	for (auto touch : touches) {
+		if (touch->getLocation().x < visibleSize.width / 2) {
+			Vec2 touchPos = touch->getLocation();
+			if (m_back1->getBoundingBox().containsPoint(touchPos))
+				m_currentPoint1 = touchPos;
+		}
+		else {
+			Vec2 touchPos = touch->getLocation();
+			if (m_back2->getBoundingBox().containsPoint(touchPos)) {
+				m_currentPoint2 = touchPos;
+				hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + Vec2(visibleSize.width / 2, visibleSize.height / 2);
+				touchBegan(mapLayer, touch);
+			}
+		}
+	}
 	return true;
 }
 
-void Joystick::onTouchMoved(Touch* touch, Event* event)
+void Joystick::onTouchMoved(const std::vector<Touch*>& touches, Event* event)
 {
-	Rect rect = m_back->getBoundingBox();
-	Vec2 touchPos = touch->getLocation();
-	CCLOG("%f %f %f %f", rect.getMaxX(), rect.getMaxY(), touchPos.x, touchPos.y);
-	if (rect.containsPoint(touchPos))
-		m_currentPoint = touchPos;
+	for (auto touch : touches) {
+		if (touch->getLocation().x < visibleSize.width / 2) {
+			Vec2 touchPos = touch->getLocation();
+			if (m_back1->getBoundingBox().containsPoint(touchPos))
+				m_currentPoint1 = touchPos;
+		}
+		else {
+			Vec2 touchPos = touch->getLocation();
+			if (m_back2->getBoundingBox().containsPoint(touchPos)) {
+				m_currentPoint2 = touchPos;
+				hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + Vec2(visibleSize.width / 2, visibleSize.height / 2);
+			}
+		}
+	}
+
 }
 
-void Joystick::onTouchEnded(Touch* touch, Event* event)
+void Joystick::onTouchEnded(const std::vector<Touch*>& touches, Event* event)
 {
-	m_currentPoint = m_centerPoint;
-	hunter->stopAllActions();
-	for (auto speed : hunter->m_speed)
-		speed = false;
+	for (auto touch : touches) {
+		if (touch->getLocation().x < visibleSize.width / 2) {
+			m_currentPoint1 = m_centerPoint1;
+			hunter->stopAllActions();
+			for (auto speed : hunter->m_speed)
+				speed = false;
+		}
+		else {
+			m_currentPoint2 = m_centerPoint2;
+			touchEnded(mapLayer);
+		}
+	}
+
 }

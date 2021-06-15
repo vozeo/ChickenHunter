@@ -7,7 +7,6 @@
 #include "Const.h"
 #include "ui/CocosGUI.h"
 #include "character/Character.h"
-#include "StateLayer.h"
 #include "RankLayer.h"
 #include "Item/Item.h"
 #include <map>
@@ -50,6 +49,7 @@ private:
 	std::array <Bullet*, 60> bullets;
 
 public:
+
 	static MapLayer* create(std::vector<Character*> gameHunter)
 	{
 		MapLayer* pRet = new(std::nothrow) MapLayer();
@@ -71,6 +71,14 @@ public:
     virtual void update(float fDelta);
     void registerKeyboardEvent();
 	void registerTouchEvent();
+
+	void touchBegan(Touch* touch);
+	void touchEnded();
+
+	void bindTouchMap(std::function<void(MapLayer*, Touch* touch)> &began, std::function<void(MapLayer*)> &ended);
+
+
+
 
 	static float calRotation(float bulletX, float bulletY);
 

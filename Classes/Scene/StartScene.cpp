@@ -82,6 +82,5 @@ bool Start::init()
 }
 
 void Start::update(float dt) {
-	CCLOG("%f", M_Volume);
 	AudioEngine::setVolume(startAudioID, M_Volume);
 }
