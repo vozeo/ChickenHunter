@@ -59,6 +59,12 @@ bool Server::init()
 	MenuItemFont::setFontSize(60);
 
 	auto createRoom = MenuItemFont::create("Create Room   ", [=](Ref* render) {
+		if (nameText->getString().length() < 2 || nameText->getString().length() > 9)
+		{
+			auto warninglayer = WarningLayer::create(std::string("\nYour name is illegal:\n need to be 2 - 9 words"));
+			addChild(warninglayer, 2);
+			return;
+		}
 		chserver = new CHServer("0.0.0.0", 25595);
 		chserver->listen();
 		chclient = new CHClient("127.0.0.1", 25595);
@@ -69,6 +75,12 @@ bool Server::init()
 	createRoom->setColor(Color3B(255, 215, 0));
 	auto addRoom = MenuItemFont::create("   Enter Room", [=](Ref* render) {
 		CCLOG("Name:%s IP:%s", nameText->getString().c_str(), addressText->getString().c_str());
+		if (nameText->getString().length() < 2 || nameText->getString().length() > 9)
+		{
+			auto warninglayer = WarningLayer::create(std::string("\nYour name is illegal:\n need to be 2 - 9 words"));
+			addChild(warninglayer, 2);
+			return;
+		}
 		chclient = new CHClient(addressText->getString().c_str(), 25595);
 		chclient->link();
 		chclient->setName(nameText->getString().c_str());
