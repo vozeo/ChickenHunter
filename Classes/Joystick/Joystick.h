@@ -39,6 +39,7 @@ public:
 	bool onTouchBegan(const std::vector<Touch*>& touches, Event* event);
 	void onTouchMoved(const std::vector<Touch*>& touches, Event* event);
 	void onTouchEnded(const std::vector<Touch*>& touches, Event* event);
+	void animate();
  
 	virtual void update(float dt);
 	void bindTouch(Character* player, std::function<void(MapLayer*, cocos2d::Touch* touch)> began, std::function<void(MapLayer*)> ended);

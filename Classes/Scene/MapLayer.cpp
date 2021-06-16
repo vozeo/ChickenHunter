@@ -142,7 +142,7 @@ void MapLayer::registerKeyboardEvent() {
 		}
 		for (int i = 0; i <= 3; i++)
 		{
-			if (hunter->m_speed[i] == true)
+			if (hunter->m_speed[i])
 			{
 				switch (i) {
 				case 0: hunter->runAction(hunter->getCharacterAnimRight());
@@ -224,6 +224,7 @@ void MapLayer::judgePick(Character* character) {
 	}
 }
 
+// Android
 void MapLayer::touchBegan(Touch* touch) {
 	auto weaponType = hunter->getPlayerWeapon();
 	if (4 == weaponType) {
@@ -235,16 +236,15 @@ void MapLayer::touchBegan(Touch* touch) {
 	Fire(0);
 	schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed() - hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
 }
-
+// Android
 void MapLayer::touchEnded() {
 	unschedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire));
 }
-
+// Android
 void MapLayer::bindTouchMap(std::function<void(MapLayer*, Touch* touch)>& began, std::function<void(MapLayer*)>& ended) {
 	began = &MapLayer::touchBegan;
 	ended = &MapLayer::touchEnded;
 }
-
 
 //add firing continuously
 void MapLayer::registerTouchEvent() {

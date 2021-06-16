@@ -42,18 +42,7 @@ void Joystick::update(float dt)
 	m_button1->setPosition(m_currentPoint1);
 	m_button2->setPosition(m_currentPoint2);
 
-	if (m_currentPoint1.x - m_centerPoint1.x > moveDistance)
-		hunter->m_speed[0] = true;
-	else hunter->m_speed[0] = false;
-	if (m_centerPoint1.x - m_currentPoint1.x > moveDistance)
-		hunter->m_speed[1] = true;
-	else hunter->m_speed[1] = false;
-	if (m_centerPoint1.y - m_currentPoint1.y > moveDistance)
-		hunter->m_speed[2] = true;
-	else hunter->m_speed[2] = false;
-	if (m_currentPoint1.y - m_centerPoint1.y > moveDistance)
-		hunter->m_speed[3] = true;
-	else hunter->m_speed[3] = false;
+
 }
 
 void Joystick::bindTouch(Character* player, std::function<void(MapLayer*, cocos2d::Touch* touch)> began, std::function<void(MapLayer*)> ended)
@@ -69,6 +58,7 @@ bool Joystick::onTouchBegan(const std::vector<Touch*>& touches, Event* event)
 		if (touch->getLocation().x < visibleSize.width / 2) {
 			Vec2 touchPos = touch->getLocation();
 			m_currentPoint1 = touchPos;
+			animate();
 		}
 		else {
 			Vec2 touchPos = touch->getLocation();
@@ -86,6 +76,7 @@ void Joystick::onTouchMoved(const std::vector<Touch*>& touches, Event* event)
 		if (touch->getLocation().x < visibleSize.width / 2) {
 			Vec2 touchPos = touch->getLocation();
 			m_currentPoint1 = touchPos;
+			animate();
 		}
 		else {
 			Vec2 touchPos = touch->getLocation();
@@ -104,6 +95,7 @@ void Joystick::onTouchEnded(const std::vector<Touch*>& touches, Event* event)
 			hunter->stopAllActions();
 			for (auto speed : hunter->m_speed)
 				speed = false;
+			animate();
 		}
 		else {
 			m_currentPoint2 = m_centerPoint2;
@@ -111,4 +103,32 @@ void Joystick::onTouchEnded(const std::vector<Touch*>& touches, Event* event)
 		}
 	}
 
+}
+
+void Joystick::animate()
+{
+	if (m_currentPoint1.x - m_centerPoint1.x > moveDistance) {
+		hunter->m_speed[0] = true;
+		if (hunter->m_speed[2] == false && hunter->m_speed[3] == false)
+			hunter->runAction(hunter->getCharacterAnimRight());
+	}
+	else hunter->m_speed[0] = false;
+	if (m_centerPoint1.x - m_currentPoint1.x > moveDistance) {
+		hunter->m_speed[1] = true;
+		if (hunter->m_speed[2] == false && hunter->m_speed[3] == false)
+			hunter->runAction(hunter->getCharacterAnimLeft());
+	}
+	else hunter->m_speed[1] = false;
+	if (m_centerPoint1.y - m_currentPoint1.y > moveDistance) {
+		hunter->m_speed[2] = true;
+		if (hunter->m_speed[0] == false && hunter->m_speed[1] == false)
+			hunter->runAction(hunter->getCharacterAnimDown());
+	}
+	else hunter->m_speed[2] = false;
+	if (m_currentPoint1.y - m_centerPoint1.y > moveDistance) {
+		hunter->m_speed[3] = true;
+		if (hunter->m_speed[0] == false && hunter->m_speed[1] == false)
+			hunter->runAction(hunter->getCharacterAnimUp());
+	}
+	else hunter->m_speed[3] = false;
 }
