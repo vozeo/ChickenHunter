@@ -1,8 +1,10 @@
 #include "StateLayer.h"
 
+#include <utility>
+
 USING_NS_CC;
 
-Layer* State::createScene(std::vector<Character*> gameHunter)
+Layer* State::createScene(std::vector<Character*> &gameHunter)
 {
     return State::create(gameHunter);
 }
@@ -23,7 +25,7 @@ bool State::init(std::vector<Character*> gameHunter)
     }
 	scheduleUpdate();
 	
-	m_enemy = gameHunter;
+	m_enemy = std::move(gameHunter);
 	if (chclient != nullptr)
 		hunter = m_enemy[chclient->getuid() - 1];
 	else
@@ -147,7 +149,7 @@ void State::touchInit()
 	addChild(joystick, 2);
 }
 
-void State::bindTouch(std::function<void(MapLayer*, Touch* touch)> began, std::function<void(MapLayer*)> ended)
+void State::bindTouch(std::function<void(MapLayer*, Touch* touch)> &began, std::function<void(MapLayer*)> &ended)
 {
 	touchBegan = began;
 	touchEnded = ended;

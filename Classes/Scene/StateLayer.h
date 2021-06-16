@@ -56,18 +56,17 @@ public:
 		else
 		{
 			delete pRet;
-			pRet = nullptr;
 			return nullptr;
 		}
 	}
 
-    static cocos2d::Layer* createScene(std::vector<Character*> gameHunter);
+    static cocos2d::Layer* createScene(std::vector<Character*> &gameHunter);
     virtual bool init(std::vector<Character*> gameHunter);
     virtual void initState();
     virtual void initGun();
 
 	void touchInit();
-	void bindTouch(std::function<void(MapLayer*, cocos2d::Touch* touch)> began, std::function<void(MapLayer*)> ended);
+	void bindTouch(std::function<void(MapLayer*, cocos2d::Touch* touch)> &began, std::function<void(MapLayer*)> &ended);
 
 	virtual void update(float fDelta);
 

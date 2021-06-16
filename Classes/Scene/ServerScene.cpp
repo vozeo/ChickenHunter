@@ -57,11 +57,6 @@ bool Server::init()
 
 	MenuItemFont::setFontName("fonts/Sthupo.ttf");
 	MenuItemFont::setFontSize(60);
-	/*
-	AudioEngine::lazyInit();
-	AudioEngine::preload("music/startBgm.mp3");
-	startAudioID = AudioEngine::play2d("music/startBgm.mp3", true);
-	*/
 
 	auto createRoom = MenuItemFont::create("Create Room   ", [=](Ref* render) {
 		chserver = new CHServer("0.0.0.0", 25595);

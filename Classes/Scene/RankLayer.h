@@ -15,7 +15,6 @@ public:
     virtual bool init();
     CREATE_FUNC(RankLayer);
 
-    void closeCallback(cocos2d::Ref* pSender);
     void rankInit(bool isWin, std::vector<Character*> player);
 };
 

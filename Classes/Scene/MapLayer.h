@@ -6,7 +6,7 @@
 #include "AudioEngine.h"
 #include "Const.h"
 #include "ui/CocosGUI.h"
-#include "character/Character.h"
+#include "Character/Character.h"
 #include "RankLayer.h"
 #include "Item/Item.h"
 #include <map>
@@ -65,8 +65,8 @@ public:
 			return nullptr;
 		}
 	}
-    static cocos2d::Layer* createScene(std::vector<Character*> gameHunter);
-    virtual bool init(std::vector<Character*> gameHunter);
+    static cocos2d::Layer* createScene(std::vector<Character*> &gameHunter);
+    virtual bool init(std::vector<Character*> &gameHunter);
 
     
     virtual void update(float fDelta);
@@ -76,16 +76,11 @@ public:
 	void touchBegan(Touch* touch);
 	void touchEnded();
 
-	void bindTouchMap(std::function<void(MapLayer*, Touch* touch)> &began, std::function<void(MapLayer*)> &ended);
-
-
-
+	static void bindTouchMap(std::function<void(MapLayer*, Touch* touch)> &began, std::function<void(MapLayer*)> &ended);
 
 	static float calRotation(float bulletX, float bulletY);
 
 	void initBullet();
-
-	void initSetEnemy();
 	void initSetItem();
 	void initSetItemForClient();
 
@@ -94,7 +89,7 @@ public:
 	template <class T> void setRandPos(T* elem);
 	template <class T> void initItem(std::vector<T*> &items, int number);
 
-	void roll(Character* character);
+	static void roll(Character* character);
 	void judgePick(Character* character);
 
 	void makeKnifeAttack(Character* character);

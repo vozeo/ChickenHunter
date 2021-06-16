@@ -1,14 +1,16 @@
 #include "MapLayer.h"
 
+#include <utility>
+
 USING_NS_CC;
 
-Layer* MapLayer::createScene(std::vector<Character*> gameHunter)
+Layer* MapLayer::createScene(std::vector<Character*> &gameHunter)
 {
 	return MapLayer::create(gameHunter);
 }
 
 // 0->map, 1->item/gun, 2->enemy, 3->bullet, 4->hunter
-bool MapLayer::init(std::vector<Character*> gameHunter)
+bool MapLayer::init(std::vector<Character*> &gameHunter)
 {
 	if (!Layer::init())
 	{
@@ -75,12 +77,7 @@ bool MapLayer::init(std::vector<Character*> gameHunter)
 }
 
 void MapLayer::initBullet() {
-	for (auto& bullet : bullets) {
-		bullet = Bullet::create("images/bullet.png");
-		bullet->setVisible(false);
-		bullet->setBulletActive(false);
-		addChild(bullet, 3);
-	}
+
 }
 
 //fix the animation problem
@@ -91,22 +88,22 @@ void MapLayer::registerKeyboardEvent() {
 		switch (keyCode) {
 		case EventKeyboard::KeyCode::KEY_D:
 			hunter->m_speed[0] = true;
-			if (hunter->m_speed[2] == false && hunter->m_speed[3] == false)
+			if (!hunter->m_speed[2] && !hunter->m_speed[3])
 				hunter->runAction(hunter->getCharacterAnimRight());
 			break;
 		case EventKeyboard::KeyCode::KEY_A:
 			hunter->m_speed[1] = true;
-			if (hunter->m_speed[2] == false && hunter->m_speed[3] == false)
+			if (!hunter->m_speed[2] && !hunter->m_speed[3])
 				hunter->runAction(hunter->getCharacterAnimLeft());
 			break;
 		case EventKeyboard::KeyCode::KEY_S:
 			hunter->m_speed[2] = true;
-			if (hunter->m_speed[0] == false && hunter->m_speed[1] == false)
+			if (!hunter->m_speed[0] && !hunter->m_speed[1])
 				hunter->runAction(hunter->getCharacterAnimDown());
 			break;
 		case EventKeyboard::KeyCode::KEY_W:
 			hunter->m_speed[3] = true;
-			if (hunter->m_speed[0] == false && hunter->m_speed[1] == false)
+			if (!hunter->m_speed[0] && !hunter->m_speed[1])
 				hunter->runAction(hunter->getCharacterAnimUp());
 			break;
 		case EventKeyboard::KeyCode::KEY_E:
@@ -152,6 +149,8 @@ void MapLayer::registerKeyboardEvent() {
 				case 2: hunter->runAction(hunter->getCharacterAnimDown());
 					break;
 				case 3: hunter->runAction(hunter->getCharacterAnimUp());
+					break;
+				default:
 					break;
 				}
 				break;
@@ -325,6 +324,8 @@ void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bull
 					bullet->setRotation(rot2);
 					bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(static_cast<float>(cos(rot2 * PI / 180)) * 1000, static_cast<float>(-sin(rot2 * PI / 180)) * 1000))));
 					break;
+				default:
+					break;
 			}
 			
 			bullet->setBulletAttack(static_cast<int>(weapon->getWeaponAttack() * character->getPlayerAttack()));
@@ -482,7 +483,7 @@ void MapLayer::update(float fDelta) {
 				chserver->map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
 				chserver->map_trans.player[i].is_pick = chserver->paction[i].pick;
 				chserver->map_trans.player[i].bullet = m_enemy[i - 1]->getPlayerBullet();
-				if (chserver->paction[i].pick == true && !m_enemy[i - 1]->getPlayerDeath())
+				if (chserver->paction[i].pick && !m_enemy[i - 1]->getPlayerDeath())
 				{
 					CCLOG("#MAP_UPDATE# PLAYER#%d PICK", i);
 					judgePick(m_enemy[i - 1]);
@@ -546,7 +547,7 @@ void MapLayer::update(float fDelta) {
 						m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
 						m_enemy[i]->setPlayerBullet(current_map.player[i + 1].bullet);
 						//拾取东西的同步
-						if (current_map.player[i + 1].is_pick == true)
+						if (current_map.player[i + 1].is_pick)
 						{
 							judgePick(m_enemy[i]);
 						}
@@ -711,7 +712,7 @@ void MapLayer::initSetItemForClient()
 	runAction(Follow::create(hunter, Rect::ZERO));
 	initItem(m_bandage, m_bandage_number);
 	initItem(m_ammunition, m_ammunition_number);
-	while (chclient->m_map_information_init.is_updated == false)
+	while (!chclient->m_map_information_init.is_updated)
 		;
 	for (int i = 0; i < m_ammunition_number; i++)
 		m_ammunition[i]->setPosition(chclient->m_map_information_init.m_ammunition_position[i][0], chclient->m_map_information_init.m_ammunition_position[i][1]);
@@ -729,7 +730,7 @@ void MapLayer::initSetItemForClient()
 
 	Weapon* weapon = Weapon::create();
 	weapon->retain();
-	weapon->weaponInit(4, 0);
+	weapon->weaponInit(4, false);
 	hunter->m_gun[4] = weapon;
 
 	hunter->setPlayerRefresh(true);
@@ -746,13 +747,20 @@ void MapLayer::initSetItem()
 	
 	runAction(Follow::create(hunter, Rect::ZERO));
 
+	for (auto& bullet : bullets) {
+		bullet = Bullet::create("images/bullet.png");
+		bullet->setVisible(false);
+		bullet->setBulletActive(false);
+		addChild(bullet, 3);
+	}
+
 	initItem(weapons, m_weapon_number);
 	initItem(m_bandage, m_bandage_number);
 	initItem(m_ammunition, m_ammunition_number);
 
 	Weapon* weapon = Weapon::create();
 	weapon->retain();
-	weapon->weaponInit(4, 0);
+	weapon->weaponInit(4, false);
 	hunter->m_gun[4] = weapon;
 
 	hunter->setPlayerRefresh(true);
@@ -789,4 +797,5 @@ void MapLayer::enemyFire(float delt)
 		}
 	}
 }
+
 

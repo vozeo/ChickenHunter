@@ -46,9 +46,6 @@ public:
 
     void initMouse();
     virtual void update(float dt);
-
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    void menuSettingCallback(cocos2d::Ref* pSender);
 };
 
 #endif

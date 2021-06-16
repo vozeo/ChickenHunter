@@ -19,14 +19,8 @@ bool SettingLayer::init()
 	volumeSlider->loadProgressBarTexture("images/sliderBar.png");
 
 	volumeSlider->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
-		switch (type)
-		{
-		case ui::Widget::TouchEventType::ENDED:
+		if (type == ui::Widget::TouchEventType::ENDED)
 			M_Volume = static_cast<float>(volumeSlider->getPercent()) / 100.0f;
-			break;
-		default:
-			break;
-		}
 		});
 	volumeSlider->setPosition(Vec2(winSize.width / 2, winSize.height / 1.7f));
 	volumeSlider->setPercent(static_cast<int>(M_Volume * 100.0f));

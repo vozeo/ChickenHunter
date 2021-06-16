@@ -34,8 +34,8 @@ bool Start::init()
 
 
 	//Network init
-	if (chclient != nullptr)delete chclient;
-	if (chserver != nullptr)delete chserver;
+	delete chclient;
+	delete chserver;
 
 	auto exit_img = MenuItemImage::create(
 		"exit_0.png",

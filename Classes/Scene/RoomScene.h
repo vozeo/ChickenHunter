@@ -31,7 +31,6 @@ public:
 		else
 		{
 			delete pRet;
-			pRet = nullptr;
 			return nullptr;
 		}
 	}
