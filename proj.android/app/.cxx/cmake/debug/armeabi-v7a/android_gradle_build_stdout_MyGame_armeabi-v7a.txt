@@ -1,10 +1,2 @@
 ninja: Entering directory `D:\Cocos\ChickenHunter\proj.android\app\.cxx\cmake\debug\armeabi-v7a'
-[1/2] Building CXX object CMakeFiles/MyGame.dir/Classes/Joystick/Joystick.cpp.o
-In file included from ../../../../../../Classes/Joystick/Joystick.cpp:1:
-In file included from ../../../../../../Classes/Joystick/Joystick.h:6:
-../../../../../../Classes\Scene/MapLayer.h:9:10: warning: non-portable path to file '"Character/Character.h"'; specified path differs in case from file name on disk [-Wnonportable-include-path]
-#include "character/Character.h"
-         ^~~~~~~~~~~~~~~~~~~~~~~
-         "Character/Character.h"
-1 warning generated.
-[2/2] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\libMyGame.so
+ninja: no work to do.

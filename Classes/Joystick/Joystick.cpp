@@ -68,16 +68,13 @@ bool Joystick::onTouchBegan(const std::vector<Touch*>& touches, Event* event)
 	for (auto touch : touches) {
 		if (touch->getLocation().x < visibleSize.width / 2) {
 			Vec2 touchPos = touch->getLocation();
-			if (m_back1->getBoundingBox().containsPoint(touchPos))
-				m_currentPoint1 = touchPos;
+			m_currentPoint1 = touchPos;
 		}
 		else {
 			Vec2 touchPos = touch->getLocation();
-			if (m_back2->getBoundingBox().containsPoint(touchPos)) {
-				m_currentPoint2 = touchPos;
-				hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + Vec2(visibleSize.width / 2, visibleSize.height / 2);
-				touchBegan(mapLayer, touch);
-			}
+			m_currentPoint2 = touchPos;
+			hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + Vec2(visibleSize.width / 2, visibleSize.height / 2);
+			touchBegan(mapLayer, touch);
 		}
 	}
 	return true;
@@ -88,15 +85,12 @@ void Joystick::onTouchMoved(const std::vector<Touch*>& touches, Event* event)
 	for (auto touch : touches) {
 		if (touch->getLocation().x < visibleSize.width / 2) {
 			Vec2 touchPos = touch->getLocation();
-			if (m_back1->getBoundingBox().containsPoint(touchPos))
-				m_currentPoint1 = touchPos;
+			m_currentPoint1 = touchPos;
 		}
 		else {
 			Vec2 touchPos = touch->getLocation();
-			if (m_back2->getBoundingBox().containsPoint(touchPos)) {
-				m_currentPoint2 = touchPos;
-				hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + Vec2(visibleSize.width / 2, visibleSize.height / 2);
-			}
+			m_currentPoint2 = touchPos;
+			hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + Vec2(visibleSize.width / 2, visibleSize.height / 2);
 		}
 	}
 
