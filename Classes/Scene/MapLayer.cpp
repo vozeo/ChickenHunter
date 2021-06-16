@@ -278,7 +278,7 @@ void MapLayer::registerTouchEvent() {
 }
 
 void MapLayer::makeKnifeAttack(Character* character) {
-	if (chclient != nullptr)//本地攻击上传
+	if (chclient != nullptr && character == hunter)//本地攻击上传
 	{
 			chclient->m_localaction.is_shoot = true;
 			chclient->m_localaction.weapon_type = 4;
@@ -308,7 +308,7 @@ static inline short getWeaponTypeForBulletAttack(Character* character, Weapon* w
 }
 
 void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bulletX, float bulletY) {
-	if (chclient != nullptr)//本地攻击上传
+	if (chclient != nullptr && character == hunter)//本地攻击上传
 	{
 		short wtype = getWeaponTypeForBulletAttack(character, weapon);
 		if (wtype != -1)
@@ -422,9 +422,48 @@ void MapLayer::update(float fDelta) {
 			chserver->paction[1].speed[2] = hunter->m_speed[2];
 			chserver->paction[1].speed[3] = hunter->m_speed[3];
 			chserver->paction[1].pick = chclient->m_localaction.pick;
+			chserver->paction[1].is_shoot = chclient->m_localaction.is_shoot;
+			chserver->paction[1].weapon_type = chclient->m_localaction.weapon_type;
+			chserver->paction[1].bullet_x = chclient->m_localaction.bullet_x;
+			chserver->paction[1].bullet_y = chclient->m_localaction.bullet_y;
 			chclient->m_localaction.pick = false;
+			chclient->m_localaction.is_shoot = false;
+			chclient->m_localaction.bullet_x = 0, chclient->m_localaction.bullet_y = 0;
+			chclient->m_localaction.weapon_type = 0;
+
 			//server's update
 			chserver->mapUploadInit();
+
+			for (auto bullet : bullets) {
+				if (bullet->getBulletActive()) {
+					auto bulletX = bullet->getPositionX();
+					auto bulletY = bullet->getPositionY();
+					if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 || bulletY >= mapHeight * tileHeight
+						|| meta->getTileGIDAt(Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
+						bullet->setVisible(false);
+						bullet->stopAllActions();
+						bullet->setBulletActive(false);
+						continue;
+					}
+					Rect rect_bullet = bullet->getBoundingBox();
+					for (auto enemy : m_enemy) {
+						if (enemy->getPlayerDeath())
+							continue;
+						Rect rect_enemy = enemy->getBoundingBox();
+						if (rect_enemy.intersectsRect(rect_bullet)) {
+							showAttacked(enemy->getPosition());
+							auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack() * enemy->getPlayerDefense();
+							if (bleed < 0)
+								bleed = 0;
+							enemy->setPlayerBleed(static_cast<int>(bleed));
+							bullet->setVisible(false);
+							bullet->stopAllActions();
+							bullet->setBulletActive(false);
+						}
+					}
+				}
+			}
+
 			chserver->m_map_trans.player_left_num = 0;
 			for (int i = 1; i < MAX_CONNECTIONS; i++)
 			{
@@ -530,11 +569,13 @@ void MapLayer::update(float fDelta) {
 				{
 					if (chserver->paction[i].weapon_type == 4)
 					{
+						CCLOG("PLAYER#%d MAKE BULLET ATTACK", i + 1);
 						if (m_enemy[i - 1]->getPlayerBullet() == 0)//留给手雷的位置
 							makeKnifeAttack(m_enemy[i - 1]);
 					}
 					else
 					{
+						CCLOG("PLAYER#%d MAKE BULLET ATTACK#%d", i + 1, chserver->paction[i].weapon_type);
 						makeBulletAttack(m_enemy[i - 1], m_enemy[i - 1]->m_gun[chserver->paction[i].weapon_type], chserver->paction[i].bullet_x, chserver->paction[i].bullet_y);
 					}
 
@@ -546,7 +587,32 @@ void MapLayer::update(float fDelta) {
 		}
 		else
 		{
-			
+		for (auto bullet : bullets) {//子弹的回收和处理
+			if (bullet->getBulletActive()) {
+				auto bulletX = bullet->getPositionX();
+				auto bulletY = bullet->getPositionY();
+				if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 || bulletY >= mapHeight * tileHeight
+					|| meta->getTileGIDAt(Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
+					bullet->setVisible(false);
+					bullet->stopAllActions();
+					bullet->setBulletActive(false);
+					continue;
+				}
+				Rect rect_bullet = bullet->getBoundingBox();
+				for (auto enemy : m_enemy) {
+					if (enemy->getPlayerDeath())
+						continue;
+					Rect rect_enemy = enemy->getBoundingBox();
+					if (rect_enemy.intersectsRect(rect_bullet)) {
+						showAttacked(enemy->getPosition());
+						bullet->setVisible(false);
+						bullet->stopAllActions();
+						bullet->setBulletActive(false);
+					}
+				}
+			}
+		}
+
 			//本地操作上传
 			chclient->m_localaction.speed[0] = hunter->m_speed[0];
 			chclient->m_localaction.speed[1] = hunter->m_speed[1];
@@ -603,15 +669,17 @@ void MapLayer::update(float fDelta) {
 							judgePick(m_enemy[i]);
 						}
 						//子弹同步
-						if(current_map.player[i + 1].is_shoot && m_enemy[i] != hunter)
+						if(current_map.player[i + 1].is_shoot == true && m_enemy[i] != hunter)
 						{
 							if (current_map.player[i + 1].weapon_type == 4)
 							{
 								if (current_map.player[i + 1].bullet == 0)//留给手雷的位置
 									makeKnifeAttack(m_enemy[i]);
+								CCLOG("PLAYER#%d MAKE BULLET ATTACK", i + 1);
 							}
-							else
+							else if (current_map.player[i + 1].weapon_type >= 0 && current_map.player[i + 1].weapon_type < 4)
 							{
+								CCLOG("PLAYER#%d MAKE BULLET ATTACK#%d", i + 1, current_map.player[i + 1].weapon_type);
 								makeBulletAttack(m_enemy[i], m_enemy[i]->m_gun[current_map.player[i + 1].weapon_type], current_map.player[i + 1].bullet_x, current_map.player[i + 1].bullet_y);
 							}
 						
@@ -619,7 +687,8 @@ void MapLayer::update(float fDelta) {
 					}
 				save_map = current_map;
 			}
-	
+			
+
 			memset(&chclient->m_map, 0, sizeof(MapInformation));
 		}
 	}
@@ -757,26 +826,17 @@ void MapLayer::initItem(std::vector<T*>& items, int number) {
 	}
 }
 
-/*while(!(chclient->getMapInitState() == false && chclient->m_map_information_init.is_updated == true))
-	{
-		chclient->setMapInited();
-		for (int i = 0; i < m_ammunition_number; i++)
-			m_ammunition[i]->setPosition(chclient->m_map_information_init.m_ammunition_position[i][0], chclient->m_map_information_init.m_ammunition_position[i][1]);
-		for (int i = 0; i < m_weapon_number; i++)
-		{
-			weapons[i]->setPosition(chclient->m_map_information_init.m_weapon_position[i][0], chclient->m_map_information_init.m_weapon_position[i][1]);
-			weapons[i]->setWeaponType(chclient->m_map_information_init.m_weapon_type[i]);
-			weapons[i]->weaponInit(weapons[i]->getWeaponType(), i);
-		}
-		for (int i = 0; i < m_bandage_number; i++)
-			m_bandage[i]->setPosition(chclient->m_map_information_init.m_bandage_position[i][0], chclient->m_map_information_init.m_bandage_position[i][1]);
-	}*/
-
 void MapLayer::initSetItemForClient()
 {
 	for (auto enemy : m_enemy) {
 		addChild(enemy, 2);
 		setRandPos(enemy);
+	}
+	for (auto& bullet : bullets) {
+		bullet = Bullet::create("images/bullet.png");
+		bullet->setVisible(false);
+		bullet->setBulletActive(false);
+		addChild(bullet, 3);
 	}
 
 	hunter->setLocalZOrder(4);
