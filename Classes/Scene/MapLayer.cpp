@@ -18,7 +18,7 @@ bool MapLayer::init(std::vector<Character*> &gameHunter)
 	}
 	this->scheduleUpdate();
 
-	map = TMXTiledMap::create("map/Desert.tmx");
+	map = TMXTiledMap::create("map/Moremp.tmx");
 	addChild(map, 0);
 
 	meta = map->getLayer("water");
@@ -786,15 +786,17 @@ void MapLayer::update(float fDelta) {
 				enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX, nextY)));
 			else
 			{
-				enemy->m_speed[0] = !enemy->m_speed[0];
-				enemy->m_speed[1] = !enemy->m_speed[1];
-				enemy->m_speed[2] = !enemy->m_speed[2];
-				enemy->m_speed[3] = !enemy->m_speed[3];
+				if (enemy != hunter) {
+					enemy->m_speed[0] = !enemy->m_speed[0];
+					enemy->m_speed[1] = !enemy->m_speed[1];
+					enemy->m_speed[2] = !enemy->m_speed[2];
+					enemy->m_speed[3] = !enemy->m_speed[3];
+				}
 				enemy->stopAllActions();
 				enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
 			}
 		}
-		hunter->setPosition(hunter->getPosition());
+		//hunter->setPosition(hunter->getPosition());
 	}
 }
 
