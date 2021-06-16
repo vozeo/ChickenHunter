@@ -20,7 +20,10 @@ USING_NS_CC;
 
 class Game : public cocos2d::Scene
 {
+    
 private:
+    ~Game();
+
     int backgroundAudioID;
 
     EventListenerMouse* mouseListener;
@@ -41,8 +44,6 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     CREATE_FUNC(Game);
-
-    virtual void onExit();
 
     void initMouse();
     virtual void update(float dt);

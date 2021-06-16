@@ -2,6 +2,11 @@
 
 USING_NS_CC;
 
+Game::~Game()
+{
+	AudioEngine::stop(backgroundAudioID);
+}
+
 Scene* Game::createScene()
 {
     return Game::create();
@@ -72,11 +77,6 @@ bool Game::init()
 	backgroundAudioID = AudioEngine::play2d("music/gameBgm.mp3", true);
 
     return true;
-}
-
-void Game::onExit()
-{
-	AudioEngine::stop(backgroundAudioID);
 }
 
 void Game::initMouse() {

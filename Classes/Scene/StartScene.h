@@ -9,7 +9,7 @@ USING_NS_CC;
 
 class Start : public cocos2d::Scene
 {
-    int startAudioID;
+    int startAudioID = -1;
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
