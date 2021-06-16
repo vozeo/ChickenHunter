@@ -721,3 +721,10 @@
 34	4687	645511979	CMakeFiles/MyGame.dir/Classes/Scene/ServerScene.cpp.o	9bd083b3190bea6f
 30	5015	645511980	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	448e83d72bde0396
 5015	8132	645511983	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	ccc0010a922bfb87
+26	3183	645512449	CMakeFiles/MyGame.dir/Classes/Scene/RankLayer.cpp.o	94cbe65f321d3165
+23	3742	645512449	CMakeFiles/MyGame.dir/Classes/Joystick/Joystick.cpp.o	b79ca5e24925c00b
+3743	7130	645512453	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	ccc0010a922bfb87
+21	3430	645512542	CMakeFiles/MyGame.dir/Classes/Joystick/Joystick.cpp.o	b79ca5e24925c00b
+3430	6610	645512545	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	ccc0010a922bfb87
+20	3749	645512602	CMakeFiles/MyGame.dir/Classes/Joystick/Joystick.cpp.o	b79ca5e24925c00b
+3749	6987	645512605	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	ccc0010a922bfb87

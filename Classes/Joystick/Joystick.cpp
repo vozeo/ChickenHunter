@@ -109,26 +109,34 @@ void Joystick::animate()
 {
 	if (m_currentPoint1.x - m_centerPoint1.x > moveDistance) {
 		hunter->m_speed[0] = true;
-		if (hunter->m_speed[2] == false && hunter->m_speed[3] == false)
-			hunter->runAction(hunter->getCharacterAnimRight());
 	}
 	else hunter->m_speed[0] = false;
 	if (m_centerPoint1.x - m_currentPoint1.x > moveDistance) {
 		hunter->m_speed[1] = true;
-		if (hunter->m_speed[2] == false && hunter->m_speed[3] == false)
-			hunter->runAction(hunter->getCharacterAnimLeft());
 	}
 	else hunter->m_speed[1] = false;
 	if (m_centerPoint1.y - m_currentPoint1.y > moveDistance) {
 		hunter->m_speed[2] = true;
-		if (hunter->m_speed[0] == false && hunter->m_speed[1] == false)
-			hunter->runAction(hunter->getCharacterAnimDown());
 	}
 	else hunter->m_speed[2] = false;
 	if (m_currentPoint1.y - m_centerPoint1.y > moveDistance) {
 		hunter->m_speed[3] = true;
-		if (hunter->m_speed[0] == false && hunter->m_speed[1] == false)
-			hunter->runAction(hunter->getCharacterAnimUp());
 	}
 	else hunter->m_speed[3] = false;
+
+	for (int i = 0; i <= 3; i++) {
+		if (hunter->m_speed[i]) {
+			switch (i) {
+			case 0: hunter->runAction(hunter->getCharacterAnimRight());
+				break;
+			case 1: hunter->runAction(hunter->getCharacterAnimLeft());
+				break;
+			case 2: hunter->runAction(hunter->getCharacterAnimDown());
+				break;
+			case 3: hunter->runAction(hunter->getCharacterAnimUp());
+				break;
+			}
+			break;
+		}
+	}
 }

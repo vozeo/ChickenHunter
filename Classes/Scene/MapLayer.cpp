@@ -289,7 +289,7 @@ void MapLayer::makeKnifeAttack(Character* character) {
 			auto bleed = enemy->getPlayerBleed() - 5 * character->getPlayerAttack() * enemy->getPlayerDefense();
 			if (bleed < 0)
 				bleed = 0;
-			enemy->setPlayerBleed(bleed);
+			enemy->setPlayerBleed(static_cast<int>(bleed));
 			showAttacked(enemy->getPosition());
 		}
 	}
@@ -298,12 +298,12 @@ void MapLayer::makeKnifeAttack(Character* character) {
 void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bulletX, float bulletY) {
 	float time = sqrt(bulletX * bulletX + bulletY * bulletY) / 1000;
 	float delta = 1;
-	int f = 0,fmax = 1;
-	auto angle = atan(0.15)*180 / PI;
+	int f = 0, fmax = 1;
+	auto angle = static_cast<float>(atan(0.15) * 180 / PI);
 	auto rot1 = calRotation(bulletX, bulletY) + angle;
 	auto rot2 = calRotation(bulletX, bulletY) - angle;
 	if (character == hunter)
-		delta = 0.6;
+		delta = 0.6f;
 	if (weapon->getWeaponType() == 2)
 	{
 		fmax = 3;
@@ -319,15 +319,15 @@ void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bull
 					break;
 				case 1: 
 					bullet->setRotation(rot1);
-					bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(cos(rot1 * PI / 180) * 1000, -sin(rot1 * PI / 180) * 1000))));
+					bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(static_cast<float>(cos(rot1 * PI / 180)) * 1000, static_cast<float>(-sin(rot1 * PI / 180)) * 1000))));
 					break;
 				case 2: 
 					bullet->setRotation(rot2);
-					bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(cos(rot2 * PI / 180) * 1000, -sin(rot2 * PI / 180) * 1000))));
+					bullet->runAction(RepeatForever::create(MoveBy::create(delta * weapon->getWeaponSpeed(), Vec2(static_cast<float>(cos(rot2 * PI / 180)) * 1000, static_cast<float>(-sin(rot2 * PI / 180)) * 1000))));
 					break;
 			}
 			
-			bullet->setBulletAttack(weapon->getWeaponAttack() * character->getPlayerAttack());
+			bullet->setBulletAttack(static_cast<int>(weapon->getWeaponAttack() * character->getPlayerAttack()));
 			bullet->setVisible(true);
 			f++;
 			if (f >= fmax)
@@ -580,7 +580,7 @@ void MapLayer::update(float fDelta) {
 						auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack() * enemy->getPlayerDefense();
 						if (bleed < 0)
 							bleed = 0;
-						enemy->setPlayerBleed(bleed);
+						enemy->setPlayerBleed(static_cast<int>(bleed));
 						bullet->setVisible(false);
 						bullet->stopAllActions();
 						bullet->setBulletActive(false);
@@ -660,12 +660,12 @@ void MapLayer::update(float fDelta) {
 template <class T>
 void MapLayer::setRandPos(T* elem)
 {
-	float rx, ry, mrx, mry;
+	decltype(mapWidth) rx, ry, mrx, mry;
 	while (true)
 	{
-		rx = random(50, static_cast<int>(mapWidth * tileWidth - 50 - 1));
+		rx = static_cast<decltype(tileWidth)>(random(50, static_cast<int>(mapWidth * tileWidth - 50 - 1)));
 		mrx = rx / tileWidth;
-		ry = random(50, static_cast<int>(mapHeight * tileHeight - 50 - 1));
+		ry = static_cast<decltype(tileHeight)>(random(50, static_cast<int>(mapHeight * tileHeight - 50 - 1)));
 		mry = mapHeight - ry / tileWidth;
 		if (mrx < mapWidth && mrx >= 0 && mry < mapHeight && mry >= 0 && !meta->getTileGIDAt(Vec2(mrx, mry)))
 			break;

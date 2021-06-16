@@ -39,7 +39,7 @@ void RankLayer::rankInit(bool isWin, std::vector<Character*> player) {
 	CCLOG("rankinit");
 
 	sort(player.begin(), player.end(), comp);
-	for (int i = 0; i < player.size(); ++i) {
+	for (decltype(player.size())i = 0; i < player.size(); ++i) {
 		auto playerLabel = Label::createWithTTF(player[i]->getName() + StringUtils::format("     %d", player[i]->getPlayerPoint()), "fonts/Marker Felt.ttf", 30);
 		playerLabel->setPosition(winSize.width / 2, winSize.height - winSize.height / 4 - winSize.height / player.size() / 2 * i);
 		addChild(playerLabel, 1);
