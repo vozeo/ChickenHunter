@@ -17,10 +17,7 @@ bool WarningLayer::init(std::string warningText)
 	addChild(text, 1);
 	text->setPosition(Vec2(winSize.width / 2, winSize.height / 2 + winSize.height / 10));
 
-	auto choice = MenuItemFont::create("OK", [=](Ref* render) {
-		Director::getInstance()->getOpenGLView()->setCursorVisible(true);
-		Director::getInstance()->popScene();
-		});
+	auto choice = MenuItemFont::create("OK", CC_CALLBACK_1(WarningLayer::closeCallback, this));
 
 	auto menu = Menu::create();
 	menu->addChild(choice);
