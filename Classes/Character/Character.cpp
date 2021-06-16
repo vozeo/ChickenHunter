@@ -37,7 +37,7 @@ bool Character::init()
 	initSprite();
     m_think_time = random(1500, 2000);// rand() % 4 * 200 + 1500
     m_thought = 0;
-    m_bullet_speed = 0.3;
+    m_bullet_speed = 0.3f;
 	return true;
 }
 
@@ -86,10 +86,10 @@ void Character::initAnimate()
     }
     ani_move_down_vec.pushBack(m_character_frame_cache->getSpriteFrameByName("character_11.png"));
 
-    m_character_anim_down = Animate::create(Animation::createWithSpriteFrames(ani_move_down_vec, ani_walk_delay_time, -1));
-    m_character_anim_left = Animate::create(Animation::createWithSpriteFrames(ani_move_left_vec, ani_walk_delay_time, -1));
-    m_character_anim_right = Animate::create(Animation::createWithSpriteFrames(ani_move_right_vec, ani_walk_delay_time, -1));
-    m_character_anim_up = Animate::create(Animation::createWithSpriteFrames(ani_move_up_vec, ani_walk_delay_time, -1));
+    m_character_anim_down = Animate::create(Animation::createWithSpriteFrames(ani_move_down_vec, static_cast<float>(ani_walk_delay_time), -1));
+    m_character_anim_left = Animate::create(Animation::createWithSpriteFrames(ani_move_left_vec, static_cast<float>(ani_walk_delay_time), -1));
+    m_character_anim_right = Animate::create(Animation::createWithSpriteFrames(ani_move_right_vec, static_cast<float>(ani_walk_delay_time), -1));
+    m_character_anim_up = Animate::create(Animation::createWithSpriteFrames(ani_move_up_vec, static_cast<float>(ani_walk_delay_time), -1));
 
     m_character_anim_down->retain();
     m_character_anim_left->retain();

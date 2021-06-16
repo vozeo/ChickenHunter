@@ -16,11 +16,11 @@ bool Item::init()
 
 void Weapon::weaponInit(int type, bool state) {
 	//0.5f + rand_0_1(), random(0, 5),
-	float sp[4] = { 1.5,1.0,0.8,1.0 };
+	float sp[4] = { 1.5f,1.0f,0.8f,1.0f };
 	m_speed = sp[type];
-	float fsp[4] = { 0.15,0.1,0.08,0.1 };
+	float fsp[4] = { 0.15f,0.1f,0.08f,0.1f };
 	m_fire_speed = fsp[type];
-	float at[4] = { 3.0,6.0,8.0,10.0 };
+	float at[4] = { 3.0f,6.0f,8.0f,10.0f };
 	m_attack = at[type];
 	m_type = type;
 	m_state = state;

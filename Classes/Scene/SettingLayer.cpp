@@ -29,7 +29,7 @@ bool SettingLayer::init()
 		}
 		});
 	volumeSlider->setPosition(Vec2(winSize.width / 2, winSize.height / 1.7f));
-	volumeSlider->setPercent(M_Volume * 100.0f);
+	volumeSlider->setPercent(static_cast<int>(M_Volume * 100.0f));
 	this->addChild(volumeSlider, 1);
 	
 	auto choiceBack = MenuItemFont::create("Back", [=](Ref* render) {

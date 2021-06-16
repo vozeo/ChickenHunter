@@ -29,7 +29,7 @@ bool ExitLayer::init()
 	
 	Vector<MenuItem*> menus{ choiceYes, choiceNo };
 	auto menu = Menu::createWithArray(menus);
-	menu->setPosition(winSize.width / 2, winSize.height / 2.7);
+	menu->setPosition(winSize.width / 2, static_cast<float>(winSize.height / 2.7f));
 	menu->alignItemsHorizontally();
 	addChild(menu, 1);
 	
