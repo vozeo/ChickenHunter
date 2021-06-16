@@ -64,6 +64,21 @@ bool Room::init(bool isServer)
 		choiceMenu->setPosition(winSize.width / 2, winSize.height / 5);
 		choiceMenu->alignItemsHorizontally();
 		this->addChild(choiceMenu, 1);
+
+		auto addAI = MenuItemFont::create("Add AI", [=](Ref* render) {
+			Director::getInstance()->getOpenGLView()->setCursorVisible(true);
+			Director::getInstance()->popScene();
+			});
+		auto deleteAI = MenuItemFont::create("Delete AI", [=](Ref* render) {
+			removeFromParent();
+			});
+		deleteAI->setColor(Color3B(255, 0, 0));
+
+		Vector<MenuItem*> menusAI{ addAI, deleteAI };
+		auto menuAI = Menu::createWithArray(menusAI);
+		menuAI->setPosition(4 * winSize.width / 5, winSize.height / 4);
+		menuAI->alignItemsVertically();
+		addChild(menuAI, 1);
 	}
 	this->scheduleUpdate();
 	return true;

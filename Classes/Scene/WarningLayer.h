@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __SETTING_SCENE_H__
-#define __SETTING_SCENE_H__
+#ifndef __WARNING_SCENE_H__
+#define __WARNING_SCENE_H__
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
@@ -11,13 +11,26 @@ using namespace cocos2d::ui;
 
 #define winSize Director::getInstance()->getWinSize()
 
-class SettingLayer : public cocos2d::Layer
+class WarningLayer : public cocos2d::Layer
 {
     Slider* volumeSlider;
 
 public:
-    virtual bool init();
-    CREATE_FUNC(SettingLayer);
+    virtual bool init(std::string warningText);
+	static WarningLayer* create(std::string warningText)
+	{
+		WarningLayer* pRet = new(std::nothrow) WarningLayer();
+		if (pRet && pRet->init(warningText))
+		{
+			pRet->autorelease();
+			return pRet;
+		}
+		else
+		{
+			delete pRet;
+			return nullptr;
+		}
+	}
 
     void closeCallback(cocos2d::Ref* pSender);
 };

@@ -80,7 +80,11 @@ bool Server::init()
 	auto choiceMenu = Menu::createWithArray(choiceMenus);
 	choiceMenu->setPosition(winSize.width / 2, winSize.height / 5);
 	choiceMenu->alignItemsHorizontally();
+	addChild(choiceMenu, 1);
+
+
+
 	
-	this->addChild(choiceMenu, 1);
+
 	return true;
 }

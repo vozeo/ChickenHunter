@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-bool WarningLayer::init()
+bool WarningLayer::init(std::string warningText)
 {
     if (!Layer::init())
     {
@@ -13,25 +13,18 @@ bool WarningLayer::init()
 	addChild(back, 0);
 	back->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 
-	volumeSlider = Slider::create();
-	volumeSlider->loadBarTexture("images/sliderBack.png");
-	volumeSlider->loadSlidBallTextures("images/sliderNode.png", "images/sliderNode.png", "images/sliderNode.png");
-	volumeSlider->loadProgressBarTexture("images/sliderBar.png");
+	auto text = Label::createWithTTF(warningText, "fonts/Marker Felt.ttf", 45);
+	addChild(text, 1);
+	text->setPosition(Vec2(winSize.width / 2, winSize.height / 2 + winSize.height / 10));
 
-	volumeSlider->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
-		if (type == ui::Widget::TouchEventType::ENDED)
-			M_Volume = static_cast<float>(volumeSlider->getPercent()) / 100.0f;
+	auto choice = MenuItemFont::create("OK", [=](Ref* render) {
+		Director::getInstance()->getOpenGLView()->setCursorVisible(true);
+		Director::getInstance()->popScene();
 		});
-	volumeSlider->setPosition(Vec2(winSize.width / 2, winSize.height / 1.7f));
-	volumeSlider->setPercent(static_cast<int>(M_Volume * 100.0f));
-	this->addChild(volumeSlider, 1);
-	
-	auto choiceBack = MenuItemFont::create("Back", [=](Ref* render) {
-		removeFromParent();
-		});
+
 	auto menu = Menu::create();
-	menu->addChild(choiceBack);
-	menu->setPosition(winSize.width / 2, winSize.height / 2.7f);
+	menu->addChild(choice);
+	menu->setPosition(winSize.width / 2, static_cast<float>(winSize.height / 2.7f));
 	addChild(menu, 1);
 
 	return true;
