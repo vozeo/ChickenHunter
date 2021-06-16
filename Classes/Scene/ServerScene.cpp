@@ -1,4 +1,6 @@
 #include "Scene/ServerScene.h"
+#include <chrono>
+using namespace std::chrono;
 
 USING_NS_CC;
 
@@ -83,6 +85,25 @@ bool Server::init()
 		}
 		chclient = new CHClient(addressText->getString().c_str(), 25595);
 		chclient->link();
+		system_clock::time_point link_start_time = system_clock::now();
+		bool get_started = false;
+		while (duration_cast<milliseconds>(system_clock::now() - link_start_time).count() < 800)
+		{
+			if (chclient->getUid() != 0)
+			{
+				get_started = true;
+				break;
+			}
+		}
+		if (!get_started)
+		{
+			auto warninglayer = WarningLayer::create(std::string("\nEnter Room Error:\n Can't find certain room!"));
+			addChild(warninglayer, 3);
+			delete chclient;
+			chclient = nullptr;
+			return;
+		}
+
 		chclient->setName(nameText->getString().c_str());
 		Director::getInstance()->replaceScene(TransitionFade::create(0.3f, Room::create(true), Color3B(0, 255, 255)));
 		});
