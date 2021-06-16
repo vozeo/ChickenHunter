@@ -80,7 +80,6 @@ public:
 
 	static float calRotation(float bulletX, float bulletY);
 
-	void initBullet();
 	void initSetItem();
 	void initSetItemForClient();
 
@@ -93,6 +92,7 @@ public:
 	void judgePick(Character* character);
 
 	void makeKnifeAttack(Character* character);
+	void makeExplosionEffect(float dt);
 	void makeBulletAttack(Character* character, Weapon* weapon, float bulletX, float bulletY);
 	void showEffect(Vec2 pos);
 	void showAttacked(Vec2 pos);

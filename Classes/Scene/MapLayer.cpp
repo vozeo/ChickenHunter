@@ -37,7 +37,6 @@ bool MapLayer::init(std::vector<Character*> &gameHunter)
 		initSetItemForClient();
 	else
 		initSetItem();
-	initBullet();
 
 	if(chclient == nullptr)
 		schedule(CC_SCHEDULE_SELECTOR(MapLayer::enemyFire), 0.5);
@@ -74,10 +73,6 @@ bool MapLayer::init(std::vector<Character*> &gameHunter)
 #endif
 	
 	return true;
-}
-
-void MapLayer::initBullet() {
-
 }
 
 //fix the animation problem
@@ -254,10 +249,13 @@ void MapLayer::registerTouchEvent() {
 		if (4 == weaponType) {
 			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
 			AudioEngine::setVolume(knifeAudioID, M_Volume);
-			makeKnifeAttack(hunter);
+
+			hunter->bulletLocation = touch->getLocation();
+			scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.2);
+			
+			//makeKnifeAttack(hunter);
 			return true;
 		}
-
 		hunter->bulletLocation = touch->getLocation();
 		Fire(0);
 		schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed() - hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
@@ -266,6 +264,7 @@ void MapLayer::registerTouchEvent() {
 
 	touchListener->onTouchMoved = [&](Touch* touch, Event* event) {
 		//CCLOG("%f %f", touch->getLocation().x, touch->getLocation().y);
+
 		hunter->bulletLocation = touch->getLocation();
 	};
 
@@ -275,6 +274,40 @@ void MapLayer::registerTouchEvent() {
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+}
+
+void MapLayer::makeExplosionEffect(float dt)
+{
+	auto explo_particle = ParticleExplosion::create();
+	auto explo_texture = Director::getInstance()->getTextureCache()->addImage("stars.png");
+	auto pos = convertToNodeSpace(hunter->bulletLocation);
+	explo_particle->setTexture(explo_texture);
+	explo_particle->setPosition(pos);
+	explo_particle->setLife(1.2);
+	explo_particle->setLifeVar(0.2);
+	Color4F start = { 0.7,0.0,0.0,1.0 };
+	Color4F var = { 0.3,0.3,0.2,0.0 };
+	explo_particle->setStartColor(start);
+	explo_particle->setStartColorVar(var);
+	Color4F end = { 0.7,0.0,0.0,0.0 };
+	explo_particle->setEndColor(end);
+	explo_particle->setEndColorVar(var);
+	explo_particle->setPositionType(ParticleSystem::PositionType::RELATIVE);
+	addChild(explo_particle);
+
+	for (auto enemy : m_enemy) {
+		if (enemy->getPlayerDeath())
+			continue;
+		if (pos.getDistance(enemy->getPosition()) < 100)
+		{
+			auto bleed = enemy->getPlayerBleed() - 50;
+			if (bleed < 0)
+				bleed = 0;
+			enemy->setPlayerBleed(static_cast<int>(bleed));
+			showAttacked(enemy->getPosition());
+		}
+	}
+	return;
 }
 
 void MapLayer::makeKnifeAttack(Character* character) {
