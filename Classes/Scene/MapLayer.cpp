@@ -45,6 +45,7 @@ bool MapLayer::init(std::vector<Character*> &gameHunter)
 	{
 		MapInformationInit mii;
 		mii.is_updated = true;
+		
 		for (int i = 0; i < m_ammunition_number; i++)
 		{
 			auto posa = m_ammunition[i]->getPosition();
@@ -446,16 +447,22 @@ void MapLayer::update(float fDelta) {
 						continue;
 					}
 					Rect rect_bullet = bullet->getBoundingBox();
-					for (auto enemy : m_enemy) {
-						if (enemy->getPlayerDeath())
+					for (int i = 0; i < MAX_CONNECTIONS - 1; i++) {
+						if (m_enemy[i]->getPlayerDeath())
 							continue;
-						Rect rect_enemy = enemy->getBoundingBox();
+						Rect rect_enemy = m_enemy[i]->getBoundingBox();
 						if (rect_enemy.intersectsRect(rect_bullet)) {
-							showAttacked(enemy->getPosition());
-							auto bleed = enemy->getPlayerBleed() - bullet->getBulletAttack() * enemy->getPlayerDefense();
+							showAttacked(m_enemy[i]->getPosition());
+							auto bleed = m_enemy[i]->getPlayerBleed() - bullet->getBulletAttack() * m_enemy[i]->getPlayerDefense();
 							if (bleed < 0)
 								bleed = 0;
-							enemy->setPlayerBleed(static_cast<int>(bleed));
+							if (bleed == 0)
+							{
+								chserver->m_map_trans.player[i + 1].alive = false;
+								chserver->m_map_trans.player[i + 1].just_game_over = true;
+
+							}
+							m_enemy[i]->setPlayerBleed(static_cast<int>(bleed));
 							bullet->setVisible(false);
 							bullet->stopAllActions();
 							bullet->setBulletActive(false);
@@ -557,6 +564,7 @@ void MapLayer::update(float fDelta) {
 				chserver->m_map_trans.player[i].weapon_type = chserver->paction[i].weapon_type;
 				chserver->m_map_trans.player[i].bullet_x = chserver->paction[i].bullet_x;
 				chserver->m_map_trans.player[i].bullet_y = chserver->paction[i].bullet_y;
+				chserver->m_map_trans.player[i].alive = !m_enemy[i - 1]->getPlayerDeath();
 
 				if (chserver->paction[i].pick && !m_enemy[i - 1]->getPlayerDeath())
 				{
@@ -587,6 +595,13 @@ void MapLayer::update(float fDelta) {
 		}
 		else
 		{
+		for (int i = 1; i < MAX_CONNECTIONS; i++)
+			if (chclient->m_map.player[i].just_game_over)//死亡结算
+			{
+				m_enemy[i]->setPlayerBleed(0);
+
+			}
+
 		for (auto bullet : bullets) {//子弹的回收和处理
 			if (bullet->getBulletActive()) {
 				auto bulletX = bullet->getPositionX();

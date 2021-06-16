@@ -95,6 +95,8 @@ CHServer::CHServer(const char* ip, unsigned short port)
 
 CHServer::~CHServer()
 {
+    for (int i = 0; i < ai_player_num; i++)
+        delete ai_client[i];
     if (m_server != nullptr)
         delete m_server;
 }
@@ -210,8 +212,20 @@ void CHServer::roomUpdate()
         }
 }
 
+bool CHServer::addAi()
+{
+    if(m_connection_num >= MAX_CONNECTIONS - 1)
+        return false;
+    string str = "AIPlayer"+ std::to_string(m_connection_num);
+    int p = ai_player_num++;
+    ai_client[p] = new CHClient("127.0.0.1", 25595);
+    ai_client[p]->setName(str.c_str());
+
+}
+
 void CHServer::mapInformationInit(MapInformationInit mii)
 {
+    mii.player_num_all = m_connection_num;
     char buff[HEAD_LENGTH + sizeof(MapInformationInit) + 20] = "MI\0";
     memcpy(buff + HEAD_LENGTH, &mii, sizeof(MapInformationInit));
     for (int i = 1; i < MAX_CONNECTIONS; i++)

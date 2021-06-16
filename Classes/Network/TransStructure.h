@@ -44,7 +44,8 @@ struct PlayerAction
 
 struct PlayerInformation
 {
-	bool alive = 0;
+	bool just_game_over = false;
+	bool alive = false;
 	bool is_pick = false;
 	bool is_shoot = false;
 	short bullet = 0;
@@ -73,6 +74,8 @@ struct MapInformation
 struct MapInformationInit
 {
 	bool is_updated = false;
+	bool player_attended[10] = { 0 };
+	int player_num_all = 0;
 	float m_bandage_position[30][2] = { 0 };
 	float m_ammunition_position[30][2] = { 0 };
 	float m_weapon_position[20][2] = { 0 };
