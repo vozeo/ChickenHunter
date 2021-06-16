@@ -175,7 +175,8 @@ void State::update(float fDelta) {
 			enemy->removeFromParent();
 			if (aliveNumber == 1 && !hunter->getPlayerDeath()) {
 				gameIsEnd = true;
-				hunter->setPlayerPoint(getTime() + 10);
+				hunter->setPlayerPoint(getTime() + random(10, 20));
+				RankLayer* rank = RankLayer::create();
 				RankLayer* rank = RankLayer::create();
 				rank->rankInit(true, m_enemy);
 				addChild(rank, 3);
