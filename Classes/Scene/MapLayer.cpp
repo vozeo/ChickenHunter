@@ -278,6 +278,11 @@ void MapLayer::registerTouchEvent() {
 }
 
 void MapLayer::makeKnifeAttack(Character* character) {
+	if (chclient != nullptr)//本地攻击上传
+	{
+			chclient->m_localaction.is_shoot = true;
+			chclient->m_localaction.weapon_type = 4;
+	}
 	Vec2 pos = character->getPosition();
 	showEffect(pos);
 	for (auto enemy : m_enemy) {
@@ -294,7 +299,25 @@ void MapLayer::makeKnifeAttack(Character* character) {
 	}
 }
 
+static inline short getWeaponTypeForBulletAttack(Character* character, Weapon* weapon)
+{
+	for (short i = 0; i < 5; i++)
+		if (character->m_gun[i] == weapon)
+			return i;
+	return -1;
+}
+
 void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bulletX, float bulletY) {
+	if (chclient != nullptr)//本地攻击上传
+	{
+		short wtype = getWeaponTypeForBulletAttack(character, weapon);
+		if (wtype != -1)
+		{
+			chclient->m_localaction.is_shoot = true;
+			chclient->m_localaction.weapon_type = wtype;
+			chclient->m_localaction.bullet_x = bulletX, chclient->m_localaction.bullet_y = bulletY;
+		}
+	}
 	float time = sqrt(bulletX * bulletX + bulletY * bulletY) / 1000;
 	float delta = 1;
 	int f = 0, fmax = 1;
@@ -491,10 +514,30 @@ void MapLayer::update(float fDelta) {
 				chserver->m_map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
 				chserver->m_map_trans.player[i].is_pick = chserver->paction[i].pick;
 				chserver->m_map_trans.player[i].bullet = m_enemy[i - 1]->getPlayerBullet();
+				chserver->m_map_trans.player[i].is_shoot = chserver->paction[i].is_shoot;
+				chserver->m_map_trans.player[i].weapon_type = chserver->paction[i].weapon_type;
+				chserver->m_map_trans.player[i].bullet_x = chserver->paction[i].bullet_x;
+				chserver->m_map_trans.player[i].bullet_y = chserver->paction[i].bullet_y;
+
 				if (chserver->paction[i].pick && !m_enemy[i - 1]->getPlayerDeath())
 				{
 					CCLOG("#MAP_UPDATE# PLAYER#%d PICK", i);
 					judgePick(m_enemy[i - 1]);
+				}
+
+				//子弹同步
+				if (chserver->paction[i].is_shoot && m_enemy[i - 1] != hunter)
+				{
+					if (chserver->paction[i].weapon_type == 4)
+					{
+						if (m_enemy[i - 1]->getPlayerBullet() == 0)//留给手雷的位置
+							makeKnifeAttack(m_enemy[i - 1]);
+					}
+					else
+					{
+						makeBulletAttack(m_enemy[i - 1], m_enemy[i - 1]->m_gun[chserver->paction[i].weapon_type], chserver->paction[i].bullet_x, chserver->paction[i].bullet_y);
+					}
+
 				}
 				
 				memset(&chserver->paction[i], 0, sizeof(PlayerAction));//人物动作删除
@@ -558,6 +601,20 @@ void MapLayer::update(float fDelta) {
 						if (current_map.player[i + 1].is_pick)
 						{
 							judgePick(m_enemy[i]);
+						}
+						//子弹同步
+						if(current_map.player[i + 1].is_shoot && m_enemy[i] != hunter)
+						{
+							if (current_map.player[i + 1].weapon_type == 4)
+							{
+								if (current_map.player[i + 1].bullet == 0)//留给手雷的位置
+									makeKnifeAttack(m_enemy[i]);
+							}
+							else
+							{
+								makeBulletAttack(m_enemy[i], m_enemy[i]->m_gun[current_map.player[i + 1].weapon_type], current_map.player[i + 1].bullet_x, current_map.player[i + 1].bullet_y);
+							}
+						
 						}
 					}
 				save_map = current_map;

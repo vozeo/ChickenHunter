@@ -53,7 +53,7 @@ bool Room::init(bool isServer)
 	startAudioID = AudioEngine::play2d("music/startBgm.mp3", true);
 	*/
 
-	if (isServer) {
+	if (chserver != nullptr) {
 		startGame = MenuItemFont::create("Start", [=](Ref* render) {
 				chserver->startGame();
 			});
