@@ -27,7 +27,7 @@ bool State::init(std::vector<Character*> gameHunter)
 	
 	m_enemy = std::move(gameHunter);
 	if (chclient != nullptr)
-		hunter = m_enemy[chclient->getuid() - 1];
+		hunter = m_enemy[chclient->getUid() - 1];
 	else
 		hunter = m_enemy[0];
 	aliveNumber = m_enemy.size();

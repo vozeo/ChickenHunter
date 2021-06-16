@@ -13,11 +13,6 @@ struct SPlayer
 	int hp;
 };
 
-struct SMap
-{
-	SPlayer player[MAX_CONNECTIONS];
-};
-
 using namespace std;
 using namespace yasio;
 using namespace yasio::inet;
@@ -25,37 +20,35 @@ using namespace yasio::inet;
 class CHServer
 {
 	bool debug_mode = false;
-	io_service* server;
-	int connection_num = 0;
-	bool started = false;
-	bool client_get_started[MAX_CONNECTIONS] = { 0 };
-	bool uid_usage[MAX_CONNECTIONS] = { 0 };
-	map<transport_handle_t, int> uid;
-	map<int, transport_handle_t> uid_to_handle;
-	map<int, string> player_name;
+	io_service* m_server;
+	int m_connection_num = 0;
+	bool m_started = false;
+	bool m_client_get_started[MAX_CONNECTIONS] = { 0 };
+	bool m_uid_usage[MAX_CONNECTIONS] = { 0 };
+	map<transport_handle_t, int> m_handle_to_uid;
+	map<int, transport_handle_t> m_uid_to_handle;
+	map<int, string> m_player_name;
 protected:
-	int get_unused_uid();//注意 调用会自动分配uid
-	bool delete_uid(int id);
+	int getUnusedUid();//注意 调用会自动分配uid
+	bool deleteUid(int id);
 	
 public:
 	PlayerAction paction[MAX_CONNECTIONS];
-	RoomInformation room;
-	MapInformation map_trans;
-	SMap smap;
+	RoomInformation m_room;
+	MapInformation m_map_trans;
 public:
 	CHServer(const char* ip, unsigned short port = 25595);
 	~CHServer();
 	void listen();
-	void map_init(int seed = 19260817);
-	void map_update();
-	void map_upload();
-	bool uid_is_used(int uid);
+	void mapUploadInit();
+	void mapUpload();
+	bool UidIsUsed(int uid);
 	bool startGame();
 	void closeGame();
 	bool GameIsStarted();
 	int getConnectionNum();
-	void open_debug_mode();
-	void room_update();
+	void openDebugMode();
+	void roomUpdate();
 	void mapInformationInit(MapInformationInit mii);
 };
 
