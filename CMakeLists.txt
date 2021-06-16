@@ -70,6 +70,7 @@ list(APPEND GAME_SOURCE
      Classes/Scene/ServerScene.cpp
      Classes/Scene/SettingLayer.cpp
      Classes/Scene/StartScene.cpp
+     Classes/Scene/WarningLayer.cpp
      Classes/Network/Client.cpp
      Classes/Network/Server.cpp
      Classes/Network/TransStructure.cpp
@@ -90,6 +91,7 @@ list(APPEND GAME_HEADER
      Classes/Scene/ServerScene.h
      Classes/Scene/SettingLayer.h
      Classes/Scene/StartScene.h
+     Classes/Scene/WarningLayer.h
      Classes/Network/Client.h
      Classes/Network/Server.h
      Classes/Network/TransStructure.h

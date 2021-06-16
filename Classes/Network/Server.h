@@ -5,6 +5,7 @@
 #include "TransStructure.h"
 #include <map>
 #include <string>
+#include "Network/Client.h"
 
 struct SPlayer
 {
@@ -31,11 +32,16 @@ class CHServer
 protected:
 	int getUnusedUid();//注意 调用会自动分配uid
 	bool deleteUid(int id);
-	
+protected:
+	CHClient* ai_client[MAX_CONNECTIONS];
+
 public:
 	PlayerAction paction[MAX_CONNECTIONS];
 	RoomInformation m_room;
 	MapInformation m_map_trans;
+	//bool ai_player[MAX_CONNECTIONS] = 0;
+	int ai_player_num = 0;
+
 public:
 	CHServer(const char* ip, unsigned short port = 25595);
 	~CHServer();
@@ -49,6 +55,7 @@ public:
 	int getConnectionNum();
 	void openDebugMode();
 	void roomUpdate();
+	bool addAi();
 	void mapInformationInit(MapInformationInit mii);
 };
 
