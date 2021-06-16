@@ -36,7 +36,8 @@ struct PlayerAction
 {
 	short speed[4] = { 0 };
 	bool is_shoot = false;
-	float shoot_degree, shoot_speed;
+	short weapon_type = 0;
+	float bullet_x = 0, bullet_y = 0;
 	int shoot_damage;
 	bool pick = false;
 };
@@ -47,10 +48,12 @@ struct PlayerInformation
 	bool is_pick = false;
 	bool is_shoot = false;
 	short bullet = 0;
+	short weapon_type = 0;
 	int uid = 0;
 	int hp = 100;
 	float position_x = 0, position_y = 0;
-	float shoot_degree, shoot_speed;
+	float bullet_x = 0, bullet_y = 0;
+	
 };
 
 struct RoomInformation
