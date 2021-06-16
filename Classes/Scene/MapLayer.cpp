@@ -301,8 +301,16 @@ void MapLayer::makeBulletAttack(Character* character, Weapon* weapon, float bull
 	auto angle = static_cast<float>(atan(0.15) * 180 / PI);
 	auto rot1 = calRotation(bulletX, bulletY) + angle;
 	auto rot2 = calRotation(bulletX, bulletY) - angle;
-	if (character == hunter)
-		delta = 0.6f;
+	if(chclient == nullptr)
+	{
+		if (character == hunter)
+			delta = 0.6f;
+	}
+	else
+	{
+		if (!character->m_is_ai)
+			delta = 0.6f;
+	}
 	if (weapon->getWeaponType() == 2)
 	{
 		fmax = 3;

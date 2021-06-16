@@ -47,7 +47,7 @@ public:
 	std::array<int, 2> m_bandage = {};
 	std::array<Weapon*, 5> m_gun = {};
 	std::array<bool, 4> m_speed = {};
-
+	bool m_is_ai = false;
 	void randomMove();
 
 	int* getPlayerBandage();
