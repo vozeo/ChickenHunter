@@ -453,6 +453,10 @@ void MapLayer::update(float fDelta) {
 		if (chserver != nullptr)
 		{
 			//local hunter directly given to the server
+			#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
+				judgePick(hunter);
+				chserver->paction[1].pick = true;
+			#endif
 			chserver->paction[1].speed[0] = hunter->m_speed[0];
 			chserver->paction[1].speed[1] = hunter->m_speed[1];
 			chserver->paction[1].speed[2] = hunter->m_speed[2];
@@ -662,6 +666,10 @@ void MapLayer::update(float fDelta) {
 				}
 			}
 		}
+			#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
+					judgePick(hunter);
+					chclient->m_localaction.pick = true;
+			#endif
 
 			//本地操作上传
 			chclient->m_localaction.speed[0] = hunter->m_speed[0];

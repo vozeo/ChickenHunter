@@ -220,7 +220,7 @@ bool CHServer::addAi()
     int p = ai_player_num++;
     ai_client[p] = new CHClient("127.0.0.1", 25595);
     ai_client[p]->setName(str.c_str());
-
+    return true;
 }
 
 void CHServer::mapInformationInit(MapInformationInit mii)
