@@ -67,6 +67,7 @@ public:
 	}
     static cocos2d::Layer* createScene(std::vector<Character*> gameHunter);
     virtual bool init(std::vector<Character*> gameHunter);
+
     
     virtual void update(float fDelta);
     void registerKeyboardEvent();

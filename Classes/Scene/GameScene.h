@@ -42,6 +42,8 @@ public:
     virtual bool init();
     CREATE_FUNC(Game);
 
+    virtual void onExit();
+
     void initMouse();
     virtual void update(float dt);
 

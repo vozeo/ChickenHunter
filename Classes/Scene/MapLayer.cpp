@@ -71,7 +71,6 @@ bool MapLayer::init(std::vector<Character*> gameHunter)
 	registerTouchEvent();
 #endif
 	
-
 	return true;
 }
 
