@@ -177,7 +177,6 @@ void State::update(float fDelta) {
 				gameIsEnd = true;
 				hunter->setPlayerPoint(getTime() + random(10, 20));
 				RankLayer* rank = RankLayer::create();
-				RankLayer* rank = RankLayer::create();
 				rank->rankInit(true, m_enemy);
 				addChild(rank, 3);
 			}
