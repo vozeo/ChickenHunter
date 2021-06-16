@@ -53,7 +53,7 @@ bool Room::init(bool isServer)
 	startAudioID = AudioEngine::play2d("music/startBgm.mp3", true);
 	*/
 
-	if (isServer) {
+	if (chserver != nullptr) {
 		startGame = MenuItemFont::create("Start", [=](Ref* render) {
 				chserver->startGame();
 			});
@@ -73,17 +73,17 @@ void Room::update(float fDelta)
 {
 	if (chserver != nullptr)
 	{
-		chserver->room_update();
+		chserver->roomUpdate();
 	}
 
-	if (chclient->room.player_num < 1) return;
+	if (chclient->m_room.player_num < 1) return;
 	for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
 	{
 		//string s = chclient->room.player_name[i + 1];
 		//if (s.length() > 2)
 			//playerLabel[i]->setString(s);
-		if(chclient->room.player_alive[i + 1])
-			playerLabel[i]->setString(chclient->room.player_name[i + 1]);
+		if(chclient->m_room.player_alive[i + 1])
+			playerLabel[i]->setString(chclient->m_room.player_name[i + 1]);
 		else
 			playerLabel[i]->setString("Unoccupied");
 		if (chclient->isStarted() && (!started))

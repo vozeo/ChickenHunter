@@ -10,21 +10,21 @@ using namespace yasio::inet;
 
 class CHClient
 {
-	io_service* client;
-	transport_handle_t thandle;
-	int uid = 0;
-	bool started = false;
+	io_service* m_client;
+	transport_handle_t m_thandle;
+	int m_uid = 0;
+	bool m_started = false;
 	bool m_map_init_state = false;
 public:
-	RoomInformation room;
-	MapInformation map;
-	PlayerAction localaction;
+	RoomInformation m_room;
+	MapInformation m_map;
+	PlayerAction m_localaction;
 	MapInformationInit m_map_information_init;
 public:
 	CHClient(const char* ip, unsigned short port = 25595);
 	~CHClient();
 	void link();
-	int getuid();
+	int getUid();
 	void setName(const char* name);
 	bool upload();
 	bool isStarted();
@@ -32,6 +32,6 @@ public:
 	void setMapInited();
 };
 extern CHClient* chclient;
-bool is_multiple_game();
+bool isMultipleGame();
 
 #endif 

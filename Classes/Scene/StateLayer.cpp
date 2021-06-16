@@ -27,7 +27,7 @@ bool State::init(std::vector<Character*> gameHunter)
 	
 	m_enemy = std::move(gameHunter);
 	if (chclient != nullptr)
-		hunter = m_enemy[chclient->getuid() - 1];
+		hunter = m_enemy[chclient->getUid() - 1];
 	else
 		hunter = m_enemy[0];
 	aliveNumber = m_enemy.size();
@@ -175,7 +175,7 @@ void State::update(float fDelta) {
 			enemy->removeFromParent();
 			if (aliveNumber == 1 && !hunter->getPlayerDeath()) {
 				gameIsEnd = true;
-				hunter->setPlayerPoint(getTime() + 10);
+				hunter->setPlayerPoint(getTime() + random(10, 20));
 				RankLayer* rank = RankLayer::create();
 				rank->rankInit(true, m_enemy);
 				addChild(rank, 3);
