@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "Character/Character.h"
+#include "Network/Client.h"
 
 USING_NS_CC;
 

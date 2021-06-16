@@ -26,7 +26,6 @@ public:
 	CC_SYNTHESIZE(int, m_thought, Thought);
 	CC_SYNTHESIZE(float, m_bullet_speed, BulletSpeed);
 
-
 	void initName();
 	void initSprite();
 	void initAnimate();
@@ -48,6 +47,7 @@ public:
 	std::array<Weapon*, 5> m_gun = {};
 	std::array<bool, 4> m_speed = {};
 	bool m_is_ai = false;
+	bool m_has_controller = false;
 	void randomMove();
 
 	int* getPlayerBandage();

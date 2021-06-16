@@ -40,6 +40,24 @@ bool MapLayer::init(std::vector<Character*> &gameHunter)
 
 	if(chclient == nullptr)
 		schedule(CC_SCHEDULE_SELECTOR(MapLayer::enemyFire), 0.5);
+
+	if (chclient != nullptr)
+	{
+		for (int i = 1; i < MAX_CONNECTIONS; i++)
+		{
+			if (chclient->m_room.player_alive[i])
+			{
+				m_enemy[i - 1]->m_has_controller = true;
+				string str = chclient->m_room.player_name[i];
+				m_enemy[i - 1]->setName(str);
+			}
+			else
+			{
+				m_enemy[i - 1]->setPlayerBleed(0);
+			}
+		}
+	}
+
 	if (chserver != nullptr)
 	{
 		MapInformationInit mii;

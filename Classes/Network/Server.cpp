@@ -98,7 +98,10 @@ CHServer::~CHServer()
     for (int i = 0; i < ai_player_num; i++)
         delete ai_client[i];
     if (m_server != nullptr)
+    {
+        m_server->stop();
         delete m_server;
+    }
 }
 
 void CHServer::listen()
