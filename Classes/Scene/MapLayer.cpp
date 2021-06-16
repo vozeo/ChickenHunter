@@ -251,7 +251,9 @@ void MapLayer::registerTouchEvent() {
 			AudioEngine::setVolume(knifeAudioID, M_Volume);
 
 			hunter->bulletLocation = touch->getLocation();
-			scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.2);
+
+			showEffect(convertToNodeSpace(hunter->bulletLocation));
+			scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
 			
 			//makeKnifeAttack(hunter);
 			return true;
