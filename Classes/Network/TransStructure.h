@@ -35,7 +35,6 @@ const int HEAD_LENGTH = 4;
 struct PlayerAction
 {
 	short speed[4] = { 0 };
-	short hp_change = 0;
 	bool is_shoot = false;
 	float shoot_degree, shoot_speed;
 	int shoot_damage;

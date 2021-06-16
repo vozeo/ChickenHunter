@@ -10,9 +10,9 @@ CHClient* chclient = nullptr;
 
 CHClient::CHClient(const char* ip, unsigned short port)
 {
-	client = new io_service({ ip,port });//配置信道
-	client->set_option(YOPT_S_DEFERRED_EVENT, 0);//在网络线程中调度网络事件
-    client->start([&](event_ptr&& ev) { //添加网络线程函数
+	m_client = new io_service({ ip,port });//配置信道
+	m_client->set_option(YOPT_S_DEFERRED_EVENT, 0);//在网络线程中调度网络事件
+    m_client->start([&](event_ptr&& ev) { //添加网络线程函数
         switch (ev->kind())
         {
         case YEK_PACKET: {//消息包事件
@@ -22,26 +22,26 @@ CHClient::CHClient(const char* ip, unsigned short port)
             if (strstr(header, "SU"))
             {
                 //cout << "DEBUG#:SU" << endl;
-                memcpy(&uid, packet.data() + HEAD_LENGTH, 4);
+                memcpy(&m_uid, packet.data() + HEAD_LENGTH, 4);
                 
             }
             else if (strstr(header, "RO"))
             {
                 //cout << "DEBUG#:RO" << endl;
-                memcpy(&room, packet.data() + HEAD_LENGTH, sizeof(RoomInformation));
+                memcpy(&m_room, packet.data() + HEAD_LENGTH, sizeof(RoomInformation));
             }
             else if (strstr(header, "MP"))
             {
-                memcpy(&map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
+                memcpy(&m_map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
             }
             else if (strstr(header, "GO"))//游戏结束
             {
-                started = false;
+                m_started = false;
             }
             else if (strstr(header, "ST"))//游戏开始
             {
-                started = true;
-                client->write(thandle, "GS\0", 4);
+                m_started = true;
+                m_client->write(m_thandle, "GS\0", 4);
             }
             else if (strstr(header, "MI"))//地图初始化
             {
@@ -54,8 +54,8 @@ CHClient::CHClient(const char* ip, unsigned short port)
         case YEK_CONNECT_RESPONSE://连接响应事件
             if (ev->status() == 0)//status为0正常 1非正常
             {
-                thandle = ev->transport();
-                client->write(thandle, "GU\0", 4);
+                m_thandle = ev->transport();
+                m_client->write(m_thandle, "GU\0", 4);
             }
             break;
         case YEK_CONNECTION_LOST://连接丢失事件
@@ -66,41 +66,41 @@ CHClient::CHClient(const char* ip, unsigned short port)
 
 CHClient::~CHClient()
 {
-    if (client != nullptr)
-        delete client;
+    if (m_client != nullptr)
+        delete m_client;
 }
 
 void CHClient::link()
 {
-    client->open(0, YCK_TCP_CLIENT);
+    m_client->open(0, YCK_TCP_CLIENT);
 }
 
-int CHClient::getuid()
+int CHClient::getUid()
 {
-    return uid;
+    return m_uid;
 }
 
 void CHClient::setName(const char* name)
 {
     char buf[128] = "SN\0";
     strcpy(buf + HEAD_LENGTH, name);
-    while (uid == 0)
+    while (m_uid == 0)
         ;
-    client->write(thandle, buf, HEAD_LENGTH + 10);
+    m_client->write(m_thandle, buf, HEAD_LENGTH + 10);
 }
 
 bool CHClient::upload()
 {
     char str[sizeof(PlayerAction) + 5] = "PA\0";
-    memcpy(str + HEAD_LENGTH, &localaction, sizeof(PlayerAction));
-    memset(&localaction, 0, sizeof(localaction));
-    client->write(thandle, str, HEAD_LENGTH + sizeof(PlayerAction));
+    memcpy(str + HEAD_LENGTH, &m_localaction, sizeof(PlayerAction));
+    memset(&m_localaction, 0, sizeof(m_localaction));
+    m_client->write(m_thandle, str, HEAD_LENGTH + sizeof(PlayerAction));
     return true;
 }
 
 bool CHClient::isStarted()
 {
-    return started;
+    return m_started;
 }
 
 bool CHClient::getMapInitState()
@@ -113,7 +113,7 @@ void CHClient::setMapInited()
     m_map_init_state = true;
 }
 
-bool is_multiple_game()
+bool isMultipleGame()
 {
     if (chclient != nullptr)
         return true;

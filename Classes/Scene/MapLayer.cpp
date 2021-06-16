@@ -30,7 +30,7 @@ bool MapLayer::init(std::vector<Character*> &gameHunter)
 
 	m_enemy = gameHunter;
 	if (chclient != nullptr)
-		hunter = m_enemy[chclient->getuid() - 1];
+		hunter = m_enemy[chclient->getUid() - 1];
 	else
 		hunter = m_enemy[0];
 	if (chclient != nullptr && chserver == nullptr)
@@ -108,7 +108,7 @@ void MapLayer::registerKeyboardEvent() {
 			break;
 		case EventKeyboard::KeyCode::KEY_E:
 			if (chclient != nullptr)
-				chclient->localaction.pick = true;
+				chclient->m_localaction.pick = true;
 			judgePick(hunter);
 			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
@@ -390,19 +390,19 @@ void MapLayer::update(float fDelta) {
 			chserver->paction[1].speed[1] = hunter->m_speed[1];
 			chserver->paction[1].speed[2] = hunter->m_speed[2];
 			chserver->paction[1].speed[3] = hunter->m_speed[3];
-			chserver->paction[1].pick = chclient->localaction.pick;
-			chclient->localaction.pick = false;
+			chserver->paction[1].pick = chclient->m_localaction.pick;
+			chclient->m_localaction.pick = false;
 			//server's update
-			chserver->map_update();
-			chserver->map_trans.player_left_num = 0;
+			chserver->mapUploadInit();
+			chserver->m_map_trans.player_left_num = 0;
 			for (int i = 1; i < MAX_CONNECTIONS; i++)
 			{
 				if (m_enemy[i - 1]->getPlayerBleed() > 0)
 				{
 					//CCLOG("UPDATEING PLAYER#%d", i);
-					chserver->map_trans.player[i].alive = true;
+					chserver->m_map_trans.player[i].alive = true;
 					float dx = 0, dy = 0;
-					chserver->map_trans.player_left_num++;
+					chserver->m_map_trans.player_left_num++;
 					if (i != 1 && chserver->paction[i].speed[0] == 0 && chserver->paction[i].speed[1] == 0 && chserver->paction[i].speed[2] == 0 && chserver->paction[i].speed[3] == 0)
 					{
 						action_activated[i - 1] = 0;
@@ -479,10 +479,10 @@ void MapLayer::update(float fDelta) {
 			for (int i = 1; i < MAX_CONNECTIONS; i++)
 			{
 				auto pos = m_enemy[i - 1]->getPosition();
-				chserver->map_trans.player[i].position_x = pos.x, chserver->map_trans.player[i].position_y = pos.y;
-				chserver->map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
-				chserver->map_trans.player[i].is_pick = chserver->paction[i].pick;
-				chserver->map_trans.player[i].bullet = m_enemy[i - 1]->getPlayerBullet();
+				chserver->m_map_trans.player[i].position_x = pos.x, chserver->m_map_trans.player[i].position_y = pos.y;
+				chserver->m_map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
+				chserver->m_map_trans.player[i].is_pick = chserver->paction[i].pick;
+				chserver->m_map_trans.player[i].bullet = m_enemy[i - 1]->getPlayerBullet();
 				if (chserver->paction[i].pick && !m_enemy[i - 1]->getPlayerDeath())
 				{
 					CCLOG("#MAP_UPDATE# PLAYER#%d PICK", i);
@@ -491,19 +491,19 @@ void MapLayer::update(float fDelta) {
 				
 				memset(&chserver->paction[i], 0, sizeof(PlayerAction));//人物动作删除
 			}
-			chserver->map_upload();
+			chserver->mapUpload();
 		}
 		else
 		{
 			
 			//本地操作上传
-			chclient->localaction.speed[0] = hunter->m_speed[0];
-			chclient->localaction.speed[1] = hunter->m_speed[1];
-			chclient->localaction.speed[2] = hunter->m_speed[2];
-			chclient->localaction.speed[3] = hunter->m_speed[3];
+			chclient->m_localaction.speed[0] = hunter->m_speed[0];
+			chclient->m_localaction.speed[1] = hunter->m_speed[1];
+			chclient->m_localaction.speed[2] = hunter->m_speed[2];
+			chclient->m_localaction.speed[3] = hunter->m_speed[3];
 			
 			chclient->upload();
-			MapInformation& current_map = chclient->map;
+			MapInformation& current_map = chclient->m_map;
 			if (current_map.is_updated)
 			{
 				for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
@@ -555,7 +555,7 @@ void MapLayer::update(float fDelta) {
 				save_map = current_map;
 			}
 	
-			memset(&chclient->map, 0, sizeof(MapInformation));
+			memset(&chclient->m_map, 0, sizeof(MapInformation));
 		}
 	}
 	else//单机版游戏逻辑
