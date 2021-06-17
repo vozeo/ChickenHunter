@@ -319,9 +319,10 @@ void MapLayer::makeExplosionEffect(float dt)
 	for (auto enemy : m_enemy) {
 		if (enemy->getPlayerDeath())
 			continue;
-		if (pos.getDistance(enemy->getPosition()) < 100)
+		auto dis = pos.getDistance(enemy->getPosition());
+		if (dis < 100)
 		{
-			auto bleed = enemy->getPlayerBleed() - 50;
+			auto bleed = enemy->getPlayerBleed() - 20 - 0.3f * (100 - dis);
 			if (bleed < 0)
 				bleed = 0;
 			enemy->setPlayerBleed(static_cast<int>(bleed));
@@ -968,12 +969,6 @@ void MapLayer::initSetItem()
 	initItem(m_bandage, m_bandage_number);
 	initItem(m_ammunition, m_ammunition_number);
 
-	Weapon* weapon = Weapon::create();
-	weapon->retain();
-	weapon->weaponInit(4, false);
-	hunter->m_gun[4] = weapon;
-
-	hunter->setPlayerRefresh(true);
 }
 
 //aim at hunter automatically and fire
