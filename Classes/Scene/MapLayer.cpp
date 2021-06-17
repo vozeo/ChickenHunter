@@ -199,6 +199,8 @@ void MapLayer::roll(Character* character) {
 void MapLayer::judgePick(Character* character) {
 	Rect rect_character = character->getBoundingBox();
 	for (auto weapon : weapons) {
+		if (weapon->getWeaponType() == 4 && character != hunter)
+			continue;
 		if (weapon->getBoundingBox().intersectsRect(rect_character)) {
 			auto weaponType = weapon->getWeaponType();
 			if (character->m_gun[weaponType] == nullptr) {
@@ -208,7 +210,17 @@ void MapLayer::judgePick(Character* character) {
 				character->setPlayerRefresh(true);
 				weapon->removeFromParent();
 				weapons.erase(find(weapons.begin(), weapons.end(), weapon));
+				if (weaponType == 4)
+				{
+					character->setPlayerGrenade(character->getPlayerGrenade() + 3);
+				}
 				break;
+			}
+			else if (weaponType == 4)
+			{
+				weapon->removeFromParent();
+				weapons.erase(find(weapons.begin(), weapons.end(), weapon));
+				character->setPlayerGrenade(character->getPlayerGrenade() + 3);
 			}
 		}
 	}
@@ -284,8 +296,8 @@ void MapLayer::registerTouchEvent() {
 			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
 			AudioEngine::setVolume(knifeAudioID, M_Volume);
 
-			if (hunter->getPlayerBullet() > 0) {
-				hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
+			if (hunter->getPlayerGrenade() > 0) {
+				hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
 				hunter->bulletLocation = touch->getLocation();
 				showEffect(convertToNodeSpace(hunter->bulletLocation));
 				scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
@@ -297,7 +309,7 @@ void MapLayer::registerTouchEvent() {
 			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
 			AudioEngine::setVolume(knifeAudioID, M_Volume);
 			makeKnifeAttack(hunter);
-			return;
+			return true;
 		}
 		hunter->bulletLocation = touch->getLocation();
 		Fire(0);
@@ -1020,7 +1032,7 @@ void MapLayer::enemyFire(float delt)
 		if (rect_enemy.intersectsRect(rect_hunter))
 		{
 			auto weaponType = enemy->getPlayerWeapon();
-			if (4 == weaponType)
+			if (5 == weaponType)
 			{
 				makeKnifeAttack(enemy);
 				continue;
@@ -1028,7 +1040,7 @@ void MapLayer::enemyFire(float delt)
 			if (enemy->getPlayerBullet() > 0)
 				enemy->setPlayerBullet(enemy->getPlayerBullet() - 1);
 			else {
-				enemy->setPlayerWeapon(4);
+				enemy->setPlayerWeapon(5);
 				continue;
 			}
 			Weapon* weapon = enemy->m_gun[weaponType];

@@ -14,6 +14,7 @@ Character::Character() :
     m_defense(1),
     m_weapon(5),
     m_bullet(0),
+    m_grenade(0),
     m_point(0),
     m_refresh(false),
     m_hasDeath(false){}

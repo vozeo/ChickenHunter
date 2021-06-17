@@ -26,6 +26,7 @@ private:
     Label* survivor_label;
 	Label* time_label;
 	Label* bullet_label;
+	Label* grenade_label;
 
 	std::vector<Character*> m_enemy;
     Character* hunter;
