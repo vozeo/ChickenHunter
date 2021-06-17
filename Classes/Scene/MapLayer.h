@@ -51,7 +51,9 @@ private:
 	
 	std::array <Bullet*, 60> bullets;
 
+	bool weaponRefresh = true;
 	system_clock::time_point startTime;
+
 
 public:
 

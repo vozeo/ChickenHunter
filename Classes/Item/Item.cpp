@@ -35,7 +35,9 @@ bool Bandage::init()
 
 	auto frame = m_item_frame_cache->getSpriteFrameByName("bandage.png");
 	this->initWithSpriteFrame(frame);
-	setItemName("bandage");
+
+	char name[] = "bandage";
+	setItemName(name);
 	setRecoverHP(random(10, 80));    //random recovery from 10 to 80
 
 	return true;
@@ -52,7 +54,8 @@ bool Ammunition::init()
 	auto frame = m_item_frame_cache->getSpriteFrameByName("ammunition.png");
 	this->initWithSpriteFrame(frame);
 
-	setItemName("ammunition");
+	char name[] = "ammunition";
+	setItemName(name);
 	setAddBullet(random(20, 90));    //add random bullets from 20 to 90
 
 	return true;

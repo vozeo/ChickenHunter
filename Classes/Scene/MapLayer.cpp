@@ -245,6 +245,19 @@ void MapLayer::touchBegan(Touch* touch) {
 	if (4 == weaponType) {
 		auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
 		AudioEngine::setVolume(knifeAudioID, M_Volume);
+
+		if (hunter->getPlayerBullet() > 0) {
+			hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
+			hunter->bulletLocation *= 3;
+			showEffect(convertToNodeSpace(hunter->bulletLocation));
+			scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
+		}
+		else makeKnifeAttack(hunter);
+		return;
+	}
+	else if (5 == weaponType) {
+		auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+		AudioEngine::setVolume(knifeAudioID, M_Volume);
 		makeKnifeAttack(hunter);
 		return;
 	}
@@ -269,17 +282,22 @@ void MapLayer::registerTouchEvent() {
 		auto weaponType = hunter->getPlayerWeapon();
 		if (4 == weaponType) {
 			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
-			
+			AudioEngine::setVolume(knifeAudioID, M_Volume);
+
 			if (hunter->getPlayerBullet() > 0) {
 				hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
-				AudioEngine::setVolume(knifeAudioID, M_Volume);
 				hunter->bulletLocation = touch->getLocation();
-
 				showEffect(convertToNodeSpace(hunter->bulletLocation));
 				scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
 			}
 			else makeKnifeAttack(hunter);
 			return true;
+		}
+		else if (5 == weaponType) {
+			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+			AudioEngine::setVolume(knifeAudioID, M_Volume);
+			makeKnifeAttack(hunter);
+			return;
 		}
 		hunter->bulletLocation = touch->getLocation();
 		Fire(0);
@@ -775,7 +793,8 @@ void MapLayer::update(float fDelta) {
 	}
 	else//µ¥»ú°æÓÎÏ·Âß¼­
 	{
-		if (!(getTime() % 90) && getTime()) {
+		if (!(getTime() % 90) && !weaponRefresh) {
+			weaponRefresh = true;
 			for (auto bd : m_bandage)
 				bd->removeFromParent();
 			m_bandage.clear();
@@ -785,6 +804,9 @@ void MapLayer::update(float fDelta) {
 			initItem(m_bandage, m_bandage_number);
 			initItem(m_ammunition, m_ammunition_number);
 		}
+
+		if (getTime() % 90)
+			weaponRefresh = false;
 
 		for (auto bullet : bullets) {
 			if (bullet->getBulletActive()) {
