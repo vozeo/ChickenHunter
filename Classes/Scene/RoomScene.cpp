@@ -28,14 +28,13 @@ bool Room::init(bool isServer)
 	auto exit_img = MenuItemImage::create(
 		"exit_0.png",
 		"exit_1.png",
-		[=](Ref* render) { addChild(ExitLayer::create(), 3); });
+		[=](Ref* render) { addChild(ExitLayer::create(), 3);
+		});
 	exit_img->setAnchorPoint(Vec2(1, 1));
 	auto setting_img = MenuItemImage::create(
 		"setting_0.png",
 		"setting_1.png",
-		[=](Ref* render) {
-			SettingLayer* setting = SettingLayer::create();
-			addChild(setting, 3);
+		[=](Ref* render) { addChild(SettingLayer::create(), 3);
 		});
 	setting_img->setAnchorPoint(Vec2(1, 1));
 	Vector<MenuItem*> menus{ setting_img, exit_img };

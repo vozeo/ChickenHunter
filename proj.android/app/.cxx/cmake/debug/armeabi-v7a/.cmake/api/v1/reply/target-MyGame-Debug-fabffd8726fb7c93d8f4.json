@@ -26,31 +26,31 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 158,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
 				"line" : 160,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 163,
+				"line" : 162,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 199,
+				"line" : 165,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 201,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 164,
+				"line" : 166,
 				"parent" : 0
 			}
 		]
@@ -264,7 +264,6 @@
 			"language" : "CXX",
 			"sourceIndexes" : 
 			[
-				18,
 				19,
 				20,
 				21,
@@ -281,7 +280,9 @@
 				32,
 				33,
 				34,
-				35
+				35,
+				36,
+				37
 			],
 			"sysroot" : 
 			{
@@ -301,7 +302,7 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0"
+			"id" : "ext_recast::@49aedbc985f97720d891"
 		},
 		{
 			"backtrace" : 3,
@@ -309,7 +310,11 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_recast::@49aedbc985f97720d891"
+			"id" : "ext_xxtea::@95546a4b2abc077b0042"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0"
 		},
 		{
 			"backtrace" : 3,
@@ -317,31 +322,7 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_xxtea::@95546a4b2abc077b0042"
-		},
-		{
-			"backtrace" : 3,
 			"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_md5::@82bef7d6fa8c2aa61808"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_pvmp3dec::@942eff57d9b63e8baa4e"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
 		},
 		{
 			"backtrace" : 3,
@@ -352,12 +333,32 @@
 			"id" : "ext_unzip::@05a8bf1aba81c1a16e64"
 		},
 		{
-			"backtrace" : 4,
-			"id" : "yasio::@0d14f73be235fd1d5c03"
+			"backtrace" : 3,
+			"id" : "ext_pvmp3dec::@942eff57d9b63e8baa4e"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_md5::@82bef7d6fa8c2aa61808"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc"
 		},
 		{
 			"backtrace" : 2,
 			"id" : "cpp_android_spec::@1eba3e23debeef414eca"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "yasio::@0d14f73be235fd1d5c03"
 		}
 	],
 	"id" : "MyGame::@6890427a1f51a3e7e1df",
@@ -595,14 +596,14 @@
 				14,
 				15,
 				16,
-				17
+				17,
+				18
 			]
 		},
 		{
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				18,
 				19,
 				20,
 				21,
@@ -619,7 +620,9 @@
 				32,
 				33,
 				34,
-				35
+				35,
+				36,
+				37
 			]
 		}
 	],
@@ -698,6 +701,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "Classes/Scene/StartScene.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/WarningLayer.h",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -797,6 +805,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "Classes/Scene/StartScene.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/WarningLayer.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
