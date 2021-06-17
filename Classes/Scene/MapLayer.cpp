@@ -269,14 +269,16 @@ void MapLayer::registerTouchEvent() {
 		auto weaponType = hunter->getPlayerWeapon();
 		if (4 == weaponType) {
 			auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
-			AudioEngine::setVolume(knifeAudioID, M_Volume);
-
-			hunter->bulletLocation = touch->getLocation();
-
-			showEffect(convertToNodeSpace(hunter->bulletLocation));
-			scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
 			
-			//makeKnifeAttack(hunter);
+			if (hunter->getPlayerBullet() > 0) {
+				hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
+				AudioEngine::setVolume(knifeAudioID, M_Volume);
+				hunter->bulletLocation = touch->getLocation();
+
+				showEffect(convertToNodeSpace(hunter->bulletLocation));
+				scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
+			}
+			else makeKnifeAttack(hunter);
 			return true;
 		}
 		hunter->bulletLocation = touch->getLocation();

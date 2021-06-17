@@ -20,7 +20,7 @@ void Weapon::weaponInit(int type, bool state) {
 	m_speed = sp[type];
 	float fsp[4] = { 0.15f,0.1f,0.08f,0.1f };
 	m_fire_speed = fsp[type];
-	float at[4] = { 3.0f,6.0f,8.0f,10.0f };
+	float at[4] = { 4.0f,9.0f,12.0f,15.0f };
 	m_attack = at[type];
 	m_type = type;
 	m_state = state;
