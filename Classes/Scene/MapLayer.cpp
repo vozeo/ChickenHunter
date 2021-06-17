@@ -90,6 +90,8 @@ bool MapLayer::init(std::vector<Character*> &gameHunter)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 	registerTouchEvent();
 #endif
+
+	startTime = system_clock::now();
 	
 	return true;
 }
@@ -771,6 +773,17 @@ void MapLayer::update(float fDelta) {
 	}
 	else//µ¥»ú°æÓÎÏ·Âß¼­
 	{
+		if (!(getTime() % 90) && getTime()) {
+			for (auto bd : m_bandage)
+				bd->removeFromParent();
+			m_bandage.clear();
+			for (auto am : m_ammunition)
+				am->removeFromParent();
+			m_ammunition.clear();
+			initItem(m_bandage, m_bandage_number);
+			initItem(m_ammunition, m_ammunition_number);
+		}
+
 		for (auto bullet : bullets) {
 			if (bullet->getBulletActive()) {
 				auto bulletX = bullet->getPositionX();
@@ -1001,4 +1014,8 @@ void MapLayer::enemyFire(float delt)
 			makeBulletAttack(enemy, weapon, bulletX, bulletY);
 		}
 	}
+}
+
+int MapLayer::getTime() {
+	return static_cast<int>(duration_cast<seconds>(system_clock::now() - startTime).count());
 }

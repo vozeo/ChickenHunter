@@ -15,6 +15,9 @@
 #include "Network/Server.h"
 #include "Network/TransStructure.h"
 
+#include <chrono>
+using namespace std::chrono;
+
 USING_NS_CC;
 
 #define winSize Director::getInstance()->getWinSize()
@@ -47,6 +50,8 @@ private:
 	std::vector<Ammunition*> m_ammunition;
 	
 	std::array <Bullet*, 60> bullets;
+
+	system_clock::time_point startTime;
 
 public:
 
@@ -99,6 +104,8 @@ public:
 
 	void enemyFire(float delt);
 	void Fire(float dt);
+
+	int getTime();
 };
 
 #endif
