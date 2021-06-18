@@ -703,8 +703,8 @@ void MapLayer::update(float fDelta) {
                 if (bullet->getBulletActive()) {
                     auto bulletX = bullet->getPositionX();
                     auto bulletY = bullet->getPositionY();
-                    if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 ||
-                        bulletY >= mapHeight * tileHeight
+                    if (bulletX < 0 || bulletX > mapWidth * tileWidth - 1 || bulletY < 0 ||
+                        bulletY > mapHeight * tileHeight - 1
                         || meta->getTileGIDAt(
                             Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
                         bullet->setVisible(false);

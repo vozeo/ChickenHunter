@@ -115,6 +115,16 @@ bool Server::init() {
             addChild(warninglayer, 2);
             return;
         }
+        if (addressText->getString().length() > 19) {
+            auto warninglayer = WarningLayer::create(
+                std::string("\nYour name is illegal:\n need to be shorter than 19 words"));
+            addChild(warninglayer, 2);
+            return;
+        }
+        else if (addressText->getString().length() < 2)
+            addressText->setString("127.0.0.1");
+
+
         if (chclient != nullptr)
             delete chclient;
         chclient = new CHClient(addressText->getString().c_str(), 25595);
