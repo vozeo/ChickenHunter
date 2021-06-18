@@ -207,6 +207,14 @@ bool CHServer::deleteAi()
     return true;
 }
 
+bool CHServer::setPlayerName(int id, const char* name)
+{
+    if (!m_uid_usage[id])
+        return false;
+    strcpy(m_room.player_name[id], name);
+    return true;
+}
+
 void CHServer::mapInformationInit(MapInformationInit mii) {
     mii.player_num_all = m_connection_num;
     char buff[HEAD_LENGTH + sizeof(MapInformationInit) + 20] = "MI\0";

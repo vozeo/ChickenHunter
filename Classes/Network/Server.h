@@ -28,7 +28,7 @@ class CHServer {
     map<int, transport_handle_t> m_uid_to_handle;
     map<int, string> m_player_name;
 protected:
-    int getUnusedUid();//ע�� ���û��Զ�����uid
+    int getUnusedUid();
     bool deleteUid(int id);
 
 protected:
@@ -69,6 +69,8 @@ public:
     bool addAi();
 
     bool deleteAi();
+
+    bool setPlayerName(int id, const char* name);
 
     void mapInformationInit(MapInformationInit mii);
 };

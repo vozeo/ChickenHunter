@@ -68,6 +68,7 @@ bool Server::init() {
             addChild(warninglayer, 2);
             return;
         }
+        CCLOG("!!\n!!\n!!\n!!\nName:%s", nameText->getString().c_str());
         if (chserver != nullptr)
             delete chserver;
         if (chclient != nullptr)
@@ -76,6 +77,26 @@ bool Server::init() {
         chserver->listen();
         chclient = new CHClient("127.0.0.1", 25595);
         chclient->link();
+        //chserver->setPlayerName(1, nameText->getString().c_str());
+
+        system_clock::time_point link_start_time = system_clock::now();//¡¨Ω”≤‚ ‘
+        bool get_started = false;
+        while (duration_cast<milliseconds>(system_clock::now() - link_start_time).count() < 800) {
+            if (chclient->getUid() != 0) {
+                get_started = true;
+                break;
+            }
+        }
+        if (!get_started) {
+            auto warninglayer = WarningLayer::create(
+                std::string("\nCreate Room Error:\n Game Port has been occupied."));
+            addChild(warninglayer, 3);
+            delete chclient;
+            chclient = nullptr;
+            delete chserver;
+            chserver = nullptr;
+            return;
+        }
         chclient->setName(nameText->getString().c_str());
         Director::getInstance()->replaceScene(
                 TransitionFade::create(0.3f, Room::create(true), Color3B(0, 255, 255)));
