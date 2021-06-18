@@ -562,6 +562,8 @@ void MapLayer::update(float fDelta) {
                 }
             }
 
+            showAimLine();
+
             chserver->m_map_trans.player_left_num = 0;
             for (int i = 1; i < MAX_CONNECTIONS; i++) {
                 if (m_enemy[i - 1]->getPlayerBleed() > 0) {
@@ -722,8 +724,10 @@ void MapLayer::update(float fDelta) {
             chclient->m_localaction.speed[1] = hunter->m_speed[1];
             chclient->m_localaction.speed[2] = hunter->m_speed[2];
             chclient->m_localaction.speed[3] = hunter->m_speed[3];
-
             chclient->upload();
+            
+            showAimLine();
+
             MapInformation &current_map = chclient->m_map;
             if (current_map.is_updated) {
                 for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
@@ -820,6 +824,7 @@ void MapLayer::update(float fDelta) {
             initItem(m_bandage, m_bandage_number);
             initItem(m_ammunition, m_ammunition_number);
         }
+
 
         if (getTime() % 90)
             weaponRefresh = false;
@@ -918,18 +923,8 @@ void MapLayer::update(float fDelta) {
                     enemy->runAction(enemy->getCharacterAnimUp());
                 dy += 4;
             }
-            if (dx != 0 || dy != 0) {
-                m_line->clear();
-                if (add_in_aiming == 1) {
-                    m_line->drawLine(hunter->getPosition(),
-                                     Vec2(10 * (hunter->bulletLocation.x - winSize.width / 2) +
-                                          hunter->getPositionX(),
-                                          10 * (hunter->bulletLocation.y - winSize.height / 2) +
-                                          hunter->getPositionY()),
-                                     Color4F(1.0f, 0.46f, 0.0f, 0.5f));
-                    m_line->setLineWidth(50);
-                }
-            }
+            if (dx != 0 || dy != 0)
+                showAimLine();
 
             auto enemyPos = enemy->getPosition();
 
@@ -1113,6 +1108,20 @@ void MapLayer::autoFire(float dt) {
 
 int MapLayer::getTime() {
     return static_cast<int>(duration_cast<seconds>(system_clock::now() - startTime).count());
+}
+
+void MapLayer::showAimLine()
+{
+    m_line->clear();//¸¨ÖúÉä»÷Ïß
+    if (add_in_aiming == 1) {
+        m_line->drawLine(hunter->getPosition(),
+            Vec2(10 * (hunter->bulletLocation.x - winSize.width / 2) +
+                hunter->getPositionX(),
+                10 * (hunter->bulletLocation.y - winSize.height / 2) +
+                hunter->getPositionY()),
+            Color4F(1.0f, 0.46f, 0.0f, 0.5f));
+        m_line->setLineWidth(50);
+    }
 }
 
 void MapLayer::initMouse() {

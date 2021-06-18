@@ -131,6 +131,8 @@ public:
     void Fire(float dt);
 
     int getTime();
+
+    void showAimLine();
 };
 
 #endif
