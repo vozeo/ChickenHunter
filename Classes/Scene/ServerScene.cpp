@@ -68,6 +68,10 @@ bool Server::init() {
             addChild(warninglayer, 2);
             return;
         }
+        if (chserver != nullptr)
+            delete chserver;
+        if (chclient != nullptr)
+            delete chclient;
         chserver = new CHServer("0.0.0.0", 25595);
         chserver->listen();
         chclient = new CHClient("127.0.0.1", 25595);
@@ -85,6 +89,8 @@ bool Server::init() {
             addChild(warninglayer, 2);
             return;
         }
+        if (chclient != nullptr)
+            delete chclient;
         chclient = new CHClient(addressText->getString().c_str(), 25595);
         chclient->link();
         system_clock::time_point link_start_time = system_clock::now();

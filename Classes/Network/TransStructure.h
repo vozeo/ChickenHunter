@@ -33,8 +33,10 @@ const int HEAD_LENGTH = 4;
 #define PA_DISCARD 6
 
 struct PlayerAction {
-    short speed[4] = {0};
     bool is_shoot = false;
+    bool is_bleed_locked = false;
+    bool is_bullet_locked = false;
+    short speed[4] = {0};
     short weapon_type = 0;
     float bullet_x = 0, bullet_y = 0;
     int shoot_damage;

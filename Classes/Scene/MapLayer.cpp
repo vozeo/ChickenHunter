@@ -674,6 +674,17 @@ void MapLayer::update(float fDelta) {
 
                 }
 
+                m_enemy[i - 1]->setPlayerLockedBleed(chserver->paction[i].is_bleed_locked);
+                m_enemy[i - 1]->setPlayerLockedBullet(chserver->paction[i].is_bullet_locked);
+                        
+                if (m_enemy[i - 1]->getPlayerLockedBleed())
+                    m_enemy[i - 1]->setPlayerBleed(m_enemy[i - 1]->getMAXBLEED());
+
+                if (m_enemy[i - 1]->getPlayerLockedBullet()) {
+                    m_enemy[i - 1]->setPlayerBullet(999);
+                    m_enemy[i - 1]->setPlayerGrenade(999);
+                }
+
                 memset(&chserver->paction[i], 0, sizeof(PlayerAction));//人物动作删除
             }
             chserver->mapUpload();
@@ -724,6 +735,8 @@ void MapLayer::update(float fDelta) {
             chclient->m_localaction.speed[1] = hunter->m_speed[1];
             chclient->m_localaction.speed[2] = hunter->m_speed[2];
             chclient->m_localaction.speed[3] = hunter->m_speed[3];
+            chclient->m_localaction.is_bleed_locked = hunter->getPlayerLockedBleed();
+            chclient->m_localaction.is_bullet_locked = hunter->getPlayerLockedBullet();
             chclient->upload();
             
             showAimLine();
