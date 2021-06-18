@@ -342,13 +342,13 @@ void MapLayer::makeExplosionEffect(float dt)
 	auto pos = convertToNodeSpace(hunter->bulletLocation);
 	explo_particle->setTexture(explo_texture);
 	explo_particle->setPosition(pos);
-	explo_particle->setLife(1.2);
-	explo_particle->setLifeVar(0.2);
-	Color4F start = { 0.7,0.0,0.0,1.0 };
-	Color4F var = { 0.3,0.3,0.2,0.0 };
+	explo_particle->setLife(1.2f);
+	explo_particle->setLifeVar(0.2f);
+	Color4F start = { 0.7f,0.0f,0.0f,1.0f };
+	Color4F var = { 0.3f,0.3f,0.2f,0.0f };
 	explo_particle->setStartColor(start);
 	explo_particle->setStartColorVar(var);
-	Color4F end = { 0.7,0.0,0.0,0.0 };
+	Color4F end = { 0.7f,0.0f,0.0f,0.0f };
 	explo_particle->setEndColor(end);
 	explo_particle->setEndColorVar(var);
 	explo_particle->setPositionType(ParticleSystem::PositionType::RELATIVE);
