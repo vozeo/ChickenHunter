@@ -17,7 +17,11 @@ Character::Character() :
     m_grenade(0),
     m_point(0),
     m_refresh(false),
-    m_hasDeath(false){}
+    m_hasDeath(false),
+    m_lockedBleed(false),
+    m_lockedBullet(false),
+    m_autoAttack(false)
+{}
 
 Character::~Character() {
 	m_character_anim_down->release();

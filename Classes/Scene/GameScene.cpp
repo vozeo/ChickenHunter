@@ -59,7 +59,7 @@ bool Game::init()
 		"setting_0.png",
 		"setting_1.png",
 		[=](Ref* render) {
-			SettingLayer* setting = SettingLayer::create();
+			SettingLayer* setting = SettingLayer::create(hunter);
 			addChild(setting, 3); 
 		});
 	setting_img->setAnchorPoint(Vec2(1, 1));

@@ -858,6 +858,12 @@ void MapLayer::update(float fDelta) {
 		{
 			if (enemy->getPlayerDeath())
 				continue;
+
+			if (enemy->getPlayerLockedBleed())
+				enemy->setPlayerBleed(enemy->getMAXBLEED());
+
+
+
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
 			judgePick(enemy);
 			if (enemy != hunter) {

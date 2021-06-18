@@ -42,6 +42,10 @@ private:
 	CC_SYNTHESIZE(bool, m_refresh, PlayerRefresh);
 	CC_SYNTHESIZE(bool, m_hasDeath, PlayerDeath);
 
+	CC_SYNTHESIZE(bool, m_lockedBleed, PlayerLockedBleed);
+	CC_SYNTHESIZE(bool, m_lockedBullet, PlayerLockedBullet);
+	CC_SYNTHESIZE(bool, m_autoAttack, PlayerAutoAttack);
+
 public: 
 	std::vector<Weapon*> m_we;
 	std::array<int, 2> m_bandage = {};
@@ -49,7 +53,6 @@ public:
 	std::array<bool, 4> m_speed = {};
 	bool m_is_ai = false;
 	bool m_has_controller = false;
-	void randomMove();
 
 	int* getPlayerBandage();
 	void setPlayerBandage(int var, int pos);
