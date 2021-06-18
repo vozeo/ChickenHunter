@@ -92,6 +92,10 @@ public:
 
 	int deathTurn = 0;
 
+	DrawNode* m_line;
+	void initMouse();
+	EventListenerMouse* mouseListener;
+
 	template <class T> void setRandPos(T* elem);
 	template <class T> void initItem(std::vector<T*> &items, int number);
 

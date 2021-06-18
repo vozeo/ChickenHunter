@@ -28,6 +28,10 @@ bool MapLayer::init(std::vector<Character*> &gameHunter)
 	tileWidth = map->getTileSize().width;
 	tileHeight = map->getTileSize().height;
 
+	m_line = DrawNode::create();
+    initMouse();
+	addChild(m_line, 4);
+
 	m_enemy = gameHunter;
 	if (chclient != nullptr)
 		hunter = m_enemy[chclient->getUid() - 1];
@@ -894,6 +898,12 @@ void MapLayer::update(float fDelta) {
 					enemy->runAction(enemy->getCharacterAnimUp());
 				dy += 4;
 			}
+			if (dx != 0 || dy != 0)
+			{
+				m_line->clear();
+				m_line->drawLine(hunter->getPosition(), Vec2(10 * (hunter->bulletLocation.x - winSize.width / 2) + hunter->getPositionX(), 10 * (hunter->bulletLocation.y - winSize.height / 2 )+ hunter->getPositionY()), Color4F(1.0f, 0.46f, 0.0f, 0.5f));
+				m_line->setLineWidth(50);
+			}
 
 			auto enemyPos = enemy->getPosition();
 
@@ -1054,4 +1064,18 @@ void MapLayer::enemyFire(float delt)
 
 int MapLayer::getTime() {
 	return static_cast<int>(duration_cast<seconds>(system_clock::now() - startTime).count());
+}
+
+void MapLayer::initMouse()
+{
+	mouseListener = EventListenerMouse::create();
+
+	mouseListener->onMouseMove = [&](EventMouse* event) {
+		m_line->clear();
+		hunter->bulletLocation = Vec2(event->getCursorX(), event->getCursorY());
+		m_line->drawLine(hunter->getPosition(), Vec2(10*(hunter->bulletLocation.x - winSize.width / 2) + hunter->getPositionX(), 10 * (hunter->bulletLocation.y - winSize.height / 2 )+ hunter->getPositionY()), Color4F(1.0f, 0.46f, 0.0f, 0.5f));
+		m_line->setLineWidth(50);
+	};
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 }

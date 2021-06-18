@@ -28,7 +28,7 @@ private:
 
     EventListenerMouse* mouseListener;
     Sprite* m_cursor;
-
+    
     MapLayer* map;
     MapInformation map_save;
     State* stateUI;

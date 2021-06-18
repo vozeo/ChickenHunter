@@ -82,6 +82,7 @@ bool Game::init()
 void Game::initMouse() {
 	m_cursor = Sprite::create();
 	m_cursor->addChild(Sprite::create("images/cursorUp.png"));
+	
 
 	mouseListener = EventListenerMouse::create();
 
