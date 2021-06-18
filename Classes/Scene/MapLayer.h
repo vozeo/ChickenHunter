@@ -53,6 +53,7 @@ private:
 	std::array <Bullet*, 60> bullets;
 
 	bool weaponRefresh = true;
+	bool hasAutoAttack = false;
 	system_clock::time_point startTime;
 
 
@@ -110,6 +111,7 @@ public:
 	void showAttacked(Vec2 pos);
 
 	void enemyFire(float delt);
+	void autoFire(float dt);
 	void Fire(float dt);
 
 	int getTime();

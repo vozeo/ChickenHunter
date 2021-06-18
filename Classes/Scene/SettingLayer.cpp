@@ -42,7 +42,6 @@ bool SettingLayer::init(Character* hunter)
 	if (hunter == nullptr)
 		return true;
 	
-
 	std::vector<CheckBox*> checkBoxes;
 	for (int i = 0; i < 4; ++i) {
 		auto checkbox = CheckBox::create("images/check_box_normal.png",
@@ -57,7 +56,6 @@ bool SettingLayer::init(Character* hunter)
 	checkBoxes[0]->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
 		if (type == Widget::TouchEventType::ENDED) {
 			add_in_aiming = !add_in_aiming;
-			checkBoxes[0]->setSelected(add_in_aiming);
 		}
 	});
 
@@ -65,7 +63,6 @@ bool SettingLayer::init(Character* hunter)
 	checkBoxes[1]->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
 		if (type == Widget::TouchEventType::ENDED) {
 			hunter->setPlayerLockedBleed(!hunter->getPlayerLockedBleed());
-			checkBoxes[1]->setSelected(hunter->getPlayerLockedBleed());
 		}
 	});
 
@@ -73,7 +70,6 @@ bool SettingLayer::init(Character* hunter)
 	checkBoxes[2]->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
 		if (type == Widget::TouchEventType::ENDED) {
 			hunter->setPlayerLockedBullet(!hunter->getPlayerLockedBullet());
-			checkBoxes[2]->setSelected(hunter->getPlayerLockedBullet());
 		}
 	});
 
@@ -81,18 +77,17 @@ bool SettingLayer::init(Character* hunter)
 	checkBoxes[3]->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
 		if (type == Widget::TouchEventType::ENDED) {
 			hunter->setPlayerAutoAttack(!hunter->getPlayerAutoAttack());
-			checkBoxes[3]->setSelected(hunter->getPlayerAutoAttack());
 		}
 	});
 	
 	
 	std::vector<Label*> addinLabel;
 	for (int i = 0; i < 4; ++i) {
-		checkBoxes[i]->setPosition(Vec2(winSize.width / 2 + winSize.width / 20, winSize.height / 1.9f - 30 * i));
+		checkBoxes[i]->setPosition(Vec2(winSize.width / 2 + winSize.width / 13, winSize.height / 1.9f - 30 * i));
 		addChild(checkBoxes[i], 1);
 
 		addinLabel.push_back(Label::createWithTTF("", "fonts/Marker Felt.ttf", 30));
-		addinLabel[i]->setPosition(Vec2(winSize.width / 2 - winSize.width / 20, winSize.height / 1.9f - 30 * i));
+		addinLabel[i]->setPosition(Vec2(winSize.width / 2, winSize.height / 1.9f - 30 * i));
 		addChild(addinLabel[i], 1);
 	}
 	addinLabel[0]->setString("Add Sight Line");

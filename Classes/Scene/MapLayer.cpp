@@ -262,14 +262,8 @@ void MapLayer::touchBegan(Touch* touch) {
 	if (4 == weaponType) {
 		auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
 		AudioEngine::setVolume(knifeAudioID, M_Volume);
-
-		if (hunter->getPlayerBullet() > 0) {
-			hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
-			hunter->bulletLocation *= 3;
-			showEffect(convertToNodeSpace(hunter->bulletLocation));
-			scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
-		}
-		else makeKnifeAttack(hunter);
+		if (hunter->getPlayerGrenade() <= 0)
+			makeKnifeAttack(hunter);
 		return;
 	}
 	else if (5 == weaponType) {
@@ -283,6 +277,10 @@ void MapLayer::touchBegan(Touch* touch) {
 }
 // Android
 void MapLayer::touchEnded() {
+	hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
+	hunter->bulletLocation *= 3;
+	showEffect(convertToNodeSpace(hunter->bulletLocation));
+	scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
 	unschedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire));
 }
 // Android
@@ -859,11 +857,6 @@ void MapLayer::update(float fDelta) {
 			if (enemy->getPlayerDeath())
 				continue;
 
-			if (enemy->getPlayerLockedBleed())
-				enemy->setPlayerBleed(enemy->getMAXBLEED());
-
-
-
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
 			judgePick(enemy);
 			if (enemy != hunter) {
@@ -883,6 +876,26 @@ void MapLayer::update(float fDelta) {
 					enemy->stopAllActions();
 				}
 			}
+			else {
+				if (enemy->getPlayerLockedBleed())
+					enemy->setPlayerBleed(enemy->getMAXBLEED());
+
+				if (enemy->getPlayerLockedBullet()) {
+					enemy->setPlayerBullet(999);
+					enemy->setPlayerGrenade(999);
+				}
+
+				if (enemy->getPlayerAutoAttack() && !hasAutoAttack) {
+					schedule(CC_SCHEDULE_SELECTOR(MapLayer::autoFire), 0.3f);
+					hasAutoAttack = true;
+				}
+				
+				if (!enemy->getPlayerAutoAttack() && hasAutoAttack) {
+					unschedule(CC_SCHEDULE_SELECTOR(MapLayer::autoFire));
+					hasAutoAttack = false;
+				}
+			}
+
 			float dx = 0, dy = 0;
 			if (enemy->m_speed[0])
 			{
@@ -1068,6 +1081,35 @@ void MapLayer::enemyFire(float delt)
 			auto bulletX = bulletLocation.x - enemy->getPositionX();
 			auto bulletY = bulletLocation.y - enemy->getPositionY();
 			makeBulletAttack(enemy, weapon, bulletX, bulletY);
+		}
+	}
+}
+
+void MapLayer::autoFire(float dt)
+{
+	Rect rect_hunter = hunter->getBoundingBox();
+	for (auto enemy : m_enemy)
+	{
+		if (enemy->getPlayerDeath() || enemy == hunter)
+			continue;
+		Rect rect_enemy(enemy->getPosition().x - 400, enemy->getPosition().y - 400, 800, 800);
+		if (rect_enemy.intersectsRect(rect_hunter))
+		{
+			auto weaponType = hunter->getPlayerWeapon();
+			if (5 == weaponType) {
+				makeKnifeAttack(hunter);
+			}
+			else if (4 == weaponType) {
+				if (hunter->getPlayerGrenade() > 0) {
+					hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
+					hunter->bulletLocation = enemy->getPosition() - hunter->getPosition() + winSize / 2;
+					scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.25f);
+				}
+			}
+			else {
+				hunter->bulletLocation = enemy->getPosition() - hunter->getPosition() + winSize / 2;
+				scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed() - hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
+			}
 		}
 	}
 }

@@ -6,22 +6,22 @@ bool Joystick::init()
 
 	m_back1 = Sprite::create("images/joyback.png");
 	m_back1->setPosition(Vec2(visibleSize.width / 6, visibleSize.height / 4));
-	addChild(m_back1, 0);
+	addChild(m_back1, 1);
 
 	m_button1 = Sprite::create("images/joybutton.png");
 	m_button1->setPosition(m_back1->getPosition());
-	addChild(m_button1, 1);
+	addChild(m_button1, 2);
 
 	m_centerPoint1 = m_back1->getPosition();
 	m_currentPoint1 = m_centerPoint1;
 
 	m_back2 = Sprite::create("images/joyback.png");
 	m_back2->setPosition(Vec2(5 * visibleSize.width / 6, visibleSize.height / 4));
-	addChild(m_back2, 0);
+	addChild(m_back2, 1);
 
 	m_button2 = Sprite::create("images/joybutton.png");
 	m_button2->setPosition(m_back2->getPosition());
-	addChild(m_button2, 1);
+	addChild(m_button2, 2);
 
 	m_centerPoint2 = m_back2->getPosition();
 	m_currentPoint2 = m_centerPoint2;
@@ -41,8 +41,6 @@ void Joystick::update(float dt)
 {
 	m_button1->setPosition(m_currentPoint1);
 	m_button2->setPosition(m_currentPoint2);
-
-
 }
 
 void Joystick::bindTouch(Character* player, std::function<void(MapLayer*, cocos2d::Touch* touch)> began, std::function<void(MapLayer*)> ended)
@@ -82,6 +80,10 @@ void Joystick::onTouchMoved(const std::vector<Touch*>& touches, Event* event)
 			Vec2 touchPos = touch->getLocation();
 			m_currentPoint2 = touchPos;
 			hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + Vec2(visibleSize.width / 2, visibleSize.height / 2);
+			auto effectCircle = DrawNode::create();
+			addChild(effectCircle, 0);
+			effectCircle->drawSolidCircle(3 * hunter->bulletLocation, 100.0f, CC_DEGREES_TO_RADIANS(360), 15, Color4F(0.28f, 0.46f, 1.0f, 0.6f));
+			effectCircle->runAction(Sequence::create(FadeOut::create(0.05f), RemoveSelf::create(), NULL));
 		}
 	}
 
