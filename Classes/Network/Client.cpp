@@ -9,11 +9,11 @@ using namespace yasio::inet;
 CHClient *chclient = nullptr;
 
 CHClient::CHClient(const char *ip, unsigned short port) {
-    m_client = new io_service({ip, port});//�����ŵ�
-    m_client->set_option(YOPT_S_DEFERRED_EVENT, 0);//�������߳��е��������¼�
-    m_client->start([&](event_ptr &&ev) { //��������̺߳���
+    m_client = new io_service({ip, port});
+    m_client->set_option(YOPT_S_DEFERRED_EVENT, 0);
+    m_client->start([&](event_ptr &&ev) { 
         switch (ev->kind()) {
-            case YEK_PACKET: {//��Ϣ���¼�
+            case YEK_PACKET: {
                 auto packet = std::move(ev->packet());
                 char header[HEAD_LENGTH + 1] = {0};
                 memcpy(header, packet.data(), HEAD_LENGTH);
@@ -26,14 +26,14 @@ CHClient::CHClient(const char *ip, unsigned short port) {
                     memcpy(&m_room, packet.data() + HEAD_LENGTH, sizeof(RoomInformation));
                 } else if (strstr(header, "MP")) {
                     memcpy(&m_map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
-                } else if (strstr(header, "GO"))//��Ϸ����
+                } else if (strstr(header, "GO"))
                 {
                     m_started = false;
-                } else if (strstr(header, "ST"))//��Ϸ��ʼ
+                } else if (strstr(header, "ST"))
                 {
                     m_started = true;
                     m_client->write(m_thandle, "GS\0", 4);
-                } else if (strstr(header, "MI"))//��ͼ��ʼ��
+                } else if (strstr(header, "MI"))
                 {
                     memcpy(&m_map_information_init, packet.data() + HEAD_LENGTH,
                            sizeof(MapInformationInit));
@@ -42,22 +42,34 @@ CHClient::CHClient(const char *ip, unsigned short port) {
                 fflush(stdout);
                 break;
             }
-            case YEK_CONNECT_RESPONSE://������Ӧ�¼�
-                if (ev->status() == 0)//statusΪ0���� 1������
+            case YEK_CONNECT_RESPONSE:
+                if (ev->status() == 0)
                 {
                     m_thandle = ev->transport();
                     m_client->write(m_thandle, "GU\0", 4);
                 }
                 break;
-            case YEK_CONNECTION_LOST://���Ӷ�ʧ�¼�
+            case YEK_CONNECTION_LOST:
+                if (ev->status() == 0)
+                {
+                    
+                    m_thandle = 0;
+                    m_uid = 0;
+                }
                 break;
         }
     });
 }
 
 CHClient::~CHClient() {
+
     if (m_client != nullptr)
+    {
+        if (m_thandle != 0)
+            m_client->close(m_thandle);
+        m_client->stop();
         delete m_client;
+    }
 }
 
 void CHClient::link() {
@@ -93,6 +105,13 @@ bool CHClient::getMapInitState() {
 
 void CHClient::setMapInited() {
     m_map_init_state = true;
+}
+
+bool CHClient::isUnconnected()
+{
+    if(m_uid != 0)
+        return false;
+    return true;
 }
 
 bool isMultipleGame() {

@@ -28,7 +28,7 @@ bool Room::init(bool isServer) {
                                     winSize.height / 2 + winSize.height / m_playerNumber / 2 * i);
         addChild(playerLabel[i], 1);
     }
-
+    playerLabel[m_playerNumber - 1]->setVisible(false);
     auto exit_img = MenuItemImage::create(
             "exit_0.png",
             "exit_1.png",
@@ -71,11 +71,26 @@ bool Room::init(bool isServer) {
         this->addChild(choiceMenu, 1);
 
         auto addAI = MenuItemFont::create("Add AI", [=](Ref *render) {
-            Director::getInstance()->getOpenGLView()->setCursorVisible(true);
-            Director::getInstance()->popScene();
+            if (!chserver->addAi())
+            {
+                auto warninglayer = WarningLayer::create(
+                    std::string("\nYour Room is already full."));
+                addChild(warninglayer, 2);
+                return;
+            }
+            CCLOG("AI ADD SUCCESSFUL");
+            //removeFromParent();
         });
         auto deleteAI = MenuItemFont::create("Delete AI", [=](Ref *render) {
-            removeFromParent();
+            if (!chserver->deleteAi())
+            {
+                auto warninglayer = WarningLayer::create(
+                    std::string("\nThere is no ai player."));
+                addChild(warninglayer, 2);
+                return;
+            }
+            CCLOG("AI DELETE SUCCESSFUL");
+            //removeFromParent();
         });
         deleteAI->setColor(Color3B(255, 0, 0));
 

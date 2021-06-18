@@ -15,7 +15,7 @@
 #include "Network/Client.h"
 #include "Network/Server.h"
 #include "Network/TransStructure.h"
-
+#include "Scene/WarningLayer.h"
 #include <chrono>
 
 using namespace std::chrono;
