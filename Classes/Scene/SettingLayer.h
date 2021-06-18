@@ -20,6 +20,7 @@ public:
     CREATE_FUNC(SettingLayer);
 
     void closeCallback(cocos2d::Ref* pSender);
+
 };
 
 #endif

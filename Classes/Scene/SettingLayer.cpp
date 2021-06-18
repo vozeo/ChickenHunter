@@ -28,11 +28,18 @@ bool SettingLayer::init()
 	
 	auto choiceBack = MenuItemFont::create("Back", [=](Ref* render) {
 		removeFromParent();
-		});
+	});
+	auto AddIn1= MenuItemFont::create("Add-in 1", [=](Ref* render) {
+		add_in_aiming = !add_in_aiming;
+	});
 	auto menu = Menu::create();
+	auto menu_1= Menu::create();
 	menu->addChild(choiceBack);
+	menu_1->addChild(AddIn1);
 	menu->setPosition(winSize.width / 2, winSize.height / 2.7f);
+	menu_1->setPosition(winSize.width / 2, winSize.height / 2.0f);
 	addChild(menu, 1);
+	addChild(menu_1, 1);
 
 	return true;
 }

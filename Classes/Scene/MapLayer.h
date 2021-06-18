@@ -9,6 +9,7 @@
 #include "Character/Character.h"
 #include "RankLayer.h"
 #include "Item/Item.h"
+#include "SettingLayer.h"
 #include <map>
 #include <ctime>
 #include "Network/Client.h"

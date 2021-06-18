@@ -3,6 +3,7 @@
 #include <utility>
 
 USING_NS_CC;
+bool add_in_aiming=0;
 
 Layer* MapLayer::createScene(std::vector<Character*> &gameHunter)
 {
@@ -898,11 +899,14 @@ void MapLayer::update(float fDelta) {
 					enemy->runAction(enemy->getCharacterAnimUp());
 				dy += 4;
 			}
-			if (dx != 0 || dy != 0)
+			if (dx != 0 || dy != 0 )
 			{
 				m_line->clear();
-				m_line->drawLine(hunter->getPosition(), Vec2(10 * (hunter->bulletLocation.x - winSize.width / 2) + hunter->getPositionX(), 10 * (hunter->bulletLocation.y - winSize.height / 2 )+ hunter->getPositionY()), Color4F(1.0f, 0.46f, 0.0f, 0.5f));
-				m_line->setLineWidth(50);
+				if (add_in_aiming == 1)
+				{
+					m_line->drawLine(hunter->getPosition(), Vec2(10 * (hunter->bulletLocation.x - winSize.width / 2) + hunter->getPositionX(), 10 * (hunter->bulletLocation.y - winSize.height / 2) + hunter->getPositionY()), Color4F(1.0f, 0.46f, 0.0f, 0.5f));
+					m_line->setLineWidth(50);
+				}
 			}
 
 			auto enemyPos = enemy->getPosition();
@@ -1072,9 +1076,12 @@ void MapLayer::initMouse()
 
 	mouseListener->onMouseMove = [&](EventMouse* event) {
 		m_line->clear();
-		hunter->bulletLocation = Vec2(event->getCursorX(), event->getCursorY());
-		m_line->drawLine(hunter->getPosition(), Vec2(10*(hunter->bulletLocation.x - winSize.width / 2) + hunter->getPositionX(), 10 * (hunter->bulletLocation.y - winSize.height / 2 )+ hunter->getPositionY()), Color4F(1.0f, 0.46f, 0.0f, 0.5f));
-		m_line->setLineWidth(50);
+		if (add_in_aiming == 1)
+		{
+			hunter->bulletLocation = Vec2(event->getCursorX(), event->getCursorY());
+			m_line->drawLine(hunter->getPosition(), Vec2(10 * (hunter->bulletLocation.x - winSize.width / 2) + hunter->getPositionX(), 10 * (hunter->bulletLocation.y - winSize.height / 2) + hunter->getPositionY()), Color4F(1.0f, 0.46f, 0.0f, 0.5f));
+			m_line->setLineWidth(50);
+		}
 	};
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);

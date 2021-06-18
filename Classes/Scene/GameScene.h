@@ -9,7 +9,6 @@
 #include "MapLayer.h"
 #include "StateLayer.h"
 #include "ExitLayer.h"
-#include "SettingLayer.h"
 
 #include <chrono>   
 using namespace std::chrono;

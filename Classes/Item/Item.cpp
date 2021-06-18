@@ -16,9 +16,9 @@ bool Item::init()
 
 void Weapon::weaponInit(int type, bool state) {
 	//0.5f + rand_0_1(), random(0, 5),
-	float sp[4] = { 1.5f,1.0f,0.7f,0.8f };
+	float sp[4] = { 0.8f,1.0f,1.5f,1.2f };
 	m_speed = sp[type];
-	float fsp[4] = { 0.15f,0.1f,0.07f,0.1f };
+	float fsp[4] = { 0.15f,0.12f,0.07f,0.1f };
 	m_fire_speed = fsp[type];
 	float at[4] = { 5.0f,10.0f,8.0f,15.0f };
 	m_attack = at[type];
