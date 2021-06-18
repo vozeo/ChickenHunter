@@ -797,3 +797,6 @@
 23	2604	645641059	CMakeFiles/MyGame.dir/Classes/Item/Item.cpp.o	154d93888e64bee6
 25	3928	645641061	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	448e83d72bde0396
 3928	7084	645641064	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	5bc7aee078ab64e5
+20	2677	645641349	CMakeFiles/MyGame.dir/Classes/Character/Character.cpp.o	f63a7b362689b8fb
+20	3985	645641400	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	448e83d72bde0396
+3986	7159	645641403	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	5bc7aee078ab64e5
