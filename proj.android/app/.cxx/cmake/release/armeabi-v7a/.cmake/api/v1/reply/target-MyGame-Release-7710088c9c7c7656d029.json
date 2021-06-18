@@ -1,0 +1,838 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "D:/Cocos/ChickenHunter/proj.android/app/build/intermediates/cmake/release/obj/armeabi-v7a/libMyGame.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 160,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 162,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 165,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 196,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 166,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -frtti -fexceptions -fsigned-char -Oz -DNDEBUG  -fPIC"
+				},
+				{
+					"fragment" : "-std=c++11"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 3,
+					"define" : "ANDROID"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "LWS_WITH_LIBUV"
+				},
+				{
+					"define" : "MyGame_EXPORTS"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "USE_FILE32API"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "YASIO_HAVE_HALF_FLOAT=1"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "D:/Cocos/ChickenHunter/Classes"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/cocos/audio/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/cocos"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/extensions"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/cocos/platform"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/cocos/editor-support"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/cocos/base"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/cocos/platform/android"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/recast/.."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/tinyxml2/."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/xxhash/."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/xxtea/."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/clipper/."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/edtaa3func/."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/ConvertUTF/."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/poly2tri/.."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/md5/.."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/Vozeo/AppData/Local/Android/Sdk/ndk/21.4.7075529/sources/android/cpufeatures"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/android-specific/pvmp3dec/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/android-specific/pvmp3dec/src"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/android-specific/tremolo/."
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/unzip/."
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/Cocos/ChickenHunter/yasio"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/Cocos/ChickenHunter/yasio/thirdparty"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/Box2D/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/chipmunk/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/freetype2/include/android/freetype2"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/bullet/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/bullet/include/bullet"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/jpeg/include/android"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/openssl/include/android"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/uv/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/webp/include/android"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/websockets/include/android"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/curl/include/android"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/png/include/android"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/zlib/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37
+			],
+			"sysroot" : 
+			{
+				"path" : "C:/Users/Vozeo/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+			}
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "external::@62470bbe2074d04a1904"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "cocos2d::@b17589fc6237857a1771"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_xxtea::@95546a4b2abc077b0042"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_xxhash::@11e20b8b9139209a045a"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_clipper::@33abc919e86db66c28b8"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_recast::@49aedbc985f97720d891"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_md5::@82bef7d6fa8c2aa61808"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_unzip::@05a8bf1aba81c1a16e64"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_cpufeatures::@faefd91259078ecab22c"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_pvmp3dec::@942eff57d9b63e8baa4e"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "cpp_android_spec::@1eba3e23debeef414eca"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "yasio::@0d14f73be235fd1d5c03"
+		}
+	],
+	"id" : "MyGame::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libgcc_real.a -Wl,--exclude-libs,libatomic.a -static-libstdc++ -Wl,--build-id -Wl,--fatal-warnings -Wl,--exclude-libs,libunwind.a -Wl,--no-undefined -Qunused-arguments",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--whole-archive",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "engine\\cocos\\platform\\libcpp_android_spec.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--no-whole-archive",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "lib\\libcocos2d.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "yasio\\libyasio.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libexternal.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\Box2D\\prebuilt\\android\\armeabi-v7a\\libbox2d.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\chipmunk\\prebuilt\\android\\armeabi-v7a\\libchipmunk.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\freetype2\\prebuilt\\android\\armeabi-v7a\\libfreetype.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_recast.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\bullet\\prebuilt\\android\\armeabi-v7a\\libLinearMath.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\bullet\\prebuilt\\android\\armeabi-v7a\\libBulletDynamics.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\bullet\\prebuilt\\android\\armeabi-v7a\\libBulletCollision.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\bullet\\prebuilt\\android\\armeabi-v7a\\libLinearMath.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\bullet\\prebuilt\\android\\armeabi-v7a\\libBulletMultiThreaded.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\bullet\\prebuilt\\android\\armeabi-v7a\\libMiniCL.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\jpeg\\prebuilt\\android\\armeabi-v7a\\libjpeg.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\webp\\prebuilt\\android\\armeabi-v7a\\libwebp.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\websockets\\prebuilt\\android\\armeabi-v7a\\libwebsockets.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\openssl\\prebuilt\\android\\armeabi-v7a\\libssl.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\openssl\\prebuilt\\android\\armeabi-v7a\\libcrypto.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\uv\\prebuilt\\android\\armeabi-v7a\\libuv_a.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_tinyxml2.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_xxhash.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_xxtea.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_clipper.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_edtaa3func.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_convertUTF.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_poly2tri.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_md5.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\curl\\prebuilt\\android\\armeabi-v7a\\libcurl.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\png\\prebuilt\\android\\armeabi-v7a\\libpng.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "engine\\external\\android-specific\\cpufeatures\\libext_cpufeatures.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldl",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_pvmp3dec.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_tremolo.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "..\\..\\..\\..\\..\\..\\cocos2d\\external\\zlib\\prebuilt\\android\\armeabi-v7a\\libz.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "lib\\libext_unzip.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lGLESv2",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lEGL",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-llog",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-landroid",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lOpenSLES",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lm",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-llog",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-latomic -lm",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX",
+		"sysroot" : 
+		{
+			"path" : "C:/Users/Vozeo/AppData/Local/Android/Sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+		}
+	},
+	"name" : "MyGame",
+	"nameOnDisk" : "libMyGame.so",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "Classes/AppDelegate.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Const.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Character/Character.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Joystick/Joystick.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Item/Item.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/ExitLayer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/GameScene.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/HelloWorldScene.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/MapLayer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/RankLayer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/RoomScene.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/StateLayer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/ServerScene.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/SettingLayer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/StartScene.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Scene/WarningLayer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Network/Client.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Network/Server.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Classes/Network/TransStructure.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/AppDelegate.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Character/Character.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Joystick/Joystick.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Item/Item.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/ExitLayer.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/GameScene.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/HelloWorldScene.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/MapLayer.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/RankLayer.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/RoomScene.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/StateLayer.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/ServerScene.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/SettingLayer.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/StartScene.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Scene/WarningLayer.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Network/Client.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Network/Server.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Classes/Network/TransStructure.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "proj.android/app/jni/hellocpp/main.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

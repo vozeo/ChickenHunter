@@ -48,8 +48,8 @@ public:
 
     virtual void update(float dt);
 
-    void bindTouch(Character *player, std::function<void(MapLayer *, cocos2d::Touch *touch)> began,
-                   std::function<void(MapLayer *)> ended);
+    void bindTouch(Character *player, std::function<void(MapLayer *, cocos2d::Touch *touch)> &began,
+                   std::function<void(MapLayer *)> &ended);
 
 };
 

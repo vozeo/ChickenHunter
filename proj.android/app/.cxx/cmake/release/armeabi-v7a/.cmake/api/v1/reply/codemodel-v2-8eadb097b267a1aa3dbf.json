@@ -1,0 +1,912 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						28,
+						29
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "engine/cocos/core",
+					"childIndexes" : 
+					[
+						2
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "cocos2d/cocos",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "engine/external",
+					"childIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "cocos2d/external",
+					"targetIndexes" : 
+					[
+						16
+					]
+				},
+				{
+					"build" : "engine/external/Box2D",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 3,
+					"source" : "cocos2d/external/Box2D"
+				},
+				{
+					"build" : "engine/external/chipmunk",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 4,
+					"source" : "cocos2d/external/chipmunk"
+				},
+				{
+					"build" : "engine/external/freetype2",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 5,
+					"source" : "cocos2d/external/freetype2"
+				},
+				{
+					"build" : "engine/external/recast",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 6,
+					"source" : "cocos2d/external/recast",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "engine/external/bullet",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 7,
+					"source" : "cocos2d/external/bullet"
+				},
+				{
+					"build" : "engine/external/jpeg",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 8,
+					"source" : "cocos2d/external/jpeg"
+				},
+				{
+					"build" : "engine/external/openssl",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 9,
+					"source" : "cocos2d/external/openssl"
+				},
+				{
+					"build" : "engine/external/uv",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 10,
+					"source" : "cocos2d/external/uv"
+				},
+				{
+					"build" : "engine/external/webp",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 11,
+					"source" : "cocos2d/external/webp"
+				},
+				{
+					"build" : "engine/external/websockets",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 12,
+					"source" : "cocos2d/external/websockets"
+				},
+				{
+					"build" : "engine/external/tinyxml2",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 13,
+					"source" : "cocos2d/external/tinyxml2",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "engine/external/xxhash",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 14,
+					"source" : "cocos2d/external/xxhash",
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"build" : "engine/external/xxtea",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 15,
+					"source" : "cocos2d/external/xxtea",
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"build" : "engine/external/clipper",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 16,
+					"source" : "cocos2d/external/clipper",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "engine/external/edtaa3func",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 17,
+					"source" : "cocos2d/external/edtaa3func",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "engine/external/ConvertUTF",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 18,
+					"source" : "cocos2d/external/ConvertUTF",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "engine/external/poly2tri",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 19,
+					"source" : "cocos2d/external/poly2tri",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "engine/external/md5",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 20,
+					"source" : "cocos2d/external/md5",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "engine/external/curl",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 21,
+					"source" : "cocos2d/external/curl"
+				},
+				{
+					"build" : "engine/external/png",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 22,
+					"source" : "cocos2d/external/png"
+				},
+				{
+					"build" : "engine/external/android-specific/cpufeatures",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 23,
+					"source" : "cocos2d/external/android-specific/cpufeatures",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "engine/external/android-specific/pvmp3dec",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 24,
+					"source" : "cocos2d/external/android-specific/pvmp3dec",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "engine/external/android-specific/tremolo",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 25,
+					"source" : "cocos2d/external/android-specific/tremolo",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "engine/external/zlib",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 26,
+					"source" : "cocos2d/external/zlib"
+				},
+				{
+					"build" : "engine/external/unzip",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 27,
+					"source" : "cocos2d/external/unzip",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "engine/cocos/platform",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 28,
+					"source" : "cocos2d/cocos/platform/android",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "yasio",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 29,
+					"source" : "yasio",
+					"targetIndexes" : 
+					[
+						17
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						28,
+						29
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ChickenHunter",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						2
+					],
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "cocos2d_libs",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27
+					],
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "external",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						16
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "box2d",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "chipmunk",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5
+					],
+					"name" : "freetype",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						6
+					],
+					"name" : "recast",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "bullet",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						8
+					],
+					"name" : "jpeg",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "openssl",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						10
+					],
+					"name" : "uv",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						11
+					],
+					"name" : "webp",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						12
+					],
+					"name" : "websockets",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						13
+					],
+					"name" : "tinyxml2",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						14
+					],
+					"name" : "xxhash",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						15
+					],
+					"name" : "xxtea",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						16
+					],
+					"name" : "clipper",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						17
+					],
+					"name" : "edtaa3func",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						18
+					],
+					"name" : "convertUTF",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						19
+					],
+					"name" : "poly2tri",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						20
+					],
+					"name" : "md5",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						21
+					],
+					"name" : "curl",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						22
+					],
+					"name" : "png",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						23
+					],
+					"name" : "lib_name",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						24
+					],
+					"name" : "pvmp3dec",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						25
+					],
+					"name" : "tremolo",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						26
+					],
+					"name" : "zlib",
+					"parentIndex" : 2
+				},
+				{
+					"directoryIndexes" : 
+					[
+						27
+					],
+					"name" : "unzip",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						28
+					],
+					"name" : "cpp_android_spec",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						29
+					],
+					"name" : "yasio",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						17
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "MyGame::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MyGame-Release-7710088c9c7c7656d029.json",
+					"name" : "MyGame",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "cocos2d::@b17589fc6237857a1771",
+					"jsonFile" : "target-cocos2d-Release-ba663c7e98b55d8faa95.json",
+					"name" : "cocos2d",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "cpp_android_spec::@1eba3e23debeef414eca",
+					"jsonFile" : "target-cpp_android_spec-Release-bfc144d459635a71f76c.json",
+					"name" : "cpp_android_spec",
+					"projectIndex" : 28
+				},
+				{
+					"directoryIndex" : 16,
+					"id" : "ext_clipper::@33abc919e86db66c28b8",
+					"jsonFile" : "target-ext_clipper-Release-674f51b25e93c9ac21a5.json",
+					"name" : "ext_clipper",
+					"projectIndex" : 16
+				},
+				{
+					"directoryIndex" : 18,
+					"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59",
+					"jsonFile" : "target-ext_convertUTF-Release-552ff02e1f98dbe1703b.json",
+					"name" : "ext_convertUTF",
+					"projectIndex" : 18
+				},
+				{
+					"directoryIndex" : 23,
+					"id" : "ext_cpufeatures::@faefd91259078ecab22c",
+					"jsonFile" : "target-ext_cpufeatures-Release-b5c79a96c16ae6f63021.json",
+					"name" : "ext_cpufeatures",
+					"projectIndex" : 23
+				},
+				{
+					"directoryIndex" : 17,
+					"id" : "ext_edtaa3func::@f3d42e550923b89477b0",
+					"jsonFile" : "target-ext_edtaa3func-Release-162cd5b399f37c26bd08.json",
+					"name" : "ext_edtaa3func",
+					"projectIndex" : 17
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "ext_md5::@82bef7d6fa8c2aa61808",
+					"jsonFile" : "target-ext_md5-Release-050e71c68f1ee59cf99f.json",
+					"name" : "ext_md5",
+					"projectIndex" : 20
+				},
+				{
+					"directoryIndex" : 19,
+					"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de",
+					"jsonFile" : "target-ext_poly2tri-Release-45f462f62fd8c61954fc.json",
+					"name" : "ext_poly2tri",
+					"projectIndex" : 19
+				},
+				{
+					"directoryIndex" : 24,
+					"id" : "ext_pvmp3dec::@942eff57d9b63e8baa4e",
+					"jsonFile" : "target-ext_pvmp3dec-Release-91f40ad8a90dbbda2e27.json",
+					"name" : "ext_pvmp3dec",
+					"projectIndex" : 24
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "ext_recast::@49aedbc985f97720d891",
+					"jsonFile" : "target-ext_recast-Release-109b77de6baf637caa20.json",
+					"name" : "ext_recast",
+					"projectIndex" : 6
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0",
+					"jsonFile" : "target-ext_tinyxml2-Release-18ae83d3369082254203.json",
+					"name" : "ext_tinyxml2",
+					"projectIndex" : 13
+				},
+				{
+					"directoryIndex" : 25,
+					"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc",
+					"jsonFile" : "target-ext_tremolo-Release-7044dbfd78083f1cb429.json",
+					"name" : "ext_tremolo",
+					"projectIndex" : 25
+				},
+				{
+					"directoryIndex" : 27,
+					"id" : "ext_unzip::@05a8bf1aba81c1a16e64",
+					"jsonFile" : "target-ext_unzip-Release-2377afce6827f90e2a24.json",
+					"name" : "ext_unzip",
+					"projectIndex" : 27
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "ext_xxhash::@11e20b8b9139209a045a",
+					"jsonFile" : "target-ext_xxhash-Release-742d8ba449623305ddb9.json",
+					"name" : "ext_xxhash",
+					"projectIndex" : 14
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "ext_xxtea::@95546a4b2abc077b0042",
+					"jsonFile" : "target-ext_xxtea-Release-002970fc8ce098427127.json",
+					"name" : "ext_xxtea",
+					"projectIndex" : 15
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "external::@62470bbe2074d04a1904",
+					"jsonFile" : "target-external-Release-20f9780616503583c7b8.json",
+					"name" : "external",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 29,
+					"id" : "yasio::@0d14f73be235fd1d5c03",
+					"jsonFile" : "target-yasio-Release-0090579fc4e39843d9cb.json",
+					"name" : "yasio",
+					"projectIndex" : 29
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Cocos/ChickenHunter/proj.android/app/.cxx/cmake/release/armeabi-v7a",
+		"source" : "D:/Cocos/ChickenHunter"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 1
+	}
+}
