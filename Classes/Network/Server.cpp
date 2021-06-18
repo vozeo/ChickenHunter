@@ -4,7 +4,6 @@
 
 using namespace std;
 
-//����һ�������
 CHServer *chserver = nullptr;
 
 int CHServer::getUnusedUid() {
@@ -26,11 +25,11 @@ bool CHServer::deleteUid(int id) {
 }
 
 CHServer::CHServer(const char *ip, unsigned short port) {
-    m_server = new io_service({ip, port});//�����ŵ�
-    m_server->set_option(YOPT_S_DEFERRED_EVENT, 0);//�������߳��е��������¼�
-    m_server->start([&](event_ptr &&ev) { //��������̺߳���
+    m_server = new io_service({ip, port});
+    m_server->set_option(YOPT_S_DEFERRED_EVENT, 0);
+    m_server->start([&](event_ptr &&ev) { 
         switch (ev->kind()) {
-            case YEK_PACKET: {//��Ϣ���¼�
+            case YEK_PACKET: {
                 auto packet = std::move(ev->packet());
                 char header[HEAD_LENGTH + 1] = {0};
                 memcpy(header, packet.data(), HEAD_LENGTH);
@@ -56,14 +55,14 @@ CHServer::CHServer(const char *ip, unsigned short port) {
                     //if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
                     memcpy(&paction[m_handle_to_uid[thandle]], packet.data() + HEAD_LENGTH,
                            sizeof(PlayerAction));
-                } else if (strstr(header, "GS"))//��Ϸ��ʼ
+                } else if (strstr(header, "GS"))
                 {
                     m_client_get_started[m_handle_to_uid[thandle]] = true;
                 }
                 break;
             }
-            case YEK_CONNECT_RESPONSE://������Ӧ�¼�
-                if (ev->status() == 0)//statusΪ0���� 1������
+            case YEK_CONNECT_RESPONSE:
+                if (ev->status() == 0)
                 {
                     auto thandle = ev->transport();
                     int id = getUnusedUid();
@@ -72,7 +71,7 @@ CHServer::CHServer(const char *ip, unsigned short port) {
                     if (debug_mode) cout << "Client#" << thandle << "#comes in uid:" << id << endl;
                 }
                 break;
-            case YEK_CONNECTION_LOST://���Ӷ�ʧ�¼�
+            case YEK_CONNECTION_LOST:
                 auto thandle = ev->transport();
                 int id = m_handle_to_uid[thandle];
                 if (debug_mode)

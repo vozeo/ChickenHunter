@@ -3,23 +3,23 @@
 
 const int MAX_CONNECTIONS = 11;
 const int MAX_NAME_LENGTH = 9;
-//��ͷ����
+//Header Field
 const int HEAD_LENGTH = 4;
 /*
-* �ͻ��˶���
-* GU = ��ѯuid
-* SN = ��������
-* PA = ��Ҳ�����Ϣ
-* ST = ��ʼ��Ϸ
-* GS = �յ���ʼ��Ϣ
+* Client Command
+* GU = get uid
+* SN = set name
+* PA = send player action
+* ST = start game
+* GS = get started
 * 
-* ����˶���
-* SU = ����uid
-* RO = ������Ϣ
-* MP = ��ͼ��Ϣ
-* GO = ��Ϸ����
-* ST = ֪ͨ������ҿ�ʼ��Ϸ
-* MI = ��ʼ����ͼ����
+* Server Command
+* SU = send uid
+* RO = room information
+* MP = map information
+* GO = game over
+* ST = start game
+* MI = map init
 */
 
 
