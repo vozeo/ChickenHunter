@@ -15,6 +15,11 @@ bool Server::init() {
     if (!Scene::init()) {
         return false;
     }
+    if (chserver != nullptr)
+        delete chserver;
+    if (chclient != nullptr)
+        delete chclient;
+
     auto background = Sprite::create("images/backstar.png");
     background->setPosition(winSize.width / 2, winSize.height / 2);
     background->setScale(winSize.width / background->getTextureRect().getMaxX(),

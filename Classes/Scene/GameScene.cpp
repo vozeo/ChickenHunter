@@ -35,7 +35,10 @@ bool Game::init() {
         m_hunter[i]->retain();
         m_hunter[i]->setName("Player" + Value(i).asString());
     }
-    hunter = m_hunter[0];
+    if (chclient != nullptr && chserver == nullptr)
+        hunter = m_hunter[chclient->getUid() - 1];
+    else
+        hunter = m_hunter[0];
     hunter->setName("hunter");
 
     map = MapLayer::create(m_hunter);

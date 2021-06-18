@@ -520,7 +520,8 @@ void MapLayer::update(float fDelta) {
             chclient->m_localaction.is_shoot = false;
             chclient->m_localaction.bullet_x = 0, chclient->m_localaction.bullet_y = 0;
             chclient->m_localaction.weapon_type = 0;
-
+            chserver->paction[1].is_bleed_locked = hunter->getPlayerLockedBleed();
+            chserver->paction[1].is_bullet_locked = hunter->getPlayerLockedBullet();
             //server's update
             chserver->mapUploadInit();
 
@@ -736,7 +737,11 @@ void MapLayer::update(float fDelta) {
             chclient->m_localaction.speed[2] = hunter->m_speed[2];
             chclient->m_localaction.speed[3] = hunter->m_speed[3];
             chclient->m_localaction.is_bleed_locked = hunter->getPlayerLockedBleed();
+            if (chclient->m_localaction.is_bleed_locked)
+                CCLOG("BLEED IS LOCK!");
             chclient->m_localaction.is_bullet_locked = hunter->getPlayerLockedBullet();
+            if (chclient->m_localaction.is_bullet_locked)
+                CCLOG("BULLET IS LOCK!");
             chclient->upload();
             
             showAimLine();
