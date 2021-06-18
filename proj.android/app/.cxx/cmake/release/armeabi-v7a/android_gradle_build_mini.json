@@ -1,266 +1,179 @@
 {
   "buildFiles": [
     "D:\\Cocos\\ChickenHunter\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cmake\\Modules\\CocosBuildHelpers.cmake",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cmake\\Modules\\CocosBuildSet.cmake",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cmake\\Modules\\CocosConfigDefine.cmake",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cmake\\Modules\\CocosConfigDepend.cmake",
     "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\2d\\CMakeLists.txt",
     "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\3d\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\ui\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\math\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\base\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\extensions\\CMakeLists.txt",
     "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\audio\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\uv\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\md5\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\png\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\physics\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\base\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\editor-support\\cocostudio\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\math\\CMakeLists.txt",
     "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\navmesh\\CMakeLists.txt",
     "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\network\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\jpeg\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\webp\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\curl\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\zlib\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\physics3d\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\physics\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\platform\\android\\CMakeLists.txt",
     "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\platform\\CMakeLists.txt",
     "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\renderer\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\Box2D\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\xxtea\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\unzip\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\physics3d\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\recast\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\bullet\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\xxhash\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\openssl\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\clipper\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\chipmunk\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\tinyxml2\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\poly2tri\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\freetype2\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\websockets\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\edtaa3func\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\ConvertUTF\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\platform\\android\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\editor-support\\cocostudio\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\android-specific\\tremolo\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\cocos\\ui\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\extensions\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\android-specific\\cpufeatures\\CMakeLists.txt",
     "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\android-specific\\pvmp3dec\\CMakeLists.txt",
-    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\android-specific\\cpufeatures\\CMakeLists.txt"
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\android-specific\\tremolo\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\Box2D\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\bullet\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\chipmunk\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\clipper\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\cmake\\CocosExternalConfig.cmake",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\ConvertUTF\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\curl\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\edtaa3func\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\freetype2\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\jpeg\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\md5\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\openssl\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\png\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\poly2tri\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\recast\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\tinyxml2\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\unzip\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\uv\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\webp\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\websockets\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\xxhash\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\xxtea\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\cocos2d\\external\\zlib\\CMakeLists.txt",
+    "D:\\Cocos\\ChickenHunter\\yasio\\CMakeLists.txt"
   ],
   "cleanCommandsComponents": [
     [
-      "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+      "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\ninja.exe",
       "-C",
       "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
       "clean"
     ]
   ],
   "buildTargetsCommandComponents": [
-    "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+    "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\ninja.exe",
     "-C",
     "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
     "{LIST_OF_TARGETS_TO_BUILD}"
   ],
   "libraries": {
-    "ext_tremolo-Release-armeabi-v7a": {
-      "artifactName": "ext_tremolo",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_tremolo"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_tremolo.a",
-      "runtimeFiles": []
-    },
-    "ext_clipper-Release-armeabi-v7a": {
-      "artifactName": "ext_clipper",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_clipper"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_clipper.a",
-      "runtimeFiles": []
-    },
-    "ext_md5-Release-armeabi-v7a": {
-      "artifactName": "ext_md5",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_md5"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_md5.a",
-      "runtimeFiles": []
-    },
-    "MyGame-Release-armeabi-v7a": {
-      "artifactName": "MyGame",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "MyGame"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a\\libMyGame.so",
-      "runtimeFiles": []
-    },
-    "ext_xxhash-Release-armeabi-v7a": {
-      "artifactName": "ext_xxhash",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_xxhash"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_xxhash.a",
-      "runtimeFiles": []
-    },
-    "ext_unzip-Release-armeabi-v7a": {
-      "artifactName": "ext_unzip",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_unzip"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_unzip.a",
-      "runtimeFiles": []
-    },
-    "ext_xxtea-Release-armeabi-v7a": {
+    "ext_xxtea::@95546a4b2abc077b0042": {
       "artifactName": "ext_xxtea",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_xxtea"
-      ],
       "abi": "armeabi-v7a",
       "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_xxtea.a",
       "runtimeFiles": []
     },
-    "ext_cpufeatures-Release-armeabi-v7a": {
-      "artifactName": "ext_cpufeatures",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_cpufeatures"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\engine\\external\\android-specific\\cpufeatures\\libext_cpufeatures.a",
-      "runtimeFiles": []
-    },
-    "ext_recast-Release-armeabi-v7a": {
-      "artifactName": "ext_recast",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_recast"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_recast.a",
-      "runtimeFiles": []
-    },
-    "ext_edtaa3func-Release-armeabi-v7a": {
-      "artifactName": "ext_edtaa3func",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_edtaa3func"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_edtaa3func.a",
-      "runtimeFiles": []
-    },
-    "external-Release-armeabi-v7a": {
-      "artifactName": "external",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "external"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libexternal.a",
-      "runtimeFiles": []
-    },
-    "ext_pvmp3dec-Release-armeabi-v7a": {
-      "artifactName": "ext_pvmp3dec",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_pvmp3dec"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_pvmp3dec.a",
-      "runtimeFiles": []
-    },
-    "cocos2d-Release-armeabi-v7a": {
+    "cocos2d::@b17589fc6237857a1771": {
       "artifactName": "cocos2d",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "cocos2d"
-      ],
       "abi": "armeabi-v7a",
       "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libcocos2d.a",
       "runtimeFiles": []
     },
-    "ext_convertUTF-Release-armeabi-v7a": {
-      "artifactName": "ext_convertUTF",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_convertUTF"
-      ],
-      "abi": "armeabi-v7a",
-      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_convertUTF.a",
-      "runtimeFiles": []
-    },
-    "ext_tinyxml2-Release-armeabi-v7a": {
+    "ext_tinyxml2::@fd6ab661f4ee25a21ef0": {
       "artifactName": "ext_tinyxml2",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_tinyxml2"
-      ],
       "abi": "armeabi-v7a",
       "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_tinyxml2.a",
       "runtimeFiles": []
     },
-    "ext_poly2tri-Release-armeabi-v7a": {
+    "ext_cpufeatures::@faefd91259078ecab22c": {
+      "artifactName": "ext_cpufeatures",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\engine\\external\\android-specific\\cpufeatures\\libext_cpufeatures.a",
+      "runtimeFiles": []
+    },
+    "MyGame::@6890427a1f51a3e7e1df": {
+      "artifactName": "MyGame",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a\\libMyGame.so",
+      "runtimeFiles": [
+        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\-Wl,--whole-archive",
+        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\-Wl,--no-whole-archive"
+      ]
+    },
+    "ext_tremolo::@afb4f15f0e6ee4fb58dc": {
+      "artifactName": "ext_tremolo",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_tremolo.a",
+      "runtimeFiles": []
+    },
+    "ext_xxhash::@11e20b8b9139209a045a": {
+      "artifactName": "ext_xxhash",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_xxhash.a",
+      "runtimeFiles": []
+    },
+    "ext_recast::@49aedbc985f97720d891": {
+      "artifactName": "ext_recast",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_recast.a",
+      "runtimeFiles": []
+    },
+    "ext_md5::@82bef7d6fa8c2aa61808": {
+      "artifactName": "ext_md5",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_md5.a",
+      "runtimeFiles": []
+    },
+    "ext_poly2tri::@ce0bfd23a4070be0c5de": {
       "artifactName": "ext_poly2tri",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "ext_poly2tri"
-      ],
       "abi": "armeabi-v7a",
       "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_poly2tri.a",
       "runtimeFiles": []
     },
-    "cpp_android_spec-Release-armeabi-v7a": {
+    "ext_pvmp3dec::@942eff57d9b63e8baa4e": {
+      "artifactName": "ext_pvmp3dec",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_pvmp3dec.a",
+      "runtimeFiles": []
+    },
+    "ext_clipper::@33abc919e86db66c28b8": {
+      "artifactName": "ext_clipper",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_clipper.a",
+      "runtimeFiles": []
+    },
+    "yasio::@0d14f73be235fd1d5c03": {
+      "artifactName": "yasio",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\yasio\\libyasio.a",
+      "runtimeFiles": []
+    },
+    "ext_unzip::@05a8bf1aba81c1a16e64": {
+      "artifactName": "ext_unzip",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_unzip.a",
+      "runtimeFiles": []
+    },
+    "external::@62470bbe2074d04a1904": {
+      "artifactName": "external",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libexternal.a",
+      "runtimeFiles": []
+    },
+    "cpp_android_spec::@1eba3e23debeef414eca": {
       "artifactName": "cpp_android_spec",
-      "buildCommandComponents": [
-        "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
-        "-C",
-        "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-        "cpp_android_spec"
-      ],
       "abi": "armeabi-v7a",
       "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\engine\\cocos\\platform\\libcpp_android_spec.a",
+      "runtimeFiles": []
+    },
+    "ext_convertUTF::@205c2f0e44a3b06b9b59": {
+      "artifactName": "ext_convertUTF",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_convertUTF.a",
+      "runtimeFiles": []
+    },
+    "ext_edtaa3func::@f3d42e550923b89477b0": {
+      "artifactName": "ext_edtaa3func",
+      "abi": "armeabi-v7a",
+      "output": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\lib\\libext_edtaa3func.a",
       "runtimeFiles": []
     }
   }

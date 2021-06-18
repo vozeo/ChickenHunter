@@ -20,8 +20,8 @@
         "ndk"
       ],
       "buildRoot": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
-      "cmakeToolchain": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\build\\cmake\\android.toolchain.cmake",
-      "cmakeExecutable": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
+      "cmakeToolchain": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
+      "cmakeExecutable": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\cmake.exe",
       "variables": [
         {
           "name": "CMAKE_CXX_FLAGS",
@@ -37,7 +37,7 @@
         },
         {
           "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\build\\cmake\\android.toolchain.cmake"
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake"
         },
         {
           "name": "ANDROID_ABI",
@@ -45,7 +45,7 @@
         },
         {
           "name": "ANDROID_NDK",
-          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597"
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529"
         },
         {
           "name": "ANDROID_PLATFORM",
@@ -57,7 +57,7 @@
         },
         {
           "name": "CMAKE_ANDROID_NDK",
-          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597"
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529"
         },
         {
           "name": "CMAKE_EXPORT_COMPILE_COMMANDS",
@@ -73,7 +73,7 @@
         },
         {
           "name": "CMAKE_MAKE_PROGRAM",
-          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe"
+          "value": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\ninja.exe"
         },
         {
           "name": "CMAKE_SYSTEM_NAME",
@@ -131,8 +131,8 @@
       "moduleBuildFile": "D:\\Cocos\\ChickenHunter\\proj.android\\app\\build.gradle",
       "makeFile": "D:\\Cocos\\ChickenHunter\\CMakeLists.txt",
       "buildSystem": "CMAKE",
-      "ndkFolder": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597",
-      "ndkVersion": "23.0.7272597",
+      "ndkFolder": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529",
+      "ndkVersion": "21.4.7075529",
       "ndkSupportedAbiList": [
         "ARMEABI_V7A",
         "ARM64_V8A",
@@ -148,7 +148,7 @@
       "ndkDefaultStl": "LIBCXX_STATIC",
       "ndkMetaPlatforms": {
         "min": 16,
-        "max": 31,
+        "max": 30,
         "aliases": {
           "20": 19,
           "25": 24,
@@ -165,8 +165,7 @@
           "O-MR1": 27,
           "P": 28,
           "Q": 29,
-          "R": 30,
-          "S": 31
+          "R": 30
         }
       },
       "ndkMetaAbiList": [
@@ -195,21 +194,21 @@
           "default": true
         }
       ],
-      "originalCmakeToolchainFile": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\build\\cmake\\android.toolchain.cmake",
-      "cmakeToolchainFile": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\build\\cmake\\android.toolchain.cmake",
+      "originalCmakeToolchainFile": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
+      "cmakeToolchainFile": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake",
       "cmake": {
         "isValidCmakeAvailable": true,
-        "cmakeExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
-        "minimumCmakeVersion": "3.10.2",
-        "ninjaExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+        "cmakeExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\cmake.exe",
+        "minimumCmakeVersion": "3.18.1",
+        "ninjaExe": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\ninja.exe",
         "isPreferCmakeFileApiEnabled": true
       },
       "stlSharedObjectMap": {
         "LIBCXX_SHARED": {
-          "ARMEABI_V7A": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
-          "ARM64_V8A": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
-          "X86": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
-          "X86_64": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\23.0.7272597\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
+          "ARMEABI_V7A": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
+          "ARM64_V8A": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+          "X86": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
+          "X86_64": "C:\\Users\\Vozeo\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
         },
         "LIBCXX_STATIC": {},
         "NONE": {},

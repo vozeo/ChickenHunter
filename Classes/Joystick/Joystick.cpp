@@ -1,5 +1,7 @@
 #include "Joystick.h"
 
+#include <utility>
+
 Joystick::Joystick() = default;
 
 bool Joystick::init() {
@@ -44,8 +46,8 @@ void Joystick::update(float dt) {
 }
 
 void
-Joystick::bindTouch(Character *player, std::function<void(MapLayer *, cocos2d::Touch *touch)> began,
-                    std::function<void(MapLayer *)> ended) {
+Joystick::bindTouch(Character *player, std::function<void(MapLayer *, cocos2d::Touch *touch)> &began,
+                    std::function<void(MapLayer *)> &ended) {
     hunter = player;
     touchBegan = began;
     touchEnded = ended;
@@ -60,8 +62,7 @@ bool Joystick::onTouchBegan(const std::vector<Touch *> &touches, Event *event) {
         } else {
             Vec2 touchPos = touch->getLocation();
             m_currentPoint2 = touchPos;
-            hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 +
-                                     Vec2(visibleSize.width / 2, visibleSize.height / 2);
+            hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + visibleSize / 2;
             touchBegan(mapLayer, touch);
         }
     }
@@ -77,18 +78,9 @@ void Joystick::onTouchMoved(const std::vector<Touch *> &touches, Event *event) {
         } else {
             Vec2 touchPos = touch->getLocation();
             m_currentPoint2 = touchPos;
-            hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 +
-                                     Vec2(visibleSize.width / 2, visibleSize.height / 2);
-            auto effectCircle = DrawNode::create();
-            addChild(effectCircle, 0);
-            effectCircle->drawSolidCircle(3 * hunter->bulletLocation, 100.0f,
-                                          CC_DEGREES_TO_RADIANS(360), 15,
-                                          Color4F(0.28f, 0.46f, 1.0f, 0.6f));
-            effectCircle->runAction(
-                    Sequence::create(FadeOut::create(0.05f), RemoveSelf::create(), NULL));
+            hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + visibleSize / 2;
         }
     }
-
 }
 
 void Joystick::onTouchEnded(const std::vector<Touch *> &touches, Event *event) {
@@ -104,22 +96,21 @@ void Joystick::onTouchEnded(const std::vector<Touch *> &touches, Event *event) {
             touchEnded(mapLayer);
         }
     }
-
 }
 
 void Joystick::animate() {
-    if (m_currentPoint1.x - m_centerPoint1.x > moveDistance) {
+    if (m_currentPoint1.x - m_centerPoint1.x > moveDistance)
         hunter->m_speed[0] = true;
-    } else hunter->m_speed[0] = false;
-    if (m_centerPoint1.x - m_currentPoint1.x > moveDistance) {
+    else hunter->m_speed[0] = false;
+    if (m_centerPoint1.x - m_currentPoint1.x > moveDistance)
         hunter->m_speed[1] = true;
-    } else hunter->m_speed[1] = false;
-    if (m_centerPoint1.y - m_currentPoint1.y > moveDistance) {
+    else hunter->m_speed[1] = false;
+    if (m_centerPoint1.y - m_currentPoint1.y > moveDistance)
         hunter->m_speed[2] = true;
-    } else hunter->m_speed[2] = false;
-    if (m_currentPoint1.y - m_centerPoint1.y > moveDistance) {
+    else hunter->m_speed[2] = false;
+    if (m_currentPoint1.y - m_centerPoint1.y > moveDistance)
         hunter->m_speed[3] = true;
-    } else hunter->m_speed[3] = false;
+    else hunter->m_speed[3] = false;
 
     for (int i = 0; i <= 3; i++) {
         if (hunter->m_speed[i]) {
@@ -135,6 +126,8 @@ void Joystick::animate() {
                     break;
                 case 3:
                     hunter->runAction(hunter->getCharacterAnimUp());
+                    break;
+                default:
                     break;
             }
             break;
