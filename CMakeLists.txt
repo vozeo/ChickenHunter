@@ -191,11 +191,6 @@ if(LINUX OR WINDOWS)
     cocos_copy_target_res(${APP_NAME} LINK_TO ${APP_RES_DIR} FOLDERS ${GAME_RES_FOLDER})
 endif()
 
-#add yasio
 add_subdirectory(yasio)
-#if (WIN32)
     set (YASIO_LIB yasio)
-#else ()
-#    set (YASIO_LIB yasio pthread)
-#endif()
 target_link_libraries (${APP_NAME} ${YASIO_LIB})

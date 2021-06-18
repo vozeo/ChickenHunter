@@ -12,29 +12,27 @@ using namespace cocos2d::ui;
 
 #define winSize Director::getInstance()->getWinSize()
 
-class SettingLayer : public cocos2d::Layer
-{
-    Slider* volumeSlider;
+class SettingLayer : public cocos2d::Layer {
+    Slider *volumeSlider;
 
 public:
-    virtual bool init(Character* hunter);
-	static SettingLayer* create(Character* hunter = nullptr)
-	{
-		SettingLayer* pRet = new(std::nothrow) SettingLayer();
-		if (pRet && pRet->init(hunter))
-		{
-			pRet->autorelease();
-			return pRet;
-		}
-		else
-		{
-			delete pRet;
-			pRet = nullptr;
-			return nullptr;
-		}
-	}
+    SettingLayer();
 
-    void closeCallback(cocos2d::Ref* pSender);
+    virtual bool init(Character *hunter);
+
+    static SettingLayer *create(Character *hunter = nullptr) {
+        SettingLayer *pRet = new(std::nothrow) SettingLayer();
+        if (pRet && pRet->init(hunter)) {
+            pRet->autorelease();
+            return pRet;
+        } else {
+            delete pRet;
+            pRet = nullptr;
+            return nullptr;
+        }
+    }
+
+    void closeCallback(cocos2d::Ref *pSender);
 
 };
 

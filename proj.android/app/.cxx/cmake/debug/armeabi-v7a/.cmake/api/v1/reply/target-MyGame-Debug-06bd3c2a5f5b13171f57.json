@@ -44,7 +44,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 201,
+				"line" : 196,
 				"parent" : 0
 			},
 			{
@@ -306,15 +306,7 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_xxhash::@11e20b8b9139209a045a"
-		},
-		{
-			"backtrace" : 3,
 			"id" : "ext_xxtea::@95546a4b2abc077b0042"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0"
 		},
 		{
 			"backtrace" : 3,
@@ -322,23 +314,11 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59"
+			"id" : "ext_xxhash::@11e20b8b9139209a045a"
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_cpufeatures::@faefd91259078ecab22c"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_unzip::@05a8bf1aba81c1a16e64"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_pvmp3dec::@942eff57d9b63e8baa4e"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
+			"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0"
 		},
 		{
 			"backtrace" : 3,
@@ -346,19 +326,39 @@
 		},
 		{
 			"backtrace" : 3,
+			"id" : "ext_unzip::@05a8bf1aba81c1a16e64"
+		},
+		{
+			"backtrace" : 3,
 			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_cpufeatures::@faefd91259078ecab22c"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_pvmp3dec::@942eff57d9b63e8baa4e"
 		},
 		{
 			"backtrace" : 3,
 			"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc"
 		},
 		{
-			"backtrace" : 2,
-			"id" : "cpp_android_spec::@1eba3e23debeef414eca"
+			"backtrace" : 3,
+			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59"
 		},
 		{
 			"backtrace" : 4,
 			"id" : "yasio::@0d14f73be235fd1d5c03"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "cpp_android_spec::@1eba3e23debeef414eca"
 		}
 	],
 	"id" : "MyGame::@6890427a1f51a3e7e1df",

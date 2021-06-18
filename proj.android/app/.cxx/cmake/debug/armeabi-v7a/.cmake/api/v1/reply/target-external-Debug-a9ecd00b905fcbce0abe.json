@@ -38,19 +38,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 75,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
 				"line" : 79,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 71,
 				"parent" : 0
 			},
 			{
@@ -62,25 +50,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 91,
+				"line" : 75,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 136,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 177,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 95,
+				"line" : 71,
 				"parent" : 0
 			},
 			{
@@ -92,7 +68,31 @@
 			{
 				"command" : 1,
 				"file" : 0,
+				"line" : 177,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
 				"line" : 87,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 136,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 95,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 91,
 				"parent" : 0
 			},
 			{
@@ -195,55 +195,55 @@
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/recast/.."
 				},
 				{
-					"backtrace" : 5,
+					"backtrace" : 6,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/tinyxml2/."
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 5,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/xxhash/."
 				},
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/xxtea/."
 				},
 				{
-					"backtrace" : 6,
+					"backtrace" : 4,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/clipper/."
 				},
 				{
-					"backtrace" : 12,
+					"backtrace" : 9,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/edtaa3func/."
 				},
 				{
-					"backtrace" : 7,
+					"backtrace" : 12,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/ConvertUTF/."
 				},
 				{
-					"backtrace" : 10,
+					"backtrace" : 11,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/poly2tri/.."
 				},
 				{
-					"backtrace" : 11,
+					"backtrace" : 7,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/md5/.."
 				},
 				{
-					"backtrace" : 8,
+					"backtrace" : 10,
 					"path" : "C:/Users/Vozeo/AppData/Local/Android/Sdk/ndk/21.4.7075529/sources/android/cpufeatures"
 				},
 				{
-					"backtrace" : 8,
+					"backtrace" : 10,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/android-specific/pvmp3dec/include"
 				},
 				{
-					"backtrace" : 8,
+					"backtrace" : 10,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/android-specific/pvmp3dec/src"
 				},
 				{
-					"backtrace" : 8,
+					"backtrace" : 10,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/android-specific/tremolo/."
 				},
 				{
-					"backtrace" : 9,
+					"backtrace" : 8,
 					"path" : "D:/Cocos/ChickenHunter/cocos2d/external/unzip/."
 				},
 				{
@@ -331,51 +331,51 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_xxhash::@11e20b8b9139209a045a"
-		},
-		{
-			"backtrace" : 4,
 			"id" : "ext_xxtea::@95546a4b2abc077b0042"
 		},
 		{
-			"backtrace" : 5,
-			"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0"
-		},
-		{
-			"backtrace" : 6,
+			"backtrace" : 4,
 			"id" : "ext_clipper::@33abc919e86db66c28b8"
 		},
 		{
+			"backtrace" : 5,
+			"id" : "ext_xxhash::@11e20b8b9139209a045a"
+		},
+		{
+			"backtrace" : 6,
+			"id" : "ext_tinyxml2::@fd6ab661f4ee25a21ef0"
+		},
+		{
 			"backtrace" : 7,
-			"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59"
+			"id" : "ext_md5::@82bef7d6fa8c2aa61808"
 		},
 		{
 			"backtrace" : 8,
-			"id" : "ext_cpufeatures::@faefd91259078ecab22c"
-		},
-		{
-			"backtrace" : 9,
 			"id" : "ext_unzip::@05a8bf1aba81c1a16e64"
 		},
 		{
-			"backtrace" : 8,
+			"backtrace" : 9,
+			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "ext_cpufeatures::@faefd91259078ecab22c"
+		},
+		{
+			"backtrace" : 10,
 			"id" : "ext_pvmp3dec::@942eff57d9b63e8baa4e"
 		},
 		{
 			"backtrace" : 10,
-			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
+			"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc"
 		},
 		{
 			"backtrace" : 11,
-			"id" : "ext_md5::@82bef7d6fa8c2aa61808"
+			"id" : "ext_poly2tri::@ce0bfd23a4070be0c5de"
 		},
 		{
 			"backtrace" : 12,
-			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
-		},
-		{
-			"backtrace" : 8,
-			"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc"
+			"id" : "ext_convertUTF::@205c2f0e44a3b06b9b59"
 		}
 	],
 	"folder" : 

@@ -3,23 +3,23 @@
 
 const int MAX_CONNECTIONS = 11;
 const int MAX_NAME_LENGTH = 9;
-//±¨Í·´¦Àí
+//ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½
 const int HEAD_LENGTH = 4;
 /*
-* ¿Í»§¶Ë¶¯×÷
-* GU = ²éÑ¯uid
-* SN = ÉèÖÃÃû×Ö
-* PA = Íæ¼Ò²Ù×÷ÐÅÏ¢
-* ST = ¿ªÊ¼ÓÎÏ·
-* GS = ÊÕµ½¿ªÊ¼ÐÅÏ¢
+* ï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
+* GU = ï¿½ï¿½Ñ¯uid
+* SN = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+* PA = ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+* ST = ï¿½ï¿½Ê¼ï¿½ï¿½Ï·
+* GS = ï¿½Õµï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ï¢
 * 
-* ·þÎñ¶Ë¶¯×÷
-* SU = ·¢ËÍuid
-* RO = ·¿¼äÐÅÏ¢
-* MP = µØÍ¼ÐÅÏ¢
-* GO = ÓÎÏ·½áÊø
-* ST = Í¨ÖªËùÓÐÍæ¼Ò¿ªÊ¼ÓÎÏ·
-* MI = ³õÊ¼»¯µØÍ¼±äÁ¿
+* ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
+* SU = ï¿½ï¿½ï¿½ï¿½uid
+* RO = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+* MP = ï¿½ï¿½Í¼ï¿½ï¿½Ï¢
+* GO = ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+* ST = Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¿ï¿½Ê¼ï¿½ï¿½Ï·
+* MI = ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
 */
 
 
@@ -32,54 +32,49 @@ const int HEAD_LENGTH = 4;
 #define PA_PICK 5
 #define PA_DISCARD 6
 
-struct PlayerAction
-{
-	short speed[4] = { 0 };
-	bool is_shoot = false;
-	short weapon_type = 0;
-	float bullet_x = 0, bullet_y = 0;
-	int shoot_damage;
-	bool pick = false;
+struct PlayerAction {
+    short speed[4] = {0};
+    bool is_shoot = false;
+    short weapon_type = 0;
+    float bullet_x = 0, bullet_y = 0;
+    int shoot_damage;
+    bool pick = false;
 };
 
-struct PlayerInformation
-{
-	bool just_game_over = false;
-	bool alive = false;
-	bool is_pick = false;
-	bool is_shoot = false;
-	short bullet = 0;
-	short weapon_type = 0;
-	int uid = 0;
-	int hp = 100;
-	float position_x = 0, position_y = 0;
-	float bullet_x = 0, bullet_y = 0;
-	
+struct PlayerInformation {
+    bool just_game_over = false;
+    bool alive = false;
+    bool is_pick = false;
+    bool is_shoot = false;
+    short bullet = 0;
+    short weapon_type = 0;
+    int uid = 0;
+    int hp = 100;
+    float position_x = 0, position_y = 0;
+    float bullet_x = 0, bullet_y = 0;
+
 };
 
-struct RoomInformation
-{
-	int player_num;
-	bool player_alive[MAX_CONNECTIONS];
-	char player_name[MAX_CONNECTIONS][10];
+struct RoomInformation {
+    int player_num;
+    bool player_alive[MAX_CONNECTIONS];
+    char player_name[MAX_CONNECTIONS][10];
 };
 
-struct MapInformation
-{
-	bool is_updated = false;
-	int player_left_num;
-	PlayerInformation player[MAX_CONNECTIONS];
+struct MapInformation {
+    bool is_updated = false;
+    int player_left_num;
+    PlayerInformation player[MAX_CONNECTIONS];
 };
 
-struct MapInformationInit
-{
-	bool is_updated = false;
-	bool player_attended[10] = { 0 };
-	int player_num_all = 0;
-	float m_bandage_position[30][2] = { 0 };
-	float m_ammunition_position[30][2] = { 0 };
-	float m_weapon_position[20][2] = { 0 };
-	int m_weapon_type[20] = { 0 };
+struct MapInformationInit {
+    bool is_updated = false;
+    bool player_attended[10] = {0};
+    int player_num_all = 0;
+    float m_bandage_position[30][2] = {0};
+    float m_ammunition_position[30][2] = {0};
+    float m_weapon_position[20][2] = {0};
+    int m_weapon_type[20] = {0};
 };
 
 #endif

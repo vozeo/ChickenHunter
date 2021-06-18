@@ -17,104 +17,120 @@
 #include "Network/TransStructure.h"
 
 #include <chrono>
+
 using namespace std::chrono;
 
 USING_NS_CC;
 
 #define winSize Director::getInstance()->getWinSize()
 
-class MapLayer : public cocos2d::Layer
-{
+class MapLayer : public cocos2d::Layer {
 private:
-    TMXTiledMap* map;
-    TMXLayer* meta;
+    TMXTiledMap *map;
+    TMXLayer *meta;
 
-	float mapHeight, mapWidth;
-	float tileHeight, tileWidth;
+    float mapHeight, mapWidth;
+    float tileHeight, tileWidth;
 
-    Character* hunter;
+    Character *hunter;
 
-	//add map information
-	MapInformation save_map;
-	//add enemies
-	
-	const int m_enemy_number = 10;
-	const int m_weapon_number = 20;
-	const int m_bandage_number = 30;
-	const int m_ammunition_number = 30;
-	clock_t t1 = clock(), t2;
+    //add map information
+    MapInformation save_map;
+    //add enemies
 
-	//add items
-	std::vector<Character*> m_enemy;
-	std::vector<Weapon*> weapons;
-	std::vector<Bandage*> m_bandage;
-	std::vector<Ammunition*> m_ammunition;
-	
-	std::array <Bullet*, 60> bullets;
+    const int m_enemy_number = 10;
+    const int m_weapon_number = 20;
+    const int m_bandage_number = 30;
+    const int m_ammunition_number = 30;
+    clock_t t1 = clock(), t2;
 
-	bool weaponRefresh = true;
-	bool hasAutoAttack = false;
-	system_clock::time_point startTime;
+    //add items
+    std::vector<Character *> m_enemy;
+    std::vector<Weapon *> weapons;
+    std::vector<Bandage *> m_bandage;
+    std::vector<Ammunition *> m_ammunition;
+
+    std::array<Bullet *, 60> bullets;
+
+    bool weaponRefresh = true;
+    bool hasAutoAttack = false;
+    system_clock::time_point startTime;
 
 
 public:
+    MapLayer();
 
-	static MapLayer* create(std::vector<Character*> gameHunter)
-	{
-		MapLayer* pRet = new(std::nothrow) MapLayer();
-		if (pRet && pRet->init(gameHunter))
-		{
-			pRet->autorelease();
-			return pRet;
-		}
-		else
-		{
-			delete pRet;
-			pRet = nullptr;
-			return nullptr;
-		}
-	}
-    static cocos2d::Layer* createScene(std::vector<Character*> &gameHunter);
-    virtual bool init(std::vector<Character*> &gameHunter);
+    static MapLayer *create(std::vector<Character *> gameHunter) {
+        MapLayer *pRet = new(std::nothrow) MapLayer();
+        if (pRet && pRet->init(gameHunter)) {
+            pRet->autorelease();
+            return pRet;
+        } else {
+            delete pRet;
+            pRet = nullptr;
+            return nullptr;
+        }
+    }
 
-    
+    static cocos2d::Layer *createScene(std::vector<Character *> &gameHunter);
+
+    virtual bool init(std::vector<Character *> &gameHunter);
+
+
     virtual void update(float fDelta);
+
     void registerKeyboardEvent();
-	void registerTouchEvent();
 
-	void touchBegan(Touch* touch);
-	void touchEnded();
+    void registerTouchEvent();
 
-	static void bindTouchMap(std::function<void(MapLayer*, Touch* touch)> &began, std::function<void(MapLayer*)> &ended);
+    void touchBegan(Touch *touch);
 
-	static float calRotation(float bulletX, float bulletY);
+    void touchEnded();
 
-	void initSetItem();
-	void initSetItemForClient();
+    static void bindTouchMap(std::function<void(MapLayer *, Touch *touch)> &began,
+                             std::function<void(MapLayer *)> &ended);
 
-	int deathTurn = 0;
+    static float calRotation(float bulletX, float bulletY);
 
-	DrawNode* m_line;
-	void initMouse();
-	EventListenerMouse* mouseListener;
+    void initSetItem();
 
-	template <class T> void setRandPos(T* elem);
-	template <class T> void initItem(std::vector<T*> &items, int number);
+    void initSetItemForClient();
 
-	static void roll(Character* character);
-	void judgePick(Character* character);
+    int deathTurn = 0;
 
-	void makeKnifeAttack(Character* character);
-	void makeExplosionEffect(float dt);
-	void makeBulletAttack(Character* character, Weapon* weapon, float bulletX, float bulletY);
-	void showEffect(Vec2 pos);
-	void showAttacked(Vec2 pos);
+    DrawNode *m_line;
 
-	void enemyFire(float delt);
-	void autoFire(float dt);
-	void Fire(float dt);
+    void initMouse();
 
-	int getTime();
+    EventListenerMouse *mouseListener;
+
+    template<class T>
+    void setRandPos(T *elem);
+
+    template<class T>
+    void initItem(std::vector<T *> &items, int number);
+
+    static void roll(Character *character);
+
+    void judgePick(Character *character);
+
+    void makeKnifeAttack(Character *character);
+
+    void makeExplosionEffect(float dt);
+
+    void makeBulletAttack(Character *character, Weapon *weapon, float bulletX, float bulletY);
+
+    void showEffect(Vec2 pos);
+
+    void showAttacked(Vec2 pos);
+
+    void enemyFire(float delt);
+
+    void autoFire(float dt);
+
+    void Fire(float dt);
+
+    int getTime();
 };
 
 #endif

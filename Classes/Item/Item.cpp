@@ -2,61 +2,74 @@
 
 USING_NS_CC;
 
-bool Item::init()
-{
-	if (!Sprite::init())
-	{
-		return false;
-	}
-	m_item_frame_cache = SpriteFrameCache::getInstance();
-	m_item_frame_cache->addSpriteFramesWithFile("item.plist", "item.png");
+Item::Item() :
+        m_name(nullptr),
+        m_content(nullptr),
+        m_item_frame_cache(nullptr) {}
 
-	return true;
+bool Item::init() {
+    if (!Sprite::init()) {
+        return false;
+    }
+    m_item_frame_cache = SpriteFrameCache::getInstance();
+    m_item_frame_cache->addSpriteFramesWithFile("item.plist", "item.png");
+
+    return true;
 }
+
+Weapon::Weapon() :
+        m_attack(0),
+        m_fire_speed(0),
+        m_speed(0),
+        m_state(0),
+        m_type(0) {}
 
 void Weapon::weaponInit(int type, bool state) {
-	//0.5f + rand_0_1(), random(0, 5),
-	float sp[4] = { 0.8f,1.0f,1.5f,1.2f };
-	m_speed = sp[type];
-	float fsp[4] = { 0.15f,0.12f,0.07f,0.1f };
-	m_fire_speed = fsp[type];
-	float at[4] = { 5.0f,10.0f,8.0f,15.0f };
-	m_attack = at[type];
-	m_type = type;
-	m_state = state;
+    //0.5f + rand_0_1(), random(0, 5),
+    float sp[4] = {0.8f, 1.0f, 1.5f, 1.2f};
+    m_speed = sp[type];
+    float fsp[4] = {0.15f, 0.12f, 0.07f, 0.1f};
+    m_fire_speed = fsp[type];
+    float at[4] = {5.0f, 10.0f, 8.0f, 15.0f};
+    m_attack = at[type];
+    m_type = type;
+    m_state = state;
 }
 
-bool Bandage::init()
-{
-	if (!Item::init())
-	{
-		return false;
-	}
+Bandage::Bandage() :
+        m_recover_HP(0) {}
 
-	auto frame = m_item_frame_cache->getSpriteFrameByName("bandage.png");
-	this->initWithSpriteFrame(frame);
+bool Bandage::init() {
+    if (!Item::init()) {
+        return false;
+    }
 
-	char name[] = "bandage";
-	setItemName(name);
-	setRecoverHP(random(10, 80));    //random recovery from 10 to 80
+    auto frame = m_item_frame_cache->getSpriteFrameByName("bandage.png");
+    this->initWithSpriteFrame(frame);
 
-	return true;
+    char name[] = "bandage";
+    setItemName(name);
+    setRecoverHP(random(10, 80));    //random recovery from 10 to 80
+
+    return true;
 }
 
+Ammunition::Ammunition() :
+        m_add_bullet(0) {}
 
-bool Ammunition::init()
-{
-	if (!Item::init())
-	{
-		return false;
-	}
+bool Ammunition::init() {
+    if (!Item::init()) {
+        return false;
+    }
 
-	auto frame = m_item_frame_cache->getSpriteFrameByName("ammunition.png");
-	this->initWithSpriteFrame(frame);
+    auto frame = m_item_frame_cache->getSpriteFrameByName("ammunition.png");
+    this->initWithSpriteFrame(frame);
 
-	char name[] = "ammunition";
-	setItemName(name);
-	setAddBullet(random(20, 90));    //add random bullets from 20 to 90
+    char name[] = "ammunition";
+    setItemName(name);
+    setAddBullet(random(20, 90));    //add random bullets from 20 to 90
 
-	return true;
+    return true;
 }
+
+Bullet::Bullet() = default;

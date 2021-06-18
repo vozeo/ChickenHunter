@@ -12,66 +12,69 @@
 
 #include <map>
 #include <chrono>
+
 using namespace std::chrono;
 
 USING_NS_CC;
 
 #define winSize Director::getInstance()->getWinSize()
 
-class State : public cocos2d::Layer
-{
+class State : public cocos2d::Layer {
 private:
-    ui::LoadingBar* blood_bar;
-    Label* blood_label;
-    Label* survivor_label;
-	Label* time_label;
-	Label* bullet_label;
-	Label* grenade_label;
+    ui::LoadingBar *blood_bar;
+    Label *blood_label;
+    Label *survivor_label;
+    Label *time_label;
+    Label *bullet_label;
+    Label *grenade_label;
 
-	std::vector<Character*> m_enemy;
-    Character* hunter;
-	int aliveNumber = 0;
-	bool gameIsEnd = false;
+    std::vector<Character *> m_enemy;
+    Character *hunter;
+    int aliveNumber = 0;
+    bool gameIsEnd = false;
 
-	std::function<void(MapLayer*, cocos2d::Touch* touch)> touchBegan;
-	std::function<void(MapLayer*)> touchEnded;
+    std::function<void(MapLayer *, cocos2d::Touch *touch)> touchBegan;
+    std::function<void(MapLayer *)> touchEnded;
 
-	Vector<MenuItem*> guns;
-    MenuItem* gun[5][2];
+    Vector<MenuItem *> guns;
+    MenuItem *gun[5][2];
 
-	Menu* gunMenu;
+    Menu *gunMenu;
 
-	system_clock::time_point startTime;
-	 
+    system_clock::time_point startTime;
+
 public:
-	MapLayer* mapLayer;
+    State();
 
-	static State* create(std::vector<Character*> gameHunter)
-	{
-		State* pRet = new(std::nothrow) State();
-		if (pRet && pRet->init(gameHunter))
-		{
-			pRet->autorelease();
-			return pRet;
-		}
-		else
-		{
-			delete pRet;
-			return nullptr;
-		}
-	}
+    MapLayer *mapLayer;
 
-    static cocos2d::Layer* createScene(std::vector<Character*> &gameHunter);
-    virtual bool init(std::vector<Character*> gameHunter);
+    static State *create(std::vector<Character *> gameHunter) {
+        State *pRet = new(std::nothrow) State();
+        if (pRet && pRet->init(gameHunter)) {
+            pRet->autorelease();
+            return pRet;
+        } else {
+            delete pRet;
+            return nullptr;
+        }
+    }
+
+    static cocos2d::Layer *createScene(std::vector<Character *> &gameHunter);
+
+    virtual bool init(std::vector<Character *> gameHunter);
+
     virtual void initState();
+
     virtual void initGun();
 
-	void touchInit();
-	void bindTouch(std::function<void(MapLayer*, cocos2d::Touch* touch)> &began, std::function<void(MapLayer*)> &ended);
+    void touchInit();
 
-	virtual void update(float fDelta);
+    void bindTouch(std::function<void(MapLayer *, cocos2d::Touch *touch)> &began,
+                   std::function<void(MapLayer *)> &ended);
 
-	int getTime();
+    virtual void update(float fDelta);
+
+    int getTime();
 
 };
 

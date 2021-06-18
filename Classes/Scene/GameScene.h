@@ -10,41 +10,46 @@
 #include "StateLayer.h"
 #include "ExitLayer.h"
 
-#include <chrono>   
+#include <chrono>
+
 using namespace std::chrono;
 
 USING_NS_CC;
 
 #define winSize Director::getInstance()->getWinSize()
 
-class Game : public cocos2d::Scene
-{
-    
+class Game : public cocos2d::Scene {
+
 private:
+    Game();
+
     ~Game();
 
     int backgroundAudioID;
 
-    EventListenerMouse* mouseListener;
-    Sprite* m_cursor;
-    
-    MapLayer* map;
+    EventListenerMouse *mouseListener;
+    Sprite *m_cursor;
+
+    MapLayer *map;
     MapInformation map_save;
-    State* stateUI;
+    State *stateUI;
 
     const int m_hunter_number = 10;
-    std::vector< Character*> m_hunter;
-    Character* hunter;
+    std::vector<Character *> m_hunter;
+    Character *hunter;
 
-    std::function<void(MapLayer*, Touch* touch)> touchBegan;
-    std::function<void(MapLayer*)> touchEnded;
+    std::function<void(MapLayer *, Touch *touch)> touchBegan;
+    std::function<void(MapLayer *)> touchEnded;
 
 public:
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene *createScene();
+
     virtual bool init();
+
     CREATE_FUNC(Game);
 
     void initMouse();
+
     virtual void update(float dt);
 };
 

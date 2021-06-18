@@ -8,13 +8,13 @@ USING_NS_CC;
 
 #define winSize Director::getInstance()->getWinSize()
 
-class ExitLayer : public cocos2d::Layer
-{
+class ExitLayer : public cocos2d::Layer {
 public:
     virtual bool init();
+
     CREATE_FUNC(ExitLayer);
 
-    void closeCallback(cocos2d::Ref* pSender);
+    void closeCallback(cocos2d::Ref *pSender);
 };
 
 #endif

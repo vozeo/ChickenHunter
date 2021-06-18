@@ -6,91 +6,76 @@ using namespace std;
 using namespace yasio;
 using namespace yasio::inet;
 
-CHClient* chclient = nullptr;
+CHClient *chclient = nullptr;
 
-CHClient::CHClient(const char* ip, unsigned short port)
-{
-	m_client = new io_service({ ip,port });//ÅäÖÃÐÅµÀ
-	m_client->set_option(YOPT_S_DEFERRED_EVENT, 0);//ÔÚÍøÂçÏß³ÌÖÐµ÷¶ÈÍøÂçÊÂ¼þ
-    m_client->start([&](event_ptr&& ev) { //Ìí¼ÓÍøÂçÏß³Ìº¯Êý
-        switch (ev->kind())
-        {
-        case YEK_PACKET: {//ÏûÏ¢°üÊÂ¼þ
-            auto packet = std::move(ev->packet());
-            char header[HEAD_LENGTH + 1] = { 0 };
-            memcpy(header, packet.data(), HEAD_LENGTH);
-            if (strstr(header, "SU"))
-            {
-                //cout << "DEBUG#:SU" << endl;
-                memcpy(&m_uid, packet.data() + HEAD_LENGTH, 4);
-                
+CHClient::CHClient(const char *ip, unsigned short port) {
+    m_client = new io_service({ip, port});//ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½
+    m_client->set_option(YOPT_S_DEFERRED_EVENT, 0);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+    m_client->start([&](event_ptr &&ev) { //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ìºï¿½ï¿½ï¿½
+        switch (ev->kind()) {
+            case YEK_PACKET: {//ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Â¼ï¿½
+                auto packet = std::move(ev->packet());
+                char header[HEAD_LENGTH + 1] = {0};
+                memcpy(header, packet.data(), HEAD_LENGTH);
+                if (strstr(header, "SU")) {
+                    //cout << "DEBUG#:SU" << endl;
+                    memcpy(&m_uid, packet.data() + HEAD_LENGTH, 4);
+
+                } else if (strstr(header, "RO")) {
+                    //cout << "DEBUG#:RO" << endl;
+                    memcpy(&m_room, packet.data() + HEAD_LENGTH, sizeof(RoomInformation));
+                } else if (strstr(header, "MP")) {
+                    memcpy(&m_map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
+                } else if (strstr(header, "GO"))//ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+                {
+                    m_started = false;
+                } else if (strstr(header, "ST"))//ï¿½ï¿½Ï·ï¿½ï¿½Ê¼
+                {
+                    m_started = true;
+                    m_client->write(m_thandle, "GS\0", 4);
+                } else if (strstr(header, "MI"))//ï¿½ï¿½Í¼ï¿½ï¿½Ê¼ï¿½ï¿½
+                {
+                    memcpy(&m_map_information_init, packet.data() + HEAD_LENGTH,
+                           sizeof(MapInformationInit));
+                    m_map_information_init.is_updated = true;
+                }
+                fflush(stdout);
+                break;
             }
-            else if (strstr(header, "RO"))
-            {
-                //cout << "DEBUG#:RO" << endl;
-                memcpy(&m_room, packet.data() + HEAD_LENGTH, sizeof(RoomInformation));
-            }
-            else if (strstr(header, "MP"))
-            {
-                memcpy(&m_map, packet.data() + HEAD_LENGTH, sizeof(MapInformation));
-            }
-            else if (strstr(header, "GO"))//ÓÎÏ·½áÊø
-            {
-                m_started = false;
-            }
-            else if (strstr(header, "ST"))//ÓÎÏ·¿ªÊ¼
-            {
-                m_started = true;
-                m_client->write(m_thandle, "GS\0", 4);
-            }
-            else if (strstr(header, "MI"))//µØÍ¼³õÊ¼»¯
-            {
-                memcpy(&m_map_information_init, packet.data() + HEAD_LENGTH, sizeof(MapInformationInit));
-                m_map_information_init.is_updated = true;
-            }
-            fflush(stdout);
-            break;
+            case YEK_CONNECT_RESPONSE://ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Â¼ï¿½
+                if (ev->status() == 0)//statusÎª0ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                {
+                    m_thandle = ev->transport();
+                    m_client->write(m_thandle, "GU\0", 4);
+                }
+                break;
+            case YEK_CONNECTION_LOST://ï¿½ï¿½ï¿½Ó¶ï¿½Ê§ï¿½Â¼ï¿½
+                break;
         }
-        case YEK_CONNECT_RESPONSE://Á¬½ÓÏìÓ¦ÊÂ¼þ
-            if (ev->status() == 0)//statusÎª0Õý³£ 1·ÇÕý³£
-            {
-                m_thandle = ev->transport();
-                m_client->write(m_thandle, "GU\0", 4);
-            }
-            break;
-        case YEK_CONNECTION_LOST://Á¬½Ó¶ªÊ§ÊÂ¼þ
-            break;
-        }
-        });
+    });
 }
 
-CHClient::~CHClient()
-{
+CHClient::~CHClient() {
     if (m_client != nullptr)
         delete m_client;
 }
 
-void CHClient::link()
-{
+void CHClient::link() {
     m_client->open(0, YCK_TCP_CLIENT);
 }
 
-int CHClient::getUid()
-{
+int CHClient::getUid() {
     return m_uid;
 }
 
-void CHClient::setName(const char* name)
-{
+void CHClient::setName(const char *name) {
     char buf[128] = "SN\0";
     strcpy(buf + HEAD_LENGTH, name);
-    while (m_uid == 0)
-        ;
+    while (m_uid == 0);
     m_client->write(m_thandle, buf, HEAD_LENGTH + 10);
 }
 
-bool CHClient::upload()
-{
+bool CHClient::upload() {
     char str[sizeof(PlayerAction) + 5] = "PA\0";
     memcpy(str + HEAD_LENGTH, &m_localaction, sizeof(PlayerAction));
     memset(&m_localaction, 0, sizeof(m_localaction));
@@ -98,23 +83,19 @@ bool CHClient::upload()
     return true;
 }
 
-bool CHClient::isStarted()
-{
+bool CHClient::isStarted() {
     return m_started;
 }
 
-bool CHClient::getMapInitState()
-{
+bool CHClient::getMapInitState() {
     return m_map_init_state;
 }
 
-void CHClient::setMapInited()
-{
+void CHClient::setMapInited() {
     m_map_init_state = true;
 }
 
-bool isMultipleGame()
-{
+bool isMultipleGame() {
     if (chclient != nullptr)
         return true;
     return false;

@@ -10,13 +10,13 @@ USING_NS_CC;
 
 #define winSize Director::getInstance()->getWinSize()
 
-class RankLayer : public cocos2d::Layer
-{
+class RankLayer : public cocos2d::Layer {
 public:
     virtual bool init();
+
     CREATE_FUNC(RankLayer);
 
-    void rankInit(bool isWin, std::vector<Character*> player);
+    void rankInit(bool isWin, std::vector<Character *> player);
 };
 
 #endif

@@ -1,16 +1,15 @@
 #include "Server.h"
 #include <cstdlib>
 #include <iostream>
+
 using namespace std;
 
-//´´½¨Ò»¸ö·þÎñ¶Ë
-CHServer* chserver = nullptr;
+//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+CHServer *chserver = nullptr;
 
-int CHServer::getUnusedUid()
-{
+int CHServer::getUnusedUid() {
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i] == false)
-        {
+        if (m_uid_usage[i] == false) {
             m_uid_usage[i] = true;
             m_connection_num++;
             return i;
@@ -18,8 +17,7 @@ int CHServer::getUnusedUid()
     return -1;
 }
 
-bool CHServer::deleteUid(int id)
-{
+bool CHServer::deleteUid(int id) {
     if (m_uid_usage[id] == false)
         return false;
     m_uid_usage[id] = false;
@@ -27,139 +25,123 @@ bool CHServer::deleteUid(int id)
     return true;
 }
 
-CHServer::CHServer(const char* ip, unsigned short port)
-{
-    m_server = new io_service({ ip,port });//ÅäÖÃÐÅµÀ
-    m_server->set_option(YOPT_S_DEFERRED_EVENT, 0);//ÔÚÍøÂçÏß³ÌÖÐµ÷¶ÈÍøÂçÊÂ¼þ
-    m_server->start([&](event_ptr&& ev) { //Ìí¼ÓÍøÂçÏß³Ìº¯Êý
-        switch (ev->kind())
-        {
-        case YEK_PACKET: {//ÏûÏ¢°üÊÂ¼þ
-            auto packet = std::move(ev->packet());
-            char header[HEAD_LENGTH + 1] = { 0 };
-            memcpy(header, packet.data(), HEAD_LENGTH);
-            auto thandle = ev->transport();
-            if (strstr(header, "GU"))
-            {
-                if(debug_mode) cout << "uid:" << m_handle_to_uid[thandle] << " DEBUG#:GU" << endl;
-                int id = m_handle_to_uid[thandle];
-                char buf[HEAD_LENGTH + 8] = "SU\0";
-                memcpy(buf + HEAD_LENGTH, &id, 4);
-                m_server->write(thandle, buf, HEAD_LENGTH + 4);
-            }
-            else if (strstr(header, "SN"))
-            {
-                if (debug_mode) cout << "uid:" <<m_handle_to_uid[thandle] << " DEBUG#:SN" << endl;
-                char buf[20] = { 0 };
-                memcpy(buf, packet.data() + HEAD_LENGTH, packet.size() - HEAD_LENGTH);
-                string s = buf;
-                int id = m_handle_to_uid[thandle];
-                m_player_name[id] = s;
-                strcpy(m_room.player_name[id], buf);
-                cout << "uid:" << id << " set name:" << buf << " len:" << s.length() << endl;
-            }
-            else if (strstr(header, "PA"))
-            {
-                //if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
-                memcpy(&paction[m_handle_to_uid[thandle]], packet.data() + HEAD_LENGTH, sizeof(PlayerAction));
-            }
-            else if (strstr(header, "GS"))//ÓÎÏ·¿ªÊ¼
-            {
-                m_client_get_started[m_handle_to_uid[thandle]] = true;
-            }
-            break;
-        }
-        case YEK_CONNECT_RESPONSE://Á¬½ÓÏìÓ¦ÊÂ¼þ
-            if (ev->status() == 0)//statusÎª0Õý³£ 1·ÇÕý³£
-            {
+CHServer::CHServer(const char *ip, unsigned short port) {
+    m_server = new io_service({ip, port});//ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½
+    m_server->set_option(YOPT_S_DEFERRED_EVENT, 0);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+    m_server->start([&](event_ptr &&ev) { //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ìºï¿½ï¿½ï¿½
+        switch (ev->kind()) {
+            case YEK_PACKET: {//ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Â¼ï¿½
+                auto packet = std::move(ev->packet());
+                char header[HEAD_LENGTH + 1] = {0};
+                memcpy(header, packet.data(), HEAD_LENGTH);
                 auto thandle = ev->transport();
-                int id = getUnusedUid();
-                m_handle_to_uid[thandle] = id;
-                m_uid_to_handle[id] = thandle;
-                if (debug_mode) cout << "Client#" << thandle << "#comes in uid:" << id << endl;
+                if (strstr(header, "GU")) {
+                    if (debug_mode)
+                        cout << "uid:" << m_handle_to_uid[thandle] << " DEBUG#:GU" << endl;
+                    int id = m_handle_to_uid[thandle];
+                    char buf[HEAD_LENGTH + 8] = "SU\0";
+                    memcpy(buf + HEAD_LENGTH, &id, 4);
+                    m_server->write(thandle, buf, HEAD_LENGTH + 4);
+                } else if (strstr(header, "SN")) {
+                    if (debug_mode)
+                        cout << "uid:" << m_handle_to_uid[thandle] << " DEBUG#:SN" << endl;
+                    char buf[20] = {0};
+                    memcpy(buf, packet.data() + HEAD_LENGTH, packet.size() - HEAD_LENGTH);
+                    string s = buf;
+                    int id = m_handle_to_uid[thandle];
+                    m_player_name[id] = s;
+                    strcpy(m_room.player_name[id], buf);
+                    cout << "uid:" << id << " set name:" << buf << " len:" << s.length() << endl;
+                } else if (strstr(header, "PA")) {
+                    //if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
+                    memcpy(&paction[m_handle_to_uid[thandle]], packet.data() + HEAD_LENGTH,
+                           sizeof(PlayerAction));
+                } else if (strstr(header, "GS"))//ï¿½ï¿½Ï·ï¿½ï¿½Ê¼
+                {
+                    m_client_get_started[m_handle_to_uid[thandle]] = true;
+                }
+                break;
             }
-            break;
-        case YEK_CONNECTION_LOST://Á¬½Ó¶ªÊ§ÊÂ¼þ
-            auto thandle = ev->transport();
-            int id = m_handle_to_uid[thandle];
-            if (debug_mode) cout << "Client#" << thandle << "#lost connection! uid:" << id << endl;
-            deleteUid(m_handle_to_uid[thandle]);
-            m_handle_to_uid.erase(thandle);
-            m_uid_to_handle.erase(id);
-            m_player_name.erase(id);
-            memset(m_room.player_name[id], 0, MAX_NAME_LENGTH + 1);
-            break;
+            case YEK_CONNECT_RESPONSE://ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Â¼ï¿½
+                if (ev->status() == 0)//statusÎª0ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                {
+                    auto thandle = ev->transport();
+                    int id = getUnusedUid();
+                    m_handle_to_uid[thandle] = id;
+                    m_uid_to_handle[id] = thandle;
+                    if (debug_mode) cout << "Client#" << thandle << "#comes in uid:" << id << endl;
+                }
+                break;
+            case YEK_CONNECTION_LOST://ï¿½ï¿½ï¿½Ó¶ï¿½Ê§ï¿½Â¼ï¿½
+                auto thandle = ev->transport();
+                int id = m_handle_to_uid[thandle];
+                if (debug_mode)
+                    cout << "Client#" << thandle << "#lost connection! uid:" << id << endl;
+                deleteUid(m_handle_to_uid[thandle]);
+                m_handle_to_uid.erase(thandle);
+                m_uid_to_handle.erase(id);
+                m_player_name.erase(id);
+                memset(m_room.player_name[id], 0, MAX_NAME_LENGTH + 1);
+                break;
         }
-        });
+    });
 }
 
-CHServer::~CHServer()
-{
+CHServer::~CHServer() {
     for (int i = 0; i < ai_player_num; i++)
         delete ai_client[i];
-    if (m_server != nullptr)
-    {
+    if (m_server != nullptr) {
         m_server->stop();
         delete m_server;
     }
 }
 
-void CHServer::listen()
-{
+void CHServer::listen() {
     if (m_server != nullptr)
         m_server->open(0, YCK_TCP_SERVER);
-} 
+}
 
-void CHServer::mapUploadInit()
-{
-    //¿Í»§¶ËÉÏ´«µÄÊý¾Ý¶ÁÈ¡
-    if (m_connection_num == 0)
-    {
+void CHServer::mapUploadInit() {
+    //ï¿½Í»ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½È¡
+    if (m_connection_num == 0) {
         m_started = false;
         memset(&m_room, 0, sizeof(RoomInformation));
         closeGame();
     }
     memset(&m_map_trans, 0, sizeof(MapInformation));
     m_map_trans.is_updated = true;
-    
+
 }
 
-void CHServer::mapUpload()
-{
+void CHServer::mapUpload() {
     m_map_trans.is_updated = true;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i])
-        {
+        if (m_uid_usage[i]) {
             char buf[sizeof(MapInformation) + HEAD_LENGTH + 2] = "MP\0";
             memcpy(buf + HEAD_LENGTH, &m_map_trans, sizeof(MapInformation));
             m_server->write(m_uid_to_handle[i], buf, HEAD_LENGTH + sizeof(MapInformation));
         }
 }
 
-bool CHServer::UidIsUsed(int uid)
-{
+bool CHServer::UidIsUsed(int uid) {
     return m_uid_usage[uid];
 }
 
-bool CHServer::startGame()
-{
+bool CHServer::startGame() {
     if (debug_mode)cout << "#DEBUG#GAME START " << endl;
-    if(m_started == true)
+    if (m_started == true)
         return false;
     m_started = true;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i])
-        {
+        if (m_uid_usage[i]) {
             if (debug_mode)cout << "TELL START: " << i << endl;
             m_server->write(m_uid_to_handle[i], "ST\0", HEAD_LENGTH);
         }
-    while (1)
-    {
+    while (1) {
         bool all_started = true;
         for (int i = 1; i < MAX_CONNECTIONS; i++)
             if (m_uid_usage[i])
-                if (m_client_get_started[i] == false)
-                {
+                if (m_client_get_started[i] == false) {
                     m_server->write(m_uid_to_handle[i], "ST\0", HEAD_LENGTH);
                     all_started = false;
                 }
@@ -169,38 +151,32 @@ bool CHServer::startGame()
     return true;
 }
 
-void CHServer::closeGame()
-{
+void CHServer::closeGame() {
     if (debug_mode)cout << "#DEBUG#GAME CLOSE" << endl;
     if (m_started == true)
         return;
     m_started = false;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i])
-        {
+        if (m_uid_usage[i]) {
             if (debug_mode)cout << "TELL CLOSED: " << i << endl;
             m_server->write(m_uid_to_handle[i], "GO\0", HEAD_LENGTH);
         }
 }
 
-bool CHServer::GameIsStarted()
-{
+bool CHServer::GameIsStarted() {
     return m_started;
 }
 
-int CHServer::getConnectionNum()
-{
+int CHServer::getConnectionNum() {
     return m_connection_num;
 }
 
-void CHServer::openDebugMode()
-{
+void CHServer::openDebugMode() {
     debug_mode = !debug_mode;
     cout << "DEBUG MODE IS " << (debug_mode ? "OPEN" : "CLOSED") << endl;
 }
 
-void CHServer::roomUpdate()
-{
+void CHServer::roomUpdate() {
     m_room.player_num = m_connection_num;
     if (m_room.player_num == 0)
         return;
@@ -208,32 +184,28 @@ void CHServer::roomUpdate()
         m_room.player_alive[i] = m_uid_usage[i];
     char buff[HEAD_LENGTH + sizeof(RoomInformation) + 2] = "RO\0";
     memcpy(buff + HEAD_LENGTH, &m_room, sizeof(RoomInformation));
-    for(int i = 0; i < MAX_CONNECTIONS;i++)
-        if (m_uid_usage[i])
-        {
-            m_server->write(m_uid_to_handle[i], buff, HEAD_LENGTH + sizeof(RoomInformation)); 
+    for (int i = 0; i < MAX_CONNECTIONS; i++)
+        if (m_uid_usage[i]) {
+            m_server->write(m_uid_to_handle[i], buff, HEAD_LENGTH + sizeof(RoomInformation));
         }
 }
 
-bool CHServer::addAi()
-{
-    if(m_connection_num >= MAX_CONNECTIONS - 1)
+bool CHServer::addAi() {
+    if (m_connection_num >= MAX_CONNECTIONS - 1)
         return false;
-    string str = "AIPlayer"+ std::to_string(m_connection_num);
+    string str = "AIPlayer" + std::to_string(m_connection_num);
     int p = ai_player_num++;
     ai_client[p] = new CHClient("127.0.0.1", 25595);
     ai_client[p]->setName(str.c_str());
     return true;
 }
 
-void CHServer::mapInformationInit(MapInformationInit mii)
-{
+void CHServer::mapInformationInit(MapInformationInit mii) {
     mii.player_num_all = m_connection_num;
     char buff[HEAD_LENGTH + sizeof(MapInformationInit) + 20] = "MI\0";
     memcpy(buff + HEAD_LENGTH, &mii, sizeof(MapInformationInit));
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i])
-        {
+        if (m_uid_usage[i]) {
             m_server->write(m_uid_to_handle[i], buff, HEAD_LENGTH + sizeof(MapInformationInit));
         }
 }
