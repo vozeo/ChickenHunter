@@ -675,7 +675,9 @@ void MapLayer::update(float fDelta) {
                 memset(&chserver->paction[i], 0, sizeof(PlayerAction));//人物动作删除
             }
             chserver->mapUpload();
-        } else {
+        }
+        else {
+
             for (int i = 1; i < MAX_CONNECTIONS; i++)
                 if (chclient->m_map.player[i].just_game_over)//死亡结算
                 {

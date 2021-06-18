@@ -1,7 +1,6 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-//#include <string>
 #include "yasio/yasio.hpp"
 #include "TransStructure.h"
 
@@ -37,6 +36,8 @@ public:
     bool getMapInitState();
 
     void setMapInited();
+
+    bool isUnconnected();
 };
 
 extern CHClient *chclient;
