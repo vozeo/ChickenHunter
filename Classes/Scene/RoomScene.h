@@ -6,6 +6,7 @@
 #include "ui/CocosGUI.h"
 #include "Network/Server.h"
 #include "Network/Client.h"
+#include "Scene/WarningLayer.h"
 
 USING_NS_CC;
 

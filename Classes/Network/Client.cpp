@@ -56,8 +56,14 @@ CHClient::CHClient(const char *ip, unsigned short port) {
 }
 
 CHClient::~CHClient() {
+
     if (m_client != nullptr)
+    {
+        if (m_thandle != 0)
+            m_client->close(m_thandle);
+        m_client->stop();
         delete m_client;
+    }
 }
 
 void CHClient::link() {

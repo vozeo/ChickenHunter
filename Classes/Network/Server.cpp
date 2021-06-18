@@ -101,7 +101,6 @@ void CHServer::listen() {
 }
 
 void CHServer::mapUploadInit() {
-    //�ͻ����ϴ������ݶ�ȡ
     if (m_connection_num == 0) {
         m_started = false;
         memset(&m_room, 0, sizeof(RoomInformation));
@@ -192,10 +191,19 @@ void CHServer::roomUpdate() {
 bool CHServer::addAi() {
     if (m_connection_num >= MAX_CONNECTIONS - 1)
         return false;
-    string str = "AIPlayer" + std::to_string(m_connection_num);
+    string str = "AIPlayer" + std::to_string(ai_player_num + 1);
     int p = ai_player_num++;
     ai_client[p] = new CHClient("127.0.0.1", 25595);
+    ai_client[p]->link();
     ai_client[p]->setName(str.c_str());
+    return true;
+}
+
+bool CHServer::deleteAi()
+{
+    if(ai_player_num == 0)
+        return false;
+    delete ai_client[--ai_player_num];
     return true;
 }
 

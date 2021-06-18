@@ -10,7 +10,7 @@ using namespace yasio::inet;
 
 class CHClient {
     io_service *m_client;
-    transport_handle_t m_thandle;
+    transport_handle_t m_thandle = 0;
     int m_uid = 0;
     bool m_started = false;
     bool m_map_init_state = false;

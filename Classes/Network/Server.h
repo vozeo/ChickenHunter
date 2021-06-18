@@ -68,6 +68,8 @@ public:
 
     bool addAi();
 
+    bool deleteAi();
+
     void mapInformationInit(MapInformationInit mii);
 };
 

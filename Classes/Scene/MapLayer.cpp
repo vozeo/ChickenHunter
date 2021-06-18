@@ -660,6 +660,10 @@ void MapLayer::update(float fDelta) {
                     } else {
                         CCLOG("PLAYER#%d MAKE BULLET ATTACK#%d", i + 1,
                               chserver->paction[i].weapon_type);
+                        if (chserver->paction[i].weapon_type != 2)
+                            m_enemy[i - 1]->setPlayerBullet(hunter->getPlayerBullet() - 1);
+                        else if (chserver->paction[i].weapon_type == 2)
+                            m_enemy[i - 1]->setPlayerBullet(hunter->getPlayerBullet() - 3);
                         makeBulletAttack(m_enemy[i - 1],
                                          m_enemy[i - 1]->m_gun[chserver->paction[i].weapon_type],
                                          chserver->paction[i].bullet_x,
