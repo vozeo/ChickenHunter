@@ -556,6 +556,25 @@ void MapLayer::update(float fDelta) {
             judgePick(hunter);
             chserver->paction[1].pick = true;
 #endif
+            //服务器AI
+            for (int i = 1; i < MAX_CONNECTIONS; i++)
+                if (chserver->isAi(i))
+                {
+                    int nextT = m_enemy[i - 1]->getThought() + int(fDelta * 1000);
+                    m_enemy[i - 1]->setThought(nextT);
+                    if (nextT >= m_enemy[i - 1]->getThinkTime()) {
+                        m_enemy[i - 1]->setThought(0);
+                        m_enemy[i - 1]->m_speed[0] = random(0, 1);
+                        m_enemy[i - 1]->m_speed[1] = random(0, 1);
+                        m_enemy[i - 1]->m_speed[2] = random(0, 1);
+                        m_enemy[i - 1]->m_speed[3] = random(0, 1);
+                    }
+                    chserver->paction[i].speed[0] = m_enemy[i - 1]->m_speed[0];
+                    chserver->paction[i].speed[1] = m_enemy[i - 1]->m_speed[1];
+                    chserver->paction[i].speed[2] = m_enemy[i - 1]->m_speed[2];
+                    chserver->paction[i].speed[3] = m_enemy[i - 1]->m_speed[3];
+                }
+
             chserver->paction[1].speed[0] = hunter->m_speed[0];
             chserver->paction[1].speed[1] = hunter->m_speed[1];
             chserver->paction[1].speed[2] = hunter->m_speed[2];
@@ -680,6 +699,12 @@ void MapLayer::update(float fDelta) {
                         && !meta->getTileGIDAt(Vec2(nextMapX, nextMapY))) {
                         m_enemy[i - 1]->runAction(MoveTo::create(0, Vec2(nextX, nextY)));
                     } else {
+                        if (chserver->isAi(i)) {
+                            m_enemy[i - 1]->m_speed[0] = !m_enemy[i - 1]->m_speed[0];
+                            m_enemy[i - 1]->m_speed[1] = !m_enemy[i - 1]->m_speed[1];
+                            m_enemy[i - 1]->m_speed[2] = !m_enemy[i - 1]->m_speed[2];
+                            m_enemy[i - 1]->m_speed[3] = !m_enemy[i - 1]->m_speed[3];
+                        }
                         m_enemy[i - 1]->runAction(
                                 MoveTo::create(0, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
                     }
@@ -689,6 +714,7 @@ void MapLayer::update(float fDelta) {
                 }
                 //memset(&chserver->paction[i], 0, sizeof(PlayerAction));
             }
+
             //服务端地图上传
             for (int i = 1; i < MAX_CONNECTIONS; i++) {
                 auto pos = m_enemy[i - 1]->getPosition();
