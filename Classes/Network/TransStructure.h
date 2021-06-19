@@ -82,8 +82,8 @@ struct MapInformationInit {
     int player_num_all = 0;
     float m_bandage_position[30][2] = {0};
     float m_ammunition_position[30][2] = {0};
-    float m_weapon_position[20][2] = {0};
-    int m_weapon_type[20] = {0};
+    float m_weapon_position[30][2] = {0};
+    int m_weapon_type[30] = {0};
 };
 
 struct ChatInformation {

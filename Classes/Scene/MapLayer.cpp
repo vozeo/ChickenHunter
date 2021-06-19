@@ -697,7 +697,7 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->stopAllActions();
                             m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimRight());
                         }
-                        dx = 4;
+                        dx += 4;
                     }
                     if (chserver->paction[i].speed[1]) {
                         if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 2) {
@@ -705,7 +705,7 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->stopAllActions();
                             m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimLeft());
                         }
-                        dx = -4;
+                        dx += -4;
                     }
                     if (chserver->paction[i].speed[2]) {
                         if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 3) {
@@ -713,7 +713,7 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->stopAllActions();
                             m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimDown());
                         }
-                        dy = -4;
+                        dy += -4;
                     }
                     if (chserver->paction[i].speed[3]) {
                         if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 4) {
@@ -721,7 +721,7 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->stopAllActions();
                             m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimUp());
                         }
-                        dy = 4;
+                        dy += 4;
                     }
                     if (dx == 0 && dy == 0)
                         continue;
