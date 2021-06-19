@@ -1,7 +1,5 @@
 #include "StateLayer.h"
 
-#include <utility>
-
 USING_NS_CC;
 
 State::State() = default;
@@ -73,6 +71,21 @@ bool State::init(std::vector<Character *> gameHunter) {
                                              RemoveSelf::create(), NULL));
         }
     }
+
+    chatLayer = ChatLayer::create();
+    chatLayer->retain();
+
+    auto chatButton = Button::create("images/chatNormal.png", "images/chatSelected.png", "images/chatSelected.png");
+    chatButton->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
+        if (type == Widget::TouchEventType::ENDED) {
+            if (!chatLayer->getParent())
+                addChild(chatLayer, 4);
+            else chatLayer->removeFromParent();
+        }
+    });
+    chatButton->setAnchorPoint(Vec2(0, 0.5f));
+    chatButton->setPosition(Vec2(10, winSize.height - 65));
+    addChild(chatButton, 1);
 
     initState();
     initGun();
