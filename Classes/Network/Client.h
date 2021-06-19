@@ -40,7 +40,7 @@ public:
 
     bool isUnconnected();
 
-    void sendChatMessage(const char* str);
+    void sendChatMessage(const char *str);
 };
 
 extern CHClient *chclient;

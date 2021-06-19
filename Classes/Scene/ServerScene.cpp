@@ -15,13 +15,11 @@ bool Server::init() {
     if (!Scene::init()) {
         return false;
     }
-    if (chserver != nullptr)
-    {
+    if (chserver != nullptr) {
         delete chserver;
         chserver = nullptr;
     }
-    if (chclient != nullptr)
-    {
+    if (chclient != nullptr) {
         delete chclient;
         chclient = nullptr;
     }
@@ -31,21 +29,21 @@ bool Server::init() {
                          winSize.height / background->getTextureRect().getMaxY());
     addChild(background, 0);
 
-    addressText = TextField::create("type in IP address", "fonts/Marker Felt.ttf", 40);
-    addressText->setMaxLength(19);
-    addressText->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
-        CCLOG("%s", addressText->getString().c_str());
+    address_text = TextField::create("type in IP address", "fonts/Marker Felt.ttf", 40);
+    address_text->setMaxLength(19);
+    address_text->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
+        CCLOG("%s", address_text->getString().c_str());
     });
-    addressText->setPosition(Vec2(winSize.width / 2, winSize.height / 2 + winSize.height / 5));
-    this->addChild(addressText, 1);
+    address_text->setPosition(Vec2(winSize.width / 2, winSize.height / 2 + winSize.height / 5));
+    this->addChild(address_text, 1);
 
-    nameText = TextField::create("type in your name", "fonts/Marker Felt.ttf", 40);
-    nameText->setMaxLength(9);
-    nameText->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
-        CCLOG("%s", nameText->getString().c_str());
+    name_text = TextField::create("type in your name", "fonts/Marker Felt.ttf", 40);
+    name_text->setMaxLength(9);
+    name_text->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
+        CCLOG("%s", name_text->getString().c_str());
     });
-    nameText->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-    this->addChild(nameText, 1);
+    name_text->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+    this->addChild(name_text, 1);
 
     auto exit_img = MenuItemImage::create(
             "exit_0.png",
@@ -71,21 +69,20 @@ bool Server::init() {
     MenuItemFont::setFontName("fonts/Sthupo.ttf");
     MenuItemFont::setFontSize(60);
 
-    auto createRoom = MenuItemFont::create("Create Room   ", [=](Ref *render) {
-        if (nameText->getString().length() < 2 || nameText->getString().length() > 9) {
-            auto warninglayer = WarningLayer::create(
+    auto create_room = MenuItemFont::create("Create Room   ", [=](Ref *render) {
+        if (name_text->getString().length() < 2 || name_text->getString().length() > 9) {
+            auto warning_layer = WarningLayer::create(
                     std::string("\nYour name is illegal:\n need to be 2 - 9 words"));
-            addChild(warninglayer, 2);
+            addChild(warning_layer, 2);
             return;
         }
-        CCLOG("!!\n!!\n!!\n!!\nName:%s", nameText->getString().c_str());
+        CCLOG("!!\n!!\n!!\n!!\nName:%s", name_text->getString().c_str());
         chserver = new CHServer("0.0.0.0", 25595);
         chserver->listen();
         chclient = new CHClient("127.0.0.1", 25595);
         chclient->link();
-        //chserver->setPlayerName(1, nameText->getString().c_str());
 
-        system_clock::time_point link_start_time = system_clock::now();//¡¨Ω”≤‚ ‘
+        system_clock::time_point link_start_time = system_clock::now(); // connect test
         bool get_started = false;
         while (duration_cast<milliseconds>(system_clock::now() - link_start_time).count() < 800) {
             if (chclient->getUid() != 0) {
@@ -94,38 +91,38 @@ bool Server::init() {
             }
         }
         if (!get_started) {
-            auto warninglayer = WarningLayer::create(
-                std::string("\nCreate Room Error:\n Game Port has been occupied."));
-            addChild(warninglayer, 3);
+            auto warning_layer = WarningLayer::create(
+                    std::string("\nCreate Room Error:\n Game Port has been occupied."));
+            addChild(warning_layer, 3);
             delete chclient;
             chclient = nullptr;
             delete chserver;
             chserver = nullptr;
             return;
         }
-        chclient->setName(nameText->getString().c_str());
+        chclient->setName(name_text->getString().c_str());
         Director::getInstance()->replaceScene(
                 TransitionFade::create(0.3f, Room::create(true), Color3B(0, 255, 255)));
     });
-    createRoom->setColor(Color3B(255, 215, 0));
-    auto addRoom = MenuItemFont::create("   Enter Room", [=](Ref *render) {
-        CCLOG("Name:%s IP:%s", nameText->getString().c_str(), addressText->getString().c_str());
-        if (nameText->getString().length() < 2 || nameText->getString().length() > 9) {
+    create_room->setColor(Color3B(255, 215, 0));
+
+    auto add_room = MenuItemFont::create("   Enter Room", [=](Ref *render) {
+        CCLOG("Name:%s IP:%s", name_text->getString().c_str(), address_text->getString().c_str());
+        if (name_text->getString().length() < 2 || name_text->getString().length() > 9) {
             auto warninglayer = WarningLayer::create(
                     std::string("\nYour name is illegal:\n need to be 2 - 9 words"));
             addChild(warninglayer, 2);
             return;
         }
-        if (addressText->getString().length() > 19) {
+        if (address_text->getString().length() > 19) {
             auto warninglayer = WarningLayer::create(
-                std::string("\nYour name is illegal:\n need to be shorter than 19 words"));
+                    std::string("\nYour name is illegal:\n need to be shorter than 19 words"));
             addChild(warninglayer, 2);
             return;
-        }
-        else if (addressText->getString().length() < 2)
-            addressText->setString("127.0.0.1");
+        } else if (address_text->getString().length() < 2)
+            address_text->setString("127.0.0.1");
 
-        chclient = new CHClient(addressText->getString().c_str(), 25595);
+        chclient = new CHClient(address_text->getString().c_str(), 25595);
         chclient->link();
         system_clock::time_point link_start_time = system_clock::now();
         bool get_started = false;
@@ -144,18 +141,17 @@ bool Server::init() {
             return;
         }
 
-        chclient->setName(nameText->getString().c_str());
+        chclient->setName(name_text->getString().c_str());
         Director::getInstance()->replaceScene(
                 TransitionFade::create(0.3f, Room::create(true), Color3B(0, 255, 255)));
     });
-    addRoom->setColor(Color3B(127, 255, 212));
+    add_room->setColor(Color3B(127, 255, 212));
 
-    Vector<MenuItem *> choiceMenus{createRoom, addRoom};
-    auto choiceMenu = Menu::createWithArray(choiceMenus);
-    choiceMenu->setPosition(winSize.width / 2, winSize.height / 5);
-    choiceMenu->alignItemsHorizontally();
-    addChild(choiceMenu, 1);
-
+    Vector<MenuItem *> choice_menus{create_room, add_room};
+    auto choice_menu = Menu::createWithArray(choice_menus);
+    choice_menu->setPosition(winSize.width / 2, winSize.height / 5);
+    choice_menu->alignItemsHorizontally();
+    addChild(choice_menu, 1);
 
     return true;
 }

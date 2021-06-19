@@ -15,17 +15,17 @@ bool ExitLayer::init() {
     addChild(text, 1);
     text->setPosition(Vec2(winSize.width / 2, winSize.height / 2 + winSize.height / 10));
 
-    auto choiceYes = MenuItemFont::create("Yes   ", [=](Ref *render) {
+    auto choice_Yes = MenuItemFont::create("Yes   ", [=](Ref *render) {
         Director::getInstance()->getOpenGLView()->setCursorVisible(true);
         Director::getInstance()->popScene();
     });
-    choiceYes->setColor(Color3B(255, 0, 0));
+    choice_Yes->setColor(Color3B(255, 0, 0));
 
-    auto choiceNo = MenuItemFont::create("    No", [=](Ref *render) {
+    auto choice_No = MenuItemFont::create("    No", [=](Ref *render) {
         removeFromParent();
     });
 
-    Vector<MenuItem *> menus{choiceYes, choiceNo};
+    Vector<MenuItem *> menus{choice_Yes, choice_No};
     auto menu = Menu::createWithArray(menus);
     menu->setPosition(winSize.width / 2, static_cast<float>(winSize.height / 2.7f));
     menu->alignItemsHorizontally();

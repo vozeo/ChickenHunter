@@ -30,13 +30,13 @@ private:
     Label *bullet_label;
     Label *grenade_label;
 
-    ChatLayer* chatLayer;
-    Sprite* redDot;
+    ChatLayer *chatLayer;
+    Sprite *redDot;
 
     std::vector<Character *> m_enemy;
     Character *hunter;
-    int aliveNumber = 0;
-    bool gameIsEnd = false;
+    int survivor_number = 0;
+    bool game_has_end = false;
 
     std::function<void(MapLayer *, cocos2d::Touch *touch)> touchBegan;
     std::function<void(MapLayer *)> touchEnded;
@@ -44,14 +44,14 @@ private:
     Vector<MenuItem *> guns;
     MenuItem *gun[5][2];
 
-    Menu *gunMenu;
+    Menu *gun_menu;
 
-    system_clock::time_point startTime;
+    system_clock::time_point start_time;
 
 public:
     State();
 
-    MapLayer *mapLayer;
+    MapLayer *map_layer;
 
     static State *create(std::vector<Character *> gameHunter) {
         State *pRet = new(std::nothrow) State();

@@ -25,14 +25,14 @@ private:
 
     ~Game();
 
-    int backgroundAudioID;
+    int background_audio_ID;
 
-    EventListenerMouse *mouseListener;
+    EventListenerMouse *mouse_listener;
     Sprite *m_cursor;
 
     MapLayer *map;
     MapInformation map_save;
-    State *stateUI;
+    State *state_UI;
 
     const int m_hunter_number = 10;
     std::vector<Character *> m_hunter;

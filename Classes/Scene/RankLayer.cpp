@@ -34,7 +34,6 @@ void RankLayer::rankInit(bool isWin, std::vector<Character *> player) {
     else text->setString("Game Over!");
     text->setPosition(Vec2(winSize.width / 2, winSize.height - winSize.height / 7));
     addChild(text, 1);
-    CCLOG("rankinit");
     sort(player.begin(), player.end(), comp);
     if (chclient != nullptr) {
         int now_position = 1;
@@ -63,6 +62,4 @@ void RankLayer::rankInit(bool isWin, std::vector<Character *> player) {
             addChild(playerLabel, 1);
         }
     }
-
-
 }

@@ -11,10 +11,8 @@
 USING_NS_CC;
 
 class Server : public cocos2d::Scene {
-    CC_SYNTHESIZE(float, m_volume, Volume);
-
-    TextField *addressText;
-    TextField *nameText;
+    TextField *address_text;
+    TextField *name_text;
 public:
     Server();
 

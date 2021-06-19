@@ -8,12 +8,12 @@ bool add_in_aiming = false;
 
 MapLayer::MapLayer() = default;
 
-Layer *MapLayer::createScene(std::vector<Character *> &gameHunter) {
-    return MapLayer::create(gameHunter);
+Layer *MapLayer::createScene(std::vector<Character *> &game_hunter) {
+    return MapLayer::create(game_hunter);
 }
 
 // 0->map, 1->item/gun, 2->enemy, 3->bullet, 4->hunter
-bool MapLayer::init(std::vector<Character *> &gameHunter) {
+bool MapLayer::init(std::vector<Character *> &game_hunter) {
     if (!Layer::init()) {
         return false;
     }
@@ -24,16 +24,16 @@ bool MapLayer::init(std::vector<Character *> &gameHunter) {
 
     meta = map->getLayer("water");
 
-    mapHeight = map->getMapSize().height;
-    mapWidth = map->getMapSize().width;
-    tileWidth = map->getTileSize().width;
-    tileHeight = map->getTileSize().height;
+    map_height = map->getMapSize().height;
+    map_width = map->getMapSize().width;
+    tile_width = map->getTileSize().width;
+    tile_height = map->getTileSize().height;
 
     m_line = DrawNode::create();
     initMouse();
     addChild(m_line, 4);
 
-    m_enemy = gameHunter;
+    m_enemy = game_hunter;
     if (chclient != nullptr)
         hunter = m_enemy[chclient->getUid() - 1];
     else
@@ -45,7 +45,7 @@ bool MapLayer::init(std::vector<Character *> &gameHunter) {
 
     if (chclient == nullptr)
         schedule(CC_SCHEDULE_SELECTOR(MapLayer::enemyFire), 0.5);
-    else if(chserver != nullptr)
+    else if (chserver != nullptr)
         schedule(CC_SCHEDULE_SELECTOR(MapLayer::AIFireForServer), 0.5);
 
     if (chclient != nullptr) {
@@ -59,7 +59,7 @@ bool MapLayer::init(std::vector<Character *> &gameHunter) {
                 m_enemy[i - 1]->setPlayerDeath(true);
                 m_enemy[i - 1]->setVisible(false);
             }
-    
+
         }
     }
 
@@ -96,7 +96,7 @@ bool MapLayer::init(std::vector<Character *> &gameHunter) {
     registerTouchEvent();
 #endif
 
-    startTime = system_clock::now();
+    start_time = system_clock::now();
 
     return true;
 }
@@ -209,23 +209,22 @@ void MapLayer::judgePick(Character *character) {
             continue;
 
         if (weapon->getBoundingBox().intersectsRect(rect_character)) {
-            auto weaponType = weapon->getWeaponType();
-            if (character->m_gun[weaponType] == nullptr) {
+            auto weapon_type = weapon->getWeaponType();
+            if (character->m_gun[weapon_type] == nullptr) {
                 weapon->retain();
-                character->m_gun[weaponType] = weapon;
-                character->setPlayerWeapon(weaponType);
+                character->m_gun[weapon_type] = weapon;
+                character->setPlayerWeapon(weapon_type);
                 character->setPlayerRefresh(true);
                 weapon->removeFromParent();
                 weapons.erase(find(weapons.begin(), weapons.end(), weapon));
-                if (weaponType == 4) {
+                if (weapon_type == 4)
                     character->setPlayerGrenade(character->getPlayerGrenade() + 3);
-                }
-                break;
-            } else if (weaponType == 4) {
+            } else if (weapon_type == 4) {
                 weapon->removeFromParent();
                 weapons.erase(find(weapons.begin(), weapons.end(), weapon));
                 character->setPlayerGrenade(character->getPlayerGrenade() + 3);
             }
+            break;
         }
     }
 
@@ -253,16 +252,16 @@ void MapLayer::judgePick(Character *character) {
 
 // Android
 void MapLayer::touchBegan(Touch *touch) {
-    auto weaponType = hunter->getPlayerWeapon();
-    if (4 == weaponType) {
-        auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
-        AudioEngine::setVolume(knifeAudioID, M_Volume);
+    auto weapon_type = hunter->getPlayerWeapon();
+    if (4 == weapon_type) {
+        auto knife_audio_ID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+        AudioEngine::setVolume(knife_audio_ID, M_Volume);
         if (hunter->getPlayerGrenade() <= 0)
             makeKnifeAttack(hunter);
         return;
-    } else if (5 == weaponType) {
-        auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
-        AudioEngine::setVolume(knifeAudioID, M_Volume);
+    } else if (5 == weapon_type) {
+        auto knife_audio_ID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+        AudioEngine::setVolume(knife_audio_ID, M_Volume);
         makeKnifeAttack(hunter);
         return;
     }
@@ -275,8 +274,8 @@ void MapLayer::touchBegan(Touch *touch) {
 void MapLayer::touchEnded() {
     if (4 == hunter->getPlayerWeapon() && hunter->getPlayerGrenade() > 0) {
         hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
-        hunter->bulletLocation = (hunter->bulletLocation - winSize / 2) * 1.5 + winSize / 2;
-        showEffect(hunter->bulletLocation - winSize / 2 + hunter->getPosition());
+        hunter->m_bullet_location = (hunter->m_bullet_location - winSize / 2) * 1.5 + winSize / 2;
+        showEffect(hunter->m_bullet_location - winSize / 2 + hunter->getPosition());
         scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
     }
     unschedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire));
@@ -294,24 +293,24 @@ void MapLayer::registerTouchEvent() {
     auto touchListener = EventListenerTouchOneByOne::create();
 
     touchListener->onTouchBegan = [&](Touch *touch, Event *event) {
-        auto weaponType = hunter->getPlayerWeapon();
-        if (4 == weaponType) {
-            auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
-            AudioEngine::setVolume(knifeAudioID, M_Volume);
+        auto weapon_type = hunter->getPlayerWeapon();
+        if (4 == weapon_type) {
+            auto knife_audio_ID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+            AudioEngine::setVolume(knife_audio_ID, M_Volume);
             if (hunter->getPlayerGrenade() > 0) {
                 hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
-                hunter->bulletLocation = touch->getLocation();
-                showEffect(convertToNodeSpace(hunter->bulletLocation));
+                hunter->m_bullet_location = touch->getLocation();
+                showEffect(convertToNodeSpace(hunter->m_bullet_location));
                 scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
             } else makeKnifeAttack(hunter);
             return true;
-        } else if (5 == weaponType) {
-            auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
-            AudioEngine::setVolume(knifeAudioID, M_Volume);
+        } else if (5 == weapon_type) {
+            auto knife_audio_ID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+            AudioEngine::setVolume(knife_audio_ID, M_Volume);
             makeKnifeAttack(hunter);
             return true;
         }
-        hunter->bulletLocation = touch->getLocation();
+        hunter->m_bullet_location = touch->getLocation();
         Fire(0);
         schedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed() -
                                                        hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
@@ -319,7 +318,7 @@ void MapLayer::registerTouchEvent() {
     };
 
     touchListener->onTouchMoved = [&](Touch *touch, Event *event) {
-        hunter->bulletLocation = touch->getLocation();
+        hunter->m_bullet_location = touch->getLocation();
     };
 
     touchListener->onTouchEnded = [&](Touch *touch, Event *event) {
@@ -372,9 +371,8 @@ void MapLayer::enemyExplosionEffect(float dt)
 }
 
 void MapLayer::makeExplosionEffect(float dt) {
-    auto pos = hunter->bulletLocation + hunter->getPosition() - winSize / 2;
-    if (chclient != nullptr)
-    {
+    auto pos = hunter->m_bullet_location + hunter->getPosition() - winSize / 2;
+    if (chclient != nullptr) {
         chclient->m_localaction.is_drop_grenade = true;
         chclient->m_localaction.grenade_x = pos.x;
         chclient->m_localaction.grenade_y = pos.y;
@@ -414,16 +412,16 @@ void MapLayer::makeExplosionEffectOnlyForShow(float posx, float posy) {
     Vec2 pos(posx, posy);
     auto explo_particle = ParticleExplosion::create();
     auto explo_texture = Director::getInstance()->getTextureCache()->addImage("stars.png");
-    
+
     explo_particle->setTexture(explo_texture);
     explo_particle->setPosition(pos);
     explo_particle->setLife(1.2f);
     explo_particle->setLifeVar(0.2f);
-    Color4F start = { 0.7f, 0.0f, 0.0f, 1.0f };
-    Color4F var = { 0.3f, 0.3f, 0.2f, 0.0f };
+    Color4F start = {0.7f, 0.0f, 0.0f, 1.0f};
+    Color4F var = {0.3f, 0.3f, 0.2f, 0.0f};
     explo_particle->setStartColor(start);
     explo_particle->setStartColorVar(var);
-    Color4F end = { 0.7f, 0.0f, 0.0f, 0.0f };
+    Color4F end = {0.7f, 0.0f, 0.0f, 0.0f};
     explo_particle->setEndColor(end);
     explo_particle->setEndColorVar(var);
     explo_particle->setPositionType(ParticleSystem::PositionType::RELATIVE);
@@ -444,7 +442,7 @@ void MapLayer::makeExplosionEffectOnlyForShow(float posx, float posy) {
 }
 
 void MapLayer::makeKnifeAttack(Character *character) {
-    if (chclient != nullptr && character == hunter)//本地攻击上传
+    if (chclient != nullptr && character == hunter) // upload local attack
     {
         chclient->m_localaction.is_shoot = true;
         chclient->m_localaction.weapon_type = 5;
@@ -454,8 +452,8 @@ void MapLayer::makeKnifeAttack(Character *character) {
     for (auto enemy : m_enemy) {
         if (enemy == character || enemy->getPlayerDeath())
             continue;
-        Vec2 enemyPos = enemy->getPosition();
-        if (enemyPos.getDistance(pos) < 100) {
+        Vec2 enemy_pos = enemy->getPosition();
+        if (enemy_pos.getDistance(pos) < 100) {
             auto bleed = enemy->getPlayerBleed() -
                          5 * character->getPlayerAttack() * enemy->getPlayerDefense();
             if (bleed < 0)
@@ -474,7 +472,7 @@ static inline short getWeaponTypeForBulletAttack(Character *character, Weapon *w
 }
 
 void MapLayer::makeBulletAttack(Character *character, Weapon *weapon, float bulletX, float bulletY) {
-    if (chclient != nullptr && character == hunter)//本地攻击上传
+    if (chclient != nullptr && character == hunter)//锟斤拷锟截癸拷锟斤拷锟较达拷
     {
         short wtype = getWeaponTypeForBulletAttack(character, weapon);
         if (wtype != -1) {
@@ -549,11 +547,11 @@ void MapLayer::Fire(float dt) {
     else if (hunter->getPlayerBullet() > 2 && weapon->getWeaponType() == 2)
         hunter->setPlayerBullet(hunter->getPlayerBullet() - 3);
     else return;
-    auto bulletAudioID = AudioEngine::play2d("music/bulletEffect.mp3", false);
-    AudioEngine::setVolume(bulletAudioID, M_Volume);
-    Vec2 bulletLocation = hunter->bulletLocation;
-    auto bulletX = bulletLocation.x - winSize.width / 2;
-    auto bulletY = bulletLocation.y - winSize.height / 2;
+    auto bullet_audio_ID = AudioEngine::play2d("music/bulletEffect.mp3", false);
+    AudioEngine::setVolume(bullet_audio_ID, M_Volume);
+    Vec2 bullet_location = hunter->m_bullet_location;
+    auto bulletX = bullet_location.x - winSize.width / 2;
+    auto bulletY = bullet_location.y - winSize.height / 2;
     makeBulletAttack(hunter, weapon, bulletX, bulletY);
 }
 
@@ -568,35 +566,34 @@ float MapLayer::calRotation(float bulletX, float bulletY) {
 }
 
 void MapLayer::showEffect(Vec2 pos) {
-    auto effectCircle = DrawNode::create();
-    addChild(effectCircle, 2);
-    effectCircle->drawSolidCircle(pos, 100.0f, CC_DEGREES_TO_RADIANS(360), 15,
-                                  Color4F(0.28f, 0.46f, 1.0f, 0.6f));
-    effectCircle->runAction(Sequence::create(FadeOut::create(0.5f), RemoveSelf::create(), NULL));
+    auto effect_circle = DrawNode::create();
+    addChild(effect_circle, 2);
+    effect_circle->drawSolidCircle(pos, 100.0f, CC_DEGREES_TO_RADIANS(360), 15,
+                                   Color4F(0.28f, 0.46f, 1.0f, 0.6f));
+    effect_circle->runAction(Sequence::create(FadeOut::create(0.5f), RemoveSelf::create(), NULL));
 }
 
 void MapLayer::showAttacked(Vec2 pos) {
-    auto effectCircle = DrawNode::create();
-    addChild(effectCircle, 5);
-    effectCircle->drawSolidCircle(pos, 20.0f, CC_DEGREES_TO_RADIANS(360), 15,
-                                  Color4F(1.0f, 0, 0, 0.6f));
-    effectCircle->runAction(Sequence::create(FadeOut::create(0.3f), RemoveSelf::create(), NULL));
+    auto effect_circle = DrawNode::create();
+    addChild(effect_circle, 5);
+    effect_circle->drawSolidCircle(pos, 20.0f, CC_DEGREES_TO_RADIANS(360), 15,
+                                   Color4F(1.0f, 0, 0, 0.6f));
+    effect_circle->runAction(Sequence::create(FadeOut::create(0.3f), RemoveSelf::create(), NULL));
 }
 
-int action_activated[MAX_CONNECTIONS] = {0};
+int action_activated[MAX_CONNECTIONS] = {};
 
 void MapLayer::update(float fDelta) {
     if (chclient != nullptr) {
         if (chserver != nullptr) {
-            //local hunter directly given to the server
+            // local hunter directly given to the server
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
             judgePick(hunter);
             chserver->paction[1].pick = true;
 #endif
-            //服务器AI
+            // server AI
             for (int i = 1; i < MAX_CONNECTIONS; i++)
-                if (chserver->isAi(i))
-                {
+                if (chserver->isAi(i)) {
                     int nextT = m_enemy[i - 1]->getThought() + int(fDelta * 1000);
                     m_enemy[i - 1]->setThought(nextT);
                     if (nextT >= m_enemy[i - 1]->getThinkTime()) {
@@ -639,10 +636,10 @@ void MapLayer::update(float fDelta) {
                 if (bullet->getBulletActive()) {
                     auto bulletX = bullet->getPositionX();
                     auto bulletY = bullet->getPositionY();
-                    if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 ||
-                        bulletY >= mapHeight * tileHeight
+                    if (bulletX < 0 || bulletX >= map_width * tile_width || bulletY < 0 ||
+                        bulletY >= map_height * tile_height
                         || meta->getTileGIDAt(
-                            Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
+                            Vec2(bulletX / tile_width, map_height - bulletY / tile_height))) {
                         bullet->setVisible(false);
                         bullet->stopAllActions();
                         bullet->setBulletActive(false);
@@ -723,19 +720,19 @@ void MapLayer::update(float fDelta) {
                     if (dx == 0 && dy == 0)
                         continue;
 
-                    auto enemyPos = m_enemy[i - 1]->getPosition();
-                    if (enemyPos.x < -10 || enemyPos.x > mapWidth * tileWidth + 9
-                        || enemyPos.y < -10 || enemyPos.y > mapHeight * tileHeight + 9)
+                    auto enemy_pos = m_enemy[i - 1]->getPosition();
+                    if (enemy_pos.x < -10 || enemy_pos.x > map_width * tile_width + 9
+                        || enemy_pos.y < -10 || enemy_pos.y > map_height * tile_height + 9)
                         m_enemy[i - 1]->setPlayerBleed(0);
 
-                    auto nextX = enemyPos.x + dx;
-                    auto nextY = enemyPos.y + dy;
-                    auto nextMapX = nextX / tileWidth;
-                    auto nextMapY = mapHeight - nextY / tileHeight;
-                    if (nextMapX < mapWidth && nextMapX >= 0 && nextMapY < mapHeight &&
-                        nextMapY >= 0
-                        && !meta->getTileGIDAt(Vec2(nextMapX, nextMapY))) {
-                        m_enemy[i - 1]->runAction(MoveTo::create(0, Vec2(nextX, nextY)));
+                    auto next_X = enemy_pos.x + dx;
+                    auto next_Y = enemy_pos.y + dy;
+                    auto next_map_X = next_X / tile_width;
+                    auto next_map_Y = map_height - next_Y / tile_height;
+                    if (next_map_X < map_width && next_map_X >= 0 && next_map_Y < map_height &&
+                        next_map_Y >= 0
+                        && !meta->getTileGIDAt(Vec2(next_map_X, next_map_Y))) {
+                        m_enemy[i - 1]->runAction(MoveTo::create(0, Vec2(next_X, next_Y)));
                     } else {
                         if (chserver->isAi(i)) {
                             m_enemy[i - 1]->m_speed[0] = !m_enemy[i - 1]->m_speed[0];
@@ -744,16 +741,12 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->m_speed[3] = !m_enemy[i - 1]->m_speed[3];
                         }
                         m_enemy[i - 1]->runAction(
-                                MoveTo::create(0, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
+                                MoveTo::create(0, Vec2(next_X - 2 * dx, next_Y - 2 * dy)));
                     }
-
-
-                    //CCLOG("UPDATE COMPLETE");
                 }
-                //memset(&chserver->paction[i], 0, sizeof(PlayerAction));
             }
 
-            //服务端地图上传
+            // Server map upload
             for (int i = 1; i < MAX_CONNECTIONS; i++) {
                 auto pos = m_enemy[i - 1]->getPosition();
                 chserver->m_map_trans.player[i].position_x = pos.x, chserver->m_map_trans.player[i].position_y = pos.y;
@@ -774,9 +767,10 @@ void MapLayer::update(float fDelta) {
                     judgePick(m_enemy[i - 1]);
                 }
 
-                //子弹同步
+                // Bullet synchronization
                 if (chserver->paction[i].is_shoot && m_enemy[i - 1] != hunter) {
-                    if (chserver->paction[i].weapon_type == 4 || chserver->paction[i].weapon_type == 5) {
+                    if (chserver->paction[i].weapon_type == 4 ||
+                        chserver->paction[i].weapon_type == 5) {
                         //CCLOG("PLAYER#%d KNIFE WEAPON#%d LEFT_BULLET#%d ", i, chserver->paction[i].weapon_type],);
                         makeKnifeAttack(m_enemy[i - 1]);
                     } else {
@@ -792,17 +786,16 @@ void MapLayer::update(float fDelta) {
                     }
 
                 }
-                //手雷同步
-                if (chserver->paction[i].is_drop_grenade && m_enemy[i - 1] != hunter)
-                {
+                // Grenade synchronization
+                if (chserver->paction[i].is_drop_grenade && m_enemy[i - 1] != hunter) {
                     CCLOG("PLAYER#%d MAKE GRENADE ATTACK", i);
-                    makeExplosionEffectOnlyForShow(chserver->paction[i].grenade_x, chserver->paction[i].grenade_y);
+                    makeExplosionEffectOnlyForShow(chserver->paction[i].grenade_x,
+                                                   chserver->paction[i].grenade_y);
                 }
-
 
                 m_enemy[i - 1]->setPlayerLockedBleed(chserver->paction[i].is_bleed_locked);
                 m_enemy[i - 1]->setPlayerLockedBullet(chserver->paction[i].is_bullet_locked);
-                        
+
                 if (m_enemy[i - 1]->getPlayerLockedBleed())
                     m_enemy[i - 1]->setPlayerBleed(m_enemy[i - 1]->getMAXBLEED());
 
@@ -812,27 +805,23 @@ void MapLayer::update(float fDelta) {
                 }
 
                 chserver->m_map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
-                memset(&chserver->paction[i], 0, sizeof(PlayerAction));//人物动作删除
+                memset(&chserver->paction[i], 0, sizeof(PlayerAction));// Character action deletion
             }
             chserver->mapUpload();
-        }
-        else {
+        } else {
 
             for (int i = 1; i < MAX_CONNECTIONS; i++)
-                if (chclient->m_map.player[i].just_game_over)//死亡结算
-                {
+                if (chclient->m_map.player[i].just_game_over)// Death settlement
                     m_enemy[i]->setPlayerBleed(0);
 
-                }
-
-            for (auto bullet : bullets) {//子弹的回收和处理
+            for (auto bullet : bullets) {// Bullet recovery and disposal
                 if (bullet->getBulletActive()) {
-                    auto bulletX = bullet->getPositionX();
-                    auto bulletY = bullet->getPositionY();
-                    if (bulletX < 0 || bulletX > mapWidth * tileWidth - 1 || bulletY < 0 ||
-                        bulletY > mapHeight * tileHeight - 1
+                    auto bullet_X = bullet->getPositionX();
+                    auto bullet_Y = bullet->getPositionY();
+                    if (bullet_X < 0 || bullet_X > map_width * tile_width - 1 || bullet_Y < 0 ||
+                        bullet_Y > map_height * tile_height - 1
                         || meta->getTileGIDAt(
-                            Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
+                            Vec2(bullet_X / tile_width, map_height - bullet_Y / tile_height))) {
                         bullet->setVisible(false);
                         bullet->stopAllActions();
                         bullet->setBulletActive(false);
@@ -852,12 +841,13 @@ void MapLayer::update(float fDelta) {
                     }
                 }
             }
+
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
             judgePick(hunter);
             chclient->m_localaction.pick = true;
 #endif
 
-            //本地操作上传
+            // Local operation upload
             chclient->m_localaction.speed[0] = hunter->m_speed[0];
             chclient->m_localaction.speed[1] = hunter->m_speed[1];
             chclient->m_localaction.speed[2] = hunter->m_speed[2];
@@ -869,7 +859,7 @@ void MapLayer::update(float fDelta) {
             if (chclient->m_localaction.is_bullet_locked)
                 CCLOG("BULLET IS LOCK!");
             chclient->upload();
-            
+
             showAimLine();
 
             MapInformation &current_map = chclient->m_map;
@@ -927,13 +917,14 @@ void MapLayer::update(float fDelta) {
                         m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
                         m_enemy[i]->setPlayerGrenade(current_map.player[i + 1].grenade);
                         m_enemy[i]->setPlayerBullet(current_map.player[i + 1].bullet);
-                        //拾取东西的同步
+                        // Pick things up synchronization
                         if (current_map.player[i + 1].is_pick) {
                             judgePick(m_enemy[i]);
                         }
-                        //子弹同步
+                        // Bullet synchronization
                         if (current_map.player[i + 1].is_shoot == true && m_enemy[i] != hunter) {
-                            if (current_map.player[i + 1].weapon_type == 4 || current_map.player[i + 1].weapon_type == 5) {
+                            if (current_map.player[i + 1].weapon_type == 4 ||
+                                current_map.player[i + 1].weapon_type == 5) {
                                 if (current_map.player[i + 1].bullet == 0)
                                     makeKnifeAttack(m_enemy[i]);
                                 //CCLOG("PLAYER#%d MAKE KNIFE ATTACK", i + 1);
@@ -948,11 +939,11 @@ void MapLayer::update(float fDelta) {
                             }
 
                         }
-                        //手雷同步
-                        if (current_map.player[i + 1].is_drop_grenade && m_enemy[i] != hunter)
-                        {
+                        // Grenade synchronization
+                        if (current_map.player[i + 1].is_drop_grenade && m_enemy[i] != hunter) {
                             CCLOG("PLAYER#%d MAKE GRENADE ATTACK", i + 1);
-                            makeExplosionEffectOnlyForShow(current_map.player[i + 1].grenade_x, current_map.player[i + 1].grenade_y);
+                            makeExplosionEffectOnlyForShow(current_map.player[i + 1].grenade_x,
+                                                           current_map.player[i + 1].grenade_y);
                         }
                     }
                 save_map = current_map;
@@ -961,10 +952,10 @@ void MapLayer::update(float fDelta) {
 
             memset(&chclient->m_map, 0, sizeof(MapInformation));
         }
-    } else//单机版游戏逻辑
+    } else // Stand-alone game logic
     {
-        if (!(getTime() % 90) && !weaponRefresh) {
-            weaponRefresh = true;
+        if (!(getTime() % 90) && !weapon_refresh) {
+            weapon_refresh = true;
             for (auto bd : m_bandage)
                 bd->removeFromParent();
             m_bandage.clear();
@@ -976,16 +967,16 @@ void MapLayer::update(float fDelta) {
         }
 
         if (getTime() % 90)
-            weaponRefresh = false;
+            weapon_refresh = false;
 
         for (auto bullet : bullets) {
             if (bullet->getBulletActive()) {
-                auto bulletX = bullet->getPositionX();
-                auto bulletY = bullet->getPositionY();
-                if (bulletX < 0 || bulletX >= mapWidth * tileWidth || bulletY < 0 ||
-                    bulletY >= mapHeight * tileHeight
+                auto bullet_X = bullet->getPositionX();
+                auto bullet_Y = bullet->getPositionY();
+                if (bullet_X < 0 || bullet_X >= map_width * tile_width || bullet_Y < 0 ||
+                    bullet_Y >= map_height * tile_height
                     || meta->getTileGIDAt(
-                        Vec2(bulletX / tileWidth, mapHeight - bulletY / tileHeight))) {
+                        Vec2(bullet_X / tile_width, map_height - bullet_Y / tile_height))) {
                     bullet->setVisible(false);
                     bullet->stopAllActions();
                     bullet->setBulletActive(false);
@@ -1021,9 +1012,9 @@ void MapLayer::update(float fDelta) {
                 if (enemy != hunter) {
                     judgePick(enemy);
 #endif
-                int nextT = enemy->getThought() + int(fDelta * 1000);
-                enemy->setThought(nextT);
-                if (nextT >= enemy->getThinkTime()) {
+                int next_time = enemy->getThought() + int(fDelta * 1000);
+                enemy->setThought(next_time);
+                if (next_time >= enemy->getThinkTime()) {
                     enemy->setThought(0);
                     enemy->m_speed[0] = random(0, 1);
                     enemy->m_speed[1] = random(0, 1);
@@ -1040,14 +1031,14 @@ void MapLayer::update(float fDelta) {
                     enemy->setPlayerGrenade(999);
                 }
 
-                if (enemy->getPlayerAutoAttack() && !hasAutoAttack) {
+                if (enemy->getPlayerAutoAttack() && !has_auto_attack) {
                     schedule(CC_SCHEDULE_SELECTOR(MapLayer::autoFire), 0.3f);
-                    hasAutoAttack = true;
+                    has_auto_attack = true;
                 }
 
-                if (!enemy->getPlayerAutoAttack() && hasAutoAttack) {
+                if (!enemy->getPlayerAutoAttack() && has_auto_attack) {
                     unschedule(CC_SCHEDULE_SELECTOR(MapLayer::autoFire));
-                    hasAutoAttack = false;
+                    has_auto_attack = false;
                 }
             }
 
@@ -1075,21 +1066,22 @@ void MapLayer::update(float fDelta) {
             if (dx != 0 || dy != 0)
                 showAimLine();
 
-            auto enemyPos = enemy->getPosition();
+            auto enemy_pos = enemy->getPosition();
 
-            if (enemyPos.x < -10 || enemyPos.x > mapWidth * tileWidth + 9
-                || enemyPos.y < -10 || enemyPos.y > mapHeight * tileHeight + 9)
+            if (enemy_pos.x < -10 || enemy_pos.x > map_width * tile_width + 9
+                || enemy_pos.y < -10 || enemy_pos.y > map_height * tile_height + 9)
                 enemy->setPlayerBleed(0);
 
-            auto nextX = enemyPos.x + dx;
-            auto nextY = enemyPos.y + dy;
+            auto next_X = enemy_pos.x + dx;
+            auto next_Y = enemy_pos.y + dy;
 
-            auto nextMapX = nextX / tileWidth;
-            auto nextMapY = mapHeight - nextY / tileHeight;
+            auto next_map_X = next_X / tile_width;
+            auto next_map_Y = map_height - next_Y / tile_height;
 
-            if (nextMapX < mapWidth && nextMapX >= 0 && nextMapY < mapHeight && nextMapY >= 0
-                && !meta->getTileGIDAt(Vec2(nextMapX, nextMapY)))
-                enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(nextX, nextY)));
+            if (next_map_X < map_width && next_map_X >= 0 && next_map_Y < map_height &&
+                next_map_Y >= 0
+                && !meta->getTileGIDAt(Vec2(next_map_X, next_map_Y)))
+                enemy->runAction(MoveTo::create(1.0f / 80.0f, Vec2(next_X, next_Y)));
             else {
                 if (enemy != hunter) {
                     enemy->m_speed[0] = !enemy->m_speed[0];
@@ -1099,26 +1091,27 @@ void MapLayer::update(float fDelta) {
                 }
                 enemy->stopAllActions();
                 enemy->runAction(
-                        MoveTo::create(1.0f / 80.0f, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
+                        MoveTo::create(1.0f / 80.0f, Vec2(next_X - 2 * dx, next_Y - 2 * dy)));
             }
         }
     }
 }
 
-//set enemies/items randomly and at anywhere except water space.
+// set enemies/items randomly and at anywhere except water space.
 template<class T>
 void MapLayer::setRandPos(T *elem) {
-    decltype(mapWidth) rx, ry, mrx, mry;
+    decltype(map_width) rx, ry, mrx, mry;
     while (true) {
-        rx = static_cast<decltype(tileWidth)>(random(50,
-                                                     static_cast<int>(mapWidth * tileWidth - 50 -
-                                                                      1)));
-        mrx = rx / tileWidth;
-        ry = static_cast<decltype(tileHeight)>(random(50,
-                                                      static_cast<int>(mapHeight * tileHeight - 50 -
+        rx = static_cast<decltype(tile_width)>(random(50,
+                                                      static_cast<int>(map_width * tile_width - 50 -
                                                                        1)));
-        mry = mapHeight - ry / tileWidth;
-        if (mrx < mapWidth && mrx >= 0 && mry < mapHeight && mry >= 0 &&
+        mrx = rx / tile_width;
+        ry = static_cast<decltype(tile_height)>(random(50,
+                                                       static_cast<int>(map_height * tile_height -
+                                                                        50 -
+                                                                        1)));
+        mry = map_height - ry / tile_width;
+        if (mrx < map_width && mrx >= 0 && mry < map_height && mry >= 0 &&
             !meta->getTileGIDAt(Vec2(mrx, mry)))
             break;
     }
@@ -1208,8 +1201,8 @@ void MapLayer::enemyFire(float delt) {
             continue;
         Rect rect_enemy(enemy->getPosition().x - 300, enemy->getPosition().y - 300, 600, 600);
         if (rect_enemy.intersectsRect(rect_hunter)) {
-            auto weaponType = enemy->getPlayerWeapon();
-            if (5 == weaponType) {
+            auto weapon_type = enemy->getPlayerWeapon();
+            if (5 == weapon_type) {
                 makeKnifeAttack(enemy);
                 continue;
             }
@@ -1228,55 +1221,48 @@ void MapLayer::enemyFire(float delt) {
                 enemy->setPlayerWeapon(5);
                 continue;
             }
-            Weapon *weapon = enemy->m_gun[weaponType];
-            auto bulletLocation = hunter->getPosition();    //enemy aims at hunter
-            auto bulletX = bulletLocation.x - enemy->getPositionX();
-            auto bulletY = bulletLocation.y - enemy->getPositionY();
-            makeBulletAttack(enemy, weapon, bulletX, bulletY);
+            Weapon *weapon = enemy->m_gun[weapon_type];
+            auto bullet_location = hunter->getPosition();    //enemy aims at hunter
+            auto bullet_X = bullet_location.x - enemy->getPositionX();
+            auto bullet_Y = bullet_location.y - enemy->getPositionY();
+            makeBulletAttack(enemy, weapon, bullet_X, bullet_Y);
         }
     }
 }
 
 void MapLayer::AIFireForServer(float delt) {
-    for (int j = 0; j < MAX_CONNECTIONS - 1; j++)
-    {
+    for (int j = 0; j < MAX_CONNECTIONS - 1; j++) {
         if (m_enemy[j]->getPlayerDeath() || m_enemy[j]->m_is_ai == false)
             continue;
-        Rect rect_enemy(m_enemy[j]->getPosition().x - 300, m_enemy[j]->getPosition().y - 300, 600, 600);
-        for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
-        {
-            if (!m_enemy[i]->getPlayerDeath() && m_enemy[i]->m_has_controller && !m_enemy[i]->m_is_ai && rect_enemy.intersectsRect(m_enemy[i]->getBoundingBox())) {
-                auto weaponType = m_enemy[j]->getPlayerWeapon();
-                if (weaponType == 5 || m_enemy[j]->getPlayerBullet() < 3) {
-                    //makeKnifeAttack(m_enemy[j]);
-                    CCLOG("AI#%d TRY TO KNIFE#%d LEFT BULLET#%d WEAPONTYPE#%d", j, i, m_enemy[j]->getPlayerBullet(), weaponType);
+        Rect rect_enemy(m_enemy[j]->getPosition().x - 300, m_enemy[j]->getPosition().y - 300, 600,
+                        600);
+        for (int i = 0; i < MAX_CONNECTIONS - 1; i++) {
+            if (!m_enemy[i]->getPlayerDeath() && m_enemy[i]->m_has_controller &&
+                !m_enemy[i]->m_is_ai && rect_enemy.intersectsRect(m_enemy[i]->getBoundingBox())) {
+                auto weapon_type = m_enemy[j]->getPlayerWeapon();
+                if (weapon_type == 5 || m_enemy[j]->getPlayerBullet() < 3) {
+                    CCLOG("AI#%d TRY TO KNIFE#%d LEFT BULLET#%d WEAPONTYPE#%d", j, i,
+                          m_enemy[j]->getPlayerBullet(), weapon_type);
                     chserver->paction[j + 1].is_shoot = true;
                     chserver->paction[j + 1].weapon_type = 4;
                     chserver->m_map_trans.player[j + 1].is_shoot = true;
-                    chserver->m_map_trans.player[j + 1].weapon_type = weaponType;
+                    chserver->m_map_trans.player[j + 1].weapon_type = weapon_type;
                     continue;
                 }
-                //if (m_enemy[j]->getPlayerBullet() < 3)
-                //{
-                //    m_enemy[j]->setPlayerWeapon(5);
-                //    continue;
-                //}
 
-                CCLOG("AI#%d TRY TO BULLET#%d LEFT BULLET#%d WEAPONTYPE#%d", j, i, m_enemy[j]->getPlayerBullet(), weaponType);
-                //Weapon* weapon = m_enemy[j]->m_gun[weaponType];
-                auto bulletLocation = hunter->getPosition();    //enemy aims at hunter
+                CCLOG("AI#%d TRY TO BULLET#%d LEFT BULLET#%d WEAPONTYPE#%d", j, i,
+                      m_enemy[j]->getPlayerBullet(), weapon_type);
+                auto bulletLocation = hunter->getPosition(); // enemy aims at hunter
                 auto bulletX = bulletLocation.x - m_enemy[j]->getPositionX();
                 auto bulletY = bulletLocation.y - m_enemy[j]->getPositionY();
-                //makeBulletAttack(m_enemy[j], weapon, bulletX, bulletY);
                 chserver->paction[j + 1].is_shoot = true;
-                chserver->paction[j + 1].weapon_type = weaponType;
+                chserver->paction[j + 1].weapon_type = weapon_type;
                 chserver->paction[j + 1].bullet_x = bulletX;
                 chserver->paction[j + 1].bullet_y = bulletY;
                 chserver->m_map_trans.player[j + 1].is_shoot = true;
-                chserver->m_map_trans.player[j + 1].weapon_type = weaponType;
+                chserver->m_map_trans.player[j + 1].weapon_type = weapon_type;
                 chserver->m_map_trans.player[j + 1].bullet_x = bulletX;
                 chserver->m_map_trans.player[j + 1].bullet_y = bulletY;
-                
                 break;
             }
         }
@@ -1290,18 +1276,19 @@ void MapLayer::autoFire(float dt) {
             continue;
         Rect rect_enemy(enemy->getPosition().x - 400, enemy->getPosition().y - 400, 800, 800);
         if (rect_enemy.intersectsRect(rect_hunter)) {
-            auto weaponType = hunter->getPlayerWeapon();
-            if (5 == weaponType) {
+            auto weapon_type = hunter->getPlayerWeapon();
+            if (5 == weapon_type) {
                 makeKnifeAttack(hunter);
-            } else if (4 == weaponType) {
+            } else if (4 == weapon_type) {
                 if (hunter->getPlayerGrenade() > 0) {
                     hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
-                    hunter->bulletLocation =
+                    hunter->m_bullet_location =
                             enemy->getPosition() - hunter->getPosition() + winSize / 2;
                     scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5f);
                 }
             } else {
-                hunter->bulletLocation = enemy->getPosition() - hunter->getPosition() + winSize / 2;
+                hunter->m_bullet_location =
+                        enemy->getPosition() - hunter->getPosition() + winSize / 2;
                 scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::Fire), hunter->getBulletSpeed() -
                                                                    hunter->m_gun[hunter->getPlayerWeapon()]->getFireWeaponSpeed());
             }
@@ -1310,38 +1297,37 @@ void MapLayer::autoFire(float dt) {
 }
 
 int MapLayer::getTime() {
-    return static_cast<int>(duration_cast<seconds>(system_clock::now() - startTime).count());
+    return static_cast<int>(duration_cast<seconds>(system_clock::now() - start_time).count());
 }
 
-void MapLayer::showAimLine()
-{
-    m_line->clear();//辅助射击线
+void MapLayer::showAimLine() {
+    m_line->clear(); // Auxiliary firing line
     if (add_in_aiming == 1) {
         m_line->drawLine(hunter->getPosition(),
-            Vec2(10 * (hunter->bulletLocation.x - winSize.width / 2) +
-                hunter->getPositionX(),
-                10 * (hunter->bulletLocation.y - winSize.height / 2) +
-                hunter->getPositionY()),
-            Color4F(1.0f, 0.46f, 0.0f, 0.5f));
+                         Vec2(10 * (hunter->m_bullet_location.x - winSize.width / 2) +
+                              hunter->getPositionX(),
+                              10 * (hunter->m_bullet_location.y - winSize.height / 2) +
+                              hunter->getPositionY()),
+                         Color4F(1.0f, 0.46f, 0.0f, 0.5f));
         m_line->setLineWidth(50);
     }
 }
 
 void MapLayer::initMouse() {
-    mouseListener = EventListenerMouse::create();
+    mouse_listener = EventListenerMouse::create();
 
-    mouseListener->onMouseMove = [&](EventMouse *event) {
+    mouse_listener->onMouseMove = [&](EventMouse *event) {
         m_line->clear();
         if (add_in_aiming == 1) {
-            hunter->bulletLocation = Vec2(event->getCursorX(), event->getCursorY());
+            hunter->m_bullet_location = Vec2(event->getCursorX(), event->getCursorY());
             m_line->drawLine(hunter->getPosition(),
-                             Vec2(10 * (hunter->bulletLocation.x - winSize.width / 2) +
+                             Vec2(10 * (hunter->m_bullet_location.x - winSize.width / 2) +
                                   hunter->getPositionX(),
-                                  10 * (hunter->bulletLocation.y - winSize.height / 2) +
+                                  10 * (hunter->m_bullet_location.y - winSize.height / 2) +
                                   hunter->getPositionY()), Color4F(1.0f, 0.46f, 0.0f, 0.5f));
             m_line->setLineWidth(50);
         }
     };
 
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouse_listener, this);
 }
