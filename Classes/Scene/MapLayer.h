@@ -98,6 +98,8 @@ public:
 
     int deathTurn = 0;
 
+    Vec2 explosion_point;
+
     DrawNode *m_line;
 
     void initMouse();
@@ -117,6 +119,8 @@ public:
     void makeKnifeAttack(Character *character);
 
     void makeExplosionEffect(float dt);
+
+    void enemyExplosionEffect(float dt);
 
     void makeExplosionEffectOnlyForShow(float posx, float posy);
 

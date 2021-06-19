@@ -205,9 +205,7 @@ void MapLayer::roll(Character *character) {
 void MapLayer::judgePick(Character *character) {
     Rect rect_character = character->getBoundingBox();
     for (auto weapon : weapons) {
-        if (chclient == nullptr && weapon->getWeaponType() == 4 && character != hunter)
-            continue;
-        else if(chserver != nullptr && weapon->getWeaponType() == 4 && character->m_is_ai == true)
+        if(chserver != nullptr && weapon->getWeaponType() == 4 && character->m_is_ai == true)
             continue;
 
         if (weapon->getBoundingBox().intersectsRect(rect_character)) {
@@ -335,6 +333,47 @@ void MapLayer::registerTouchEvent() {
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
+void MapLayer::enemyExplosionEffect(float dt)
+{
+    auto pos = explosion_point;
+    auto explo_particle = ParticleExplosion::create();
+    auto explo_texture = Director::getInstance()->getTextureCache()->addImage("stars.png");
+    explo_particle->setTexture(explo_texture);
+    explo_particle->setPosition(explosion_point);
+    explo_particle->setLife(1.2f);
+    explo_particle->setLifeVar(0.2f);
+    Color4F start = { 0.7f, 0.0f, 0.0f, 1.0f };
+    Color4F var = { 0.3f, 0.3f, 0.2f, 0.0f };
+    explo_particle->setStartColor(start);
+    explo_particle->setStartColorVar(var);
+    Color4F end = { 0.7f, 0.0f, 0.0f, 0.0f };
+    explo_particle->setEndColor(end);
+    explo_particle->setEndColorVar(var);
+    explo_particle->setPositionType(ParticleSystem::PositionType::RELATIVE);
+    addChild(explo_particle);
+
+    auto dis = pos.getDistance(hunter->getPosition());
+    if (dis < 100) {
+        auto bleed = hunter->getPlayerBleed() - 20 - 0.3f * (100 - dis);
+        if (bleed < 0)
+            bleed = 0;
+        hunter->setPlayerBleed(static_cast<int>(bleed));
+        showAttacked(hunter->getPosition());
+    }
+    for (auto enemy : m_enemy) {
+        if (enemy->getPlayerDeath())
+            continue;
+        auto dis = pos.getDistance(enemy->getPosition());
+        if (dis < 100) {
+            auto bleed = enemy->getPlayerBleed() - 20 - 0.3f * (100 - dis);
+            if (bleed < 0)
+                bleed = 0;
+            enemy->setPlayerBleed(static_cast<int>(bleed));
+            showAttacked(enemy->getPosition());
+        }
+    }
+}
+
 void MapLayer::makeExplosionEffect(float dt) {
     auto pos = hunter->bulletLocation + hunter->getPosition() - winSize / 2;
     if (chclient != nullptr)
@@ -437,8 +476,7 @@ static inline short getWeaponTypeForBulletAttack(Character *character, Weapon *w
     return -1;
 }
 
-void
-MapLayer::makeBulletAttack(Character *character, Weapon *weapon, float bulletX, float bulletY) {
+void MapLayer::makeBulletAttack(Character *character, Weapon *weapon, float bulletX, float bulletY) {
     if (chclient != nullptr && character == hunter)//本地攻击上传
     {
         short wtype = getWeaponTypeForBulletAttack(character, weapon);
@@ -942,7 +980,6 @@ void MapLayer::update(float fDelta) {
             initItem(m_ammunition, m_ammunition_number);
         }
 
-
         if (getTime() % 90)
             weaponRefresh = false;
 
@@ -1181,6 +1218,15 @@ void MapLayer::enemyFire(float delt) {
                 makeKnifeAttack(enemy);
                 continue;
             }
+            if (4 == weaponType) {
+                if (enemy->getPlayerGrenade() > 0) {
+                    enemy->setPlayerGrenade(0);
+                    explosion_point.set(hunter->getPosition());
+                    showEffect(explosion_point);
+                    scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::enemyExplosionEffect), 0.5f);
+                }
+                continue;
+            }
             if (enemy->getPlayerBullet() > 0)
                 enemy->setPlayerBullet(enemy->getPlayerBullet() - 1);
             else {
@@ -1261,7 +1307,7 @@ void MapLayer::autoFire(float dt) {
                     hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
                     hunter->bulletLocation =
                             enemy->getPosition() - hunter->getPosition() + winSize / 2;
-                    scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.25f);
+                    scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5f);
                 }
             } else {
                 hunter->bulletLocation = enemy->getPosition() - hunter->getPosition() + winSize / 2;
