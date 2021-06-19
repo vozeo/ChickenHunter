@@ -43,11 +43,13 @@ public:
 
     static Weapon *create() {
         Weapon *weapon = new(std::nothrow) Weapon();
-        auto weaponType = random(0, 4);
+        auto weapon_type = random(0, 5);
+        if (5 == weapon_type)
+            weapon_type = 4;
         if (weapon &&
-            weapon->initWithFile(StringUtils::format("images/weapon_%d.png", weaponType))) {
+            weapon->initWithFile(StringUtils::format("images/weapon_%d.png", weapon_type))) {
             weapon->autorelease();
-            weapon->weaponInit(weaponType, true);
+            weapon->weaponInit(weapon_type, true);
             return weapon;
         }
         CC_SAFE_DELETE(weapon);
