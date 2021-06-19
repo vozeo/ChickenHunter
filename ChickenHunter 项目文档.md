@@ -160,9 +160,5 @@
 
 - **项目运行截图**
 
-![001](D:\Personal\Desktop\001.png)
-
-![005](D:\Personal\Desktop\005.png)
-
-![003](D:\Personal\Desktop\003.png)
+![GameScene](ProjectPictuires\GameScene.png)
 
