@@ -1,7 +1,5 @@
 #include "MapLayer.h"
 
-#include <utility>
-
 USING_NS_CC;
 
 bool add_in_aiming = false;
@@ -1206,7 +1204,7 @@ void MapLayer::enemyFire(float delt) {
                 makeKnifeAttack(enemy);
                 continue;
             }
-            if (4 == weaponType) {
+            if (4 == weapon_type) {
                 if (enemy->getPlayerGrenade() > 0) {
                     enemy->setPlayerGrenade(0);
                     explosion_point.set(hunter->getPosition());
