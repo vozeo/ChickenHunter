@@ -294,11 +294,19 @@
 	[
 		{
 			"backtrace" : 3,
+			"id" : "cocos2d::@b17589fc6237857a1771"
+		},
+		{
+			"backtrace" : 3,
 			"id" : "external::@62470bbe2074d04a1904"
 		},
 		{
 			"backtrace" : 3,
-			"id" : "cocos2d::@b17589fc6237857a1771"
+			"id" : "ext_xxtea::@95546a4b2abc077b0042"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_clipper::@33abc919e86db66c28b8"
 		},
 		{
 			"backtrace" : 3,
@@ -310,19 +318,7 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_xxtea::@95546a4b2abc077b0042"
-		},
-		{
-			"backtrace" : 3,
 			"id" : "ext_xxhash::@11e20b8b9139209a045a"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_clipper::@33abc919e86db66c28b8"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "ext_cpufeatures::@faefd91259078ecab22c"
 		},
 		{
 			"backtrace" : 3,
@@ -338,7 +334,11 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc"
+			"id" : "ext_cpufeatures::@faefd91259078ecab22c"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
 		},
 		{
 			"backtrace" : 3,
@@ -346,7 +346,7 @@
 		},
 		{
 			"backtrace" : 3,
-			"id" : "ext_edtaa3func::@f3d42e550923b89477b0"
+			"id" : "ext_tremolo::@afb4f15f0e6ee4fb58dc"
 		},
 		{
 			"backtrace" : 3,

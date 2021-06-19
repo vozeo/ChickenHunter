@@ -9,14 +9,14 @@ USING_NS_CC;
 
 class Joystick : public Layer {
 private:
-    Point m_centerPoint1;
-    Point m_currentPoint1;
+    Point m_center_point1;
+    Point m_current_point1;
 
     Sprite *m_back1;
     Sprite *m_button1;
 
-    Point m_centerPoint2;
-    Point m_currentPoint2;
+    Point m_center_point2;
+    Point m_current_point2;
 
     Sprite *m_back2;
     Sprite *m_button2;
@@ -25,14 +25,14 @@ private:
     std::function<void(MapLayer *, cocos2d::Touch *touch)> touchBegan;
     std::function<void(MapLayer *)> touchEnded;
 
-    Size visibleSize;
+    Size visible_size;
 
-    float moveDistance = 30.0f;
+    float move_distance = 30.0f;
 
 public:
     Joystick();
 
-    MapLayer *mapLayer;
+    MapLayer *map_layer;
 
     bool init();
 

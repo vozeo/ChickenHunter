@@ -10,12 +10,13 @@
 #include "RankLayer.h"
 #include "Item/Item.h"
 #include "SettingLayer.h"
-#include <map>
-#include <ctime>
 #include "Network/Client.h"
 #include "Network/Server.h"
 #include "Network/TransStructure.h"
 #include "Scene/WarningLayer.h"
+
+#include <map>
+#include <ctime>
 #include <chrono>
 
 using namespace std::chrono;
@@ -29,8 +30,8 @@ private:
     TMXTiledMap *map;
     TMXLayer *meta;
 
-    float mapHeight, mapWidth;
-    float tileHeight, tileWidth;
+    float map_height, map_width;
+    float tile_height, tile_width;
 
     Character *hunter;
 
@@ -52,17 +53,17 @@ private:
 
     std::array<Bullet *, 60> bullets;
 
-    bool weaponRefresh = true;
-    bool hasAutoAttack = false;
-    system_clock::time_point startTime;
+    bool weapon_refresh = true;
+    bool has_auto_attack = false;
+    system_clock::time_point start_time;
 
 
 public:
     MapLayer();
 
-    static MapLayer *create(std::vector<Character *> gameHunter) {
+    static MapLayer *create(std::vector<Character *> game_hunter) {
         MapLayer *pRet = new(std::nothrow) MapLayer();
-        if (pRet && pRet->init(gameHunter)) {
+        if (pRet && pRet->init(game_hunter)) {
             pRet->autorelease();
             return pRet;
         } else {
@@ -72,10 +73,9 @@ public:
         }
     }
 
-    static cocos2d::Layer *createScene(std::vector<Character *> &gameHunter);
+    static cocos2d::Layer *createScene(std::vector<Character *> &game_hunter);
 
-    virtual bool init(std::vector<Character *> &gameHunter);
-
+    virtual bool init(std::vector<Character *> &game_hunter);
 
     virtual void update(float fDelta);
 
@@ -90,19 +90,17 @@ public:
     static void bindTouchMap(std::function<void(MapLayer *, Touch *touch)> &began,
                              std::function<void(MapLayer *)> &ended);
 
-    static float calRotation(float bulletX, float bulletY);
+    static float calRotation(float bullet_X, float bullet_Y);
 
     void initSetItem();
 
     void initSetItemForClient();
 
-    int deathTurn = 0;
-
     DrawNode *m_line;
 
     void initMouse();
 
-    EventListenerMouse *mouseListener;
+    EventListenerMouse *mouse_listener;
 
     template<class T>
     void setRandPos(T *elem);
@@ -120,7 +118,7 @@ public:
 
     void makeExplosionEffectOnlyForShow(float posx, float posy);
 
-    void makeBulletAttack(Character *character, Weapon *weapon, float bulletX, float bulletY);
+    void makeBulletAttack(Character *character, Weapon *weapon, float bullet_X, float bullet_Y);
 
     void showEffect(Vec2 pos);
 

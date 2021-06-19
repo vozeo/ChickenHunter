@@ -86,7 +86,7 @@ struct MapInformationInit {
     int m_weapon_type[20] = {0};
 };
 
-struct ChatInformation{
+struct ChatInformation {
     bool has_new_message = false;
     int send_uid = 0;
     char message[64];

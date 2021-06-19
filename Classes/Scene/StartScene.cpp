@@ -14,9 +14,6 @@ bool Start::init() {
     }
     this->scheduleUpdate();
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
-
     auto background = Sprite::create("images/StartBackground1366.png");
     background->setPosition(winSize.width / 2, winSize.height / 2);
     background->setScale(winSize.width / background->getTextureRect().getMaxX(),
@@ -28,7 +25,7 @@ bool Start::init() {
 
     AudioEngine::lazyInit();
     AudioEngine::preload("music/startBgm.mp3");
-    startAudioID = AudioEngine::play2d("music/startBgm.mp3", true);
+    start_audio_ID = AudioEngine::play2d("music/startBgm.mp3", true);
 
 
     //Network init
@@ -53,42 +50,40 @@ bool Start::init() {
     menu->setPosition(winSize.width - 30, winSize.height);
     menu->alignItemsHorizontally();
 
-    auto singleGame = MenuItemFont::create("Singleplayer   ", [=](Ref *render) {
-        if (chserver != nullptr)
-        {
+    auto single_game = MenuItemFont::create("Singleplayer   ", [=](Ref *render) {
+        if (chserver != nullptr) {
             delete chserver;
             chserver = nullptr;
         }
-        if (chclient != nullptr)
-        {
+        if (chclient != nullptr) {
             delete chclient;
             chclient = nullptr;
         }
-        AudioEngine::pause(startAudioID);
+        AudioEngine::pause(start_audio_ID);
         Director::getInstance()->pushScene(
                 TransitionFade::create(0.3f, Game::create(), Color3B(0, 255, 255)));
     });
-    singleGame->setColor(Color3B(255, 215, 0));
-    auto multiGame = MenuItemFont::create("   Multiplayer   ", [=](Ref *render) {
-        AudioEngine::pause(startAudioID);
+    single_game->setColor(Color3B(255, 215, 0));
+    auto multi_game = MenuItemFont::create("   Multiplayer   ", [=](Ref *render) {
+        AudioEngine::pause(start_audio_ID);
         Director::getInstance()->pushScene(
                 TransitionFade::create(0.3f, Server::createScene(), Color3B(0, 255, 255)));
     });
-    multiGame->setColor(Color3B(127, 255, 212));
-    auto exitGame = MenuItemFont::create("   Exit", [=](Ref *render) {
+    multi_game->setColor(Color3B(127, 255, 212));
+    auto exit_game = MenuItemFont::create("   Exit", [=](Ref *render) {
         Director::getInstance()->end();
     });
-    exitGame->setColor(Color3B(127, 255, 0));
+    exit_game->setColor(Color3B(127, 255, 0));
 
-    Vector<MenuItem *> choiceMenus{singleGame, multiGame};
-    auto choiceMenu = Menu::createWithArray(choiceMenus);
-    choiceMenu->setPosition(visibleSize.width / 2, visibleSize.height / 5);
-    choiceMenu->alignItemsHorizontally();
-    this->addChild(choiceMenu, 1);
+    Vector<MenuItem *> choiceMenus{single_game, multi_game};
+    auto choice_menu = Menu::createWithArray(choiceMenus);
+    choice_menu->setPosition(winSize.width / 2, winSize.height / 5);
+    choice_menu->alignItemsHorizontally();
+    this->addChild(choice_menu, 1);
 
     return true;
 }
 
 void Start::update(float dt) {
-    AudioEngine::setVolume(startAudioID, M_Volume);
+    AudioEngine::setVolume(start_audio_ID, M_Volume);
 }

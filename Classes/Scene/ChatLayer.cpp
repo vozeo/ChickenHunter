@@ -12,21 +12,22 @@ bool ChatLayer::init() {
     back->setAnchorPoint(Vec2(0, 1));
     back->setPosition(Vec2(50, winSize.height - 80));
 
-    chatText = TextField::create("type in your message", "fonts/Marker Felt.ttf", 30);
-    chatText->setMaxLength(15);
-    chatText->setPosition(Vec2(winSize.width / 8 + 40, winSize.height / 5 - 35));
-    chatText->setTextColor(Color4B(0, 0, 0, 255));
-    addChild(chatText, 1);
+    chat_text = TextField::create("type in your message", "fonts/Marker Felt.ttf", 30);
+    chat_text->setMaxLength(15);
+    chat_text->setPosition(Vec2(winSize.width / 8 + 40, winSize.height / 5 - 35));
+    chat_text->setTextColor(Color4B(0, 0, 0, 255));
+    addChild(chat_text, 1);
 
-    auto sendButton = Button::create("images/sendNormal.png", "images/sendSelected.png", "images/sendSelected.png");
-    sendButton->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
-        if (type == Widget::TouchEventType::ENDED && chatText->getString().size() > 0) {
-            chclient->sendChatMessage(chatText->getString().c_str());
-            chatText->setString("");
+    auto send_button = Button::create("images/sendNormal.png", "images/sendSelected.png",
+                                      "images/sendSelected.png");
+    send_button->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
+        if (type == Widget::TouchEventType::ENDED && chat_text->getString().size() > 0) {
+            chclient->sendChatMessage(chat_text->getString().c_str());
+            chat_text->setString("");
         }
     });
-    sendButton->setPosition(Vec2(winSize.width / 3 - 55, winSize.height / 5 - 40));
-    addChild(sendButton, 1);
+    send_button->setPosition(Vec2(winSize.width / 3 - 55, winSize.height / 5 - 40));
+    addChild(send_button, 1);
 
     for (decltype(chats.size()) i = 0; i < 10; ++i) {
         chats.push_back(Label::createWithTTF("", "fonts/Marker Felt.ttf", 30));
@@ -39,15 +40,15 @@ bool ChatLayer::init() {
     return true;
 }
 
-void ChatLayer::showChat(const char* name, const char* text) {
-    std::string nameStr = name;
-    std::string textStr = text;
+void ChatLayer::showChat(const char *name, const char *text) {
+    std::string name_str = name;
+    std::string text_str = text;
 
-    ++chatNumber;
-    if (chatNumber > 10) {
-        --chatNumber;
-        for (int i = 0; i < chatNumber - 1; ++i)
+    ++chat_number;
+    if (chat_number > 10) {
+        --chat_number;
+        for (int i = 0; i < chat_number - 1; ++i)
             chats[i]->setString(chats[i + 1]->getString());
     }
-    chats[chatNumber - 1]->setString(nameStr + " : " + textStr);
+    chats[chat_number - 1]->setString(name_str + " : " + text_str);
 }

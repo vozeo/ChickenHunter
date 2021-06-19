@@ -27,7 +27,7 @@ bool CHServer::deleteUid(int id) {
 CHServer::CHServer(const char *ip, unsigned short port) {
     m_server = new io_service({ip, port});
     m_server->set_option(YOPT_S_DEFERRED_EVENT, 0);
-    m_server->start([&](event_ptr &&ev) { 
+    m_server->start([&](event_ptr &&ev) {
         switch (ev->kind()) {
             case YEK_PACKET: {
                 auto packet = std::move(ev->packet());
@@ -55,11 +55,9 @@ CHServer::CHServer(const char *ip, unsigned short port) {
                     //if (debug_mode) cout << "uid:" << uid[thandle] << " DEBUG#:PA" << endl;
                     memcpy(&paction[m_handle_to_uid[thandle]], packet.data() + HEAD_LENGTH,
                            sizeof(PlayerAction));
-                } else if (strstr(header, "GS"))
-                {
+                } else if (strstr(header, "GS")) {
                     m_client_get_started[m_handle_to_uid[thandle]] = true;
-                } else if (strstr(header, "CT"))
-                {
+                } else if (strstr(header, "CT")) {
                     //ChatInformation ct;
                     //memcpy(&ct, packet.data() + HEAD_LENGTH, sizeof(ct));
                     for (int i = 1; i < MAX_CONNECTIONS; i++)
@@ -69,8 +67,7 @@ CHServer::CHServer(const char *ip, unsigned short port) {
                 break;
             }
             case YEK_CONNECT_RESPONSE:
-                if (ev->status() == 0)
-                {
+                if (ev->status() == 0) {
                     auto thandle = ev->transport();
                     int id = getUnusedUid();
                     m_handle_to_uid[thandle] = id;
@@ -208,9 +205,8 @@ bool CHServer::addAi() {
     return true;
 }
 
-bool CHServer::deleteAi()
-{
-    if(ai_player_num == 0)
+bool CHServer::deleteAi() {
+    if (ai_player_num == 0)
         return false;
     int p = --ai_player_num;
     ai_player[ai_client[p]->getUid()] = false;
@@ -218,16 +214,14 @@ bool CHServer::deleteAi()
     return true;
 }
 
-bool CHServer::setPlayerName(int id, const char* name)
-{
+bool CHServer::setPlayerName(int id, const char *name) {
     if (!m_uid_usage[id])
         return false;
     strcpy(m_room.player_name[id], name);
     return true;
 }
 
-bool CHServer::isAi(int uid)
-{
+bool CHServer::isAi(int uid) {
     return ai_player[uid];
 }
 

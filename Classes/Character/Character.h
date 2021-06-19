@@ -58,18 +58,7 @@ public:
     std::array<bool, 4> m_speed = {};
     bool m_is_ai = false;
     bool m_has_controller = false;
-
-    int *getPlayerBandage();
-
-    void setPlayerBandage(int var, int pos);
-
-    int *getPlayerGun();
-
-    void setPlayerGun(int var, int pos);
-
-    Vec2 bulletLocation;
-
+    Vec2 m_bullet_location;
 };
-
 
 #endif // !_CHARACTER_H_

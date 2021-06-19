@@ -8,13 +8,6 @@ Layer *State::createScene(std::vector<Character *> &gameHunter) {
     return State::create(gameHunter);
 }
 
-// Print useful error message instead of segfaulting when files are not there.
-static void problemLoading(const char *filename) {
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
-}
-
-// on "init" you need to initialize your instance
 bool State::init(std::vector<Character *> gameHunter) {
     if (!Layer::init()) {
         return false;
@@ -27,10 +20,10 @@ bool State::init(std::vector<Character *> gameHunter) {
     else
         hunter = m_enemy[0];
     if (chclient == nullptr)
-        aliveNumber = m_enemy.size();
+        survivor_number = m_enemy.size();
     else
-        aliveNumber = chclient->m_room.player_num;
-    CCLOG("PLAYER NUM:%d", aliveNumber);
+        survivor_number = chclient->m_room.player_num;
+    CCLOG("PLAYER NUM:%d", survivor_number);
 
     for (auto player : m_enemy) {
         int bonus = random(0, 3);
@@ -76,8 +69,7 @@ bool State::init(std::vector<Character *> gameHunter) {
         }
     }
 
-    if (chclient != nullptr)
-    {
+    if (chclient != nullptr) {
         chatLayer = ChatLayer::create();
         chatLayer->retain();
 
@@ -85,8 +77,9 @@ bool State::init(std::vector<Character *> gameHunter) {
         redDot->retain();
         redDot->setPosition(50, winSize.height - 45);
 
-        auto chatButton = Button::create("images/chatNormal.png", "images/chatSelected.png", "images/chatSelected.png");
-        chatButton->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
+        auto chatButton = Button::create("images/chatNormal.png", "images/chatSelected.png",
+                                         "images/chatSelected.png");
+        chatButton->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
             if (type == Widget::TouchEventType::ENDED) {
                 if (chatLayer->getParent() == nullptr)
                     addChild(chatLayer, 4);
@@ -103,7 +96,7 @@ bool State::init(std::vector<Character *> gameHunter) {
     initState();
     initGun();
 
-    startTime = system_clock::now();
+    start_time = system_clock::now();
 
     return true;
 }
@@ -161,15 +154,15 @@ void State::initGun() {
         gun[i][0]->retain(); // !!!
         gun[i][1]->retain(); // !!!
     }
-    gunMenu = Menu::createWithArray(guns);
-    gunMenu->setPosition(winSize.width / 2, winSize.height / 10);
-    addChild(gunMenu, TOP);
+    gun_menu = Menu::createWithArray(guns);
+    gun_menu->setPosition(winSize.width / 2, winSize.height / 10);
+    addChild(gun_menu, TOP);
 }
 
 void State::touchInit() {
     Joystick *joystick = Joystick::create();
     joystick->bindTouch(hunter, touchBegan, touchEnded);
-    joystick->mapLayer = mapLayer;
+    joystick->map_layer = map_layer;
     addChild(joystick, 2);
 }
 
@@ -182,7 +175,7 @@ void State::bindTouch(std::function<void(MapLayer *, Touch *touch)> &began,
 void State::update(float fDelta) {
     for (auto enemy : m_enemy) {
         if (!enemy->getPlayerDeath() && enemy->getPlayerBleed() <= 0) {
-            --aliveNumber;
+            --survivor_number;
             enemy->setPlayerDeath(true);
             enemy->setPlayerPoint(getTime());
             if (enemy == hunter) {
@@ -193,14 +186,14 @@ void State::update(float fDelta) {
                                 aliveEnemy->getPlayerBleed() / 10);
                     }
                 }
-                gameIsEnd = true;
+                game_has_end = true;
                 RankLayer *rank = RankLayer::create();
                 rank->rankInit(false, m_enemy);
                 addChild(rank, 3);
             }
             enemy->removeFromParent();
-            if (aliveNumber == 1 && !hunter->getPlayerDeath()) {
-                gameIsEnd = true;
+            if (survivor_number == 1 && !hunter->getPlayerDeath()) {
+                game_has_end = true;
                 hunter->setPlayerPoint(getTime() + random(10, 20));
                 RankLayer *rank = RankLayer::create();
                 rank->rankInit(true, m_enemy);
@@ -209,10 +202,11 @@ void State::update(float fDelta) {
         }
     }
 
-    if (chclient != nullptr && chclient->chchat.has_new_message)
-    {
-        CCLOG("GOT MESSAGE! SENDER:%s MSG:%s", chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
-        chatLayer->showChat(chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
+    if (chclient != nullptr && chclient->chchat.has_new_message) {
+        CCLOG("GOT MESSAGE! SENDER:%s MSG:%s",
+              chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
+        chatLayer->showChat(chclient->m_room.player_name[chclient->chchat.send_uid],
+                            chclient->chchat.message);
         if (chatLayer->getParent() == nullptr && redDot->getParent() == nullptr)
             addChild(redDot, 5);
         chclient->chchat.has_new_message = false;
@@ -220,23 +214,23 @@ void State::update(float fDelta) {
 
     blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->getMAXBLEED());
     blood_label->setString(Value(hunter->getPlayerBleed()).asString());
-    survivor_label->setString("Survivor : " + Value(aliveNumber).asString());
+    survivor_label->setString("Survivor : " + Value(survivor_number).asString());
 
-    if (gameIsEnd)
+    if (game_has_end)
         return;
     if (hunter->getPlayerRefresh()) {
         hunter->setPlayerRefresh(false);
-        gunMenu->removeAllChildren();
+        gun_menu->removeAllChildren();
         int nowWeapon = hunter->getPlayerWeapon();
         for (int i = 0; i < 5; ++i) {
             if (hunter->m_gun[i] != nullptr) {
-                assert(gunMenu != nullptr);
+                assert(gun_menu != nullptr);
                 if (i == nowWeapon)
-                    gunMenu->addChild(gun[i][1]);
-                else gunMenu->addChild(gun[i][0]);
+                    gun_menu->addChild(gun[i][1]);
+                else gun_menu->addChild(gun[i][0]);
             }
         }
-        gunMenu->alignItemsHorizontally();
+        gun_menu->alignItemsHorizontally();
     }
 
     int nowTime = getTime();
@@ -253,5 +247,5 @@ void State::update(float fDelta) {
 }
 
 int State::getTime() {
-    return static_cast<int>(duration_cast<seconds>(system_clock::now() - startTime).count());
+    return static_cast<int>(duration_cast<seconds>(system_clock::now() - start_time).count());
 }

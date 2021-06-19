@@ -13,7 +13,7 @@ using namespace cocos2d::ui;
 #define winSize Director::getInstance()->getWinSize()
 
 class SettingLayer : public cocos2d::Layer {
-    Slider *volumeSlider;
+    Slider *volume_slider;
 
 public:
     SettingLayer();

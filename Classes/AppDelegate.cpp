@@ -25,19 +25,17 @@
 #include "AppDelegate.h"
 #include "Scene/StartScene.h"
 
-// #define USE_AUDIO_ENGINE 1
+#define USE_AUDIO_ENGINE 1
 
 #if USE_AUDIO_ENGINE
+
 #include "audio/include/AudioEngine.h"
-using namespace cocos2d::experimental;
+
 #endif
 
 USING_NS_CC;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(1366, 768);
-//static cocos2d::Size smallResolutionSize = cocos2d::Size(1280, 720);
-//static cocos2d::Size mediumResolutionSize = cocos2d::Size(1366, 768);
-//static cocos2d::Size largeResolutionSize = cocos2d::Size(1366, 768);
 
 AppDelegate::AppDelegate() {
 }
@@ -85,30 +83,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height,
                                     ResolutionPolicy::SHOW_ALL);
-    /*
-    auto frameSize = glview->getFrameSize();
-    // if the frame's height is larger than the height of medium size.
-    if (frameSize.height > mediumResolutionSize.height)
-    {        
-        director->setContentScaleFactor(MIN(largeResolutionSize.height/designResolutionSize.height, largeResolutionSize.width/designResolutionSize.width));
-    }
-    // if the frame's height is larger than the height of small size.
-    else if (frameSize.height > smallResolutionSize.height)
-    {        
-        director->setContentScaleFactor(MIN(mediumResolutionSize.height/designResolutionSize.height, mediumResolutionSize.width/designResolutionSize.width));
-    }
-    // if the frame's height is smaller than the height of medium size.
-    else
-    {        
-        director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
-    }
-     */
 
     register_all_packages();
 
     // create a scene. it's an autorelease object
-
-
     auto scene = Start::createScene();
     director->runWithScene(scene);
 
