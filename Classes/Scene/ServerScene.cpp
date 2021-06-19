@@ -16,10 +16,15 @@ bool Server::init() {
         return false;
     }
     if (chserver != nullptr)
+    {
         delete chserver;
+        chserver = nullptr;
+    }
     if (chclient != nullptr)
+    {
         delete chclient;
-
+        chclient = nullptr;
+    }
     auto background = Sprite::create("images/backstar.png");
     background->setPosition(winSize.width / 2, winSize.height / 2);
     background->setScale(winSize.width / background->getTextureRect().getMaxX(),
@@ -74,10 +79,6 @@ bool Server::init() {
             return;
         }
         CCLOG("!!\n!!\n!!\n!!\nName:%s", nameText->getString().c_str());
-        if (chserver != nullptr)
-            delete chserver;
-        if (chclient != nullptr)
-            delete chclient;
         chserver = new CHServer("0.0.0.0", 25595);
         chserver->listen();
         chclient = new CHClient("127.0.0.1", 25595);
@@ -124,9 +125,6 @@ bool Server::init() {
         else if (addressText->getString().length() < 2)
             addressText->setString("127.0.0.1");
 
-
-        if (chclient != nullptr)
-            delete chclient;
         chclient = new CHClient(addressText->getString().c_str(), 25595);
         chclient->link();
         system_clock::time_point link_start_time = system_clock::now();
