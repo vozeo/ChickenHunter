@@ -28,8 +28,6 @@ bool ChatLayer::init() {
     sendButton->setPosition(Vec2(winSize.width / 3 - 55, winSize.height / 5 - 40));
     addChild(sendButton, 1);
 
-    showChat("start", "start");
-
     return true;
 }
 
@@ -42,13 +40,11 @@ void ChatLayer::showChat(const char* name, const char* text) {
     if (chatSize >= 10)
         chats.erase(chats.begin());
 
-    nameStr = name;
-    textStr = text;
-
-    for (int i = 0; i < 10; ++i)
-        chats.push_back(Label::createWithTTF(nameStr + " : " + textStr, "fonts/Marker Felt.ttf", 30));
+    chats.push_back(Label::createWithTTF(nameStr + " : " + textStr, "fonts/Marker Felt.ttf", 30));
 
     for (decltype(chats.size()) i = 0; i < chats.size(); ++i) {
+        if (chats[i]->getParent())
+            chats[i]->removeFromParent();
         chats[i]->setPosition(winSize.width / 8 + 40, winSize.height - 155 - 48 * i);
         chats[i]->setTextColor(Color4B(0, 0, 0, 255));
         addChild(chats[i], 1);
