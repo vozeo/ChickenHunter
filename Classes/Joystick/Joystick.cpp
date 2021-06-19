@@ -79,6 +79,13 @@ void Joystick::onTouchMoved(const std::vector<Touch *> &touches, Event *event) {
             Vec2 touchPos = touch->getLocation();
             m_currentPoint2 = touchPos;
             hunter->bulletLocation = m_currentPoint2 - m_centerPoint2 + visibleSize / 2;
+
+            auto pos = (hunter->bulletLocation - winSize / 2) * 1.5 + winSize / 2;
+            auto effectCircle = DrawNode::create();
+            effectCircle->drawSolidCircle(pos, 100.0f, CC_DEGREES_TO_RADIANS(360), 15,
+                Color4F(0.28f, 0.46f, 1.0f, 0.6f));
+            effectCircle->runAction(Sequence::create(FadeOut::create(0.02f), RemoveSelf::create(), NULL));
+            addChild(effectCircle, 0);
         }
     }
 }

@@ -263,10 +263,10 @@ void MapLayer::touchBegan(Touch *touch) {
 
 // Android
 void MapLayer::touchEnded() {
-    if (hunter->getPlayerGrenade() > 0) {
+    if (4 == hunter->getPlayerWeapon() && hunter->getPlayerGrenade() > 0) {
         hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
-        hunter->bulletLocation *= 3;
-        showEffect(convertToNodeSpace(hunter->bulletLocation));
+        hunter->bulletLocation = (hunter->bulletLocation - winSize / 2) * 1.5 + winSize / 2;
+        showEffect(hunter->bulletLocation - winSize / 2 + hunter->getPosition());
         scheduleOnce(CC_SCHEDULE_SELECTOR(MapLayer::makeExplosionEffect), 0.5);
     }
     unschedule(CC_SCHEDULE_SELECTOR(MapLayer::Fire));
@@ -326,7 +326,7 @@ void MapLayer::registerTouchEvent() {
 void MapLayer::makeExplosionEffect(float dt) {
     auto explo_particle = ParticleExplosion::create();
     auto explo_texture = Director::getInstance()->getTextureCache()->addImage("stars.png");
-    auto pos = convertToNodeSpace(hunter->bulletLocation);
+    auto pos = hunter->bulletLocation + hunter->getPosition() - winSize / 2;
     explo_particle->setTexture(explo_texture);
     explo_particle->setPosition(pos);
     explo_particle->setLife(1.2f);
@@ -353,7 +353,6 @@ void MapLayer::makeExplosionEffect(float dt) {
             showAttacked(enemy->getPosition());
         }
     }
-    return;
 }
 
 void MapLayer::makeKnifeAttack(Character *character) {
@@ -971,7 +970,6 @@ void MapLayer::update(float fDelta) {
                         MoveTo::create(1.0f / 80.0f, Vec2(nextX - 2 * dx, nextY - 2 * dy)));
             }
         }
-        //hunter->setPosition(hunter->getPosition());
     }
 }
 
