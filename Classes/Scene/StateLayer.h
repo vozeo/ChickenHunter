@@ -31,6 +31,7 @@ private:
     Label *grenade_label;
 
     ChatLayer* chatLayer;
+    Sprite* redDot;
 
     std::vector<Character *> m_enemy;
     Character *hunter;
