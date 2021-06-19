@@ -39,7 +39,13 @@ CHClient::CHClient(const char *ip, unsigned short port) {
                            sizeof(MapInformationInit));
                     m_map_information_init.is_updated = true;
                 }
-                fflush(stdout);
+                else if (strstr(header, "CT"))
+                {
+                    memcpy(&chchat, packet.data() + HEAD_LENGTH,
+                        packet.size() - HEAD_LENGTH);
+                    chchat.has_new_message = true;
+                }
+                //fflush(stdout);
                 break;
             }
             case YEK_CONNECT_RESPONSE:
@@ -112,6 +118,17 @@ bool CHClient::isUnconnected()
     if(m_uid != 0)
         return false;
     return true;
+}
+
+void CHClient::sendChatMessage(const char *msg)
+{
+    char str[sizeof(ChatInformation) + HEAD_LENGTH + 2] = "CT\0";
+    ChatInformation chat;
+    strcpy(chat.message, msg);
+    chat.has_new_message = true;
+    chat.send_uid = getUid();
+    memcpy(str + HEAD_LENGTH, &chat, sizeof(ChatInformation));
+    m_client->write(m_thandle, str, HEAD_LENGTH + sizeof(ChatInformation));
 }
 
 bool isMultipleGame() {

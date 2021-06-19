@@ -18,6 +18,7 @@ public:
     MapInformation m_map;
     PlayerAction m_localaction;
     MapInformationInit m_map_information_init;
+    ChatInformation chchat;
 public:
     CHClient(const char *ip, unsigned short port = 25595);
 
@@ -38,6 +39,8 @@ public:
     void setMapInited();
 
     bool isUnconnected();
+
+    void sendChatMessage(const char* str);
 };
 
 extern CHClient *chclient;

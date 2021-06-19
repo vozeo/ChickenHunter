@@ -76,20 +76,23 @@ bool State::init(std::vector<Character *> gameHunter) {
         }
     }
 
-    chatLayer = ChatLayer::create();
-    chatLayer->retain();
+    if (chclient != nullptr)
+    {
+        chatLayer = ChatLayer::create();
+        chatLayer->retain();
 
-    auto chatButton = Button::create("images/chatNormal.png", "images/chatSelected.png", "images/chatSelected.png");
-    chatButton->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
-        if (type == Widget::TouchEventType::ENDED) {
-            if (!chatLayer->getParent())
-                addChild(chatLayer, 4);
-            else chatLayer->removeFromParent();
-        }
-    });
-    chatButton->setAnchorPoint(Vec2(0, 0.5f));
-    chatButton->setPosition(Vec2(10, winSize.height - 65));
-    addChild(chatButton, 1);
+        auto chatButton = Button::create("images/chatNormal.png", "images/chatSelected.png", "images/chatSelected.png");
+        chatButton->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
+            if (type == Widget::TouchEventType::ENDED) {
+                if (!chatLayer->getParent())
+                    addChild(chatLayer, 4);
+                else chatLayer->removeFromParent();
+            }
+            });
+        chatButton->setAnchorPoint(Vec2(0, 0.5f));
+        chatButton->setPosition(Vec2(10, winSize.height - 65));
+        addChild(chatButton, 1);
+    }
 
     initState();
     initGun();
@@ -198,6 +201,13 @@ void State::update(float fDelta) {
                 addChild(rank, 3);
             }
         }
+    }
+
+    if (chclient != nullptr && chclient->chchat.has_new_message)
+    {
+        CCLOG("GOT MESSAGE! SENDER:%s MSG:%s", chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
+        //chatLayer->showChat(chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
+        chclient->chchat.has_new_message = false;
     }
 
     blood_bar->setPercent(hunter->getPlayerBleed() * 100.0f / hunter->getMAXBLEED());

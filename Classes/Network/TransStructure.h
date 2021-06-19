@@ -12,6 +12,7 @@ const int HEAD_LENGTH = 4;
 * PA = send player action
 * ST = start game
 * GS = get started
+* CT = chat
 * 
 * Server Command
 * SU = send uid
@@ -20,6 +21,7 @@ const int HEAD_LENGTH = 4;
 * GO = game over
 * ST = start game
 * MI = map init
+* CT = chat
 */
 
 
@@ -84,4 +86,9 @@ struct MapInformationInit {
     int m_weapon_type[20] = {0};
 };
 
+struct ChatInformation{
+    bool has_new_message = false;
+    int send_uid = 0;
+    char message[64];
+};
 #endif

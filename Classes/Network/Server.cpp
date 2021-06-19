@@ -58,6 +58,13 @@ CHServer::CHServer(const char *ip, unsigned short port) {
                 } else if (strstr(header, "GS"))
                 {
                     m_client_get_started[m_handle_to_uid[thandle]] = true;
+                } else if (strstr(header, "CT"))
+                {
+                    //ChatInformation ct;
+                    //memcpy(&ct, packet.data() + HEAD_LENGTH, sizeof(ct));
+                    for (int i = 1; i < MAX_CONNECTIONS; i++)
+                        if (m_uid_usage[i] && !isAi(i))
+                            m_server->write(m_uid_to_handle[i], packet.data(), packet.size());
                 }
                 break;
             }

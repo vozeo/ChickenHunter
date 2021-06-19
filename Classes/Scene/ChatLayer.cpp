@@ -20,16 +20,15 @@ bool ChatLayer::init() {
 
     auto sendButton = Button::create("images/sendNormal.png", "images/sendSelected.png", "images/sendSelected.png");
     sendButton->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
-        if (type == Widget::TouchEventType::ENDED) {
-            
-            // SEND
-            // chatText->getString()
+        if (type == Widget::TouchEventType::ENDED && chatText->getString().size() > 0) {
+            chclient->sendChatMessage(chatText->getString().c_str());
+            chatText->setString("");
         }
     });
     sendButton->setPosition(Vec2(winSize.width / 3 - 55, winSize.height / 5 - 40));
     addChild(sendButton, 1);
 
-    showChat("", "");
+    showChat("start", "start");
 
     return true;
 }
@@ -43,8 +42,8 @@ void ChatLayer::showChat(const char* name, const char* text) {
     if (chatSize >= 10)
         chats.erase(chats.begin());
 
-    nameStr = "fasdf";
-    textStr = "Hello, world!";
+    nameStr = name;
+    textStr = text;
 
     for (int i = 0; i < 10; ++i)
         chats.push_back(Label::createWithTTF(nameStr + " : " + textStr, "fonts/Marker Felt.ttf", 30));
