@@ -128,6 +128,8 @@ public:
 
     void enemyFire(float delt);
 
+    void AIFireForServer(float delt);
+
     void autoFire(float dt);
 
     void Fire(float dt);

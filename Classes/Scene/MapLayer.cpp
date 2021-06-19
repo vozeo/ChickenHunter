@@ -45,6 +45,8 @@ bool MapLayer::init(std::vector<Character *> &gameHunter) {
 
     if (chclient == nullptr)
         schedule(CC_SCHEDULE_SELECTOR(MapLayer::enemyFire), 0.5);
+    else if(chserver != nullptr)
+        schedule(CC_SCHEDULE_SELECTOR(MapLayer::AIFireForServer), 0.5);
 
     if (chclient != nullptr) {
         for (int i = 1; i < MAX_CONNECTIONS; i++) {
@@ -573,6 +575,7 @@ void MapLayer::update(float fDelta) {
                     chserver->paction[i].speed[1] = m_enemy[i - 1]->m_speed[1];
                     chserver->paction[i].speed[2] = m_enemy[i - 1]->m_speed[2];
                     chserver->paction[i].speed[3] = m_enemy[i - 1]->m_speed[3];
+                    chserver->paction[i].pick = true;
                 }
 
             chserver->paction[1].speed[0] = hunter->m_speed[0];
@@ -740,8 +743,7 @@ void MapLayer::update(float fDelta) {
                 if (chserver->paction[i].is_shoot && m_enemy[i - 1] != hunter) {
                     if (chserver->paction[i].weapon_type == 4) {
                         CCLOG("PLAYER#%d MAKE BULLET ATTACK", i + 1);
-                        if (m_enemy[i - 1]->getPlayerBullet() == 0)
-                            makeKnifeAttack(m_enemy[i - 1]);
+                        makeKnifeAttack(m_enemy[i - 1]);
                     } else {
                         CCLOG("PLAYER#%d MAKE BULLET ATTACK#%d", i + 1,
                               chserver->paction[i].weapon_type);
@@ -1190,6 +1192,56 @@ void MapLayer::enemyFire(float delt) {
             auto bulletX = bulletLocation.x - enemy->getPositionX();
             auto bulletY = bulletLocation.y - enemy->getPositionY();
             makeBulletAttack(enemy, weapon, bulletX, bulletY);
+        }
+    }
+}
+
+void MapLayer::AIFireForServer(float delt) {
+    Rect rect_hunter[MAX_CONNECTIONS];
+    for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
+    {
+        if (!m_enemy[i]->getPlayerDeath() && m_enemy[i]->m_has_controller && !m_enemy[i]->m_is_ai)
+            rect_hunter[i] = m_enemy[i]->getBoundingBox();
+    }
+    for (int j = 0; j < MAX_CONNECTIONS - 1; j++)
+    {
+        if (m_enemy[j]->getPlayerDeath() || m_enemy[j]->m_is_ai == false)
+            continue;
+        Rect rect_enemy(m_enemy[j]->getPosition().x - 300, m_enemy[j]->getPosition().y - 300, 600, 600);
+        for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
+        {
+            if (!m_enemy[i]->getPlayerDeath() && m_enemy[i]->m_has_controller && !m_enemy[i]->m_is_ai && rect_enemy.intersectsRect(m_enemy[i]->getBoundingBox())) {
+                auto weaponType = m_enemy[j]->getPlayerWeapon();
+                if (5 == weaponType) {
+                    makeKnifeAttack(m_enemy[j]);
+                    chserver->paction[j + 1].is_shoot = true;
+                    chserver->paction[j + 1].weapon_type = 4;
+                    chserver->m_map_trans.player[j + 1].is_shoot = true;
+                    chserver->m_map_trans.player[j + 1].weapon_type = weaponType;
+                    continue;
+                }
+                if (m_enemy[j]->getPlayerBullet() > 0)
+                    m_enemy[j]->setPlayerBullet(m_enemy[j]->getPlayerBullet() - 1);
+                else {
+                    m_enemy[j]->setPlayerWeapon(5);
+                    continue;
+                }
+                Weapon* weapon = m_enemy[j]->m_gun[weaponType];
+                auto bulletLocation = hunter->getPosition();    //enemy aims at hunter
+                auto bulletX = bulletLocation.x - m_enemy[j]->getPositionX();
+                auto bulletY = bulletLocation.y - m_enemy[j]->getPositionY();
+                makeBulletAttack(m_enemy[j], weapon, bulletX, bulletY);
+                chserver->paction[j + 1].is_shoot = true;
+                chserver->paction[j + 1].weapon_type = weaponType;
+                chserver->paction[j + 1].bullet_x = bulletX;
+                chserver->paction[j + 1].bullet_y = bulletY;
+                chserver->m_map_trans.player[j + 1].is_shoot = true;
+                chserver->m_map_trans.player[j + 1].weapon_type = weaponType;
+                chserver->m_map_trans.player[j + 1].bullet_x = bulletX;
+                chserver->m_map_trans.player[j + 1].bullet_y = bulletY;
+                
+                break;
+            }
         }
     }
 }
