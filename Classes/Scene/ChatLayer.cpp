@@ -16,7 +16,7 @@ bool ChatLayer::init() {
     chatText->setMaxLength(15);
     chatText->setPosition(Vec2(winSize.width / 8 + 40, winSize.height / 5 - 35));
     chatText->setTextColor(Color4B(0, 0, 0, 255));
-    this->addChild(chatText, 1);
+    addChild(chatText, 1);
 
     auto sendButton = Button::create("images/sendNormal.png", "images/sendSelected.png", "images/sendSelected.png");
     sendButton->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {

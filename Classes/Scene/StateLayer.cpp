@@ -81,14 +81,20 @@ bool State::init(std::vector<Character *> gameHunter) {
         chatLayer = ChatLayer::create();
         chatLayer->retain();
 
+        redDot = Sprite::create("images/redDot.png");
+        redDot->retain();
+        redDot->setPosition(50, winSize.height - 45);
+
         auto chatButton = Button::create("images/chatNormal.png", "images/chatSelected.png", "images/chatSelected.png");
         chatButton->addTouchEventListener([=](Ref* sender, Widget::TouchEventType type) {
             if (type == Widget::TouchEventType::ENDED) {
-                if (!chatLayer->getParent())
+                if (chatLayer->getParent() == nullptr)
                     addChild(chatLayer, 4);
                 else chatLayer->removeFromParent();
+                if (redDot->getParent())
+                    redDot->removeFromParent();
             }
-            });
+        });
         chatButton->setAnchorPoint(Vec2(0, 0.5f));
         chatButton->setPosition(Vec2(10, winSize.height - 65));
         addChild(chatButton, 1);
@@ -207,6 +213,8 @@ void State::update(float fDelta) {
     {
         CCLOG("GOT MESSAGE! SENDER:%s MSG:%s", chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
         chatLayer->showChat(chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
+        if (chatLayer->getParent() == nullptr && redDot->getParent() == nullptr)
+            addChild(redDot, 5);
         chclient->chchat.has_new_message = false;
     }
 
