@@ -300,7 +300,6 @@ void MapLayer::registerTouchEvent() {
         if (4 == weaponType) {
             auto knifeAudioID = AudioEngine::play2d("music/knifeEffect.mp3", false);
             AudioEngine::setVolume(knifeAudioID, M_Volume);
-
             if (hunter->getPlayerGrenade() > 0) {
                 hunter->setPlayerGrenade(hunter->getPlayerGrenade() - 1);
                 hunter->bulletLocation = touch->getLocation();
@@ -322,8 +321,6 @@ void MapLayer::registerTouchEvent() {
     };
 
     touchListener->onTouchMoved = [&](Touch *touch, Event *event) {
-        //CCLOG("%f %f", touch->getLocation().x, touch->getLocation().y);
-
         hunter->bulletLocation = touch->getLocation();
     };
 
