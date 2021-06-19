@@ -63,7 +63,6 @@ list(APPEND GAME_SOURCE
      Classes/Scene/ChatLayer.cpp
      Classes/Scene/ExitLayer.cpp
      Classes/Scene/GameScene.cpp
-     Classes/Scene/HelloWorldScene.cpp
      Classes/Scene/MapLayer.cpp
      Classes/Scene/RankLayer.cpp
      Classes/Scene/RoomScene.cpp
@@ -85,7 +84,6 @@ list(APPEND GAME_HEADER
      Classes/Scene/ChatLayer.h
      Classes/Scene/ExitLayer.h
      Classes/Scene/GameScene.h
-     Classes/Scene/HelloWorldScene.h
      Classes/Scene/MapLayer.h
      Classes/Scene/RankLayer.h
      Classes/Scene/RoomScene.h
