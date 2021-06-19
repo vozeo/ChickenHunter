@@ -331,9 +331,15 @@ void MapLayer::registerTouchEvent() {
 }
 
 void MapLayer::makeExplosionEffect(float dt) {
+    auto pos = hunter->bulletLocation + hunter->getPosition() - winSize / 2;
+    if (chclient != nullptr)
+    {
+        chclient->m_localaction.is_drop_grenade = true;
+        chclient->m_localaction.grenade_x = pos.x;
+        chclient->m_localaction.grenade_y = pos.y;
+    }
     auto explo_particle = ParticleExplosion::create();
     auto explo_texture = Director::getInstance()->getTextureCache()->addImage("stars.png");
-    auto pos = hunter->bulletLocation + hunter->getPosition() - winSize / 2;
     explo_particle->setTexture(explo_texture);
     explo_particle->setPosition(pos);
     explo_particle->setLife(1.2f);
@@ -343,6 +349,40 @@ void MapLayer::makeExplosionEffect(float dt) {
     explo_particle->setStartColor(start);
     explo_particle->setStartColorVar(var);
     Color4F end = {0.7f, 0.0f, 0.0f, 0.0f};
+    explo_particle->setEndColor(end);
+    explo_particle->setEndColorVar(var);
+    explo_particle->setPositionType(ParticleSystem::PositionType::RELATIVE);
+    addChild(explo_particle);
+
+    for (auto enemy : m_enemy) {
+        if (enemy->getPlayerDeath())
+            continue;
+        auto dis = pos.getDistance(enemy->getPosition());
+        if (dis < 100) {
+            auto bleed = enemy->getPlayerBleed() - 20 - 0.3f * (100 - dis);
+            if (bleed < 0)
+                bleed = 0;
+            enemy->setPlayerBleed(static_cast<int>(bleed));
+            showAttacked(enemy->getPosition());
+        }
+    }
+}
+
+void MapLayer::makeExplosionEffectOnlyForShow(float posx, float posy) {
+
+    Vec2 pos(posx, posy);
+    auto explo_particle = ParticleExplosion::create();
+    auto explo_texture = Director::getInstance()->getTextureCache()->addImage("stars.png");
+    
+    explo_particle->setTexture(explo_texture);
+    explo_particle->setPosition(pos);
+    explo_particle->setLife(1.2f);
+    explo_particle->setLifeVar(0.2f);
+    Color4F start = { 0.7f, 0.0f, 0.0f, 1.0f };
+    Color4F var = { 0.3f, 0.3f, 0.2f, 0.0f };
+    explo_particle->setStartColor(start);
+    explo_particle->setStartColorVar(var);
+    Color4F end = { 0.7f, 0.0f, 0.0f, 0.0f };
     explo_particle->setEndColor(end);
     explo_particle->setEndColorVar(var);
     explo_particle->setPositionType(ParticleSystem::PositionType::RELATIVE);
@@ -522,6 +562,9 @@ void MapLayer::update(float fDelta) {
             chserver->paction[1].weapon_type = chclient->m_localaction.weapon_type;
             chserver->paction[1].bullet_x = chclient->m_localaction.bullet_x;
             chserver->paction[1].bullet_y = chclient->m_localaction.bullet_y;
+            chserver->paction[1].is_drop_grenade = chclient->m_localaction.is_drop_grenade;
+            chserver->paction[1].grenade_x = chclient->m_localaction.grenade_x;
+            chserver->paction[1].grenade_y = chclient->m_localaction.grenade_y;
             chclient->m_localaction.pick = false;
             chclient->m_localaction.is_shoot = false;
             chclient->m_localaction.bullet_x = 0, chclient->m_localaction.bullet_y = 0;
@@ -530,6 +573,7 @@ void MapLayer::update(float fDelta) {
             chserver->paction[1].is_bullet_locked = hunter->getPlayerLockedBullet();
             //server's update
             chserver->mapUploadInit();
+            chclient->m_localaction.is_drop_grenade = false;
 
             for (auto bullet : bullets) {
                 if (bullet->getBulletActive()) {
@@ -646,7 +690,6 @@ void MapLayer::update(float fDelta) {
             for (int i = 1; i < MAX_CONNECTIONS; i++) {
                 auto pos = m_enemy[i - 1]->getPosition();
                 chserver->m_map_trans.player[i].position_x = pos.x, chserver->m_map_trans.player[i].position_y = pos.y;
-                chserver->m_map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
                 chserver->m_map_trans.player[i].is_pick = chserver->paction[i].pick;
                 chserver->m_map_trans.player[i].bullet = m_enemy[i - 1]->getPlayerBullet();
                 chserver->m_map_trans.player[i].is_shoot = chserver->paction[i].is_shoot;
@@ -655,8 +698,9 @@ void MapLayer::update(float fDelta) {
                 chserver->m_map_trans.player[i].bullet_y = chserver->paction[i].bullet_y;
                 chserver->m_map_trans.player[i].alive = !m_enemy[i - 1]->getPlayerDeath();
                 chserver->m_map_trans.player[i].grenade = m_enemy[i - 1]->getPlayerGrenade();
-                if(m_enemy[i - 1]->getPlayerGrenade() != 0)
-                    CCLOG("#MAP_UPDATE# PLAYER#%d HAS GRENADE", i);
+                chserver->m_map_trans.player[i].is_drop_grenade = chserver->paction[i].is_drop_grenade;
+                chserver->m_map_trans.player[i].grenade_x = chserver->paction[i].grenade_x;
+                chserver->m_map_trans.player[i].grenade_y = chserver->paction[i].grenade_y;
 
                 if (chserver->paction[i].pick && !m_enemy[i - 1]->getPlayerDeath()) {
                     CCLOG("#MAP_UPDATE# PLAYER#%d PICK", i);
@@ -667,7 +711,7 @@ void MapLayer::update(float fDelta) {
                 if (chserver->paction[i].is_shoot && m_enemy[i - 1] != hunter) {
                     if (chserver->paction[i].weapon_type == 4) {
                         CCLOG("PLAYER#%d MAKE BULLET ATTACK", i + 1);
-                        if (m_enemy[i - 1]->getPlayerBullet() == 0)//留给手雷的位置
+                        if (m_enemy[i - 1]->getPlayerBullet() == 0)
                             makeKnifeAttack(m_enemy[i - 1]);
                     } else {
                         CCLOG("PLAYER#%d MAKE BULLET ATTACK#%d", i + 1,
@@ -683,6 +727,13 @@ void MapLayer::update(float fDelta) {
                     }
 
                 }
+                //手雷同步
+                if (chserver->paction[i].is_drop_grenade && m_enemy[i - 1] != hunter)
+                {
+                    CCLOG("PLAYER#%d MAKE GRENADE ATTACK", i);
+                    makeExplosionEffectOnlyForShow(chserver->paction[i].grenade_x, chserver->paction[i].grenade_y);
+                }
+
 
                 m_enemy[i - 1]->setPlayerLockedBleed(chserver->paction[i].is_bleed_locked);
                 m_enemy[i - 1]->setPlayerLockedBullet(chserver->paction[i].is_bullet_locked);
@@ -695,6 +746,7 @@ void MapLayer::update(float fDelta) {
                     m_enemy[i - 1]->setPlayerGrenade(999);
                 }
 
+                chserver->m_map_trans.player[i].hp = m_enemy[i - 1]->getPlayerBleed();
                 memset(&chserver->paction[i], 0, sizeof(PlayerAction));//人物动作删除
             }
             chserver->mapUpload();
@@ -817,7 +869,7 @@ void MapLayer::update(float fDelta) {
                         //子弹同步
                         if (current_map.player[i + 1].is_shoot == true && m_enemy[i] != hunter) {
                             if (current_map.player[i + 1].weapon_type == 4) {
-                                if (current_map.player[i + 1].bullet == 0)//留给手雷的位置
+                                if (current_map.player[i + 1].bullet == 0)
                                     makeKnifeAttack(m_enemy[i]);
                                 CCLOG("PLAYER#%d MAKE BULLET ATTACK", i + 1);
                             } else if (current_map.player[i + 1].weapon_type >= 0 &&
@@ -831,6 +883,12 @@ void MapLayer::update(float fDelta) {
                                                  current_map.player[i + 1].bullet_y);
                             }
 
+                        }
+                        //手雷同步
+                        if (current_map.player[i + 1].is_drop_grenade && m_enemy[i] != hunter)
+                        {
+                            CCLOG("PLAYER#%d MAKE GRENADE ATTACK", i + 1);
+                            makeExplosionEffectOnlyForShow(current_map.player[i + 1].grenade_x, current_map.player[i + 1].grenade_y);
                         }
                     }
                 save_map = current_map;

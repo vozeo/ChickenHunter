@@ -32,8 +32,6 @@ bool Start::init() {
 
 
     //Network init
-    delete chclient;
-    delete chserver;
 
     auto exit_img = MenuItemImage::create(
             "exit_0.png",
@@ -60,6 +58,11 @@ bool Start::init() {
         {
             delete chserver;
             chserver = nullptr;
+        }
+        if (chclient != nullptr)
+        {
+            delete chclient;
+            chclient = nullptr;
         }
         AudioEngine::pause(startAudioID);
         Director::getInstance()->pushScene(

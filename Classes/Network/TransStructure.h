@@ -34,11 +34,13 @@ const int HEAD_LENGTH = 4;
 
 struct PlayerAction {
     bool is_shoot = false;
+    bool is_drop_grenade = false;
     bool is_bleed_locked = false;
     bool is_bullet_locked = false;
     short speed[4] = {0};
     short weapon_type = 0;
     float bullet_x = 0, bullet_y = 0;
+    float grenade_x = 0, grenade_y = 0;
     int shoot_damage;
     bool pick = false;
 };
@@ -48,12 +50,14 @@ struct PlayerInformation {
     bool alive = false;
     bool is_pick = false;
     bool is_shoot = false;
+    bool is_drop_grenade = false;
     short bullet = 0;
     short grenade = 0;
     short weapon_type = 0;
     int uid = 0;
     int hp = 100;
     float position_x = 0, position_y = 0;
+    float grenade_x = 0, grenade_y = 0;
     float bullet_x = 0, bullet_y = 0;
 
 };

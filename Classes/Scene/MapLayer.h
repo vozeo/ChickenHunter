@@ -118,6 +118,8 @@ public:
 
     void makeExplosionEffect(float dt);
 
+    void makeExplosionEffectOnlyForShow(float posx, float posy);
+
     void makeBulletAttack(Character *character, Weapon *weapon, float bulletX, float bulletY);
 
     void showEffect(Vec2 pos);
