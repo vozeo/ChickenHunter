@@ -212,6 +212,7 @@ void MapLayer::judgePick(Character *character) {
                 if (weapon == nullptr)
                     throw "Weapon is nullptr";
             } catch (exception& e) {
+                e.what();
                 CCLOG("%s", e.what());
             }
             if (character->m_gun[weapon_type] == nullptr) {
@@ -550,7 +551,13 @@ void MapLayer::Fire(float dt) {
         hunter->setPlayerBullet(hunter->getPlayerBullet() - 1);
     else if (hunter->getPlayerBullet() > 2 && weapon->getWeaponType() == 2)
         hunter->setPlayerBullet(hunter->getPlayerBullet() - 3);
-    else return;
+    else {
+        auto knife_audio_ID = AudioEngine::play2d("music/knifeEffect.mp3", false);
+        AudioEngine::setVolume(knife_audio_ID, M_Volume);
+        makeKnifeAttack(hunter);
+        return;
+    }
+
     auto bullet_audio_ID = AudioEngine::play2d("music/bulletEffect.mp3", false);
     AudioEngine::setVolume(bullet_audio_ID, M_Volume);
     Vec2 bullet_location = hunter->m_bullet_location;
@@ -1228,6 +1235,7 @@ void MapLayer::enemyFire(float delt) {
                     throw "Weapon is nullptr";
             }
             catch (exception& e) {
+                e.what();
                 CCLOG("%s", e.what());
             }
             auto bullet_location = hunter->getPosition();    //enemy aims at hunter
