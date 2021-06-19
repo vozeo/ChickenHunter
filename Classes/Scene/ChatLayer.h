@@ -14,6 +14,7 @@ using namespace cocos2d::ui;
 class ChatLayer : public cocos2d::Layer {
     std::vector<Label*> chats;
     TextField* chatText;
+    int chatNumber = 0;
 public:
     virtual bool init();
 

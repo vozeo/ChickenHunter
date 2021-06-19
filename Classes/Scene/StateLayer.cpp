@@ -206,7 +206,7 @@ void State::update(float fDelta) {
     if (chclient != nullptr && chclient->chchat.has_new_message)
     {
         CCLOG("GOT MESSAGE! SENDER:%s MSG:%s", chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
-        //chatLayer->showChat(chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
+        chatLayer->showChat(chclient->m_room.player_name[chclient->chchat.send_uid], chclient->chchat.message);
         chclient->chchat.has_new_message = false;
     }
 
