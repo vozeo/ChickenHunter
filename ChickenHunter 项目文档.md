@@ -190,7 +190,6 @@
     - [x] 团队成员分工平等、合理
     - [x] 全程使用 GitHub 和 Git 进行版本控制
   - 代码质量与安全<font color='red'>（添加描述）</font>
-    - [x] 使用单元测试验证复杂逻辑的正确性
     - [x] 合理的异常抛出与处理
     - [x] 使用断言验证程序性质
   - 功能与架构
@@ -205,7 +204,7 @@
     - [x] Lambda 函数
     - [x] std::function
     - [x] default 构造函数
-    - [x] nullptr初始化空指针
+    - [x] nullptr 初始化空指针
 
 
 
@@ -213,7 +212,9 @@
 
 ![GameScene](ProjectPictuires\GameScene1.png)
 
-![GameScene](ProjectPictuires\GameScene2.jpg)
+![GameScene](ProjectPictuires\GameScene2.png)
 
 ![GameScene](ProjectPictuires\GameScene3.jpg)
+
+![GameScene](ProjectPictuires\GameScene4.jpg)
 
