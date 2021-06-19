@@ -208,6 +208,12 @@ void MapLayer::judgePick(Character *character) {
 
         if (weapon->getBoundingBox().intersectsRect(rect_character)) {
             auto weapon_type = weapon->getWeaponType();
+            try {
+                if (weapon == nullptr)
+                    throw "Weapon is nullptr";
+            } catch (exception& e) {
+                CCLOG("%s", e.what());
+            }
             if (character->m_gun[weapon_type] == nullptr) {
                 weapon->retain();
                 character->m_gun[weapon_type] = weapon;
@@ -470,7 +476,7 @@ static inline short getWeaponTypeForBulletAttack(Character *character, Weapon *w
 }
 
 void MapLayer::makeBulletAttack(Character *character, Weapon *weapon, float bulletX, float bulletY) {
-    if (chclient != nullptr && character == hunter)//���ع����ϴ�
+    if (chclient != nullptr && character == hunter)
     {
         short wtype = getWeaponTypeForBulletAttack(character, weapon);
         if (wtype != -1) {
@@ -592,6 +598,7 @@ void MapLayer::update(float fDelta) {
             // server AI
             for (int i = 1; i < MAX_CONNECTIONS; i++)
                 if (chserver->isAi(i)) {
+                    assert(m_enemy[i - 1] != nullptr);
                     int nextT = m_enemy[i - 1]->getThought() + int(fDelta * 1000);
                     m_enemy[i - 1]->setThought(nextT);
                     if (nextT >= m_enemy[i - 1]->getThinkTime()) {
@@ -673,6 +680,7 @@ void MapLayer::update(float fDelta) {
             chserver->m_map_trans.player_left_num = 0;
             for (int i = 1; i < MAX_CONNECTIONS; i++) {
                 if (m_enemy[i - 1]->getPlayerBleed() > 0) {
+                    assert(m_enemy[i - 1] != nullptr);
                     //CCLOG("UPDATEING PLAYER#%d", i);
                     chserver->m_map_trans.player[i].alive = true;
                     float dx = 0, dy = 0;
@@ -689,7 +697,7 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->stopAllActions();
                             m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimRight());
                         }
-                        dx = 4;
+                        dx += 4;
                     }
                     if (chserver->paction[i].speed[1]) {
                         if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 2) {
@@ -697,7 +705,7 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->stopAllActions();
                             m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimLeft());
                         }
-                        dx = -4;
+                        dx += -4;
                     }
                     if (chserver->paction[i].speed[2]) {
                         if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 3) {
@@ -705,7 +713,7 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->stopAllActions();
                             m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimDown());
                         }
-                        dy = -4;
+                        dy += -4;
                     }
                     if (chserver->paction[i].speed[3]) {
                         if (m_enemy[i - 1] != hunter && action_activated[i - 1] != 4) {
@@ -713,7 +721,7 @@ void MapLayer::update(float fDelta) {
                             m_enemy[i - 1]->stopAllActions();
                             m_enemy[i - 1]->runAction(m_enemy[i - 1]->getCharacterAnimUp());
                         }
-                        dy = 4;
+                        dy += 4;
                     }
                     if (dx == 0 && dy == 0)
                         continue;
@@ -746,6 +754,8 @@ void MapLayer::update(float fDelta) {
 
             // Server map upload
             for (int i = 1; i < MAX_CONNECTIONS; i++) {
+                assert(m_enemy[i - 1] != nullptr);
+
                 auto pos = m_enemy[i - 1]->getPosition();
                 chserver->m_map_trans.player[i].position_x = pos.x, chserver->m_map_trans.player[i].position_y = pos.y;
                 chserver->m_map_trans.player[i].is_pick = chserver->paction[i].pick;
@@ -1159,13 +1169,6 @@ void MapLayer::initSetItemForClient() {
                                 chclient->m_map_information_init.m_weapon_position[i][1]);
     }
     chclient->setMapInited();
-
-    Weapon *weapon = Weapon::create();
-    weapon->retain();
-    weapon->weaponInit(4, false);
-    hunter->m_gun[4] = weapon;
-
-    hunter->setPlayerRefresh(true);
 }
 
 void MapLayer::initSetItem() {
@@ -1220,6 +1223,13 @@ void MapLayer::enemyFire(float delt) {
                 continue;
             }
             Weapon *weapon = enemy->m_gun[weapon_type];
+            try {
+                if (weapon == nullptr)
+                    throw "Weapon is nullptr";
+            }
+            catch (exception& e) {
+                CCLOG("%s", e.what());
+            }
             auto bullet_location = hunter->getPosition();    //enemy aims at hunter
             auto bullet_X = bullet_location.x - enemy->getPositionX();
             auto bullet_Y = bullet_location.y - enemy->getPositionY();

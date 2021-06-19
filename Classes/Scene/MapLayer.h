@@ -41,7 +41,7 @@ private:
     //add enemies
 
     const int m_enemy_number = 10;
-    const int m_weapon_number = 20;
+    const int m_weapon_number = 30;
     const int m_bandage_number = 30;
     const int m_ammunition_number = 30;
     clock_t t1 = clock(), t2;

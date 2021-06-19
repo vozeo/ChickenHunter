@@ -44,6 +44,8 @@ void ChatLayer::showChat(const char *name, const char *text) {
     std::string name_str = name;
     std::string text_str = text;
 
+    assert(chats[9] != nullptr);
+
     ++chat_number;
     if (chat_number > 10) {
         --chat_number;
