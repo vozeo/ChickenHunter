@@ -56,6 +56,11 @@ bool Start::init() {
     menu->alignItemsHorizontally();
 
     auto singleGame = MenuItemFont::create("Singleplayer   ", [=](Ref *render) {
+        if (chserver != nullptr)
+        {
+            delete chserver;
+            chserver = nullptr;
+        }
         AudioEngine::pause(startAudioID);
         Director::getInstance()->pushScene(
                 TransitionFade::create(0.3f, Game::create(), Color3B(0, 255, 255)));

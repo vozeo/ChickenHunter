@@ -49,6 +49,7 @@ struct PlayerInformation {
     bool is_pick = false;
     bool is_shoot = false;
     short bullet = 0;
+    short grenade = 0;
     short weapon_type = 0;
     int uid = 0;
     int hp = 100;

@@ -196,6 +196,7 @@ bool CHServer::addAi() {
     ai_client[p] = new CHClient("127.0.0.1", 25595);
     ai_client[p]->link();
     while (ai_client[p]->getUid() == 0);
+    ai_player[ai_client[p]->getUid()] = true;
     ai_client[p]->setName(str.c_str());
     return true;
 }
@@ -204,7 +205,9 @@ bool CHServer::deleteAi()
 {
     if(ai_player_num == 0)
         return false;
-    delete ai_client[--ai_player_num];
+    int p = --ai_player_num;
+    ai_player[ai_client[p]->getUid()] = false;
+    delete ai_client[p];
     return true;
 }
 
@@ -214,6 +217,11 @@ bool CHServer::setPlayerName(int id, const char* name)
         return false;
     strcpy(m_room.player_name[id], name);
     return true;
+}
+
+bool CHServer::isAi(int uid)
+{
+    return ai_player[uid];
 }
 
 void CHServer::mapInformationInit(MapInformationInit mii) {

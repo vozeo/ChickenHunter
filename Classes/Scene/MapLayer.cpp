@@ -75,6 +75,10 @@ bool MapLayer::init(std::vector<Character *> &gameHunter) {
             mii.m_weapon_position[i][0] = posa.x, mii.m_weapon_position[i][1] = posa.y;
             mii.m_weapon_type[i] = weapons[i]->getWeaponType();
         }
+        for (int i = 1; i < MAX_CONNECTIONS; i++)
+            if (chserver->isAi(i))
+                m_enemy[i - 1]->m_is_ai = true;
+
         chserver->mapInformationInit(mii);
     }
 
@@ -196,8 +200,11 @@ void MapLayer::roll(Character *character) {
 void MapLayer::judgePick(Character *character) {
     Rect rect_character = character->getBoundingBox();
     for (auto weapon : weapons) {
-        if (weapon->getWeaponType() == 4 && character != hunter)
+        if (chclient == nullptr && weapon->getWeaponType() == 4 && character != hunter)
             continue;
+        else if(chserver != nullptr && weapon->getWeaponType() == 4 && character->m_is_ai == true)
+            continue;
+
         if (weapon->getBoundingBox().intersectsRect(rect_character)) {
             auto weaponType = weapon->getWeaponType();
             if (character->m_gun[weaponType] == nullptr) {
@@ -647,6 +654,9 @@ void MapLayer::update(float fDelta) {
                 chserver->m_map_trans.player[i].bullet_x = chserver->paction[i].bullet_x;
                 chserver->m_map_trans.player[i].bullet_y = chserver->paction[i].bullet_y;
                 chserver->m_map_trans.player[i].alive = !m_enemy[i - 1]->getPlayerDeath();
+                chserver->m_map_trans.player[i].grenade = m_enemy[i - 1]->getPlayerGrenade();
+                if(m_enemy[i - 1]->getPlayerGrenade() != 0)
+                    CCLOG("#MAP_UPDATE# PLAYER#%d HAS GRENADE", i);
 
                 if (chserver->paction[i].pick && !m_enemy[i - 1]->getPlayerDeath()) {
                     CCLOG("#MAP_UPDATE# PLAYER#%d PICK", i);
@@ -798,6 +808,7 @@ void MapLayer::update(float fDelta) {
                                                                      current_map.player[i +
                                                                                         1].position_y)));
                         m_enemy[i]->setPlayerBleed(current_map.player[i + 1].hp);
+                        m_enemy[i]->setPlayerGrenade(current_map.player[i + 1].grenade);
                         m_enemy[i]->setPlayerBullet(current_map.player[i + 1].bullet);
                         //拾取东西的同步
                         if (current_map.player[i + 1].is_pick) {

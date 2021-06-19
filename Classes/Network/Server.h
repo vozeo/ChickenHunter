@@ -33,7 +33,7 @@ protected:
 
 protected:
     CHClient *ai_client[MAX_CONNECTIONS];
-
+    bool ai_player[MAX_CONNECTIONS] = { 0 };
 public:
     PlayerAction paction[MAX_CONNECTIONS];
     RoomInformation m_room;
@@ -71,6 +71,8 @@ public:
     bool deleteAi();
 
     bool setPlayerName(int id, const char* name);
+
+    bool isAi(int uid);
 
     void mapInformationInit(MapInformationInit mii);
 };
