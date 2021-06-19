@@ -60,6 +60,7 @@ list(APPEND GAME_SOURCE
      Classes/Character/Character.cpp
      Classes/Joystick/Joystick.cpp
      Classes/Item/Item.cpp
+     Classes/Scene/ChatLayer.cpp
      Classes/Scene/ExitLayer.cpp
      Classes/Scene/GameScene.cpp
      Classes/Scene/HelloWorldScene.cpp
@@ -81,6 +82,7 @@ list(APPEND GAME_HEADER
      Classes/Character/Character.h
      Classes/Joystick/Joystick.h
      Classes/Item/Item.h
+     Classes/Scene/ChatLayer.h
      Classes/Scene/ExitLayer.h
      Classes/Scene/GameScene.h
      Classes/Scene/HelloWorldScene.h
