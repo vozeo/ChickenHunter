@@ -6,12 +6,14 @@
 #include "Const.h"
 #include "ui/CocosGUI.h"
 #include "Character/Character.h"
+#include "ChatLayer.h"
 #include "MapLayer.h"
 #include "Network/Client.h"
 #include "Joystick/Joystick.h"
 
 #include <map>
 #include <chrono>
+#include <utility>
 
 using namespace std::chrono;
 
@@ -27,6 +29,8 @@ private:
     Label *time_label;
     Label *bullet_label;
     Label *grenade_label;
+
+    ChatLayer* chatLayer;
 
     std::vector<Character *> m_enemy;
     Character *hunter;
