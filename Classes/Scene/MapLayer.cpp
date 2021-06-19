@@ -411,7 +411,7 @@ void MapLayer::makeKnifeAttack(Character *character) {
     if (chclient != nullptr && character == hunter)//本地攻击上传
     {
         chclient->m_localaction.is_shoot = true;
-        chclient->m_localaction.weapon_type = 4;
+        chclient->m_localaction.weapon_type = 5;
     }
     Vec2 pos = character->getPosition();
     showEffect(pos);
@@ -735,22 +735,21 @@ void MapLayer::update(float fDelta) {
                 chserver->m_map_trans.player[i].grenade_y = chserver->paction[i].grenade_y;
 
                 if (chserver->paction[i].pick && !m_enemy[i - 1]->getPlayerDeath()) {
-                    CCLOG("#MAP_UPDATE# PLAYER#%d PICK", i);
+                    //CCLOG("#MAP_UPDATE# PLAYER#%d PICK", i);
                     judgePick(m_enemy[i - 1]);
                 }
 
                 //子弹同步
                 if (chserver->paction[i].is_shoot && m_enemy[i - 1] != hunter) {
-                    if (chserver->paction[i].weapon_type == 4) {
-                        CCLOG("PLAYER#%d MAKE BULLET ATTACK", i + 1);
+                    if (chserver->paction[i].weapon_type == 4 || chserver->paction[i].weapon_type == 5) {
+                        //CCLOG("PLAYER#%d KNIFE WEAPON#%d LEFT_BULLET#%d ", i, chserver->paction[i].weapon_type],);
                         makeKnifeAttack(m_enemy[i - 1]);
                     } else {
-                        CCLOG("PLAYER#%d MAKE BULLET ATTACK#%d", i + 1,
-                              chserver->paction[i].weapon_type);
+                        //CCLOG("PLAYER#%d MAKE BULLET ATTACK#%d", i + 1,chserver->paction[i].weapon_type);
                         if (chserver->paction[i].weapon_type != 2)
-                            m_enemy[i - 1]->setPlayerBullet(hunter->getPlayerBullet() - 1);
+                            m_enemy[i - 1]->setPlayerBullet(m_enemy[i - 1]->getPlayerBullet() - 1);
                         else if (chserver->paction[i].weapon_type == 2)
-                            m_enemy[i - 1]->setPlayerBullet(hunter->getPlayerBullet() - 3);
+                            m_enemy[i - 1]->setPlayerBullet(m_enemy[i - 1]->getPlayerBullet() - 3);
                         makeBulletAttack(m_enemy[i - 1],
                                          m_enemy[i - 1]->m_gun[chserver->paction[i].weapon_type],
                                          chserver->paction[i].bullet_x,
@@ -899,14 +898,13 @@ void MapLayer::update(float fDelta) {
                         }
                         //子弹同步
                         if (current_map.player[i + 1].is_shoot == true && m_enemy[i] != hunter) {
-                            if (current_map.player[i + 1].weapon_type == 4) {
+                            if (current_map.player[i + 1].weapon_type == 4 || current_map.player[i + 1].weapon_type == 5) {
                                 if (current_map.player[i + 1].bullet == 0)
                                     makeKnifeAttack(m_enemy[i]);
-                                CCLOG("PLAYER#%d MAKE BULLET ATTACK", i + 1);
+                                //CCLOG("PLAYER#%d MAKE KNIFE ATTACK", i + 1);
                             } else if (current_map.player[i + 1].weapon_type >= 0 &&
                                        current_map.player[i + 1].weapon_type < 4) {
-                                CCLOG("PLAYER#%d MAKE BULLET ATTACK#%d", i + 1,
-                                      current_map.player[i + 1].weapon_type);
+                                //CCLOG("PLAYER#%d MAKE BULLET ATTACK", i + 1,current_map.player[i + 1].weapon_type);
                                 makeBulletAttack(m_enemy[i],
                                                  m_enemy[i]->m_gun[current_map.player[i +
                                                                                       1].weapon_type],
@@ -1197,12 +1195,6 @@ void MapLayer::enemyFire(float delt) {
 }
 
 void MapLayer::AIFireForServer(float delt) {
-    Rect rect_hunter[MAX_CONNECTIONS];
-    for (int i = 0; i < MAX_CONNECTIONS - 1; i++)
-    {
-        if (!m_enemy[i]->getPlayerDeath() && m_enemy[i]->m_has_controller && !m_enemy[i]->m_is_ai)
-            rect_hunter[i] = m_enemy[i]->getBoundingBox();
-    }
     for (int j = 0; j < MAX_CONNECTIONS - 1; j++)
     {
         if (m_enemy[j]->getPlayerDeath() || m_enemy[j]->m_is_ai == false)
@@ -1212,25 +1204,27 @@ void MapLayer::AIFireForServer(float delt) {
         {
             if (!m_enemy[i]->getPlayerDeath() && m_enemy[i]->m_has_controller && !m_enemy[i]->m_is_ai && rect_enemy.intersectsRect(m_enemy[i]->getBoundingBox())) {
                 auto weaponType = m_enemy[j]->getPlayerWeapon();
-                if (5 == weaponType) {
-                    makeKnifeAttack(m_enemy[j]);
+                if (weaponType == 5 || m_enemy[j]->getPlayerBullet() < 3) {
+                    //makeKnifeAttack(m_enemy[j]);
+                    CCLOG("AI#%d TRY TO KNIFE#%d LEFT BULLET#%d WEAPONTYPE#%d", j, i, m_enemy[j]->getPlayerBullet(), weaponType);
                     chserver->paction[j + 1].is_shoot = true;
                     chserver->paction[j + 1].weapon_type = 4;
                     chserver->m_map_trans.player[j + 1].is_shoot = true;
                     chserver->m_map_trans.player[j + 1].weapon_type = weaponType;
                     continue;
                 }
-                if (m_enemy[j]->getPlayerBullet() > 0)
-                    m_enemy[j]->setPlayerBullet(m_enemy[j]->getPlayerBullet() - 1);
-                else {
-                    m_enemy[j]->setPlayerWeapon(5);
-                    continue;
-                }
-                Weapon* weapon = m_enemy[j]->m_gun[weaponType];
+                //if (m_enemy[j]->getPlayerBullet() < 3)
+                //{
+                //    m_enemy[j]->setPlayerWeapon(5);
+                //    continue;
+                //}
+
+                CCLOG("AI#%d TRY TO BULLET#%d LEFT BULLET#%d WEAPONTYPE#%d", j, i, m_enemy[j]->getPlayerBullet(), weaponType);
+                //Weapon* weapon = m_enemy[j]->m_gun[weaponType];
                 auto bulletLocation = hunter->getPosition();    //enemy aims at hunter
                 auto bulletX = bulletLocation.x - m_enemy[j]->getPositionX();
                 auto bulletY = bulletLocation.y - m_enemy[j]->getPositionY();
-                makeBulletAttack(m_enemy[j], weapon, bulletX, bulletY);
+                //makeBulletAttack(m_enemy[j], weapon, bulletX, bulletY);
                 chserver->paction[j + 1].is_shoot = true;
                 chserver->paction[j + 1].weapon_type = weaponType;
                 chserver->paction[j + 1].bullet_x = bulletX;
