@@ -28,7 +28,11 @@ bool State::init(std::vector<Character *> gameHunter) {
         hunter = m_enemy[chclient->getUid() - 1];
     else
         hunter = m_enemy[0];
-    aliveNumber = m_enemy.size();
+    if (chclient == nullptr)
+        aliveNumber = m_enemy.size();
+    else
+        aliveNumber = chclient->m_room.player_num;
+    CCLOG("PLAYER NUM:%d", aliveNumber);
 
     for (auto player : m_enemy) {
         int bonus = random(0, 3);

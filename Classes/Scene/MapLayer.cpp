@@ -54,7 +54,10 @@ bool MapLayer::init(std::vector<Character *> &gameHunter) {
                 m_enemy[i - 1]->setName(str);
             } else {
                 m_enemy[i - 1]->setPlayerBleed(0);
+                m_enemy[i - 1]->setPlayerDeath(true);
+                m_enemy[i - 1]->setVisible(false);
             }
+    
         }
     }
 
