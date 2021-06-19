@@ -53,8 +53,8 @@ public:
 	/** creates a AtlasNode  with an Atlas file the width and height of each item and the quantity of items to render.
      *
      * @param filename The path of Atlas file.
-     * @param tileWidth The width of the item.
-     * @param tileHeight The height of the item.
+     * @param tile_width The width of the item.
+     * @param tile_height The height of the item.
      * @param itemsToRender The quantity of items to render.
      */
 	static AtlasNode * create(const std::string& filename, int tileWidth, int tileHeight, int itemsToRender);

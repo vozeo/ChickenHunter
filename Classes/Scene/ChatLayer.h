@@ -12,15 +12,15 @@ using namespace cocos2d::ui;
 #define winSize Director::getInstance()->getWinSize()
 
 class ChatLayer : public cocos2d::Layer {
-    std::vector<Label*> chats;
-    TextField* chatText;
-    int chatNumber = 0;
+    std::vector<Label *> chats;
+    TextField *chat_text;
+    int chat_number = 0;
 public:
     virtual bool init();
 
     CREATE_FUNC(ChatLayer);
 
-    void showChat(const char* name, const char* text);
+    void showChat(const char *name, const char *text);
 };
 
 #endif

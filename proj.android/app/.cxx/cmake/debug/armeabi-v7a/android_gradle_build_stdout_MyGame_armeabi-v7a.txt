@@ -1,3 +1,27 @@
 ninja: Entering directory `D:\Cocos\ChickenHunter\proj.android\app\.cxx\cmake\debug\armeabi-v7a'
-[1/2] Building CXX object CMakeFiles/MyGame.dir/Classes/Joystick/Joystick.cpp.o
-[2/2] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\libMyGame.so
+[1/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Network/TransStructure.cpp.o
+[2/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Network/Client.cpp.o
+[3/26] Building CXX object engine/cocos/core/CMakeFiles/cocos2d.dir/2d/CCTileMapAtlas.cpp.o
+[4/26] Building CXX object engine/cocos/core/CMakeFiles/cocos2d.dir/base/CCDirector.cpp.o
+[5/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Character/Character.cpp.o
+[6/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Network/Server.cpp.o
+[7/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Item/Item.cpp.o
+[8/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/SettingLayer.cpp.o
+[9/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/WarningLayer.cpp.o
+[10/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/StateLayer.cpp.o
+[11/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/ServerScene.cpp.o
+[12/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o
+[13/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/RoomScene.cpp.o
+[14/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/RankLayer.cpp.o
+[15/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/ExitLayer.cpp.o
+[16/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/ChatLayer.cpp.o
+[17/26] Building CXX object engine/cocos/core/CMakeFiles/cocos2d.dir/2d/CCAtlasNode.cpp.o
+[18/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Joystick/Joystick.cpp.o
+[19/26] Building CXX object engine/cocos/core/CMakeFiles/cocos2d.dir/2d/CCLabelAtlas.cpp.o
+[20/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/StartScene.cpp.o
+[21/26] Building CXX object CMakeFiles/MyGame.dir/Classes/AppDelegate.cpp.o
+[22/26] Building CXX object engine/cocos/core/CMakeFiles/cocos2d.dir/2d/CCMenuItem.cpp.o
+[23/26] Building CXX object CMakeFiles/MyGame.dir/proj.android/app/jni/hellocpp/main.cpp.o
+[24/26] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o
+[25/26] Linking CXX static library lib\libcocos2d.a
+[26/26] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\libMyGame.so

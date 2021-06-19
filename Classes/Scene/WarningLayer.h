@@ -12,16 +12,14 @@ using namespace cocos2d::ui;
 #define winSize Director::getInstance()->getWinSize()
 
 class WarningLayer : public cocos2d::Layer {
-    Slider *volumeSlider;
-
 public:
     WarningLayer();
 
-    virtual bool init(std::string warningText);
+    virtual bool init(std::string warning_text);
 
-    static WarningLayer *create(std::string warningText) {
+    static WarningLayer *create(std::string warning_text) {
         WarningLayer *pRet = new(std::nothrow) WarningLayer();
-        if (pRet && pRet->init(warningText)) {
+        if (pRet && pRet->init(warning_text)) {
             pRet->autorelease();
             return pRet;
         } else {

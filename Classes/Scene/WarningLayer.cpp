@@ -4,7 +4,7 @@ USING_NS_CC;
 
 WarningLayer::WarningLayer() = default;
 
-bool WarningLayer::init(std::string warningText) {
+bool WarningLayer::init(std::string warning_text) {
     if (!Layer::init()) {
         return false;
     }
@@ -13,7 +13,7 @@ bool WarningLayer::init(std::string warningText) {
     addChild(back, 0);
     back->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 
-    auto text = Label::createWithTTF(warningText, "fonts/Marker Felt.ttf", 45);
+    auto text = Label::createWithTTF(warning_text, "fonts/Marker Felt.ttf", 45);
     addChild(text, 1);
     text->setPosition(Vec2(winSize.width / 2, winSize.height / 2 + winSize.height / 10));
 

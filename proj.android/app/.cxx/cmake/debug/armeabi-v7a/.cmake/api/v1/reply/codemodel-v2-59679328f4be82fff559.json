@@ -772,14 +772,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "MyGame::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-MyGame-Debug-50f450d73ce4546161fd.json",
+					"jsonFile" : "target-MyGame-Debug-54ab900ee556b620348c.json",
 					"name" : "MyGame",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "cocos2d::@b17589fc6237857a1771",
-					"jsonFile" : "target-cocos2d-Debug-c2a263d483b1701825b2.json",
+					"jsonFile" : "target-cocos2d-Debug-320bc41134702c951fbe.json",
 					"name" : "cocos2d",
 					"projectIndex" : 1
 				},
@@ -884,7 +884,7 @@
 				{
 					"directoryIndex" : 2,
 					"id" : "external::@62470bbe2074d04a1904",
-					"jsonFile" : "target-external-Debug-0ab6dffc17ccead08600.json",
+					"jsonFile" : "target-external-Debug-6054e504057f52cd6380.json",
 					"name" : "external",
 					"projectIndex" : 2
 				},

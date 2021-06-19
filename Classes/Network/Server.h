@@ -3,9 +3,10 @@
 
 #include "yasio/yasio.hpp"
 #include "TransStructure.h"
+#include "Network/Client.h"
 #include <map>
 #include <string>
-#include "Network/Client.h"
+
 
 struct SPlayer {
     bool alive = false;
@@ -29,11 +30,12 @@ class CHServer {
     map<int, string> m_player_name;
 protected:
     int getUnusedUid();
+
     bool deleteUid(int id);
 
 protected:
     CHClient *ai_client[MAX_CONNECTIONS];
-    bool ai_player[MAX_CONNECTIONS] = { 0 };
+    bool ai_player[MAX_CONNECTIONS] = {0};
 public:
     PlayerAction paction[MAX_CONNECTIONS];
     RoomInformation m_room;
@@ -70,7 +72,7 @@ public:
 
     bool deleteAi();
 
-    bool setPlayerName(int id, const char* name);
+    bool setPlayerName(int id, const char *name);
 
     bool isAi(int uid);
 

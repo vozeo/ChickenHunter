@@ -25,7 +25,6 @@ Weapon::Weapon() :
         m_type(0) {}
 
 void Weapon::weaponInit(int type, bool state) {
-    //0.5f + rand_0_1(), random(0, 5),
     float sp[4] = {0.8f, 1.0f, 1.5f, 1.2f};
     m_speed = sp[type];
     float fsp[4] = {0.15f, 0.12f, 0.07f, 0.1f};

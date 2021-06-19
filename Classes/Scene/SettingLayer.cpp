@@ -13,81 +13,83 @@ bool SettingLayer::init(Character *hunter) {
     addChild(back, 0);
     back->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
 
-    volumeSlider = Slider::create();
-    volumeSlider->loadBarTexture("images/sliderBack.png");
-    volumeSlider->loadSlidBallTextures("images/sliderNodeNormal.png",
-                                       "images/sliderNodePressed.png",
-                                       "images/sliderNodePressed.png");
-    volumeSlider->loadProgressBarTexture("images/sliderBar.png");
+    //volume
+    volume_slider = Slider::create();
+    volume_slider->loadBarTexture("images/sliderBack.png");
+    volume_slider->loadSlidBallTextures("images/sliderNodeNormal.png",
+                                        "images/sliderNodePressed.png",
+                                        "images/sliderNodePressed.png");
+    volume_slider->loadProgressBarTexture("images/sliderBar.png");
 
-    volumeSlider->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
+    volume_slider->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
         if (type == ui::Widget::TouchEventType::ENDED)
-            M_Volume = static_cast<float>(volumeSlider->getPercent()) / 100.0f;
+            M_Volume = static_cast<float>(volume_slider->getPercent()) / 100.0f;
     });
-    volumeSlider->setPosition(Vec2(winSize.width / 1.8f, winSize.height / 1.7f));
-    volumeSlider->setPercent(static_cast<int>(M_Volume * 100.0f));
-    volumeSlider->setScale(0.5f);
-    this->addChild(volumeSlider, 1);
+    volume_slider->setPosition(Vec2(winSize.width / 1.8f, winSize.height / 1.7f));
+    volume_slider->setPercent(static_cast<int>(M_Volume * 100.0f));
+    volume_slider->setScale(0.5f);
+    this->addChild(volume_slider, 1);
 
-    auto volumeLabel = Label::createWithTTF("Volume", "fonts/Marker Felt.ttf", 30);
-    volumeLabel->setPosition(Vec2(winSize.width / 2.5f, winSize.height / 1.7f));
-    addChild(volumeLabel, 1);
+    auto volume_label = Label::createWithTTF("Volume", "fonts/Marker Felt.ttf", 30);
+    volume_label->setPosition(Vec2(winSize.width / 2.5f, winSize.height / 1.7f));
+    addChild(volume_label, 1);
 
-    auto choiceBack = MenuItemFont::create("Back", [=](Ref *render) {
+    //back
+    auto choice_back = MenuItemFont::create("Back", [=](Ref *render) {
         removeFromParent();
     });
     auto menu = Menu::create();
-    menu->addChild(choiceBack);
+    menu->addChild(choice_back);
     menu->setPosition(Vec2(winSize.width / 2, winSize.height / 2.9f));
     addChild(menu, 1);
 
     if (hunter == nullptr)
         return true;
 
-    std::vector<CheckBox *> checkBoxes;
+    // add-in
+    std::vector<CheckBox *> check_boxes;
     for (int i = 0; i < 4; ++i) {
-        auto checkbox = CheckBox::create("images/check_box_normal.png",
-                                         "images/check_box_normal_press.png",
-                                         "images/check_box_active.png",
-                                         "images/check_box_normal_disable.png",
-                                         "images/check_box_active_disable.png");
-        checkBoxes.push_back(checkbox);
+        auto check_box = CheckBox::create("images/check_box_normal.png",
+                                          "images/check_box_normal_press.png",
+                                          "images/check_box_active.png",
+                                          "images/check_box_normal_disable.png",
+                                          "images/check_box_active_disable.png");
+        check_boxes.push_back(check_box);
     }
 
-    checkBoxes[0]->setSelected(add_in_aiming);
-    checkBoxes[0]->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
+    check_boxes[0]->setSelected(add_in_aiming);
+    check_boxes[0]->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
         if (type == Widget::TouchEventType::ENDED) {
             add_in_aiming = !add_in_aiming;
         }
     });
 
-    checkBoxes[1]->setSelected(hunter->getPlayerLockedBleed());
-    checkBoxes[1]->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
+    check_boxes[1]->setSelected(hunter->getPlayerLockedBleed());
+    check_boxes[1]->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
         if (type == Widget::TouchEventType::ENDED) {
             hunter->setPlayerLockedBleed(!hunter->getPlayerLockedBleed());
         }
     });
 
-    checkBoxes[2]->setSelected(hunter->getPlayerLockedBullet());
-    checkBoxes[2]->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
+    check_boxes[2]->setSelected(hunter->getPlayerLockedBullet());
+    check_boxes[2]->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
         if (type == Widget::TouchEventType::ENDED) {
             hunter->setPlayerLockedBullet(!hunter->getPlayerLockedBullet());
         }
     });
 
-    checkBoxes[3]->setSelected(hunter->getPlayerAutoAttack());
-    checkBoxes[3]->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
+    check_boxes[3]->setSelected(hunter->getPlayerAutoAttack());
+    check_boxes[3]->addTouchEventListener([=](Ref *sender, Widget::TouchEventType type) {
         if (type == Widget::TouchEventType::ENDED) {
             hunter->setPlayerAutoAttack(!hunter->getPlayerAutoAttack());
         }
     });
 
-
     std::vector<Label *> addinLabel;
     for (int i = 0; i < 4; ++i) {
-        checkBoxes[i]->setPosition(
+        check_boxes[i]->setPosition(
                 Vec2(winSize.width / 2 + winSize.width / 13, winSize.height / 1.9f - 30 * i));
-        addChild(checkBoxes[i], 1);
+        addChild(check_boxes[i], 1);
 
         addinLabel.push_back(Label::createWithTTF("", "fonts/Marker Felt.ttf", 30));
         addinLabel[i]->setPosition(Vec2(winSize.width / 2, winSize.height / 1.9f - 30 * i));

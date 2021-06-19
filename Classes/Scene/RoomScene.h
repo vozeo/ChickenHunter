@@ -8,28 +8,24 @@
 #include "Network/Client.h"
 #include "Scene/WarningLayer.h"
 
+#include <cstring>
+
 USING_NS_CC;
 
 class Room : public cocos2d::Scene {
-    const int m_playerNumber = MAX_CONNECTIONS;
-    MenuItemFont *startGame;
+    const int m_player_number = MAX_CONNECTIONS;
+    MenuItemFont *start_game;
     bool started = false;
-    std::vector<Label *> playerLabel;
-
-    CC_SYNTHESIZE(float, m_volume, Volume);
+    std::vector<Label *> player_label;
 
 public:
     Room();
 
     static cocos2d::Scene *createScene(bool isServer);
 
-    virtual bool init(bool isServer);
-
-    virtual void update(float fDelta);
-
-    static Room *create(bool isServer) {
+    static Room *create(bool is_server) {
         Room *pRet = new(std::nothrow) Room();
-        if (pRet && pRet->init(isServer)) {
+        if (pRet && pRet->init(is_server)) {
             pRet->autorelease();
             return pRet;
         } else {
@@ -37,6 +33,10 @@ public:
             return nullptr;
         }
     }
+
+    virtual bool init(bool is_server);
+
+    virtual void update(float fDelta);
 };
 
 #endif
