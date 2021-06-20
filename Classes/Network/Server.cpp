@@ -118,7 +118,7 @@ void CHServer::mapUploadInit() {
 void CHServer::mapUpload() {
     m_map_trans.is_updated = true;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i]) {
+        if (m_uid_usage[i] && !isAi(i)) {
             char buf[sizeof(MapInformation) + HEAD_LENGTH + 2] = "MP\0";
             memcpy(buf + HEAD_LENGTH, &m_map_trans, sizeof(MapInformation));
             m_server->write(m_uid_to_handle[i], buf, HEAD_LENGTH + sizeof(MapInformation));
@@ -135,14 +135,14 @@ bool CHServer::startGame() {
         return false;
     m_started = true;
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i]) {
+        if (m_uid_usage[i] && !isAi(i)) {
             if (debug_mode)cout << "TELL START: " << i << endl;
             m_server->write(m_uid_to_handle[i], "ST\0", HEAD_LENGTH);
         }
     while (1) {
         bool all_started = true;
         for (int i = 1; i < MAX_CONNECTIONS; i++)
-            if (m_uid_usage[i])
+            if (m_uid_usage[i] && !isAi(i))
                 if (m_client_get_started[i] == false) {
                     m_server->write(m_uid_to_handle[i], "ST\0", HEAD_LENGTH);
                     all_started = false;
@@ -187,7 +187,7 @@ void CHServer::roomUpdate() {
     char buff[HEAD_LENGTH + sizeof(RoomInformation) + 2] = "RO\0";
     memcpy(buff + HEAD_LENGTH, &m_room, sizeof(RoomInformation));
     for (int i = 0; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i]) {
+        if (m_uid_usage[i] && !isAi(i)) {
             m_server->write(m_uid_to_handle[i], buff, HEAD_LENGTH + sizeof(RoomInformation));
         }
 }
@@ -230,7 +230,7 @@ void CHServer::mapInformationInit(MapInformationInit mii) {
     char buff[HEAD_LENGTH + sizeof(MapInformationInit) + 20] = "MI\0";
     memcpy(buff + HEAD_LENGTH, &mii, sizeof(MapInformationInit));
     for (int i = 1; i < MAX_CONNECTIONS; i++)
-        if (m_uid_usage[i]) {
+        if (m_uid_usage[i] && !isAi(i)) {
             m_server->write(m_uid_to_handle[i], buff, HEAD_LENGTH + sizeof(MapInformationInit));
         }
 }
