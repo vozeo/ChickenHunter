@@ -806,6 +806,8 @@ void MapLayer::update(float fDelta) {
                     CCLOG("PLAYER#%d MAKE GRENADE ATTACK", i);
                     makeExplosionEffectOnlyForShow(chserver->paction[i].grenade_x,
                                                    chserver->paction[i].grenade_y);
+                    m_enemy[i - 1]->setPlayerGrenade(m_enemy[i - 1]->getPlayerGrenade() - 1);
+
                 }
 
                 m_enemy[i - 1]->setPlayerLockedBleed(chserver->paction[i].is_bleed_locked);
