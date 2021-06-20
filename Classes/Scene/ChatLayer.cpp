@@ -48,9 +48,11 @@ void ChatLayer::showChat(const char *name, const char *text) {
 
     ++chat_number;
     if (chat_number > 10) {
-        --chat_number;
-        for (int i = 0; i < chat_number - 1; ++i)
+        chat_number = 10;
+        for (int i = 0; i < 9; ++i) {
+            assert(!chats[i] && !chats[i + 1]);
             chats[i]->setString(chats[i + 1]->getString());
+        }
     }
     chats[chat_number - 1]->setString(name_str + " : " + text_str);
 }
