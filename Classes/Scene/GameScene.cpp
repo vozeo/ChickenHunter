@@ -7,6 +7,14 @@ Game::Game() = default;
 Game::~Game() {
     for (auto enemy : m_hunter)
         enemy->release();
+    if (chserver != nullptr) {
+        delete chserver;
+        chserver = nullptr;
+    }
+    if (chclient != nullptr) {
+        delete chclient;
+        chclient = nullptr;
+    }
     AudioEngine::stop(background_audio_ID);
 }
 
