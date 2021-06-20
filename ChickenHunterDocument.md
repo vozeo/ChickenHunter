@@ -197,13 +197,13 @@
 
 - **项目运行截图**
 
-![GameScene](ProjectPictuires\GameScene1.png)
+![GameScene](ProjectPictures/GameScene1.png)
 
-![GameScene](ProjectPictuires\GameScene2.png)
+![GameScene](ProjectPictures/GameScene2.png)
 
-![GameScene](ProjectPictuires\GameScene3.jpg)
+![GameScene](ProjectPictures/GameScene3.jpg)
 
-![GameScene](ProjectPictuires\GameScene4.jpg)
+![GameScene](ProjectPictures/GameScene4.jpg)
 
 - **特别鸣谢**
   - [li-letian/Monopoly: 软件荣誉课大一下项目 (github.com)](https://github.com/li-letian/Monopoly)
