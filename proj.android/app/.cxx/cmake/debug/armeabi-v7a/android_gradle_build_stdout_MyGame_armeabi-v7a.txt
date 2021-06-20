@@ -1,3 +1,8 @@
 ninja: Entering directory `D:\Cocos\ChickenHunter\proj.android\app\.cxx\cmake\debug\armeabi-v7a'
-[1/2] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o
-[2/2] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\libMyGame.so
+[1/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Network/Server.cpp.o
+[2/7] Building CXX object engine/cocos/core/CMakeFiles/cocos2d.dir/2d/CCLabel.cpp.o
+[3/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/ChatLayer.cpp.o
+[4/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o
+[5/7] Building CXX object CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o
+[6/7] Linking CXX static library lib\libcocos2d.a
+[7/7] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\armeabi-v7a\libMyGame.so
