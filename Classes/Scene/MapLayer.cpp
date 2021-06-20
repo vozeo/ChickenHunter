@@ -939,7 +939,7 @@ void MapLayer::update(float fDelta) {
                             judgePick(m_enemy[i]);
                         }
                         // Bullet synchronization
-                        if (current_map.player[i + 1].is_shoot == true && m_enemy[i] != hunter) {
+                        if (current_map.player[i + 1].is_shoot && m_enemy[i] != hunter) {
                             if (current_map.player[i + 1].weapon_type == 4 ||
                                 current_map.player[i + 1].weapon_type == 5) {
                                 if (current_map.player[i + 1].bullet == 0)
@@ -1250,7 +1250,7 @@ void MapLayer::enemyFire(float delt) {
 
 void MapLayer::AIFireForServer(float delt) {
     for (int j = 0; j < MAX_CONNECTIONS - 1; j++) {
-        if (m_enemy[j]->getPlayerDeath() || m_enemy[j]->m_is_ai == false)
+        if (m_enemy[j]->getPlayerDeath() || !m_enemy[j]->m_is_ai)
             continue;
         Rect rect_enemy(m_enemy[j]->getPosition().x - 300, m_enemy[j]->getPosition().y - 300, 600,
                         600);

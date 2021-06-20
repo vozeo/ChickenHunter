@@ -61,7 +61,6 @@ private:
 
 public:
     MapLayer();
-
     static MapLayer *create(std::vector<Character *> game_hunter) {
         MapLayer *pRet = new(std::nothrow) MapLayer();
         if (pRet && pRet->init(game_hunter)) {
