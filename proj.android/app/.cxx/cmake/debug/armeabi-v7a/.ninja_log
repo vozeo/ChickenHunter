@@ -730,3 +730,10 @@
 29	4890	645857609	CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o	764cd99c3ad44e02
 20	4174	645857691	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	448e83d72bde0396
 4174	7952	645857695	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	b89009b076e19dce
+280	2724	645860963	CMakeFiles/MyGame.dir/Classes/Network/Server.cpp.o	d93b1ff64f13cb8b
+289	3639	645860964	engine/cocos/core/CMakeFiles/cocos2d.dir/2d/CCLabel.cpp.o	63e0b2ce0020169e
+24	4098	645860964	CMakeFiles/MyGame.dir/Classes/Scene/ChatLayer.cpp.o	36ea9563de6d9082
+266	4539	645860965	CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o	764cd99c3ad44e02
+269	5120	645860965	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	448e83d72bde0396
+3639	13305	645860974	lib/libcocos2d.a	c067bfa4f554f2c7
+13306	17091	645860977	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	b89009b076e19dce
