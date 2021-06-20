@@ -54,5 +54,5 @@ void ChatLayer::showChat(const char *name, const char *text) {
             chats[i]->setString(chats[i + 1]->getString());
         }
     }
-    chats[chat_number - 1]->setString(name_str + " : " + text_str);
+    chats[chat_number - 1]->setString(name_str + R"( : )" + text_str);
 }

@@ -210,7 +210,7 @@ void MapLayer::judgePick(Character *character) {
             auto weapon_type = weapon->getWeaponType();
             try {
                 if (weapon == nullptr)
-                    throw "Weapon is nullptr";
+                    throw R"(Weapon is nullptr)";
             } catch (exception& e) {
                 string err = e.what();
                 CCLOG("%s", err.c_str());
@@ -1232,7 +1232,7 @@ void MapLayer::enemyFire(float delt) {
             Weapon *weapon = enemy->m_gun[weapon_type];
             try {
                 if (weapon == nullptr)
-                    throw string("Weapon is nullptr");
+                    throw R"(Weapon is nullptr)";
             }
             catch (exception& e) {
                 string err = e.what();
