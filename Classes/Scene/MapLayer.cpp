@@ -203,7 +203,7 @@ void MapLayer::roll(Character *character) {
 void MapLayer::judgePick(Character *character) {
     Rect rect_character = character->getBoundingBox();
     for (auto weapon : weapons) {
-        if(chserver != nullptr && weapon->getWeaponType() == 4 && character->m_is_ai == true)
+        if(chserver != nullptr && weapon->getWeaponType() == 4 && character->m_is_ai)
             continue;
 
         if (weapon->getBoundingBox().intersectsRect(rect_character)) {
@@ -212,8 +212,8 @@ void MapLayer::judgePick(Character *character) {
                 if (weapon == nullptr)
                     throw "Weapon is nullptr";
             } catch (exception& e) {
-                e.what();
-                CCLOG("%s", e.what());
+                string err = e.what();
+                CCLOG("%s", err.c_str());
             }
             if (character->m_gun[weapon_type] == nullptr) {
                 weapon->retain();
@@ -827,7 +827,7 @@ void MapLayer::update(float fDelta) {
 
             for (int i = 1; i < MAX_CONNECTIONS; i++)
                 if (chclient->m_map.player[i].just_game_over)// Death settlement
-                    m_enemy[i]->setPlayerBleed(0);
+                    m_enemy[i - 1]->setPlayerBleed(0);
 
             for (auto bullet : bullets) {// Bullet recovery and disposal
                 if (bullet->getBulletActive()) {
@@ -1232,11 +1232,11 @@ void MapLayer::enemyFire(float delt) {
             Weapon *weapon = enemy->m_gun[weapon_type];
             try {
                 if (weapon == nullptr)
-                    throw "Weapon is nullptr";
+                    throw string("Weapon is nullptr");
             }
             catch (exception& e) {
-                e.what();
-                CCLOG("%s", e.what());
+                string err = e.what();
+                CCLOG("%s", err.c_str());
             }
             auto bullet_location = hunter->getPosition();    //enemy aims at hunter
             auto bullet_X = bullet_location.x - enemy->getPositionX();

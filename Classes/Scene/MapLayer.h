@@ -28,13 +28,13 @@ USING_NS_CC;
 
 class MapLayer : public cocos2d::Layer {
 private:
-    TMXTiledMap *map;
-    TMXLayer *meta;
+    TMXTiledMap *map{};
+    TMXLayer *meta{};
 
-    float map_height, map_width;
-    float tile_height, tile_width;
+    float map_height{}, map_width{};
+    float tile_height{}, tile_width{};
 
-    Character *hunter;
+    Character *hunter{};
 
     //add map information
     MapInformation save_map;
@@ -44,7 +44,7 @@ private:
     const int m_weapon_number = 30;
     const int m_bandage_number = 30;
     const int m_ammunition_number = 30;
-    clock_t t1 = clock(), t2;
+    clock_t t1 = clock(), t2{};
 
     //add items
     std::vector<Character *> m_enemy;
@@ -52,7 +52,7 @@ private:
     std::vector<Bandage *> m_bandage;
     std::vector<Ammunition *> m_ammunition;
 
-    std::array<Bullet *, 60> bullets;
+    std::array<Bullet *, 60> bullets{};
 
     bool weapon_refresh = true;
     bool has_auto_attack = false;
@@ -99,11 +99,11 @@ public:
 
     Vec2 explosion_point;
 
-    DrawNode *m_line;
+    DrawNode *m_line{};
 
     void initMouse();
 
-    EventListenerMouse *mouse_listener;
+    EventListenerMouse *mouse_listener{};
 
     template<class T>
     void setRandPos(T *elem);
