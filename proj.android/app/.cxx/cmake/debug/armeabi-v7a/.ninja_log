@@ -737,3 +737,12 @@
 269	5120	645860965	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	448e83d72bde0396
 3639	13305	645860974	lib/libcocos2d.a	c067bfa4f554f2c7
 13306	17091	645860977	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	b89009b076e19dce
+22	3928	645871445	CMakeFiles/MyGame.dir/Classes/AppDelegate.cpp.o	409f0fbfaf6b307f
+20	4350	645871445	CMakeFiles/MyGame.dir/Classes/Joystick/Joystick.cpp.o	b79ca5e24925c00b
+27	4500	645871445	CMakeFiles/MyGame.dir/Classes/Scene/StateLayer.cpp.o	a6669ac9a9d90a5a
+31	4659	645871446	CMakeFiles/MyGame.dir/Classes/Scene/StartScene.cpp.o	dd5b5302b2d53b08
+29	4685	645871446	CMakeFiles/MyGame.dir/Classes/Scene/RoomScene.cpp.o	acf64fae35148535
+33	4703	645871446	CMakeFiles/MyGame.dir/Classes/Scene/ServerScene.cpp.o	9bd083b3190bea6f
+26	4792	645871446	CMakeFiles/MyGame.dir/Classes/Scene/GameScene.cpp.o	764cd99c3ad44e02
+24	5297	645871446	CMakeFiles/MyGame.dir/Classes/Scene/MapLayer.cpp.o	448e83d72bde0396
+5297	9042	645871450	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libMyGame.so	b89009b076e19dce

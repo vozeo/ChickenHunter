@@ -73,8 +73,6 @@
     - 添加服务器敌人AI
     - 添加多人模式聊天系统
 
-
-
 ## 项目开发文档
 
 - 选用引擎：**Cocos2d-x 4.0**
@@ -137,10 +135,7 @@
       - 同一房间内玩家可以自由聊天
       - 有新未读聊天会有红点提示
 
-
-
-- <font color='red'>**项目的技术难点及解决过程**</font>
-
+- **项目的技术难点及解决过程**
   - 动态拾取武器更新状态
     - 使用Menu与MenuItem，捡拾武器后重新生成武器列表，实现动态拾取的效果。
   - 联网系统
@@ -154,8 +149,6 @@
     - 整个游戏涉及以地图为原点的场景坐标、以屏幕右下角为原点的控制坐标、以屏幕中心为原点的武器坐标、以屏幕左上角为原点的OpenGL坐标等多种坐标，通过计算，编写出一套坐标换算体系，实现游戏效果的统一。
   - 内存管理
     - cocos2dx的类使用单独的引用计数，导致类内部无法定义静态变量。早期调试过程中也因为对cocos2dx内存管理理解不够透彻，导致了很多严重的bug，比如忘记使用retain和release等不同的bug。通过学习内存管理体系，解决了内存泄漏、读取空指针等bug。
-
-
 
 - **创新点/亮点**
   - 联网
@@ -178,8 +171,6 @@
     - 可以在地图中拾取散射枪，一次射出3发子弹，每一发子弹的方向相差 atan(0.15) 度
   - 图集的使用
     - 使用 TexturePackerGUI 将动画和图像资源打包生成图集与 .plist 文件，并将图集全部加载到缓存中 ，创建动画时读取缓存即可，提高了性能。
-
-
 
 - **加分项**
   - 版本控制与团队合作
@@ -204,8 +195,6 @@
     - [x] default 构造函数
     - [x] nullptr 初始化空指针
 
-
-
 - **项目运行截图**
 
 ![GameScene](ProjectPictuires\GameScene1.png)
@@ -216,3 +205,10 @@
 
 ![GameScene](ProjectPictuires\GameScene4.jpg)
 
+- **特别鸣谢**
+  - [li-letian/Monopoly: 软件荣誉课大一下项目 (github.com)](https://github.com/li-letian/Monopoly)
+  - [ZhichenRen/cocos2d-xGameDesign: 2020 C++ Assignment (github.com)](https://github.com/ZhichenRen/cocos2d-xGameDesign)
+  - https://github.com/Shmiwy/soul-knight
+  - 李乐天、Konakona在编写过程中提供的指导和帮助
+  - 许芷瑜、张子扬、李文科、谈瑞、杨明月、王翾龙、任嘉怡、刘铭烜、杨嘉仪等人参与了游戏的测试，提供了宝贵的意见
+  - 其他帮助过我们的小伙伴们
